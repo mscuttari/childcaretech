@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.showPerson">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <ToggleButton layoutY="89.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="117.0" text="Bambini" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="89.0" />
+            <ToggleButton layoutY="119.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="117.0" text="Adulti" />
+            <ImageView fx:id="returnBack" fitHeight="60.0" fitWidth="60.0" layoutX="5.0" layoutY="335.0" onMouseClicked="#returnBack">
+               <image>
+                  <Image url="@../images/back.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <TableView layoutY="135.0" prefHeight="398.0" prefWidth="473.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                <TableColumn prefWidth="89.0" text="CodFiscale" />
+                <TableColumn prefWidth="100.0" text="CodBambino" />
+                  <TableColumn prefWidth="68.0" text="Nome" />
+                  <TableColumn prefWidth="90.0" text="Cognome" />
+                  <TableColumn prefWidth="125.0" text="Giorno di Nascita" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+  </items>
+</SplitPane>

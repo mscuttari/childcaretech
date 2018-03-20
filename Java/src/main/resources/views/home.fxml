@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="homePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="home" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.home">
+    <children>
+        <Button fx:id="mensa_b" layoutX="408.0" layoutY="62.0" mnemonicParsing="false" onAction="#mensa" prefHeight="42.0" prefWidth="124.0" text="Mensa" />
+        <Button fx:id="anagrafica_b" layoutX="88.0" layoutY="62.0" mnemonicParsing="false" onAction="#anagrafica" prefHeight="42.0" prefWidth="124.0" text="Anagrafica" />
+        <Button fx:id="gite_b" layoutX="88.0" layoutY="264.0" mnemonicParsing="false" onAction="#gite" prefHeight="42.0" prefWidth="124.0" text="Gite" />
+        <Button layoutX="408.0" layoutY="264.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="124.0" text="Amministrazione" />
+        <ImageView fx:id="login" fitHeight="60.0" fitWidth="60.0" layoutX="535.0" layoutY="335.0" onMouseClicked="#returnToLogin">
+            <image>
+                <Image url="@../images/login.png" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>
