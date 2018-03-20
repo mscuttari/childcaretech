@@ -8,14 +8,14 @@
     <persistence-unit name="ChildCareTechPU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>main.java.model.Food</class>
-        <class>main.java.model.Ingredient</class>
-        <class>main.java.model.Menu</class>
-        <class>main.java.model.Person</class>
-        <class>main.java.model.Provider</class>
-        <class>main.java.model.Pullman</class>
-        <class>main.java.model.Stop</class>
-        <class>main.java.model.Trip</class>
+        <class>main.java.models.Food</class>
+        <class>main.java.models.Ingredient</class>
+        <class>main.java.models.Menu</class>
+        <class>main.java.models.Person</class>
+        <class>main.java.models.Provider</class>
+        <class>main.java.models.Pullman</class>
+        <class>main.java.models.Stop</class>
+        <class>main.java.models.Trip</class>
 
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/childcaretech" />
