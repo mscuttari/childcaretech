@@ -9,6 +9,8 @@ import main.java.exceptions.DatabaseException;
 import main.java.models.Person;
 import main.java.utils.HibernateUtil;
 
+import java.util.List;
+
 public class Main extends Application {
 
     public void start(Stage primaryStage) throws Exception {
@@ -20,10 +22,10 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         Person person = new Person();
-        person.setName("Michele");
-        person.setSurname("Scuttari");
+        person.setName("Marco");
+        person.setSurname("Di Marzo");
         person.setType("child");
-        person.setFiscalCode("SCTMHL96T20E897F");
+        person.setFiscalCode("DMRMCA96T");
 
         try {
             person = HibernateUtil.getInstance().create(person);
@@ -33,6 +35,17 @@ public class Main extends Application {
 
         System.out.println(person);
 
-        launch(args);
+        try {
+            List<Person> people = HibernateUtil.getInstance().getAll(Person.class);
+
+            for (Person p : people) {
+                System.out.println(p);
+            }
+
+        } catch (DatabaseException e) {
+            System.err.println(e.getMessage());
+        }
+
+        //launch(args);
     }
 }

@@ -6,8 +6,11 @@ import main.java.models.BaseModel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
-import java.util.Collection;
+import java.util.List;
 
 public class HibernateUtil {
 
@@ -62,6 +65,31 @@ public class HibernateUtil {
             M result = em.find(modelClass, id);
             em.close();
             return result;
+        } catch (Exception e) {
+            throw new DatabaseException(e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+
+    /**
+     * Get all the elements
+     *
+     * @param   modelClass          Class       model class
+     * @return  List                elements objects
+     * @throws  DatabaseException   if the data can't be retrieved
+     */
+    @Transactional
+    public synchronized <M extends BaseModel> List<M> getAll(Class<M> modelClass) throws DatabaseException {
+        EntityManager em = emf.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<M> cq = cb.createQuery(modelClass);
+        cq.from(modelClass);
+        TypedQuery<M> q = em.createQuery(cq);
+
+        try {
+            return q.getResultList();
         } catch (Exception e) {
             throw new DatabaseException(e.getMessage());
         } finally {
