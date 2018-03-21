@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "trips", uniqueConstraints = @UniqueConstraint(columnNames = {"date", "title"}))
-public class Trip {
+public class Trip extends BaseModel {
 
     private Long id;
     private Date date;

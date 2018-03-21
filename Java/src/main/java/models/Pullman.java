@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "pullmans", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_id", "numberplate"}))
-public class Pullman {
+public class Pullman extends BaseModel {
 
     private Long id;
     private Trip trip;
