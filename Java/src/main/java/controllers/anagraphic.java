@@ -13,7 +13,6 @@ import java.io.IOException;
 public class anagraphic {
 
     private Stage actual;
-    @FXML private AnchorPane gitePane;
     @FXML private ImageView home;
     @FXML private Button visualizzaP_b;
     @FXML private Button aggiungiP_b;
@@ -22,7 +21,7 @@ public class anagraphic {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
             actual = (Stage) visualizzaP_b.getScene().getWindow();
-            actual.setScene(new Scene(root, 600, 400));
+            actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
             System.out.println("Errore nell'entrare in 'visualizza persone'");
@@ -33,7 +32,7 @@ public class anagraphic {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/addPerson.fxml"));
             actual = (Stage) aggiungiP_b.getScene().getWindow();
-            actual.setScene(new Scene(root, 600, 400));
+            actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
             System.out.println("Errore nell'entrare in 'aggiungi persone'");
@@ -44,7 +43,7 @@ public class anagraphic {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/home.fxml"));
             Stage actual = (Stage) home.getScene().getWindow();
-            actual.setScene(new Scene(root, 600, 400));
+            actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
             System.out.println("Errore nel tornare alla home");

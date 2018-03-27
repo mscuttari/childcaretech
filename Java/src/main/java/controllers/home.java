@@ -23,7 +23,7 @@ public class home {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
             actual = (Stage) anagrafica_b.getScene().getWindow();
-            actual.setScene(new Scene(root, 600, 400));
+            actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
             System.out.println("Errore nell'entrare in anagrafica");
@@ -34,7 +34,7 @@ public class home {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
             actual = (Stage) mensa_b.getScene().getWindow();
-            actual.setScene(new Scene(root, 600, 400));
+            actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
             System.out.println("Errore nell'entrare in mensa");
@@ -45,32 +45,21 @@ public class home {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/trips.fxml"));
             actual = (Stage) gite_b.getScene().getWindow();
-            actual.setScene(new Scene(root, 600, 400));
+            actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
             System.out.println("Errore nell'entrare in gite");
         }
     }
 
-    /*
-    public void amministrazione(ActionEvent event) throws IOException {
-        BorderPane pane = FXMLLoader.load(getClass().getResource("amministrazione.fxml"));
-        firstPane.getChildren().setAll(pane);
-     }
-     */
-
     public void returnToLogin(){
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
             actual = (Stage) login.getScene().getWindow();
-            actual.setScene(new Scene(root, 600, 400));
+            actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
             System.out.println("Errore nel tornare al login");
         }
-        /*
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("login.fxml"));
-        firstPane.getChildren().setAll(pane);
-        */
     }
 }
