@@ -35,7 +35,7 @@ public class HibernateUtils {
     /**
      * Get singleton instance
      *
-     * @return  HibernateUtils   instance
+     * @return  singleton instance
      */
     public static HibernateUtils getInstance() {
         if (instance == null)
@@ -51,7 +51,7 @@ public class HibernateUtils {
      * @param   modelClass      Class       element class
      * @param   id              Long        element ID
      *
-     * @return  M               element object
+     * @return  element object
      *
      * @throws  DatabaseException   if the element can't be retrieved
      */
@@ -77,7 +77,7 @@ public class HibernateUtils {
      * Get all the elements
      *
      * @param   modelClass          Class       model class
-     * @return  List                elements objects
+     * @return  list of elements objects
      * @throws  DatabaseException   if the data can't be retrieved
      */
     @Transactional
@@ -101,7 +101,7 @@ public class HibernateUtils {
     /**
      * Get entity manager
      *
-     * @return  EntityManager       entity manager
+     * @return  entity manager
      */
     public synchronized EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -112,7 +112,7 @@ public class HibernateUtils {
      * Create element
      *
      * @param   obj         M           element object
-     * @return  M           created element object
+     * @return  created element object
      * @throws  DatabaseException       if the element can't be created
      */
     @Transactional
@@ -137,7 +137,7 @@ public class HibernateUtils {
      * Update elements
      *
      * @param   obj         M           element object
-     * @return  M           updated element object
+     * @return  updated element object
      * @throws  DatabaseException       if the element can't be updated
      *
      */

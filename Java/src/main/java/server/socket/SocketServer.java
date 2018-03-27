@@ -30,7 +30,7 @@ public class SocketServer {
     /**
      * Start multi-thread socket server
      */
-    public void startServer() {
+    public void start() {
         ExecutorService executorService = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
 
@@ -46,7 +46,7 @@ public class SocketServer {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                executorService.submit(new ClientHandler(socket));
+                executorService.submit(new SocketClientHandler(socket));
                 LogUtils.d(TAG, "Connection opened");
             } catch (IOException e) {
                 LogUtils.d(TAG, "Connection closed");

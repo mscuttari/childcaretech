@@ -1,16 +1,20 @@
 package main.java.server.socket;
 
+import main.java.LogUtils;
 import main.java.client.connection.socket.SocketClient;
 import main.java.server.Actions;
 
 import java.io.*;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable {
+public class SocketClientHandler implements Runnable {
+
+    // Debug
+    private static final String TAG = "SocketClientHandler";
 
     private Socket socket;
 
-    public ClientHandler(Socket socket) {
+    public SocketClientHandler(Socket socket) {
         this.socket = socket;
     }
 
@@ -20,18 +24,31 @@ public class ClientHandler implements Runnable {
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
+            Object commandObject;
             String command;
 
-            do {
-                command = in.readUTF();
-            } while (parseCommand(command, in, out));
+            try {
+                do {
+                    commandObject = in.readObject();
+
+                    if (!(commandObject instanceof String)) {
+                        LogUtils.e(TAG, "Invalid command object");
+                        break;
+                    }
+
+                    command = (String)commandObject;
+                } while (parseCommand(command, in, out));
+
+            } catch (ClassNotFoundException e) {
+                LogUtils.e(TAG, "Invalid command object: " + e.getMessage());
+            }
 
             in.close();
             out.close();
             socket.close();
 
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            LogUtils.e(TAG, e.getMessage());
         }
     }
 
@@ -48,6 +65,7 @@ public class ClientHandler implements Runnable {
     private boolean parseCommand(String command, ObjectInputStream in, ObjectOutputStream out) {
         switch (command) {
             case "login":
+                LogUtils.d(TAG, "User is logging in");
                 login(in, out);
                 return true;
 
@@ -65,14 +83,19 @@ public class ClientHandler implements Runnable {
      */
     private void login(ObjectInputStream in, ObjectOutputStream out) {
         try {
+            // Get client object
             Object clientObject = in.readObject();
             if (!(clientObject instanceof  SocketClient)) return;
             SocketClient client = (SocketClient)clientObject;
+
+            // Login
             boolean loginResult = Actions.login(client.getUsername(), client.getPassword());
             out.writeBoolean(loginResult);
             out.flush();
+            LogUtils.d(TAG, client.getUsername() + " logged in");
+
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            LogUtils.e(TAG, e.getMessage());
         }
     }
 

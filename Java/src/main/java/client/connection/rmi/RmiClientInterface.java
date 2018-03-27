@@ -1,4 +1,10 @@
 package main.java.client.connection.rmi;
 
-public class RmiClientInterface {
+import java.rmi.Remote;
+
+public interface RmiClientInterface extends Remote {
+
+    String getUsername();
+    String getPassword();
+
 }

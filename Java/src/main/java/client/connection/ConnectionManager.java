@@ -11,7 +11,6 @@ public final class ConnectionManager {
 
     // RMI
     private static final String rmiHost = "rmi://localhost/childcaretech";
-    private static final int rmiPort = 1099;
 
     // Connection type
     public enum ConnectionType {SOCKET, RMI}
@@ -28,10 +27,8 @@ public final class ConnectionManager {
 
     /**
      * Get instance
-     *
-     * @return  ConnectionManager       singleton instance
      */
-    public ConnectionManager getInstance(ConnectionType connectionType) {
+    public ConnectionManager getInstance() {
         if (instance == null)
             instance = new ConnectionManager();
 
@@ -67,7 +64,7 @@ public final class ConnectionManager {
                 break;
 
             case RMI:
-                client = new RmiClient(rmiHost, rmiPort);
+                client = new RmiClient(rmiHost);
                 break;
         }
 
