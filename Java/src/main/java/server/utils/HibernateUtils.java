@@ -1,4 +1,4 @@
-package main.java.utils;
+package main.java.server.utils;
 
 import main.java.exceptions.DatabaseException;
 import main.java.models.BaseModel;
@@ -12,10 +12,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
-public class HibernateUtil {
+public class HibernateUtils {
 
     // Singleton
-    private static HibernateUtil instance = null;
+    private static HibernateUtils instance = null;
 
     // Entity Manager
     private static final String persistenceUnit = "ChildCareTechPU";
@@ -27,7 +27,7 @@ public class HibernateUtil {
      *
      * Create the entity manager to be used in transactions
      */
-    private HibernateUtil() {
+    private HibernateUtils() {
         emf = Persistence.createEntityManagerFactory(persistenceUnit);
     }
 
@@ -35,11 +35,11 @@ public class HibernateUtil {
     /**
      * Get singleton instance
      *
-     * @return  HibernateUtil   instance
+     * @return  HibernateUtils   instance
      */
-    public static HibernateUtil getInstance() {
+    public static HibernateUtils getInstance() {
         if (instance == null)
-            instance = new HibernateUtil();
+            instance = new HibernateUtils();
 
         return instance;
     }
@@ -95,6 +95,16 @@ public class HibernateUtil {
         } finally {
             em.close();
         }
+    }
+
+
+    /**
+     * Get entity manager
+     *
+     * @return  EntityManager       entity manager
+     */
+    public synchronized EntityManager getEntityManager() {
+        return emf.createEntityManager();
     }
 
 
