@@ -26,7 +26,7 @@
             <Font name="Comic Sans MS" size="36.0" />
          </font>
       </Label>
-      <Label fx:id="txtLabel" layoutX="734.0" layoutY="400.0" prefHeight="23.0" prefWidth="169.0" textFill="#4007f5" underline="true">
+      <Label fx:id="txtLabel" layoutX="720.0" layoutY="400.0" prefHeight="23.0" prefWidth="270.0" textFill="#4007f5" underline="true">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -40,7 +40,7 @@
             <Image url="@../images/children.png" />
          </image>
       </ImageView>
-      <MenuButton fx:id="connection_b" layoutX="636.0" layoutY="450.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Connection type">
+      <MenuButton fx:id="connection_b" layoutX="636.0" layoutY="450.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="230.0" text="Tipo di connessione">
         <items>
           <MenuItem fx:id="RMI_i" mnemonicParsing="false" onAction="#setConnection_RMI" text="RMI" />
           <MenuItem fx:id="Socket_i" mnemonicParsing="false" onAction="#setConnection_Socket" text="Socket" />

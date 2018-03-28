@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import main.java.client.connection.ClientInterface;
+import main.java.client.connection.ConnectionManager;
 
 import java.io.IOException;
 
@@ -22,7 +24,7 @@ public class login {
     @FXML private MenuItem RMI_i;
     @FXML private MenuItem Socket_i;
 
-
+    /*
     public void login(){
         if(txtUserName.getText().equals("user") && txtPassword.getText().equals(("pass"))) {
             txtLabel.setText("Login Success");
@@ -36,6 +38,41 @@ public class login {
             }
         }
         else txtLabel.setText("Login Failed");
+    }
+    */
+
+    public void login() {
+
+        String username = txtUserName.getText();
+        String password = txtPassword.getText();
+        String connection = connection_b.getText();
+        ConnectionManager.ConnectionType ct;
+
+        ConnectionManager connectionManager = ConnectionManager.getInstance();
+        if (connection.equals("Tipo di connessione"))
+            txtLabel.setText("Seleziona il tipo di connessione");
+        else {
+            if (connection.equals("Socket"))
+                ct = ConnectionManager.ConnectionType.SOCKET;
+            else
+                ct = ConnectionManager.ConnectionType.RMI;
+
+            connectionManager.setConnectionType(ct);
+            ClientInterface client = connectionManager.getClient();
+            boolean loginResult = client.login(username, password);
+
+            if (loginResult) {
+                txtLabel.setText("Login effettuato");
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/home.fxml"));
+                    actual = (Stage) login_b.getScene().getWindow();
+                    actual.setScene(new Scene(root, 1000, 630));
+                    actual.show();
+                } catch (IOException e) {
+                    System.out.println("Errore nell'entrare nel 'login'");
+                }
+            } else txtLabel.setText("Login fallito");
+        }
     }
 
     public void setConnection_RMI(){
