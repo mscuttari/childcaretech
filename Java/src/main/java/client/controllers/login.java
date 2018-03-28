@@ -4,10 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,19 +14,16 @@ public class login {
 
     private Stage actual;
 
-    @FXML
-    private Label txtLabel;
-    @FXML
-    private TextField txtUserName;
-    @FXML
-    private TextField txtPassword;
-    @FXML
-    private Button login_b;
-    @FXML
-    private MenuButton connection_b;
+    @FXML private Label txtLabel;
+    @FXML private TextField txtUserName;
+    @FXML private TextField txtPassword;
+    @FXML private Button login_b;
+    @FXML private MenuButton connection_b;
+    @FXML private MenuItem RMI_i;
+    @FXML private MenuItem Socket_i;
+
 
     public void login(){
-
         if(txtUserName.getText().equals("user") && txtPassword.getText().equals(("pass"))) {
             txtLabel.setText("Login Success");
             try {
@@ -42,6 +36,16 @@ public class login {
             }
         }
         else txtLabel.setText("Login Failed");
+    }
+
+    public void setConnection_RMI(){
+
+        connection_b.setText(RMI_i.getText());
+    }
+
+    public void setConnection_Socket(){
+
+        connection_b.setText(Socket_i.getText());
     }
 
 }

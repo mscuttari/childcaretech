@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.login">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.login">
    <children>
       <Button fx:id="login_b" layoutX="636.0" layoutY="395.0" mnemonicParsing="false" onAction="#login" text="Login">
          <font>
@@ -40,10 +40,10 @@
             <Image url="@../images/children.png" />
          </image>
       </ImageView>
-      <MenuButton fx:id="connection_b" layoutX="636.0" layoutY="450.0" mnemonicParsing="false" text="Connection type">
+      <MenuButton fx:id="connection_b" layoutX="636.0" layoutY="450.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Connection type">
         <items>
-          <MenuItem mnemonicParsing="false" text="RMI" />
-          <MenuItem mnemonicParsing="false" text="Socket" />
+          <MenuItem fx:id="RMI_i" mnemonicParsing="false" onAction="#setConnection_RMI" text="RMI" />
+          <MenuItem fx:id="Socket_i" mnemonicParsing="false" onAction="#setConnection_Socket" text="Socket" />
         </items>
          <font>
             <Font size="18.0" />
