@@ -24,7 +24,6 @@ public class login {
     @FXML private MenuItem RMI_i;
     @FXML private MenuItem Socket_i;
 
-    /*
     public void login(){
         if(txtUserName.getText().equals("user") && txtPassword.getText().equals(("pass"))) {
             txtLabel.setText("Login Success");
@@ -39,8 +38,8 @@ public class login {
         }
         else txtLabel.setText("Login Failed");
     }
-    */
 
+    /*
     public void login() {
 
         String username = txtUserName.getText();
@@ -74,6 +73,7 @@ public class login {
             } else txtLabel.setText("Login fallito");
         }
     }
+    */
 
     public void setConnection_RMI(){
 
