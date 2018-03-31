@@ -1,23 +1,17 @@
 package main.java.client.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ListIterator;
 
 public class addPerson {
 
@@ -26,17 +20,16 @@ public class addPerson {
     @FXML private StackPane stackPane;
     @FXML private AnchorPane childrenPane;
     @FXML private AnchorPane parentsPane;
-
-    @FXML
-    private void initialize(){
-        personChoice.setText("Bambino");
-    }
+    @FXML private AnchorPane responsiblePane;
+    @FXML private AnchorPane contactsPane;
+    @FXML private AnchorPane pediatristPane;
 
     public void childrenChoice() {
         for (Node current : stackPane.getChildren()) {
             current.setVisible(false);
         }
         childrenPane.setVisible(true);
+        personChoice.setText("Bambino");
     }
 
     public void parentsChoice(){
@@ -44,6 +37,31 @@ public class addPerson {
                 current.setVisible(false);
             }
         parentsPane.setVisible(true);
+        personChoice.setText("Genitore");
+    }
+
+    public void responsibleChoice(){
+        for (Node current : stackPane.getChildren()) {
+            current.setVisible(false);
+        }
+        responsiblePane.setVisible(true);
+        personChoice.setText("Personale");
+    }
+
+    public void contactsChoice(){
+        for (Node current : stackPane.getChildren()) {
+            current.setVisible(false);
+        }
+        contactsPane.setVisible(true);
+        personChoice.setText("Contatto");
+    }
+
+    public void pediatristChoice(){
+        for (Node current : stackPane.getChildren()) {
+            current.setVisible(false);
+        }
+        pediatristPane.setVisible(true);
+        personChoice.setText("Pediatra");
     }
 
     public void returnBack() {
