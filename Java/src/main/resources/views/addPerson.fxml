@@ -521,13 +521,12 @@
             </AnchorPane>
          </children>
       </StackPane>
-      <Button mnemonicParsing="false" text="Aggiungi" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="500.0" />
       <ImageView fx:id="returnBack" fitHeight="80.0" fitWidth="80.0" layoutX="535.0" layoutY="335.0" onMouseClicked="#returnBack" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <image>
             <Image url="@../images/back.png" />
          </image>
       </ImageView>
-      <MenuButton fx:id="personChoice" mnemonicParsing="false" prefHeight="20.0" prefWidth="150.0" text="Bambino" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="130.0">
+      <MenuButton fx:id="personChoice" mnemonicParsing="false" prefHeight="20.0" prefWidth="150.0" text="Bambino" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="500.0">
         <items>
           <MenuItem mnemonicParsing="false" onAction="#childrenChoice" text="Bambino" />
           <MenuItem mnemonicParsing="false" onAction="#parentsChoice" text="Genitore" />
@@ -535,6 +534,10 @@
             <MenuItem mnemonicParsing="false" onAction="#contactsChoice" text="Contatto" />
             <MenuItem mnemonicParsing="false" onAction="#pediatristChoice" text="Pediatra" />
         </items>
+         <font>
+            <Font size="18.0" />
+         </font>
       </MenuButton>
+      <Button mnemonicParsing="false" text="Aggiungi" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="555.0" />
    </children>
 </AnchorPane>

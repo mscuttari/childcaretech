@@ -10,17 +10,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class anagraphic {
+public class menu {
 
     private Stage actual;
-    @FXML private ImageView home;
-    @FXML private Button showP_b;
-    @FXML private Button addP_b;
+    @FXML private ImageView canteen;
+    @FXML private Button showM_b;
+    @FXML private Button addM_b;
 
-    public void showPerson() {
+    public void showMenu() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
-            actual = (Stage) showP_b.getScene().getWindow();
+            actual = (Stage) showM_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
@@ -28,10 +28,10 @@ public class anagraphic {
         }
     }
 
-    public void addPerson() {
+    public void addMenu() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/addPerson.fxml"));
-            actual = (Stage) addP_b.getScene().getWindow();
+            actual = (Stage) addM_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
@@ -39,10 +39,10 @@ public class anagraphic {
         }
     }
 
-    public void returnToHome() {
+    public void returnToCanteen() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/home.fxml"));
-            Stage actual = (Stage) home.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
+            Stage actual = (Stage) canteen.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {

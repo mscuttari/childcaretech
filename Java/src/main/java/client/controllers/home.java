@@ -13,16 +13,16 @@ import java.io.IOException;
 public class home {
 
     private Stage actual;
-    @FXML private Button anagrafica_b;
-    @FXML private Button mensa_b;
-    @FXML private Button gite_b;
+    @FXML private Button anagraphic_b;
+    @FXML private Button canteen_b;
+    @FXML private Button trip_b;
     @FXML private ImageView login;
 
 
-    public void anagrafica() {
+    public void anagraphic() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
-            actual = (Stage) anagrafica_b.getScene().getWindow();
+            actual = (Stage) anagraphic_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
@@ -30,10 +30,10 @@ public class home {
         }
     }
 
-    public void mensa() {
+    public void canteen() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
-            actual = (Stage) mensa_b.getScene().getWindow();
+            actual = (Stage) canteen_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
@@ -41,10 +41,10 @@ public class home {
         }
     }
 
-    public void gite() {
+    public void trip() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/trips.fxml"));
-            actual = (Stage) gite_b.getScene().getWindow();
+            actual = (Stage) trip_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {

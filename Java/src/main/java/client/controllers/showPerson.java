@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -17,7 +19,7 @@ public class showPerson {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
             Stage actual = (Stage) returnBack.getScene().getWindow();
-            actual.setScene(new Scene(root, 600, 400));
+            actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
             System.out.println("Errore nel tornare indietro");

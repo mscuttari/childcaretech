@@ -10,32 +10,32 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class anagraphic {
+public class canteen {
 
     private Stage actual;
     @FXML private ImageView home;
-    @FXML private Button showP_b;
-    @FXML private Button addP_b;
+    @FXML private Button menu_b;
+    @FXML private Button food_b;
 
-    public void showPerson() {
+    public void menu() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
-            actual = (Stage) showP_b.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
+            actual = (Stage) menu_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
-            System.out.println("Errore nell'entrare in 'visualizza persone'");
+            System.out.println("Errore nell'entrare in 'menù'");
         }
     }
 
-    public void addPerson() {
+    public void food() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/addPerson.fxml"));
-            actual = (Stage) addP_b.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/views/food.fxml"));
+            actual = (Stage) food_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
-            System.out.println("Errore nell'entrare in 'aggiungi persone'");
+            System.out.println("Errore nell'entrare in 'piatti'");
         }
     }
 
