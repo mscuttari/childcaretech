@@ -10,17 +10,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class menu {
+public class food {
 
     private Stage actual;
     @FXML private ImageView canteen;
-    @FXML private Button showM_b;
-    @FXML private Button addM_b;
+    @FXML private Button showF_b;
+    @FXML private Button addF_b;
 
-    public void showMenu() {
+    public void showFood() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
-            actual = (Stage) showM_b.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/views/showFood.fxml"));
+            actual = (Stage) showF_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
@@ -28,10 +28,10 @@ public class menu {
         }
     }
 
-    public void addMenu() {
+    public void addFood() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/addMenu.fxml"));
-            actual = (Stage) addM_b.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/views/addFood.fxml"));
+            actual = (Stage) addF_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
