@@ -1,7 +1,5 @@
 package main.java.server;
 
-import main.java.LogUtils;
-import main.java.exceptions.DatabaseException;
 import main.java.models.Person;
 import main.java.server.utils.HibernateUtils;
 

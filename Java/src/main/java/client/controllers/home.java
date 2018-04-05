@@ -54,12 +54,12 @@ public class home {
 
     public void returnToLogin(){
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/LoginController.fxml"));
             actual = (Stage) login.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
-            System.out.println("Errore nel tornare al login");
+            System.out.println("Errore nel tornare al LoginController");
         }
     }
 }

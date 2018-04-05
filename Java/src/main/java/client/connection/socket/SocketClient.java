@@ -94,7 +94,7 @@ public class SocketClient extends BaseClient implements ClientInterface {
             in = new ObjectInputStream(socket.getInputStream());
 
             // Send credentials
-            out.writeObject("login");
+            out.writeObject("LoginController");
             out.writeObject(this);
             out.flush();
 

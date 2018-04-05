@@ -13,7 +13,6 @@ public final class ConnectionManager {
     private static final String rmiHost = "rmi://localhost/childcaretech";
 
     // Connection type
-    public enum ConnectionType {SOCKET, RMI}
     private ConnectionType connectionType;
     private ClientInterface client;
 

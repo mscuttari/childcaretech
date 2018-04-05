@@ -64,7 +64,7 @@ public class SocketClientHandler implements Runnable {
      */
     private boolean parseCommand(String command, ObjectInputStream in, ObjectOutputStream out) {
         switch (command) {
-            case "login":
+            case "LoginController":
                 LogUtils.d(TAG, "User is logging in");
                 login(in, out);
                 return true;

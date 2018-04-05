@@ -1,6 +1,6 @@
 package main.java.server.utils;
 
-import main.java.exceptions.DatabaseException;
+import main.java.server.exceptions.DatabaseException;
 import main.java.models.BaseModel;
 
 import javax.persistence.EntityManager;
