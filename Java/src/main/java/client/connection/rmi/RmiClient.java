@@ -23,27 +23,21 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
     /**
      * Constructor
      *
-     * @param   host    String      server address
+     * @param   host    server address
      */
     public RmiClient(String host) {
         this.host = host;
     }
 
 
-    /**
-     * Check if the client is connected to the server
-     *
-     * @return  true if connected, false otherwise
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean isConnected() {
         return server != null;
     }
 
 
-    /**
-     * Connect to RMI server
-     */
+    /** {@inheritDoc} */
     @Override
     public void start() {
         try {
@@ -54,23 +48,14 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
     }
 
 
-    /**
-     * Close connection
-     */
+    /** {@inheritDoc} */
     @Override
     public void close() {
         // No need to be implemented
     }
 
 
-    /**
-     * Login
-     *
-     * @param   username    String      username
-     * @param   password    String      password
-     *
-     * @return  true if credentials are valid, false otherwise
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean login(String username, String password) {
         setUsername(username);

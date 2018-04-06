@@ -32,20 +32,14 @@ public class SocketClient extends BaseClient implements ClientInterface {
     }
 
 
-    /**
-     * Check if the client is connected to the server
-     *
-     * @return  true if connected, false otherwise
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean isConnected() {
         return socket != null && socket.isConnected();
     }
 
 
-    /**
-     * Connect to socket server
-     */
+    /** {@inheritDoc} */
     @Override
     public void start() {
         try {
@@ -58,9 +52,7 @@ public class SocketClient extends BaseClient implements ClientInterface {
     }
 
 
-    /**
-     * Close connection
-     */
+    /** {@inheritDoc} */
     @Override
     public void close() {
         if (socket != null && !socket.isClosed()) {
@@ -74,14 +66,7 @@ public class SocketClient extends BaseClient implements ClientInterface {
     }
 
 
-    /**
-     * Login
-     *
-     * @param   username    String      username
-     * @param   password    String      password
-     *
-     * @return  true if credentials are valid, false otherwise
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean login(String username, String password) {
         checkConnection();
@@ -120,9 +105,7 @@ public class SocketClient extends BaseClient implements ClientInterface {
     }
 
 
-    /**
-     * Check if the client is connected to the server and, if not connected, creates a new connection
-     */
+    /** {@inheritDoc} */
     private void checkConnection() {
         if (!isConnected()) {
             start();
@@ -133,7 +116,7 @@ public class SocketClient extends BaseClient implements ClientInterface {
     /**
      * Close stream
      *
-     * @param   stream      Closeable       input or output stream
+     * @param   stream      input or output stream
      */
     private static void closeStream(Closeable stream) {
         if (stream != null) {

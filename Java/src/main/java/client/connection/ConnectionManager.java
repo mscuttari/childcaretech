@@ -38,7 +38,7 @@ public final class ConnectionManager {
     /**
      * Set connection type
      *
-     * @param   connectionType      ConnectionType      connection type (socket or RMI)
+     * @param   connectionType      connection type (socket or RMI)
      */
     public void setConnectionType(ConnectionType connectionType) {
         if (this.connectionType != connectionType && client != null) {
@@ -74,7 +74,7 @@ public final class ConnectionManager {
     /**
      * Get client
      *
-     * @return  ClientInterface     client (socket or RMI client)
+     * @return  client (socket or RMI client)
      */
     public ClientInterface getClient() {
         return client;
