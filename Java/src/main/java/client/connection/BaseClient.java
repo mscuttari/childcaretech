@@ -1,6 +1,8 @@
 package main.java.client.connection;
 
-public abstract class BaseClient {
+import java.io.Serializable;
+
+public abstract class BaseClient implements Serializable {
 
     private String username;
     private String password;

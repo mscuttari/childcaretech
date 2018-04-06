@@ -10,14 +10,14 @@ import java.net.Socket;
 public class SocketClient extends BaseClient implements ClientInterface {
 
     // Debug
-    private static final String TAG = "SocketClient";
+    private transient static final String TAG = "SocketClient";
 
     // Configuration
-    private String host;
-    private int port;
+    private transient String host;
+    private transient int port;
 
     // Connection
-    private Socket socket;
+    private transient Socket socket;
 
 
     /**
@@ -53,6 +53,7 @@ public class SocketClient extends BaseClient implements ClientInterface {
             LogUtils.d(TAG, "Connection established");
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -67,6 +68,7 @@ public class SocketClient extends BaseClient implements ClientInterface {
                 socket.close();
             } catch (IOException e) {
                 LogUtils.e(TAG, e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -82,6 +84,8 @@ public class SocketClient extends BaseClient implements ClientInterface {
      */
     @Override
     public boolean login(String username, String password) {
+        checkConnection();
+
         setUsername(username);
         setPassword(password);
 
@@ -94,20 +98,24 @@ public class SocketClient extends BaseClient implements ClientInterface {
             in = new ObjectInputStream(socket.getInputStream());
 
             // Send credentials
-            out.writeObject("LoginController");
+            out.writeObject("login");
             out.writeObject(this);
             out.flush();
 
             // Get result
-            return in.readBoolean();
+            boolean result = in.readBoolean();
+            LogUtils.d(TAG, "Login result: " + result);
+            return result;
 
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
             return false;
 
         } finally {
             closeStream(out);
             closeStream(in);
+            close();
         }
     }
 

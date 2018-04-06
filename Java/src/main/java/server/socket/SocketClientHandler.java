@@ -28,7 +28,7 @@ public class SocketClientHandler implements Runnable {
             String command;
 
             try {
-                do {
+                while(true) {
                     commandObject = in.readObject();
 
                     if (!(commandObject instanceof String)) {
@@ -36,9 +36,11 @@ public class SocketClientHandler implements Runnable {
                         break;
                     }
 
-                    command = (String)commandObject;
-                } while (parseCommand(command, in, out));
-
+                    command = (String) commandObject;
+                    parseCommand(command, in, out);
+                }
+            } catch (EOFException e) {
+                LogUtils.d(TAG, "Connection closed");
             } catch (ClassNotFoundException e) {
                 LogUtils.e(TAG, "Invalid command object: " + e.getMessage());
             }
@@ -49,6 +51,7 @@ public class SocketClientHandler implements Runnable {
 
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -59,18 +62,13 @@ public class SocketClientHandler implements Runnable {
      * @param   command     String                  command
      * @param   in          ObjectInputStream       input stream
      * @param   out         ObjectOutputStream      output stream
-     *
-     * @return  boolean     true if the connection must be kept open; false if it must be closed
      */
-    private boolean parseCommand(String command, ObjectInputStream in, ObjectOutputStream out) {
+    private void parseCommand(String command, ObjectInputStream in, ObjectOutputStream out) {
         switch (command) {
-            case "LoginController":
+            case "login":
                 LogUtils.d(TAG, "User is logging in");
                 login(in, out);
-                return true;
-
-            default:
-                return false;
+                break;
         }
     }
 
@@ -92,10 +90,16 @@ public class SocketClientHandler implements Runnable {
             boolean loginResult = Actions.login(client.getUsername(), client.getPassword());
             out.writeBoolean(loginResult);
             out.flush();
-            LogUtils.d(TAG, client.getUsername() + " logged in");
+
+            if (loginResult) {
+                LogUtils.d(TAG, client.getUsername() + " logged in");
+            } else {
+                LogUtils.d(TAG, "Login failed with credentials " + client.getUsername() + ":" + client.getPassword());
+            }
 
         } catch (IOException | ClassNotFoundException e) {
             LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
     }
 
