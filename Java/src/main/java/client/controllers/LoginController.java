@@ -59,6 +59,7 @@ public class LoginController implements Initializable {
 
         txtUsername.setOnKeyPressed(keyPressEvent);
         txtPassword.setOnKeyPressed(keyPressEvent);
+        buttonLogin.setOnKeyPressed(keyPressEvent);
     }
 
 
