@@ -35,7 +35,7 @@ public class SocketClient extends BaseClient implements ClientInterface {
     /** {@inheritDoc} */
     @Override
     public boolean isConnected() {
-        return socket != null && socket.isConnected();
+        return socket != null && !socket.isClosed() && socket.isConnected();
     }
 
 
