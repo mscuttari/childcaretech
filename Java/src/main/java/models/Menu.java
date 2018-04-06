@@ -8,7 +8,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "menus", uniqueConstraints = @UniqueConstraint(columnNames = {"responsible_id"}))
-public class Menu {
+public class Menu extends BaseModel {
 
     private Long id;
     private String name;

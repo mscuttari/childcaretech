@@ -6,10 +6,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
-//https://www.youtube.com/watch?v=bGl4u44WRiI
+
 @Entity
 @Table(name = "food")
-public class Food {
+public class Food extends BaseModel {
 
     private Long id;
     private String name;

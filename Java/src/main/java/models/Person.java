@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "people", uniqueConstraints = {@UniqueConstraint(columnNames = "fiscal_code")})
-public class Person {
+public class Person extends BaseModel {
 
     private Long id;
     private String fiscalCode;

@@ -8,7 +8,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "ingredients")
-public class Ingredient {
+public class Ingredient extends BaseModel {
 
     private Long id;
     private String name;

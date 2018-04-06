@@ -1,24 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="login" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.login">
-   <children>
-      <Button fx:id="login_b" layoutX="248.0" layoutY="217.0" mnemonicParsing="false" onAction="#login" styleClass="bottone" stylesheets="@../style.css" text="Login" />
-      <TextField fx:id="txtUserName" layoutX="200.0" layoutY="121.0" promptText="UserName" AnchorPane.topAnchor="121.0" />
-      <Label layoutX="195.0" layoutY="55.0" prefHeight="35.0" prefWidth="177.0" text="Chil Care Tech" textFill="WHITE">
-         <font>
-            <Font name="Comic Sans MS" size="24.0" />
-         </font>
-      </Label>
-      <Label fx:id="txtLabel" layoutX="334.0" layoutY="222.0" prefHeight="18.0" prefWidth="147.0" textFill="#4007f5" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Label>
-      <PasswordField fx:id="txtPassword" layoutX="200.0" layoutY="162.0" promptText="Password" />
-   </children>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane
+        xmlns:fx="http://javafx.com/fxml/1"
+        xmlns="http://javafx.com/javafx/2.2"
+        fx:controller="main.java.client.controllers.LoginController"
+        fx:id="rootPane"
+        maxHeight="-Infinity"
+        maxWidth="-Infinity"
+        minHeight="-Infinity"
+        minWidth="-Infinity"
+        style="-fx-background-color: white;">
+
+    <HBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" spacing="50" alignment="CENTER">
+        <ImageView preserveRatio="true">
+            <Image url="@../images/children.png"/>
+        </ImageView>
+
+        <VBox alignment="CENTER" spacing="15">
+            <Label text="Child Care Tech" style="-fx-padding: 0 0 15 0">
+                <font>
+                    <Font name="Comic Sans MS" size="36.0" />
+                </font>
+            </Label>
+
+            <TextField
+                    fx:id="txtUsername"
+                    promptText="Username" />
+
+            <PasswordField
+                    fx:id="txtPassword"
+                    promptText="Password" />
+
+            <HBox spacing="5">
+                <ComboBox fx:id="cbConnectionType" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="buttonLogin" style="-fx-padding: 0 10 1 10" mnemonicParsing="false" text="Login" />
+            </HBox>
+
+            <Label fx:id="labelError" textFill="red" style="-fx-padding: 5 0 0 0">
+                <font><Font size="14" /></font>
+            </Label>
+        </VBox>
+    </HBox>
 </AnchorPane>
