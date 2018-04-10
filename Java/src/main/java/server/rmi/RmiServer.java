@@ -3,6 +3,7 @@ package main.java.server.rmi;
 import main.java.LogUtils;
 import main.java.client.connection.rmi.RmiClientInterface;
 import main.java.server.Actions;
+import main.java.utils.HibernateUtils;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -45,16 +46,31 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     }
 
 
-    /**
-     * Login
-     *
-     * @param   client      RmiClientInterface      client
-     * @return  true if credentials are valid, false otherwise
-     * @throws  RemoteException     in case of connection error
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean login(RmiClientInterface client) throws RemoteException {
         return Actions.login(client.getUsername(), client.getPassword());
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean create(RmiClientInterface client, Object obj) throws RemoteException {
+        return HibernateUtils.getInstance().create(obj);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean update(RmiClientInterface client, Object obj) throws RemoteException {
+        return HibernateUtils.getInstance().update(obj);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean delete(RmiClientInterface client, Object obj) throws RemoteException {
+        return HibernateUtils.getInstance().delete(obj);
     }
 
 }

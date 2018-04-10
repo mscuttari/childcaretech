@@ -9,18 +9,17 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "people", uniqueConstraints = {@UniqueConstraint(columnNames = "fiscal_code")})
-public class Person extends BaseModel {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
+public abstract class Person extends BaseModel {
 
-    private Long id;
-    private String fiscalCode;
-    private String name;
-    private String surname;
-    private Date birthdate;
-    private String address;
-    private String telephone;
-    private String type;
-    private String username;
-    private String password;
+    protected Long id;
+    protected String fiscalCode;
+    protected String name;
+    protected String surname;
+    protected Date birthdate;
+    protected String address;
+    protected String telephone;
 
     private Collection<Ingredient> allergies = new ArrayList<>();
     private Collection<Ingredient> intollerances = new ArrayList<>();
@@ -101,33 +100,6 @@ public class Person extends BaseModel {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
-    }
-
-    @Column(name = "type", nullable = false)
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @Column(name = "username")
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Column(name = "password")
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @ManyToMany
@@ -252,12 +224,12 @@ public class Person extends BaseModel {
 
     @Transient
     public Collection<Trip> getTripEnrollments() {
-        return getType().equals("child") ? getChildTripsEnrollments() : getStaffTripsEnrollments();
+        return this instanceof Child ? getChildTripsEnrollments() : getStaffTripsEnrollments();
     }
 
     @Transient
     public void setTripEnrollments(Collection<Trip> trips) {
-        if (getType().equals("child")) {
+        if (this instanceof Child) {
             setChildTripsEnrollments(trips);
         } else {
             setStaffTripsEnrollments(trips);
