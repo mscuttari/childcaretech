@@ -34,7 +34,7 @@ public class Actions {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Staff> cq = cb.createQuery(Staff.class);
-        Root<Person> root = cq.from(Person.class);
+        Root<Staff> root = cq.from(Staff.class);
         cq.where(cb.equal(root.get("username"), username));
         TypedQuery<Staff> q = em.createQuery(cq);
         List<Staff> people = q.getResultList();

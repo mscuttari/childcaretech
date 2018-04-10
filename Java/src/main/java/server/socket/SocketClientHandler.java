@@ -117,7 +117,7 @@ public class SocketClientHandler implements Runnable {
             Object clientObject = in.readObject();
             if (!(clientObject instanceof SocketClient)) return false;
             SocketClient client = (SocketClient)clientObject;
-
+            LogUtils.e(TAG, client.getUsername() + " : " + client.getPassword());
             // Login
             return Actions.login(client.getUsername(), client.getPassword());
 

@@ -69,6 +69,9 @@ public class SocketClient extends BaseClient implements ClientInterface {
     /** {@inheritDoc} */
     @Override
     public boolean login(String username, String password) {
+        setUsername(username);
+        setPassword(password);
+
         return sendData("login", this);
     }
 
