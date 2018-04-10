@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class addPerson {
+public class addPersonController {
 
     @FXML private MenuButton personChoice;
     @FXML private ImageView returnBack;
