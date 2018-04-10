@@ -1,33 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="homePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.home">
-    <children>
-        <Button fx:id="canteen_b" layoutX="400.0" layoutY="400.0" mnemonicParsing="false" onAction="#canteen" prefHeight="60.0" prefWidth="200.0" text="Mensa">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <Button fx:id="anagraphic_b" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" onAction="#anagraphic" prefHeight="60.0" prefWidth="200.0" text="Anagrafica">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <Button fx:id="trip_b" layoutX="700.0" layoutY="400.0" mnemonicParsing="false" onAction="#trip" prefHeight="60.0" prefWidth="200.0" text="Gite">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <ImageView fx:id="login" fitHeight="80.0" fitWidth="80.0" layoutX="902.0" layoutY="537.0" onMouseClicked="#returnToLogin" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-            <image>
-                <Image url="@../images/login.png" />
-            </image>
-        </ImageView>
-      <ImageView fitHeight="300.0" fitWidth="300.0" layoutX="358.0" layoutY="35.0" AnchorPane.bottomAnchor="322.0" AnchorPane.leftAnchor="360.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="40.0">
-         <image>
-            <Image url="@../images/home.png" />
-         </image>
-      </ImageView>
-    </children>
-</AnchorPane>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="main.java.client.controllers.HomeController">
+    <top>
+        <HBox alignment="CENTER_RIGHT" minHeight="35.0" spacing="10.0" style="-fx-background-color: aliceblue;" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Nome Cognome" textFill="#337ab7">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                    <image>
+                        <Image url="@../images/login.png" />
+                    </image>
+                    <HBox.margin>
+                        <Insets left="15.0" right="10.0" />
+                    </HBox.margin>
+                </ImageView>
+            </children>
+        </HBox>
+    </top>
+    <left>
+        <VBox alignment="TOP_CENTER" prefHeight="602.0" prefWidth="196.0" style="-fx-background-color: aliceblue;" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="anagraphic" contentDisplay="RIGHT" mnemonicParsing="false" styleClass="vertical-menu-button" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="503.0" spacing="10.0">
+                            <children>
+                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/checklist.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Anagrafica" textFill="#337ab7">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                    </graphic>
+                </Button>
+                <Button contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="vertical-menu-button">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="503.0" spacing="10.0">
+                            <children>
+                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/chef.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Mensa" textFill="#337ab7">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                    </graphic>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </Button>
+                <Button contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="vertical-menu-button">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="503.0" spacing="10.0">
+                            <children>
+                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/bus.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Gite" textFill="#337ab7">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                    </graphic>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </Button>
+            </children>
+        </VBox>
+    </left>
+</BorderPane>

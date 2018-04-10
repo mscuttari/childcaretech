@@ -46,7 +46,7 @@ public class menu {
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
-            System.out.println("Errore nel tornare alla home");
+            System.out.println("Errore nel tornare alla HomeController");
         }
     }
 }

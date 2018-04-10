@@ -41,12 +41,12 @@ public class anagraphic {
 
     public void returnToHome() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/home.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/HomeController.fxml"));
             Stage actual = (Stage) home.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
         } catch (IOException e) {
-            System.out.println("Errore nel tornare alla home");
+            System.out.println("Errore nel tornare alla HomeController");
         }
     }
 }

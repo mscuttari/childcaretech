@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class home {
+public class HomeController {
 
     private Stage actual;
     @FXML private Button anagraphic_b;
