@@ -1,0 +1,15 @@
+/*******************************************************************************
+ *                                                                             *
+ *ChildCareTech                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+
+.vertical-menu-button {
+    -fx-background-color: aliceblue;
+    -fx-text-fill: white;
+    -fx-border: none;
+}
+
+.vertical-menu-button:hover {
+    -fx-background-color: lightblue;
+}

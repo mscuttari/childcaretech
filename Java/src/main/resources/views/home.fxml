@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.HomeController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity"
+            maxWidth="-Infinity"
+            style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="main.java.client.controllers.HomeController"
+            stylesheets="@../ChildCareTech.css">
     <top>
         <HBox alignment="CENTER_RIGHT" minHeight="35.0" spacing="10.0" style="-fx-background-color: aliceblue;" BorderPane.alignment="CENTER">
             <children>
@@ -16,7 +21,7 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                <ImageView fx:id="goToLoginImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                     <image>
                         <Image url="@../images/login.png" />
                     </image>
