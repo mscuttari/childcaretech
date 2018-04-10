@@ -68,4 +68,40 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
         }
     }
 
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean create(Object obj) {
+        try {
+            server.create(this, obj);
+            return true;
+        } catch (RemoteException e) {
+            return false;
+        }
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean update(Object obj) {
+        try {
+            server.update(this, obj);
+            return true;
+        } catch (RemoteException e) {
+            return false;
+        }
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean delete(Object obj) {
+        try {
+            server.delete(this, obj);
+            return true;
+        } catch (RemoteException e) {
+            return false;
+        }
+    }
+
 }

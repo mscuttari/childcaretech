@@ -9,7 +9,9 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "people", uniqueConstraints = {@UniqueConstraint(columnNames = "fiscal_code")})
-public class Person extends BaseModel {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
+public abstract class Person extends BaseModel {
 
     private Long id;
     private String fiscalCode;
@@ -19,8 +21,6 @@ public class Person extends BaseModel {
     private String address;
     private String telephone;
     private String type;
-    private String username;
-    private String password;
 
     private Collection<Ingredient> allergies = new ArrayList<>();
     private Collection<Ingredient> intollerances = new ArrayList<>();
@@ -110,24 +110,6 @@ public class Person extends BaseModel {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    @Column(name = "username")
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Column(name = "password")
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @ManyToMany

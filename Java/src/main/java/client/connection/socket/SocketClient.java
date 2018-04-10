@@ -69,10 +69,47 @@ public class SocketClient extends BaseClient implements ClientInterface {
     /** {@inheritDoc} */
     @Override
     public boolean login(String username, String password) {
-        checkConnection();
+        return sendData("login", this);
+    }
 
-        setUsername(username);
-        setPassword(password);
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean create(Object obj) {
+        return sendData("create", this, obj);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean update(Object obj) {
+        return sendData("update", this, obj);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean delete(Object obj) {
+        return sendData("delete", this, obj);
+    }
+
+
+    /** {@inheritDoc} */
+    private void checkConnection() {
+        if (!isConnected()) {
+            start();
+        }
+    }
+
+
+    /**
+     * Send data to socket server and get boolean result
+     *
+     * @param   data    data to be sent
+     * @return  boolean result value
+     */
+    private boolean sendData(Object... data) {
+        checkConnection();
 
         ObjectInputStream in = null;
         ObjectOutputStream out = null;
@@ -83,14 +120,13 @@ public class SocketClient extends BaseClient implements ClientInterface {
             in = new ObjectInputStream(socket.getInputStream());
 
             // Send credentials
-            out.writeObject("login");
-            out.writeObject(this);
+            for (Object obj : data)
+                out.writeObject(obj);
+
             out.flush();
 
             // Get result
-            boolean result = in.readBoolean();
-            LogUtils.d(TAG, "Login result: " + result);
-            return result;
+            return in.readBoolean();
 
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
@@ -101,14 +137,6 @@ public class SocketClient extends BaseClient implements ClientInterface {
             closeStream(out);
             closeStream(in);
             close();
-        }
-    }
-
-
-    /** {@inheritDoc} */
-    private void checkConnection() {
-        if (!isConnected()) {
-            start();
         }
     }
 

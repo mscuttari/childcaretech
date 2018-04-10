@@ -34,4 +34,31 @@ public interface ClientInterface {
      */
     boolean login(String username, String password);
 
+
+    /**
+     * Create object in the database
+     *
+     * @param   obj     object to be created
+     * @return  true if everything went fine; false otherwise
+     */
+    boolean create(Object obj);
+
+
+    /**
+     * Update object in the database
+     *
+     * @param   obj     object to be updated
+     * @return  true if everything went fine; false otherwise
+     */
+    boolean update(Object obj);
+
+
+    /**
+     * Delete object from the database
+     *
+     * @param   obj     object to be deleted
+     * @return  true if everything went fine; false otherwise
+     */
+    boolean delete(Object obj);
+
 }
