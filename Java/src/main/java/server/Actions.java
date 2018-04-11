@@ -1,5 +1,6 @@
 package main.java.server;
 
+import main.java.models.BaseModel;
 import main.java.models.Person;
 import main.java.models.Staff;
 import main.java.server.utils.HibernateUtils;
@@ -38,6 +39,7 @@ public class Actions {
         cq.where(cb.equal(root.get("username"), username));
         TypedQuery<Staff> q = em.createQuery(cq);
         List<Staff> people = q.getResultList();
+        em.close();
 
         for (Staff person : people) {
             if (password.equals(person.getPassword()))

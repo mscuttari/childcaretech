@@ -1,9 +1,12 @@
 package main.java.server.rmi;
 
 import main.java.client.connection.rmi.RmiClientInterface;
+import main.java.models.BaseModel;
+import main.java.models.Person;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface RmiServerInterface extends Remote {
 
@@ -27,7 +30,7 @@ public interface RmiServerInterface extends Remote {
      *
      * @throws  RemoteException in case of connection error
      */
-    boolean create(RmiClientInterface client, Object obj) throws RemoteException;
+    boolean create(RmiClientInterface client, BaseModel obj) throws RemoteException;
 
 
     /**
@@ -40,19 +43,32 @@ public interface RmiServerInterface extends Remote {
      *
      * @throws  RemoteException in case of connection error
      */
-    boolean update(RmiClientInterface client, Object obj) throws RemoteException;
+    boolean update(RmiClientInterface client, BaseModel obj) throws RemoteException;
 
 
     /**
      * Delete object from the database
      *
      * @param   client      RMI client
-     * @param   obj         oject to be deleted
+     * @param   obj         object to be deleted
      *
      * @return  true if everything went fine; false otherwise
      *
      * @throws  RemoteException in case of connection error
      */
-    boolean delete(RmiClientInterface client, Object obj) throws RemoteException;
+    boolean delete(RmiClientInterface client, BaseModel obj) throws RemoteException;
+
+
+    /**
+     * Get all the elements of a specific class
+     *
+     * @param   client          RMI client
+     * @param   modelClass      model class (Child, Staff, Trip, etc.)
+     *
+     * @return  list of elements
+     *
+     * @throws  RemoteException in case of connection error
+     */
+    <M extends BaseModel> List<M> getAll(RmiClientInterface client, Class<M> modelClass) throws RemoteException;
 
 }

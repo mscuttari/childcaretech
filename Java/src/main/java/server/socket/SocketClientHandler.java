@@ -2,12 +2,13 @@ package main.java.server.socket;
 
 import main.java.LogUtils;
 import main.java.client.connection.socket.SocketClient;
-import main.java.models.BaseModel;
+import main.java.models.*;
 import main.java.server.Actions;
-import main.java.utils.HibernateUtils;
+import main.java.server.utils.HibernateUtils;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 public class SocketClientHandler implements Runnable {
 
@@ -30,7 +31,7 @@ public class SocketClientHandler implements Runnable {
             String command;
 
             try {
-                while(true) {
+                while (true) {
                     commandObject = in.readObject();
 
                     if (!(commandObject instanceof String)) {
@@ -82,6 +83,54 @@ public class SocketClientHandler implements Runnable {
             case "delete":
                 delete(in, out);
                 break;
+
+            case "get_children":
+                getChildren(in, out);
+                break;
+
+            case "get_contacts":
+                getContacts(in, out);
+                break;
+
+            case "get_food":
+                getFood(in, out);
+                break;
+
+            case "get_ingredients":
+                getIngredients(in, out);
+                break;
+
+            case "get_menus":
+                getMenus(in, out);
+                break;
+
+            case "get_parents":
+                getParents(in, out);
+                break;
+
+            case "get_providers":
+                getProviders(in, out);
+                break;
+
+            case "get_pullmans":
+                getPullmans(in, out);
+                break;
+
+            case "get_pediatrists":
+                getPediatrists(in, out);
+                break;
+
+            case "get_staff":
+                getStaff(in, out);
+                break;
+
+            case "get_stops":
+                getStops(in, out);
+                break;
+
+            case "get_trips":
+                getTrips(in, out);
+                break;
         }
     }
 
@@ -95,7 +144,7 @@ public class SocketClientHandler implements Runnable {
     private void login(ObjectInputStream in, ObjectOutputStream out) {
         try {
             boolean result = checkCredentials(in);
-            out.writeBoolean(result);
+            out.writeObject(result);
             out.flush();
 
         } catch (IOException e) {
@@ -117,7 +166,7 @@ public class SocketClientHandler implements Runnable {
             Object clientObject = in.readObject();
             if (!(clientObject instanceof SocketClient)) return false;
             SocketClient client = (SocketClient)clientObject;
-            LogUtils.e(TAG, client.getUsername() + " : " + client.getPassword());
+
             // Login
             return Actions.login(client.getUsername(), client.getPassword());
 
@@ -142,11 +191,11 @@ public class SocketClientHandler implements Runnable {
             Object obj = in.readObject();
 
             if (!result || !(obj instanceof BaseModel)) {
-                out.writeBoolean(false);
+                out.writeObject(false);
                 out.flush();
             } else {
-                result = HibernateUtils.getInstance().create(obj);
-                out.writeBoolean(result);
+                result = HibernateUtils.getInstance().create((BaseModel)obj);
+                out.writeObject(result);
                 out.flush();
             }
 
@@ -170,11 +219,11 @@ public class SocketClientHandler implements Runnable {
             Object obj = in.readObject();
 
             if (!result || !(obj instanceof BaseModel)) {
-                out.writeBoolean(false);
+                out.writeObject(false);
                 out.flush();
             } else {
-                result = HibernateUtils.getInstance().update(obj);
-                out.writeBoolean(result);
+                result = HibernateUtils.getInstance().update((BaseModel)obj);
+                out.writeObject(result);
                 out.flush();
             }
 
@@ -198,11 +247,11 @@ public class SocketClientHandler implements Runnable {
             Object obj = in.readObject();
 
             if (!result || !(obj instanceof BaseModel)) {
-                out.writeBoolean(false);
+                out.writeObject(false);
                 out.flush();
             } else {
-                result = HibernateUtils.getInstance().delete(obj);
-                out.writeBoolean(result);
+                result = HibernateUtils.getInstance().delete((BaseModel)obj);
+                out.writeObject(result);
                 out.flush();
             }
 
@@ -210,6 +259,166 @@ public class SocketClientHandler implements Runnable {
             LogUtils.e(TAG, e.getMessage());
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * Get all the elements of a specific class
+     *
+     * @param   in              object input stream
+     * @param   out             object output stream
+     * @param   modelClass      model class
+     */
+    private <M extends BaseModel> void getAll(ObjectInputStream in, ObjectOutputStream out, Class<M> modelClass) {
+        boolean logged = checkCredentials(in);
+
+        try {
+            if (!logged) {
+                out.writeObject(null);
+                out.flush();
+            } else {
+                List<M> result = HibernateUtils.getInstance().getAll(modelClass);
+                LogUtils.e(TAG, "Lista result: " + result);
+                out.writeObject(result);
+                out.flush();
+            }
+
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Get children
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getChildren(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Child.class);
+    }
+
+
+    /**
+     * Get contacts
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getContacts(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Contact.class);
+    }
+
+
+    /**
+     * Get food
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getFood(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Food.class);
+    }
+
+
+    /**
+     * Get ingredients
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getIngredients(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Ingredient.class);
+    }
+
+
+    /**
+     * Get menus
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getMenus(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Menu.class);
+    }
+
+
+    /**
+     * Get parents
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getParents(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Parent.class);
+    }
+
+
+    /**
+     * Get providers
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getProviders(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Provider.class);
+    }
+
+
+    /**
+     * Get pullmans
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getPullmans(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Pullman.class);
+    }
+
+
+    /**
+     * Get pediatrists
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getPediatrists(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Pediatrist.class);
+    }
+
+
+    /**
+     * Get staff
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getStaff(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Staff.class);
+    }
+
+
+    /**
+     * Get stops
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getStops(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Stop.class);
+    }
+
+
+    /**
+     * Get trips
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getTrips(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Trip.class);
     }
 
 }

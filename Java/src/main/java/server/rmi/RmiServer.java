@@ -2,13 +2,18 @@ package main.java.server.rmi;
 
 import main.java.LogUtils;
 import main.java.client.connection.rmi.RmiClientInterface;
+import main.java.models.BaseModel;
+import main.java.models.Child;
+import main.java.models.Person;
 import main.java.server.Actions;
-import main.java.utils.HibernateUtils;
+import main.java.server.utils.HibernateUtils;
 
+import javax.persistence.EntityManager;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 public class RmiServer extends UnicastRemoteObject implements RmiServerInterface {
 
@@ -55,22 +60,30 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
     /** {@inheritDoc} */
     @Override
-    public boolean create(RmiClientInterface client, Object obj) throws RemoteException {
-        return HibernateUtils.getInstance().create(obj);
+    public <M extends BaseModel> List<M> getAll(RmiClientInterface client, Class<M> modelClass) throws RemoteException {
+        if (!login(client)) return null;
+        return HibernateUtils.getInstance().getAll(modelClass);
     }
 
 
     /** {@inheritDoc} */
     @Override
-    public boolean update(RmiClientInterface client, Object obj) throws RemoteException {
-        return HibernateUtils.getInstance().update(obj);
+    public boolean create(RmiClientInterface client, BaseModel obj) throws RemoteException {
+        return login(client) && HibernateUtils.getInstance().create(obj);
     }
 
 
     /** {@inheritDoc} */
     @Override
-    public boolean delete(RmiClientInterface client, Object obj) throws RemoteException {
-        return HibernateUtils.getInstance().delete(obj);
+    public boolean update(RmiClientInterface client, BaseModel obj) throws RemoteException {
+        return login(client) && HibernateUtils.getInstance().update(obj);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean delete(RmiClientInterface client, BaseModel obj) throws RemoteException {
+        return login(client) && HibernateUtils.getInstance().delete(obj);
     }
 
 }

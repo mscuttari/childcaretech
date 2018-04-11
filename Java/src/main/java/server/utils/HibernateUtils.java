@@ -1,5 +1,6 @@
 package main.java.server.utils;
 
+import main.java.LogUtils;
 import main.java.server.exceptions.DatabaseException;
 import main.java.models.BaseModel;
 
@@ -10,9 +11,13 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 public class HibernateUtils {
+
+    // Debug
+    private static final String TAG = "HibernateUtils";
 
     // Singleton
     private static HibernateUtils instance = null;
@@ -48,8 +53,8 @@ public class HibernateUtils {
     /**
      * Get element by id
      *
-     * @param   modelClass      Class       element class
-     * @param   id              Long        element ID
+     * @param   modelClass      element class
+     * @param   id              element ID
      *
      * @return  element object
      *
@@ -74,31 +79,6 @@ public class HibernateUtils {
 
 
     /**
-     * Get all the elements
-     *
-     * @param   modelClass          Class       model class
-     * @return  list of elements objects
-     * @throws  DatabaseException   if the data can't be retrieved
-     */
-    @Transactional
-    public synchronized <M extends BaseModel> List<M> getAll(Class<M> modelClass) throws DatabaseException {
-        EntityManager em = emf.createEntityManager();
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<M> cq = cb.createQuery(modelClass);
-        cq.from(modelClass);
-        TypedQuery<M> q = em.createQuery(cq);
-
-        try {
-            return q.getResultList();
-        } catch (Exception e) {
-            throw new DatabaseException(e.getMessage());
-        } finally {
-            em.close();
-        }
-    }
-
-
-    /**
      * Get entity manager
      *
      * @return  entity manager
@@ -109,46 +89,92 @@ public class HibernateUtils {
 
 
     /**
-     * Create element
+     * Flush and clear
      *
-     * @param   obj         M           element object
-     * @return  created element object
-     * @throws  DatabaseException       if the element can't be created
+     * @param   entityManager       entity manager
+     *
+     * @see EntityManager#flush()
+     * @see EntityManager#clear()
+     */
+    public void flushAndClear(EntityManager entityManager) {
+        entityManager.flush();
+        entityManager.clear();
+    }
+
+
+    /**
+     * Get all the elements
+     *
+     * @param   modelClass          model class
+     * @return  list of elements objects (null in case of error)
      */
     @Transactional
-    public synchronized <M extends BaseModel> M create(M obj) throws DatabaseException {
+    public synchronized <M extends BaseModel> List<M> getAll(Class<M> modelClass) {
+        EntityManager em = emf.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<M> cq = cb.createQuery(modelClass);
+        cq.from(modelClass);
+        TypedQuery<M> q = em.createQuery(cq);
+
+        try {
+            return q.getResultList();
+        } catch (Exception e) {
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+
+    /**
+     * Create element
+     *
+     * @param   obj     element object
+     * @return  true if everything went fine; false otherwise
+     */
+    @Transactional
+    public synchronized boolean create(BaseModel obj) {
         EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
             em.persist(obj);
             em.getTransaction().commit();
+            flushAndClear(em);
+            return true;
+
         } catch (Exception e) {
-            throw new DatabaseException(e.getMessage());
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+            return false;
+
         } finally {
             em.close();
         }
-
-        return obj;
     }
 
 
     /**
      * Update elements
      *
-     * @param   obj         M           element object
-     * @return  updated element object
-     * @throws  DatabaseException       if the element can't be updated
+     * @param   obj     element object
+     * @return  true if everything went fine; false otherwise
      *
      */
     @Transactional
-    public synchronized <M extends BaseModel> M update(M obj) throws DatabaseException {
+    public synchronized boolean update(BaseModel obj) {
         EntityManager em = emf.createEntityManager();
 
         try {
-            return em.merge(obj);
+            em.merge(obj);
+            flushAndClear(em);
+            return true;
         } catch (Exception e) {
-            throw new DatabaseException(e.getMessage());
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+            return false;
         } finally {
             em.close();
         }
@@ -158,19 +184,25 @@ public class HibernateUtils {
     /**
      * Delete element
      *
-     * @param   obj         M           element object
-     * @throws  DatabaseException       if the element can't be deleted
+     * @param   obj     element object
+     * @return  true if everything went fine; false otherwise
      */
     @Transactional
-    public final synchronized <M extends BaseModel> void delete(M obj) throws DatabaseException {
+    public final synchronized boolean delete(BaseModel obj) {
         EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
             em.remove(obj);
             em.getTransaction().commit();
+            flushAndClear(em);
+            return true;
+
         } catch (Exception e) {
-            throw new DatabaseException(e.getMessage());
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+            return false;
+
         } finally {
             em.close();
         }
