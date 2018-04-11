@@ -3,9 +3,11 @@ package main.java.client.connection.socket;
 import main.java.LogUtils;
 import main.java.client.connection.BaseClient;
 import main.java.client.connection.ClientInterface;
+import main.java.models.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 public class SocketClient extends BaseClient implements ClientInterface {
 
@@ -72,32 +74,149 @@ public class SocketClient extends BaseClient implements ClientInterface {
         setUsername(username);
         setPassword(password);
 
-        return sendData("login", this);
+        List<Child> children = getChildren();
+        LogUtils.e(TAG, "Children: " + children);
+
+        Object result = sendData("login", this);
+        return result instanceof Boolean && (boolean)result;
     }
 
 
     /** {@inheritDoc} */
     @Override
-    public boolean create(Object obj) {
-        return sendData("create", this, obj);
+    public boolean create(BaseModel obj) {
+        Object result = sendData("create", this, obj);
+        return result instanceof Boolean && (boolean)result;
     }
 
 
     /** {@inheritDoc} */
     @Override
-    public boolean update(Object obj) {
-        return sendData("update", this, obj);
+    public boolean update(BaseModel obj) {
+        Object result = sendData("update", this, obj);
+        return result instanceof Boolean && (boolean)result;
     }
 
 
     /** {@inheritDoc} */
     @Override
-    public boolean delete(Object obj) {
-        return sendData("delete", this, obj);
+    public boolean delete(BaseModel obj) {
+        Object result = sendData("delete", this, obj);
+        return result instanceof Boolean && (boolean)result;
     }
 
 
     /** {@inheritDoc} */
+    @Override
+    public List<Child> getChildren() {
+        Object result = sendData("get_children", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Child>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Contact> getContacts() {
+        Object result = sendData("get_contacts", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Contact>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Food> getFood() {
+        Object result = sendData("get_food", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Food>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Ingredient> getIngredients() {
+        Object result = sendData("get_ingredients", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Ingredient>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Menu> getMenus() {
+        Object result = sendData("get_menus", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Menu>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Parent> getParents() {
+        Object result = sendData("get_parents", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Parent>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Provider> getProviders() {
+        Object result = sendData("get_providers", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Provider>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Pullman> getPullmans() {
+        Object result = sendData("get_pullmans", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Pullman>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Pediatrist> getPediatrists() {
+        Object result = sendData("get_pediatrists", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Pediatrist>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Staff> getStaff() {
+        Object result = sendData("get_staff", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Staff>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Stop> getStops() {
+        Object result = sendData("get_stops", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Stop>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Trip> getTrips() {
+        Object result = sendData("get_trips", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Trip>)result : null;
+    }
+
+
+    /**
+     * Check if the connection is established
+     */
     private void checkConnection() {
         if (!isConnected()) {
             start();
@@ -106,12 +225,12 @@ public class SocketClient extends BaseClient implements ClientInterface {
 
 
     /**
-     * Send data to socket server and get boolean result
+     * Send data to socket server and get result
      *
      * @param   data    data to be sent
-     * @return  boolean result value
+     * @return  object result value
      */
-    private boolean sendData(Object... data) {
+    private Object sendData(Object... data) {
         checkConnection();
 
         ObjectInputStream in = null;
@@ -129,9 +248,9 @@ public class SocketClient extends BaseClient implements ClientInterface {
             out.flush();
 
             // Get result
-            return in.readBoolean();
+            return in.readObject();
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             LogUtils.e(TAG, e.getMessage());
             e.printStackTrace();
             return false;
