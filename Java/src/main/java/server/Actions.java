@@ -1,6 +1,8 @@
 package main.java.server;
 
+import main.java.models.BaseModel;
 import main.java.models.Person;
+import main.java.models.Staff;
 import main.java.server.utils.HibernateUtils;
 
 import javax.persistence.EntityManager;
@@ -32,13 +34,14 @@ public class Actions {
         EntityManager em = HibernateUtils.getInstance().getEntityManager();
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Person> cq = cb.createQuery(Person.class);
-        Root<Person> root = cq.from(Person.class);
+        CriteriaQuery<Staff> cq = cb.createQuery(Staff.class);
+        Root<Staff> root = cq.from(Staff.class);
         cq.where(cb.equal(root.get("username"), username));
-        TypedQuery<Person> q = em.createQuery(cq);
-        List<Person> people = q.getResultList();
+        TypedQuery<Staff> q = em.createQuery(cq);
+        List<Staff> people = q.getResultList();
+        em.close();
 
-        for (Person person : people) {
+        for (Staff person : people) {
             if (password.equals(person.getPassword()))
                 return true;
         }

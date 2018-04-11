@@ -1,12 +1,13 @@
 package main.java.models;
 
 import javax.persistence.Column;
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public abstract class BaseModel {
+public abstract class BaseModel implements Serializable {
 
     /**
      * Get string representation of the object

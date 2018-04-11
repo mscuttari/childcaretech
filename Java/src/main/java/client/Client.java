@@ -14,7 +14,7 @@ public class Client extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
 
         Scene scene = new Scene(root, 700, 350);
-        scene.getStylesheets().add(getClass().getResource("/bootstrap3.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("/bootstrap3.css").toExternalForm());
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Child Care Tech");

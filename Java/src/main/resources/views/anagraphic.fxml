@@ -1,36 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="gitePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.anagraphic">
+<AnchorPane fx:id="anagraphicPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="800.0" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AnagraphicController">
     <children>
-        <Label layoutX="550.0" layoutY="132.0" prefHeight="44.0" prefWidth="195.0" text="Anagrafica" AnchorPane.topAnchor="150.0">
-            <font>
-                <Font size="36.0" />
-            </font>
-        </Label>
-        <Button fx:id="showP_b" layoutX="550.0" layoutY="214.0" mnemonicParsing="false" onAction="#showPerson" prefHeight="60.0" prefWidth="300.0" text="Visualizza persone">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Button>
-        <Button fx:id="addP_b" layoutX="550.0" layoutY="297.0" mnemonicParsing="false" onAction="#addPerson" prefHeight="60.0" prefWidth="300.0" text="Aggiungi persone">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Button>
-      <ImageView fx:id="home" fitHeight="80.0" fitWidth="80.0" layoutX="535.0" layoutY="335.0" onMouseClicked="#returnToHome" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-         <image>
-            <Image url="@../images/home.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="300.0" fitWidth="300.0" layoutX="100.0" layoutY="350.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="150.0">
-         <image>
-            <Image url="@../images/Checklist.png" />
-         </image>
-      </ImageView>
+      <HBox alignment="CENTER" layoutX="550.0" layoutY="150.0" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="250.0" fitWidth="250.0">
+               <image>
+                  <Image url="@../images/checklist.png" />
+               </image>
+            </ImageView>
+            <VBox alignment="CENTER" spacing="15.0">
+               <children>
+                    <Label layoutX="550.0" layoutY="132.0" prefHeight="44.0" prefWidth="195.0" text="Anagrafica" textFill="#337ab7" AnchorPane.topAnchor="150.0">
+                        <font>
+                            <Font name="Comic Sans MS" size="36.0" />
+                        </font>
+                     <padding>
+                        <Insets bottom="15.0" />
+                     </padding>
+                    </Label>
+                    <Button fx:id="buttonAddPerson" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                        <font>
+                            <Font size="24.0" />
+                        </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="BLACK" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="40.0">
+                                 <image>
+                                    <Image url="@../images/plus.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Aggiungi persona" textFill="#337ab7">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </graphic>
+                    </Button>
+                  <Button fx:id="buttonUpdatePerson" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="40.0">
+                                 <image>
+                                    <Image url="@../images/minus.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Modifica persona" textFill="#337ab7">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </graphic>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="BLACK" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

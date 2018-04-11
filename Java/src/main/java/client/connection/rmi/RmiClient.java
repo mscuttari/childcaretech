@@ -3,10 +3,12 @@ package main.java.client.connection.rmi;
 import main.java.LogUtils;
 import main.java.client.connection.BaseClient;
 import main.java.client.connection.ClientInterface;
+import main.java.models.*;
 import main.java.server.rmi.RmiServerInterface;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public class RmiClient extends BaseClient implements ClientInterface, RmiClientInterface {
 
@@ -66,6 +68,146 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
         } catch (RemoteException e) {
             return false;
         }
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean create(BaseModel obj) {
+        try {
+            return server.create(this, obj);
+        } catch (RemoteException e) {
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean update(BaseModel obj) {
+        try {
+            return server.update(this, obj);
+        } catch (RemoteException e) {
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean delete(BaseModel obj) {
+        try {
+            return server.delete(this, obj);
+        } catch (RemoteException e) {
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    /**
+     * Get all elements of a specific class
+     *
+     * @param   modelClass      model class
+     * @return  list of elements
+     */
+    private <M extends BaseModel> List<M> getAll(Class<M> modelClass) {
+        try {
+            return server.getAll(this, modelClass);
+        } catch (RemoteException e) {
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Child> getChildren() {
+        return getAll(Child.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Contact> getContacts() {
+        return getAll(Contact.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Food> getFood() {
+        return getAll(Food.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Ingredient> getIngredients() {
+        return getAll(Ingredient.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Menu> getMenus() {
+        return getAll(Menu.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Parent> getParents() {
+        return getAll(Parent.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Provider> getProviders() {
+        return getAll(Provider.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Pullman> getPullmans() {
+        return getAll(Pullman.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Pediatrist> getPediatrists() {
+        return getAll(Pediatrist.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Staff> getStaff() {
+        return getAll(Staff.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Stop> getStops() {
+        return getAll(Stop.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Trip> getTrips() {
+        return getAll(Trip.class);
     }
 
 }

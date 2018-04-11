@@ -17,7 +17,7 @@ public class showPerson {
 
     public void returnBack() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/AnagraphicController.fxml"));
             Stage actual = (Stage) returnBack.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
