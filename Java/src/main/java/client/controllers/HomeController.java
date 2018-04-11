@@ -6,16 +6,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import main.java.LogUtils;
-import main.java.models.Child;
-import main.java.models.Contact;
-import main.java.models.Person;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,7 +23,6 @@ public class HomeController implements Initializable{
     @FXML private BorderPane borderPane;
     @FXML private Button buttonAnagraphic;
     @FXML private ImageView goToLoginImage;
-    @FXML private ComboBox<Person> cbPersonType;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,15 +32,12 @@ public class HomeController implements Initializable{
 
         //goToLogin Image
         goToLoginImage.setOnMouseClicked(event -> goToLogin());
-
-        //Person Type
-
     }
 
     public void goToAnagraphic(){
         try {
-            Pane addPersonPane = FXMLLoader.load(getClass().getResource("/views/AnagraphicController.fxml"));
-            borderPane.setCenter(addPersonPane);
+            Pane anagraphicPane = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
+            borderPane.setCenter(anagraphicPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }

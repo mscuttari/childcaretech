@@ -2,51 +2,45 @@ package main.java.client.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import main.java.LogUtils;
+
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AnagraphicController {
+public class AnagraphicController implements Initializable{
 
-    private Stage actual;
-    @FXML private ImageView home;
-    @FXML private Button showP_b;
-    @FXML private Button addP_b;
+    // Debug
+    private static final String TAG = "AnagraphicController";
 
-    public void showPerson() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
-            actual = (Stage) showP_b.getScene().getWindow();
-            actual.setScene(new Scene(root, 1000, 630));
-            actual.show();
-        } catch (IOException e) {
-            System.out.println("Errore nell'entrare in 'visualizza persone'");
-        }
+    @FXML private Pane anagraphicPane;
+    @FXML private Button buttonAddPerson;
+    @FXML private Button buttonUpdatePerson;
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        // Add person button
+        buttonAddPerson.setOnAction(event -> addPerson());
     }
 
     public void addPerson() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/AddPersonController.fxml"));
-            actual = (Stage) addP_b.getScene().getWindow();
-            actual.setScene(new Scene(root, 1000, 630));
-            actual.show();
+            Pane addPersonPane = FXMLLoader.load(getClass().getResource("/views/addPerson.fxml"));
+            BorderPane homePane = (BorderPane) anagraphicPane.getParent();
+            homePane.setCenter(addPersonPane);
         } catch (IOException e) {
-            System.out.println("Errore nell'entrare in 'aggiungi persone'");
+            LogUtils.e(TAG, e.getMessage());
         }
     }
 
-    public void returnToHome() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/HomeController.fxml"));
-            Stage actual = (Stage) home.getScene().getWindow();
-            actual.setScene(new Scene(root, 1000, 630));
-            actual.show();
-        } catch (IOException e) {
-            System.out.println("Errore nel tornare alla HomeController");
-        }
+    public void updatePerson() {
+
     }
+
 }
