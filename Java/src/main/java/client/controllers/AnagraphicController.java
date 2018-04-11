@@ -27,6 +27,9 @@ public class AnagraphicController implements Initializable{
 
         // Add person button
         buttonAddPerson.setOnAction(event -> addPerson());
+
+        //Update person button
+        buttonUpdatePerson.setOnAction(event -> updatePerson());
     }
 
     public void addPerson() {

@@ -14,8 +14,7 @@ import java.util.ResourceBundle;
 
 public class AddPersonController implements Initializable {
 
-    @FXML
-    private MenuButton personChoice;
+    @FXML private MenuButton personType;
     @FXML private StackPane stackPane;
     @FXML private ImageView children;
     @FXML private ImageView parents;
@@ -33,7 +32,7 @@ public class AddPersonController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        personChoice.setText("Bambino");
+        personType.setText("Bambino");
 
         int size = tabPane.getTabs().size();
         tabPane.getTabs().remove(1, size);
@@ -45,7 +44,7 @@ public class AddPersonController implements Initializable {
             current.setVisible(false);
         }
         children.setVisible(true);
-        personChoice.setText("Bambino");
+        personType.setText("Bambino");
 
         int size = tabPane.getTabs().size();
         tabPane.getTabs().remove(1, size);
@@ -58,7 +57,7 @@ public class AddPersonController implements Initializable {
             current.setVisible(false);
         }
         parents.setVisible(true);
-        personChoice.setText("Genitore");
+        personType.setText("Genitore");
 
         int size = tabPane.getTabs().size();
         tabPane.getTabs().remove(1, size);
@@ -69,7 +68,7 @@ public class AddPersonController implements Initializable {
             current.setVisible(false);
         }
         responsible.setVisible(true);
-        personChoice.setText("Personale");
+        personType.setText("Personale");
 
         int size = tabPane.getTabs().size();
         tabPane.getTabs().remove(1, size);
@@ -82,7 +81,7 @@ public class AddPersonController implements Initializable {
             current.setVisible(false);
         }
         contacts.setVisible(true);
-        personChoice.setText("Contatto");
+        personType.setText("Contatto");
 
         int size = tabPane.getTabs().size();
         tabPane.getTabs().remove(1, size);
@@ -94,7 +93,7 @@ public class AddPersonController implements Initializable {
             current.setVisible(false);
         }
         pediatrist.setVisible(true);
-        personChoice.setText("Pediatra");
+        personType.setText("Pediatra");
 
         int size = tabPane.getTabs().size();
         tabPane.getTabs().remove(1, size);

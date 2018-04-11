@@ -49,7 +49,7 @@
                                           </ImageView>
                                        </children>
                                     </StackPane>
-                                    <MenuButton fx:id="personChoice" mnemonicParsing="false" text="Bambino">
+                                    <MenuButton fx:id="personType" mnemonicParsing="false" text="Bambino">
                                        <items>
                                           <MenuItem mnemonicParsing="false" onAction="#childrenChoice" text="Bambino" />
                                           <MenuItem mnemonicParsing="false" onAction="#parentsChoice" text="Genitore" />
