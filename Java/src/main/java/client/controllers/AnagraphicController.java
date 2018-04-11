@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class anagraphic {
+public class AnagraphicController {
 
     private Stage actual;
     @FXML private ImageView home;
