@@ -95,10 +95,13 @@ public class LoginController implements Initializable {
             // Login successful
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/views/home.fxml"));
+                root.getStylesheets().add(getClass().getResource("/ChildCareTech.css").toExternalForm());
 
                 Stage stage = new Stage();
                 stage.setTitle("Child Care Tech");
                 stage.setScene(new Scene(root, 1000, 630));
+                stage.setMinWidth(1000);
+                stage.setMinHeight(630);
                 stage.show();
 
                 rootPane.getScene().getWindow().hide();

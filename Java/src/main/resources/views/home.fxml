@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity"
-            maxWidth="-Infinity"
+<BorderPane fx:id="borderPane"
+            maxHeight="-Infinity" maxWidth="-Infinity"
             style="-fx-background-color: white;"
             xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="main.java.client.controllers.HomeController"
-            stylesheets="@../ChildCareTech.css">
+            fx:controller="main.java.client.controllers.HomeController">
     <top>
         <HBox alignment="CENTER_RIGHT" minHeight="35.0" spacing="10.0" style="-fx-background-color: aliceblue;" BorderPane.alignment="CENTER">
             <children>
@@ -35,7 +35,7 @@
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="602.0" prefWidth="196.0" style="-fx-background-color: aliceblue;" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="buttonAnagraphic" contentDisplay="RIGHT" mnemonicParsing="false" styleClass="vertical-menu-button" VBox.vgrow="ALWAYS">
+                <Button fx:id="buttonAnagraphic" contentDisplay="RIGHT" mnemonicParsing="false" VBox.vgrow="ALWAYS">
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>

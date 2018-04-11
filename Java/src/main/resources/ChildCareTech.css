@@ -4,12 +4,17 @@
  *                                                                             *
  ******************************************************************************/
 
-.vertical-menu-button {
+
+.border-pane {
+    -fx-background-color : white;
+}
+
+.button {
     -fx-background-color: aliceblue;
     -fx-text-fill: white;
     -fx-border: none;
 }
 
-.vertical-menu-button:hover {
+.button:hover {
     -fx-background-color: lightblue;
 }

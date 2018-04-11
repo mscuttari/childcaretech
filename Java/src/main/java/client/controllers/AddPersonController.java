@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class addPersonController implements Initializable {
+public class AddPersonController implements Initializable {
 
     @FXML
     private MenuButton personChoice;

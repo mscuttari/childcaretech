@@ -30,7 +30,7 @@ public class anagraphic {
 
     public void addPerson() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/addPersonController.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/AddPersonController.fxml"));
             actual = (Stage) addP_b.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();
