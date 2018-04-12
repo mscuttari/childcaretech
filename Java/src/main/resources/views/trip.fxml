@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -7,31 +8,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anagraphicPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AnagraphicController">
-    <children>
+<AnchorPane fx:id="tripPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.TripController">
+   <children>
       <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-              <Label prefHeight="44.0" prefWidth="195.0" text="Anagrafica" textFill="#337ab7">
-                  <font>
-                      <Font name="Comic Sans MS" size="36.0" />
-                  </font>
+            <Label text="Gite" textFill="#45b39c">
                <padding>
                   <Insets bottom="15.0" />
                </padding>
-              </Label>
+               <font>
+                  <Font name="Comic Sans MS" size="36.0" />
+               </font>
+            </Label>
             <HBox alignment="CENTER" layoutX="550.0" layoutY="150.0" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ImageView fitHeight="250.0" fitWidth="250.0">
                      <image>
-                        <Image url="@../images/checklist.png" />
+                        <Image url="@../images/tent.png" />
                      </image>
                   </ImageView>
                   <VBox alignment="CENTER" spacing="15.0">
                      <children>
-                          <Button fx:id="buttonAddPerson" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
-                              <font>
-                                  <Font size="24.0" />
-                              </font>
+                        <Button fx:id="buttonAddTrip" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
                            <textFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>
@@ -45,10 +46,10 @@
                                  <children>
                                     <ImageView fitHeight="40.0" fitWidth="40.0">
                                        <image>
-                                          <Image url="@../images/plus(blue).png" />
+                                          <Image url="@../images/plus(green).png" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Aggiungi persona" textFill="#337ab7">
+                                    <Label text="Aggiungi gita" textFill="#45b39c">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -56,8 +57,8 @@
                                  </children>
                               </HBox>
                            </graphic>
-                          </Button>
-                        <Button fx:id="buttonUpdatePerson" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                        </Button>
+                        <Button fx:id="buttonUpdateTrip" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -66,10 +67,10 @@
                                  <children>
                                     <ImageView fitHeight="40.0" fitWidth="40.0">
                                        <image>
-                                          <Image url="@../images/minus(blue).png" />
+                                          <Image url="@../images/minus(green).png" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Modifica persona" textFill="#337ab7">
+                                    <Label text="Modifica gita" textFill="#45b39c">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -92,5 +93,5 @@
             </HBox>
          </children>
       </VBox>
-    </children>
+   </children>
 </AnchorPane>

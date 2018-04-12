@@ -81,7 +81,7 @@
                         <Insets />
                     </opaqueInsets>
                 </Button>
-                <Button contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="vertical-menu-button">
+                <Button fx:id="buttonTrip" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="vertical-menu-button">
                     <font>
                         <Font size="24.0" />
                     </font>
@@ -90,7 +90,7 @@
                             <children>
                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../images/bus.png" />
+                                        <Image url="@../images/tent.png" />
                                     </image>
                                 </ImageView>
                                 <Label text="Gite" textFill="#337ab7">

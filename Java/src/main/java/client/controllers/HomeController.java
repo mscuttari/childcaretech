@@ -23,6 +23,7 @@ public class HomeController implements Initializable{
     @FXML private BorderPane borderPane;
     @FXML private Button buttonAnagraphic;
     @FXML private Button buttonCanteen;
+    @FXML private Button buttonTrip;
     @FXML private ImageView goToLoginImage;
 
     @Override
@@ -33,6 +34,9 @@ public class HomeController implements Initializable{
 
         //Canteen button
         buttonCanteen.setOnAction(event -> goToCanteen());
+
+        //Trip button
+        buttonTrip.setOnAction(event -> goToTrip());
 
         //goToLogin Image
         goToLoginImage.setOnMouseClicked(event -> goToLogin());
@@ -51,6 +55,16 @@ public class HomeController implements Initializable{
     public void goToCanteen(){
         try {
             Pane canteenPane = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
+            borderPane.setCenter(canteenPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
+
+    }
+
+    public void goToTrip(){
+        try {
+            Pane canteenPane = FXMLLoader.load(getClass().getResource("/views/trip.fxml"));
             borderPane.setCenter(canteenPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
