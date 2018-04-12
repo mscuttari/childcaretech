@@ -22,6 +22,7 @@ public class HomeController implements Initializable{
 
     @FXML private BorderPane borderPane;
     @FXML private Button buttonAnagraphic;
+    @FXML private Button buttonCanteen;
     @FXML private ImageView goToLoginImage;
 
     @Override
@@ -29,6 +30,9 @@ public class HomeController implements Initializable{
 
         // Anagraphic button
         buttonAnagraphic.setOnAction(event -> goToAnagraphic());
+
+        //Canteen button
+        buttonCanteen.setOnAction(event -> goToCanteen());
 
         //goToLogin Image
         goToLoginImage.setOnMouseClicked(event -> goToLogin());
@@ -38,6 +42,16 @@ public class HomeController implements Initializable{
         try {
             Pane anagraphicPane = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
             borderPane.setCenter(anagraphicPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
+
+    }
+
+    public void goToCanteen(){
+        try {
+            Pane canteenPane = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
+            borderPane.setCenter(canteenPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }

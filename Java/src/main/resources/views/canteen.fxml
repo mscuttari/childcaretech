@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anagraphicPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.CanteenController">
+<AnchorPane fx:id="canteenPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.CanteenController">
   <children>
     <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -28,7 +29,7 @@
             </ImageView>
             <VBox alignment="CENTER" spacing="15.0">
               <children>
-                <Button fx:id="buttonAddPerson" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                <Button fx:id="buttonMenu" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                   <font>
                     <Font size="24.0" />
                   </font>
@@ -60,7 +61,7 @@
                     </HBox>
                   </graphic>
                 </Button>
-                <Button fx:id="buttonUpdatePerson" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                <Button fx:id="buttonFood" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                   <font>
                     <Font size="24.0" />
                   </font>
