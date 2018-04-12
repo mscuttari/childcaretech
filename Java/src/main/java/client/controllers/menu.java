@@ -41,7 +41,7 @@ public class menu {
 
     public void returnToCanteen() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/CanteenController.fxml"));
             Stage actual = (Stage) canteen.getScene().getWindow();
             actual.setScene(new Scene(root, 1000, 630));
             actual.show();

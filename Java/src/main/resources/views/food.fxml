@@ -29,7 +29,7 @@
         </ImageView>
         <ImageView fitHeight="400.0" fitWidth="400.0" layoutX="100.0" layoutY="350.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="100.0">
             <image>
-                <Image url="@../images/food.png" />
+                <Image url="@../images/pizza.png" />
             </image>
         </ImageView>
     </children>

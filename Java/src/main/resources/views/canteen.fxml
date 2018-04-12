@@ -1,36 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="gitePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.canteen">
+<AnchorPane fx:id="anagraphicPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.CanteenController">
   <children>
-    <Label layoutX="550.0" layoutY="132.0" prefHeight="44.0" prefWidth="195.0" text="Mensa" AnchorPane.topAnchor="150.0">
-      <font>
-        <Font size="36.0" />
-      </font>
-    </Label>
-    <Button fx:id="menu_b" layoutX="550.0" layoutY="214.0" mnemonicParsing="false" onAction="#menu" prefHeight="60.0" prefWidth="300.0" text="Menù">
-      <font>
-        <Font size="24.0" />
-      </font>
-    </Button>
-    <Button fx:id="food_b" layoutX="550.0" layoutY="297.0" mnemonicParsing="false" onAction="#food" prefHeight="60.0" prefWidth="300.0" text="Pientanze">
-      <font>
-        <Font size="24.0" />
-      </font>
-    </Button>
-    <ImageView fx:id="home" fitHeight="80.0" fitWidth="80.0" layoutX="535.0" layoutY="335.0" onMouseClicked="#returnToHome" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-      <image>
-        <Image url="@../images/home.png" />
-      </image>
-    </ImageView>
-    <ImageView fitHeight="300.0" fitWidth="300.0" layoutX="100.0" layoutY="350.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="150.0">
-      <image>
-        <Image url="@../images/canteen.png" />
-      </image>
-    </ImageView>
+    <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+            <Label text="Mensa" textFill="#fd8469">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Comic Sans MS" size="36.0" />
+               </font>
+            </Label>
+        <HBox alignment="CENTER" layoutX="550.0" layoutY="150.0" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <children>
+            <ImageView fitHeight="250.0" fitWidth="250.0">
+              <image>
+                <Image url="@../images/chef.png" />
+              </image>
+            </ImageView>
+            <VBox alignment="CENTER" spacing="15.0">
+              <children>
+                <Button fx:id="buttonAddPerson" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                  <font>
+                    <Font size="24.0" />
+                  </font>
+                  <textFill>
+                    <LinearGradient endX="1.0" endY="1.0">
+                      <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="WHITE" offset="1.0" />
+                      </stops>
+                    </LinearGradient>
+                  </textFill>
+                  <graphic>
+                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                      <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0">
+                          <image>
+                            <Image url="@../images/menu.png" />
+                          </image>
+                        </ImageView>
+                        <Label text="Menù" textFill="#fd8469">
+                          <font>
+                            <Font size="18.0" />
+                          </font>
+                                       <padding>
+                                          <Insets right="26.0" />
+                                       </padding>
+                        </Label>
+                      </children>
+                    </HBox>
+                  </graphic>
+                </Button>
+                <Button fx:id="buttonUpdatePerson" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                  <font>
+                    <Font size="24.0" />
+                  </font>
+                  <graphic>
+                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                      <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0">
+                          <image>
+                            <Image url="@../images/pizza.png" />
+                          </image>
+                        </ImageView>
+                        <Label text="Pietanze" textFill="#fd8469">
+                          <font>
+                            <Font size="18.0" />
+                          </font>
+                        </Label>
+                      </children>
+                    </HBox>
+                  </graphic>
+                  <textFill>
+                    <LinearGradient endX="1.0" endY="1.0">
+                      <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="WHITE" offset="1.0" />
+                      </stops>
+                    </LinearGradient>
+                  </textFill>
+                </Button>
+              </children>
+            </VBox>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
   </children>
 </AnchorPane>
