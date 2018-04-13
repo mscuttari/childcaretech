@@ -38,6 +38,14 @@ public class HomeController implements Initializable{
         //Trip button
         buttonTrip.setOnAction(event -> goToTrip());
 
+        //Set initial panel
+        try {
+            Pane anagraphicPane = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
+            borderPane.setCenter(anagraphicPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
+
         //goToLogin Image
         goToLoginImage.setOnMouseClicked(event -> goToLogin());
     }
