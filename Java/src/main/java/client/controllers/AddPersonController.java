@@ -1,26 +1,34 @@
 package main.java.client.controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import main.java.models.PersonType;
+import main.java.client.ParentTable;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddPersonController implements Initializable {
 
-    @FXML private ComboBox<PersonType> cbPersonType;
-    @FXML private ImageView imagePersonType;
+    @FXML private MenuButton personType;
+    @FXML private Pane parentsPane;
+
+    @FXML private StackPane stackPane;
+    @FXML private ImageView children;
+    @FXML private ImageView parents;
+    @FXML private ImageView responsible;
+    @FXML private ImageView contacts;
+    @FXML private ImageView pediatrist;
+
     @FXML private Tab tabParents;
     @FXML private Tab tabPediatrist;
     @FXML private Tab tabAllergies;
@@ -29,42 +37,114 @@ public class AddPersonController implements Initializable {
     @FXML private Tab tabLoginData;
     @FXML private TabPane tabPane;
 
+    //@FXML private VBox parentsBox;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Person type
-        cbPersonType.getItems().addAll(PersonType.values());
 
-        cbPersonType.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (oldValue == newValue) return;
-            tabPane.getTabs().remove(1, tabPane.getTabs().size());
+        tabPane.getTabs().remove(tabLoginData);
 
-            switch (newValue) {
-                case CHILD:
-                    imagePersonType.setImage(new Image("/images/baby.png"));
-                    tabPane.getTabs().addAll(tabParents, tabPediatrist, tabAllergies, tabIntollerances, tabContacts);
-                    break;
+        /*
+        // Connection
+        ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-                case CONTACT:
-                    imagePersonType.setImage(new Image("/images/grandparents.png"));
-                    break;
+        //Parents tab
+        List<Parent> parents = connectionManager.getClient().getParents();
+        for(Parent current : parents){
+            CheckBox checkBox = new CheckBox(current.toString());
+            parentsBox.getChildren().add(checkBox);
+        }
+        */
 
-                case PARENT:
-                    imagePersonType.setImage(new Image("/images/family.png"));
-                    break;
+        ObservableList<ParentTable> parents = FXCollections.observableArrayList();
 
-                case PEDIATRIST:
-                    imagePersonType.setImage(new Image("/images/doctor.png"));
-                    tabPane.getTabs().addAll(tabAllergies, tabIntollerances);
-                    break;
+        parents.add( new ParentTable( "Mario", "Rossi", false));
+        parents.add( new ParentTable( "Maria", "Neri", false));
+        parents.add( new ParentTable( "Luca", "Grigi", false));
+        for (int i = 0; i < 100; i++) parents.add(new ParentTable("nome"+(i+3), "Cognome"+(i+3), false));
 
-                case STAFF:
-                    imagePersonType.setImage(new Image("/images/secretary.png"));
-                    tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabContacts, tabLoginData);
-                    break;
-            }
-        });
+        TableView<ParentTable> table = new TableView<ParentTable>();
+        table.setEditable(true);
 
-        cbPersonType.getSelectionModel().selectFirst();
+
+        TableColumn<ParentTable,Boolean> c1 = new TableColumn<ParentTable,Boolean>("Genitore");
+        c1.setCellValueFactory(new PropertyValueFactory<ParentTable,Boolean>("check"));
+        c1.setCellFactory(column -> new CheckBoxTableCell());
+        table.getColumns().add(c1);
+
+        TableColumn<ParentTable,String> c2 = new TableColumn<ParentTable,String>("Nome");
+        c2.setCellValueFactory(new PropertyValueFactory<ParentTable,String>("name"));
+        table.getColumns().add(c2);
+
+        TableColumn<ParentTable,String> c3 = new TableColumn<ParentTable,String>("Cognome");
+        c3.setCellValueFactory(new PropertyValueFactory<ParentTable,String>("surname"));
+        table.getColumns().add(c3);
+
+        table.setItems(parents);
+
+        parentsPane.getChildren().addAll(table);
+        table.prefWidthProperty().bind(parentsPane.widthProperty());
+        table.prefHeightProperty().bind(parentsPane.heightProperty());
     }
 
+    public void childrenChoice() {
+        for (Node current : stackPane.getChildren()) {
+            current.setVisible(false);
+        }
+        children.setVisible(true);
+        personType.setText("Bambino");
+
+        int size = tabPane.getTabs().size();
+        tabPane.getTabs().remove(1, size);
+        tabPane.getTabs().addAll(tabParents, tabPediatrist, tabAllergies, tabIntollerances, tabContacts);
+    }
+
+    public void parentsChoice(){
+        for (Node current : stackPane.getChildren()) {
+            current.setVisible(false);
+        }
+        parents.setVisible(true);
+        personType.setText("Genitore");
+
+        int size = tabPane.getTabs().size();
+        tabPane.getTabs().remove(1, size);
+    }
+
+    public void responsibleChoice(){
+        for (Node current : stackPane.getChildren()) {
+            current.setVisible(false);
+        }
+        responsible.setVisible(true);
+        personType.setText("Personale");
+
+        int size = tabPane.getTabs().size();
+        tabPane.getTabs().remove(1, size);
+        tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabContacts, tabLoginData);
+
+    }
+
+    public void contactsChoice(){
+        for (Node current : stackPane.getChildren()) {
+            current.setVisible(false);
+        }
+        contacts.setVisible(true);
+        personType.setText("Contatto");
+
+        int size = tabPane.getTabs().size();
+        tabPane.getTabs().remove(1, size);
+
+    }
+
+    public void pediatristChoice(){
+        for (Node current : stackPane.getChildren()) {
+            current.setVisible(false);
+        }
+        pediatrist.setVisible(true);
+        personType.setText("Pediatra");
+
+        int size = tabPane.getTabs().size();
+        tabPane.getTabs().remove(1, size);
+        tabPane.getTabs().addAll(tabAllergies, tabIntollerances);
+
+    }
 }
