@@ -9,12 +9,13 @@
     -fx-background-color : white;
 }
 
-.button {
+.vertical-menu-button {
     -fx-background-color: aliceblue;
     -fx-text-fill: white;
+    -fx-background-radius: 0%;
     -fx-border: none;
 }
 
-.button:hover {
+.vertial-menu-button:hover {
     -fx-background-color: lightblue;
 }
