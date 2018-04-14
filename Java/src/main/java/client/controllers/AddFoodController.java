@@ -39,7 +39,7 @@ public class AddFoodController implements Initializable{
         // Add ingredient button
         buttonAddIngredient.setOnAction(event -> addIngredient());
 
-        // Submit form on enter key press
+        // Add Ingredient on enter key press
         EventHandler<KeyEvent> keyPressEvent = event -> {
             if (event.getCode() == KeyCode.ENTER)
                 addIngredient();
@@ -63,6 +63,7 @@ public class AddFoodController implements Initializable{
             taIngredients.appendText(i+") "+tfAddIngredient.getText().trim()+"\n");
             tfAddIngredient.setText("");
             tfAddIngredient.setPromptText("Inserisci un nuovo ingrediente (#" + (i+1) + ")");
+            labelError.setText("");
         }
 
     }
@@ -71,7 +72,7 @@ public class AddFoodController implements Initializable{
     public void removeIngredient() {
 
         if(!taIngredients.getText().isEmpty()) {
-            int start = taIngredients.getText().lastIndexOf(i + 48);
+            int start = taIngredients.getText().lastIndexOf(String.valueOf(i));
             int end = taIngredients.getText().length();
             taIngredients.replaceText(start, end, "");
             i--;
