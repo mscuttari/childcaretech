@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<BorderPane fx:id="borderPane" stylesheets="@../bootstrap3.css" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.HomeController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: white;" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.HomeController">
     <top>
         <HBox alignment="CENTER_RIGHT" minHeight="35.0" spacing="10.0" style="-fx-background-color: aliceblue;" BorderPane.alignment="CENTER">
             <children>
@@ -29,7 +29,7 @@
         </HBox>
     </top>
     <left>
-        <VBox stylesheets="@../ChildCareTech.css" alignment="TOP_CENTER" prefHeight="602.0" prefWidth="196.0" style="-fx-background-color: aliceblue;" BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_CENTER" prefHeight="602.0" prefWidth="196.0" style="-fx-background-color: aliceblue;" stylesheets="@../ChildCareTech.css" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="buttonAnagraphic" contentDisplay="RIGHT" mnemonicParsing="false" VBox.vgrow="ALWAYS">
                     <VBox.margin>

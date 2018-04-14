@@ -8,7 +8,6 @@
     -fx-background-color: aliceblue;
     -fx-background-radius: 0%;
     -fx-text-fill: white;
-    -fx-background-radius: 0%;
     -fx-border: none;
     -fx-border-color: transparent;
 }
@@ -20,8 +19,7 @@
     -fx-effect: none;
 }
 
-.button:focused, .button:pressed, .button:selected {
-    -fx-background-color: lightblue;
+.button:focused, .button:pressed, .button:selected{
     -fx-border: none;
     -fx-border-color: transparent;
     -fx-effect: none;
