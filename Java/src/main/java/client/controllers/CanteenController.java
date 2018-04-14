@@ -33,7 +33,13 @@ public class CanteenController implements Initializable{
     }
 
     public void menu() {
-
+        try {
+            Pane menuPane = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
+            BorderPane homePane = (BorderPane) canteenPane.getParent();
+            homePane.setCenter(menuPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
     public void food() {
