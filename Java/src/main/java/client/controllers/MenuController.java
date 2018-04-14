@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class menu {
+public class MenuController {
 
     private Stage actual;
     @FXML private ImageView canteen;
