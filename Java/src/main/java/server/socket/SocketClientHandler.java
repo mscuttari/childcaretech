@@ -278,7 +278,6 @@ public class SocketClientHandler implements Runnable {
                 out.flush();
             } else {
                 List<M> result = HibernateUtils.getInstance().getAll(modelClass);
-                LogUtils.e(TAG, "Lista result: " + result);
                 out.writeObject(result);
                 out.flush();
             }

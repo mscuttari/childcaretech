@@ -16,8 +16,8 @@ public abstract class Person extends BaseModel {
 
     protected Long id;
     protected String fiscalCode;
-    protected String name;
-    protected String surname;
+    protected String firstName;
+    protected String lastName;
     protected Date birthdate;
     protected String address;
     protected String telephone;
@@ -58,21 +58,21 @@ public abstract class Person extends BaseModel {
     }
 
     @Column(name = "name", nullable = false)
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     @Column(name = "surname", nullable = false)
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Temporal(TemporalType.DATE)
