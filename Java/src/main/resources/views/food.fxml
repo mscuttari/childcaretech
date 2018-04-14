@@ -12,7 +12,7 @@
     <children>
         <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label text="Pietanze" textFill="#ffd54f">
+                <Label text="Pietanze" textFill="ORANGE">
                     <padding>
                         <Insets bottom="15.0" />
                     </padding>
@@ -46,10 +46,10 @@
                                             <children>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0">
                                                     <image>
-                                                        <Image url="@../images/plus(yellow).png" />
+                                                        <Image url="@../images/plus(orange).png" />
                                                     </image>
                                                 </ImageView>
-                                                <Label text="Aggiungi pietanza" textFill="#ffd54f">
+                                                <Label text="Aggiungi pietanza" textFill="ORANGE">
                                                     <font>
                                                         <Font size="18.0" />
                                                     </font>
@@ -67,10 +67,10 @@
                                             <children>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0">
                                                     <image>
-                                                        <Image url="@../images/minus(yellow).png" />
+                                                        <Image url="@../images/minus(orange).png" />
                                                     </image>
                                                 </ImageView>
-                                                <Label text="Modifica pietanza" textFill="#ffd54f">
+                                                <Label text="Modifica pietanza" textFill="ORANGE">
                                                     <font>
                                                         <Font size="18.0" />
                                                     </font>
