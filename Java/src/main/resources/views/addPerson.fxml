@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane
-        xmlns="http://javafx.com/javafx/8"
-        xmlns:fx="http://javafx.com/fxml/1"
-        stylesheets="@../bootstrap3.css"
-        fx:controller="main.java.client.controllers.AddPersonController">
+<AnchorPane stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddPersonController">
     <children>
         <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
@@ -66,7 +69,18 @@
                     </content>
                 </Tab>
 
-                <Tab fx:id="tabParents" text="Genitori" />
+                <Tab fx:id="tabParents" text="Genitori">
+                    <content>
+                        <TableView fx:id="tableParents">
+                            <columns>
+                                <TableColumn fx:id="columnParentsSelected" style="-fx-alignment: center" />
+                                <TableColumn fx:id="columnParentsFirstName" text="Nome" style="-fx-alignment: center" />
+                                <TableColumn fx:id="columnParentsLastName" text="Cognome" style="-fx-alignment: center" />
+                                <TableColumn fx:id="columnParentsFiscalCode" text="Codice fiscale" style="-fx-alignment: center" />
+                            </columns>
+                        </TableView>
+                    </content>
+                </Tab>
 
                 <Tab fx:id="tabPediatrist" text="Pediatra">
                     <content>
