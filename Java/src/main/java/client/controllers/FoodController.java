@@ -21,18 +21,18 @@ public class FoodController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Add trip button
-        buttonAddFood.setOnAction(event -> addTrip());
+        // Add food button
+        buttonAddFood.setOnAction(event -> addFood());
 
-        //Update trip button
-        buttonUpdateFood.setOnAction(event -> updateTrip());
+        //Update food button
+        buttonUpdateFood.setOnAction(event -> updateFood());
     }
 
-    public void addTrip() {
+    public void addFood() {
 
     }
 
-    public void updateTrip() {
+    public void updateFood() {
 
     }
 

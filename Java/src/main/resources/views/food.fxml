@@ -1,36 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="gitePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.FoodController">
+<AnchorPane fx:id="foodPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.FoodController">
     <children>
-        <Label layoutX="550.0" layoutY="132.0" prefHeight="44.0" prefWidth="195.0" text="Pietanze" AnchorPane.topAnchor="150.0">
-            <font>
-                <Font size="36.0" />
-            </font>
-        </Label>
-        <Button fx:id="showF_b" layoutX="550.0" layoutY="214.0" mnemonicParsing="false" onAction="#showFood" prefHeight="60.0" prefWidth="300.0" text="Visualizza pietanze">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Button>
-        <Button fx:id="addF_b" layoutX="550.0" layoutY="297.0" mnemonicParsing="false" onAction="#addFood" prefHeight="60.0" prefWidth="300.0" text="Aggiungi pietanza">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Button>
-        <ImageView fx:id="canteen" fitHeight="80.0" fitWidth="80.0" layoutX="535.0" layoutY="335.0" onMouseClicked="#returnToCanteen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-            <image>
-                <Image url="@../images/canteen.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="400.0" fitWidth="400.0" layoutX="100.0" layoutY="350.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="100.0">
-            <image>
-                <Image url="@../images/pizza.png" />
-            </image>
-        </ImageView>
+        <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label text="Pietanze" textFill="#ffd54f">
+                    <padding>
+                        <Insets bottom="15.0" />
+                    </padding>
+                    <font>
+                        <Font name="Comic Sans MS" size="36.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER" layoutX="550.0" layoutY="150.0" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <ImageView fitHeight="250.0" fitWidth="250.0">
+                            <image>
+                                <Image url="@../images/pizza.png" />
+                            </image>
+                        </ImageView>
+                        <VBox alignment="CENTER" spacing="15.0">
+                            <children>
+                                <Button fx:id="buttonAddFood" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                    <textFill>
+                                        <LinearGradient endX="1.0" endY="1.0">
+                                            <stops>
+                                                <Stop color="BLACK" />
+                                                <Stop color="WHITE" offset="1.0" />
+                                            </stops>
+                                        </LinearGradient>
+                                    </textFill>
+                                    <graphic>
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                                            <children>
+                                                <ImageView fitHeight="40.0" fitWidth="40.0">
+                                                    <image>
+                                                        <Image url="@../images/plus(yellow).png" />
+                                                    </image>
+                                                </ImageView>
+                                                <Label text="Aggiungi pietanza" textFill="#ffd54f">
+                                                    <font>
+                                                        <Font size="18.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                    </graphic>
+                                </Button>
+                                <Button fx:id="buttonUpdateFood" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                    <graphic>
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                                            <children>
+                                                <ImageView fitHeight="40.0" fitWidth="40.0">
+                                                    <image>
+                                                        <Image url="@../images/minus(yellow).png" />
+                                                    </image>
+                                                </ImageView>
+                                                <Label text="Modifica pietanza" textFill="#ffd54f">
+                                                    <font>
+                                                        <Font size="18.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                    </graphic>
+                                    <textFill>
+                                        <LinearGradient endX="1.0" endY="1.0">
+                                            <stops>
+                                                <Stop color="BLACK" />
+                                                <Stop color="WHITE" offset="1.0" />
+                                            </stops>
+                                        </LinearGradient>
+                                    </textFill>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
     </children>
 </AnchorPane>
