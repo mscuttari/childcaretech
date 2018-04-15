@@ -54,15 +54,14 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <Button fx:id="buttonRemoveIngredient" mnemonicParsing="false" text="Rimuovi l'ultimo ingrediente">
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin></Button>
-                  <Label fx:id="labelError" textFill="RED">
+                  <Button fx:id="buttonAddFood" mnemonicParsing="false" prefHeight="40.0" prefWidth="141.0" style="-fx-border-color: lightgreen;" text="Aggiungi pietanza">
                      <font>
-                        <Font size="16.0" />
+                        <Font size="18.0" />
                      </font>
-                  </Label>
+                     <VBox.margin>
+                        <Insets top="60.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -74,22 +73,31 @@
                      <font>
                         <Font size="24.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets top="-10.0" />
+                     </VBox.margin>
                   </Label>
-                  <TextArea fx:id="taIngredients" prefHeight="410.0" prefWidth="399.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font></TextArea>
+                  <ListView fx:id="lwIngredients" prefHeight="410.0" prefWidth="400.0" />
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <Button fx:id="buttonDeleteSelected" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                        <Label fx:id="labelError" textFill="RED" underline="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
                   <HBox alignment="CENTER_RIGHT">
                      <children>
-                        <Button fx:id="buttonAddFood" mnemonicParsing="false" prefHeight="40.0" prefWidth="141.0" style="-fx-border-color: lightgreen;" text="Aggiungi pietanza">
-                           <HBox.margin>
-                              <Insets right="150.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Button>
-                        <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0">
+                        <ImageView fx:id="goBackImage" fitHeight="50.0" fitWidth="50.0">
                            <image>
                               <Image url="@../images/back.png" />
                            </image>
@@ -100,13 +108,10 @@
                               <Rectangle2D />
                            </viewport>
                            <HBox.margin>
-                              <Insets right="20.0" top="10.0" />
+                              <Insets right="10.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
                   </HBox>
                </children>
                <HBox.margin>

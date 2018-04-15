@@ -4,10 +4,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,16 +24,18 @@ public class AddFoodController implements Initializable{
     private static final String TAG = "AddFoodController";
 
     @FXML private Pane addFoodPane;
-    @FXML private TextArea taIngredients;
+    @FXML private ListView<String> lwIngredients;
     @FXML private TextField tfAddIngredient;
     @FXML private Button buttonAddIngredient;
-    @FXML private Button buttonRemoveIngredient;
-    @FXML private Label labelError;
+    @FXML private Button buttonDeleteSelected;
+    @FXML private Button buttonAddFood; // "aggiungerà" i dati al database
     @FXML private ImageView goBackImage;
-    @FXML private Button buttonAddFood;
-    @FXML private List<String> ingredientsInFood = new ArrayList<String>(); // food_composition table in database
+    @FXML private Label labelError;
 
-    private int i; //number of ingredients
+    private List<String> ingredientsInFood = new ArrayList<String>(); // food_composition table in database
+
+
+    private int i=0; //number of ingredients
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,10 +52,7 @@ public class AddFoodController implements Initializable{
         tfAddIngredient.setOnKeyPressed(keyPressEvent);
 
         // Remove ingredient button
-        buttonRemoveIngredient.setOnAction(event -> removeIngredient());
-
-        //Add food button
-        buttonAddFood.setOnAction(event -> printIngredients());
+        buttonDeleteSelected.setOnAction(event -> removeSelectedIngredients());
 
         // Add ingredient text field initial prompt text
         tfAddIngredient.setPromptText(("Inserisci nuovo alimento"));
@@ -64,16 +60,16 @@ public class AddFoodController implements Initializable{
         // Go back image
         goBackImage.setOnMouseClicked(event -> goBack());
 
-        //Number of ingredients
-        i=0;
+        // Set multiple selection model
+        lwIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void addIngredient() {
         if(!tfAddIngredient.getText().isEmpty()){
             i++;
             String current = tfAddIngredient.getText().trim();
-            taIngredients.appendText(i+") "+current+"\n");
-            ingredientsInFood.add(current.trim());
+            lwIngredients.getItems().add(current);
+            ingredientsInFood.add(current);
             tfAddIngredient.setText("");
             tfAddIngredient.setPromptText("Inserisci un nuovo ingrediente (#" + (i+1) + ")");
             labelError.setText("");
@@ -82,29 +78,25 @@ public class AddFoodController implements Initializable{
     }
 
 
-    public void removeIngredient() {
+    public void removeSelectedIngredients() {
 
-        if(!taIngredients.getText().isEmpty()) {
-            int start = taIngredients.getText().lastIndexOf(String.valueOf(i));
-            int end = taIngredients.getText().length();
-            taIngredients.replaceText(start, end, "");
-            ingredientsInFood.remove(i-1);
-            i--;
+        if(!lwIngredients.getSelectionModel().isEmpty()) {
+            for(String current : lwIngredients.getSelectionModel().getSelectedItems()){
+                lwIngredients.getItems().remove(current);
+                ingredientsInFood.remove(current);
+                i--;
+            }
+            lwIngredients.getSelectionModel().clearSelection();
             tfAddIngredient.setPromptText("Inserisci nuovo ingrediente (#" + (i + 1) + ")");
+            labelError.setText("");
+        }
+        else if(lwIngredients.getItems().isEmpty()){
+            labelError.setText("Non ci sono ingredienti nella lista");
         }
         else{
-            // delete ingredient error
-            labelError.setText("Non ci sono ingredienti da rimuovere");
+            labelError.setText("Non ci sono ingredienti selezionati");
         }
 
-    }
-
-    //test (verrà sostituito con il metodo che 'scrive' i dati sul database)
-    public void printIngredients(){
-        taIngredients.clear();
-        for(String current : ingredientsInFood){
-            taIngredients.appendText(current+"\n");
-        }
     }
 
     public void goBack() {
