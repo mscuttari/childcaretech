@@ -27,7 +27,7 @@ public class AddFoodController implements Initializable{
     @FXML private ListView<String> lwIngredients;
     @FXML private TextField tfAddIngredient;
     @FXML private Button buttonAddIngredient;
-    @FXML private Button buttonDeleteSelected;
+    @FXML private Button buttonRemoveSelected;
     @FXML private Button buttonAddFood; // "aggiungerà" i dati al database
     @FXML private ImageView goBackImage;
     @FXML private Label labelError;
@@ -52,7 +52,7 @@ public class AddFoodController implements Initializable{
         tfAddIngredient.setOnKeyPressed(keyPressEvent);
 
         // Remove ingredient button
-        buttonDeleteSelected.setOnAction(event -> removeSelectedIngredients());
+        buttonRemoveSelected.setOnAction(event -> removeSelectedIngredients());
 
         // Add ingredient text field initial prompt text
         tfAddIngredient.setPromptText(("Inserisci nuovo alimento"));
@@ -81,13 +81,11 @@ public class AddFoodController implements Initializable{
     public void removeSelectedIngredients() {
 
         if(!lwIngredients.getSelectionModel().isEmpty()) {
-            for(String current : lwIngredients.getSelectionModel().getSelectedItems()){
-                lwIngredients.getItems().remove(current);
-                ingredientsInFood.remove(current);
-                i--;
-            }
+            i = i-(lwIngredients.getSelectionModel().getSelectedItems().size()-1)-1;
+            lwIngredients.getItems().removeAll(lwIngredients.getSelectionModel().getSelectedItems());
+            ingredientsInFood.removeAll(lwIngredients.getSelectionModel().getSelectedItems());
             lwIngredients.getSelectionModel().clearSelection();
-            tfAddIngredient.setPromptText("Inserisci nuovo ingrediente (#" + (i + 1) + ")");
+            tfAddIngredient.setPromptText("Inserisci nuovo ingrediente (#" + (i+1) + ")");
             labelError.setText("");
         }
         else if(lwIngredients.getItems().isEmpty()){
