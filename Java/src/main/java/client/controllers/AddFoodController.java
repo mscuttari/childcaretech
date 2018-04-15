@@ -17,6 +17,8 @@ import main.java.LogUtils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddFoodController implements Initializable{
@@ -31,6 +33,8 @@ public class AddFoodController implements Initializable{
     @FXML private Button buttonRemoveIngredient;
     @FXML private Label labelError;
     @FXML private ImageView goBackImage;
+    @FXML private Button buttonAddFood;
+    @FXML private List<String> ingredientsInFood = new ArrayList<String>(); // food_composition table in database
 
     private int i; //number of ingredients
 
@@ -51,6 +55,9 @@ public class AddFoodController implements Initializable{
         // Remove ingredient button
         buttonRemoveIngredient.setOnAction(event -> removeIngredient());
 
+        //Add food button
+        buttonAddFood.setOnAction(event -> printIngredients());
+
         // Add ingredient text field initial prompt text
         tfAddIngredient.setPromptText(("Inserisci nuovo alimento"));
 
@@ -64,7 +71,9 @@ public class AddFoodController implements Initializable{
     public void addIngredient() {
         if(!tfAddIngredient.getText().isEmpty()){
             i++;
-            taIngredients.appendText(i+") "+tfAddIngredient.getText().trim()+"\n");
+            String current = tfAddIngredient.getText().trim();
+            taIngredients.appendText(i+") "+current+"\n");
+            ingredientsInFood.add(current.trim());
             tfAddIngredient.setText("");
             tfAddIngredient.setPromptText("Inserisci un nuovo ingrediente (#" + (i+1) + ")");
             labelError.setText("");
@@ -79,6 +88,7 @@ public class AddFoodController implements Initializable{
             int start = taIngredients.getText().lastIndexOf(String.valueOf(i));
             int end = taIngredients.getText().length();
             taIngredients.replaceText(start, end, "");
+            ingredientsInFood.remove(i-1);
             i--;
             tfAddIngredient.setPromptText("Inserisci nuovo ingrediente (#" + (i + 1) + ")");
         }
@@ -87,6 +97,14 @@ public class AddFoodController implements Initializable{
             labelError.setText("Non ci sono ingredienti da rimuovere");
         }
 
+    }
+
+    //test (verrà sostituito con il metodo che 'scrive' i dati sul database)
+    public void printIngredients(){
+        taIngredients.clear();
+        for(String current : ingredientsInFood){
+            taIngredients.appendText(current+"\n");
+        }
     }
 
     public void goBack() {

@@ -81,7 +81,7 @@
                      </font></TextArea>
                   <HBox alignment="CENTER_RIGHT">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="141.0" style="-fx-border-color: lightgreen;" text="Aggiungi pietanza">
+                        <Button fx:id="buttonAddFood" mnemonicParsing="false" prefHeight="40.0" prefWidth="141.0" style="-fx-border-color: lightgreen;" text="Aggiungi pietanza">
                            <HBox.margin>
                               <Insets right="150.0" />
                            </HBox.margin>
@@ -100,7 +100,7 @@
                               <Rectangle2D />
                            </viewport>
                            <HBox.margin>
-                              <Insets right="20.0" top="20.0" />
+                              <Insets right="20.0" top="10.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
