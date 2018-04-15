@@ -8,11 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import main.java.LogUtils;
 
 import java.io.IOException;
@@ -30,6 +30,7 @@ public class AddFoodController implements Initializable{
     @FXML private Button buttonAddIngredient;
     @FXML private Button buttonRemoveIngredient;
     @FXML private Label labelError;
+    @FXML private ImageView goBackImage;
 
     private int i; //number of ingredients
 
@@ -52,6 +53,9 @@ public class AddFoodController implements Initializable{
 
         // Add ingredient text field initial prompt text
         tfAddIngredient.setPromptText(("Inserisci nuovo alimento"));
+
+        // Go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
 
         //Number of ingredients
         i=0;
@@ -83,6 +87,16 @@ public class AddFoodController implements Initializable{
             labelError.setText("Non ci sono ingredienti da rimuovere");
         }
 
+    }
+
+    public void goBack() {
+        try {
+            Pane foodPane = FXMLLoader.load(getClass().getResource("/views/food.fxml"));
+            BorderPane homePane = (BorderPane) addFoodPane.getParent();
+            homePane.setCenter(foodPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 }
