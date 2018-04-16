@@ -11,11 +11,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.LogUtils;
+import main.java.models.Ingredient;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddFoodController implements Initializable{
@@ -24,15 +23,13 @@ public class AddFoodController implements Initializable{
     private static final String TAG = "AddFoodController";
 
     @FXML private Pane addFoodPane;
-    @FXML private ListView<String> lwIngredients;
+    @FXML private ListView<Ingredient> lwIngredients;
     @FXML private TextField tfAddIngredient;
     @FXML private Button buttonAddIngredient;
     @FXML private Button buttonRemoveSelected;
     @FXML private Button buttonAddFood; // "aggiungerà" i dati al database
     @FXML private ImageView goBackImage;
     @FXML private Label labelError;
-
-    private List<String> ingredientsInFood = new ArrayList<String>(); // food_composition table in database
 
 
     private int i=0; //number of ingredients
@@ -67,11 +64,12 @@ public class AddFoodController implements Initializable{
     public void addIngredient() {
         if(!tfAddIngredient.getText().isEmpty()){
             i++;
-            String current = tfAddIngredient.getText().trim();
-            lwIngredients.getItems().add(current);
-            ingredientsInFood.add(current);
+            String ingredientName = tfAddIngredient.getText().trim().toLowerCase();
+            Ingredient ingredient = new Ingredient();
+            ingredient.setName(ingredientName);
+            lwIngredients.getItems().add(ingredient);
             tfAddIngredient.setText("");
-            tfAddIngredient.setPromptText("Inserisci un nuovo ingrediente (#" + (i+1) + ")");
+            tfAddIngredient.setPromptText("Inserisci un nuovo ingrediente (#" + (i + 1) + ")");
             labelError.setText("");
         }
 
@@ -83,9 +81,8 @@ public class AddFoodController implements Initializable{
         if(!lwIngredients.getSelectionModel().isEmpty()) {
             i = i-(lwIngredients.getSelectionModel().getSelectedItems().size()-1)-1;
             lwIngredients.getItems().removeAll(lwIngredients.getSelectionModel().getSelectedItems());
-            ingredientsInFood.removeAll(lwIngredients.getSelectionModel().getSelectedItems());
             lwIngredients.getSelectionModel().clearSelection();
-            tfAddIngredient.setPromptText("Inserisci nuovo ingrediente (#" + (i+1) + ")");
+            tfAddIngredient.setPromptText("Inserisci nuovo ingrediente (#" + (i + 1) + ")");
             labelError.setText("");
         }
         else if(lwIngredients.getItems().isEmpty()){

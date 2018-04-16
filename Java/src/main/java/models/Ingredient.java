@@ -65,4 +65,9 @@ public class Ingredient extends BaseModel {
         this.intollerantPeople = intollerantPeople;
     }
 
+    @Override
+    public String toString(){
+        return name;
+    }
+
 }
