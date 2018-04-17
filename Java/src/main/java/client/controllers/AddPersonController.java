@@ -56,8 +56,13 @@ public class AddPersonController implements Initializable {
     @FXML private Button buttonRemoveSelectedAllergies;
     @FXML private Label labelErrorAllergies;
 
-
     @FXML private Tab tabIntollerances;
+    @FXML private TextField tfAddIntollerances;
+    @FXML private ListView<Ingredient> lwIntollerances;
+    @FXML private Button buttonAddIntollerances;
+    @FXML private Button buttonRemoveSelectedIntollerances;
+    @FXML private Label labelErrorIntollerances;
+
     @FXML private Tab tabLoginData;
     @FXML private TabPane tabPane;
 
@@ -154,6 +159,7 @@ public class AddPersonController implements Initializable {
 
         tableContacts.setItems(contactsData);
 
+
         // Allergies tab
 
         // Add allergies button
@@ -172,6 +178,26 @@ public class AddPersonController implements Initializable {
 
         // Set multiple selection model
         lwAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+
+        // Intollerances tab
+
+        // Add intollerances button
+        buttonAddIntollerances.setOnAction(event -> addIntollerances());
+
+        // Add intollerances on enter key press
+        EventHandler<KeyEvent> keyPressEventInAddIntollerancesTextField = event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                addIntollerances();
+        };
+
+        tfAddIntollerances.setOnKeyPressed(keyPressEventInAddIntollerancesTextField);
+
+        // Remove intollerances button
+        buttonRemoveSelectedIntollerances.setOnAction(event -> removeSelectedIntollerances());
+
+        // Set multiple selection model
+        lwIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 
         // Avvia il programma, seleziona le voci, aspetta 5 secondi e leggi il log
@@ -211,6 +237,35 @@ public class AddPersonController implements Initializable {
         }
         else{
             labelErrorAllergies.setText("Non ci sono allergie selezionate");
+        }
+
+    }
+
+    public void addIntollerances() {
+        if(!tfAddIntollerances.getText().isEmpty()){
+            String intolleranceName = tfAddIntollerances.getText().trim().toLowerCase();
+            Ingredient ingredient = new Ingredient();
+            ingredient.setName(intolleranceName);
+            lwIntollerances.getItems().add(ingredient);
+            tfAddIntollerances.setText("");
+            labelErrorIntollerances.setText("");
+        }
+
+    }
+
+
+    public void removeSelectedIntollerances() {
+
+        if(!lwIntollerances.getSelectionModel().isEmpty()) {
+            lwIntollerances.getItems().removeAll(lwIntollerances.getSelectionModel().getSelectedItems());
+            lwIntollerances.getSelectionModel().clearSelection();
+            labelErrorIntollerances.setText("");
+        }
+        else if(lwIntollerances.getItems().isEmpty()){
+            labelErrorIntollerances.setText("Non ci sono intolleranze nella lista");
+        }
+        else{
+            labelErrorIntollerances.setText("Non ci sono intolleranze selezionate");
         }
 
     }
