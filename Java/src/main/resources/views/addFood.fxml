@@ -42,16 +42,8 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="346.0" spacing="10.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="243.0" spacing="10.0">
-                           <children>
-                              <TextField fx:id="tfAddIngredient" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-                           <children>
-                              <Button fx:id="buttonAddIngredient" mnemonicParsing="false" text="Aggiungi" />
-                           </children>
-                        </VBox>
+                        <TextField fx:id="tfAddIngredient" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="buttonAddIngredient" mnemonicParsing="false" text="Aggiungi" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <Button fx:id="buttonAddFood" mnemonicParsing="false" prefHeight="40.0" prefWidth="141.0" style="-fx-border-color: lightgreen;" text="Aggiungi pietanza">

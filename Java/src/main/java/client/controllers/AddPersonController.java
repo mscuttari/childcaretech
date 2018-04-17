@@ -1,5 +1,6 @@
 package main.java.client.controllers;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -11,14 +12,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.layout.MyCheckBoxTableCell;
 import main.java.client.layout.MyTableViewSelectionModel;
-import main.java.models.Contact;
-import main.java.models.Parent;
-import main.java.models.Pediatrist;
-import main.java.models.PersonType;
+import main.java.models.*;
 
 import java.net.URL;
 import java.util.*;
@@ -50,6 +50,13 @@ public class AddPersonController implements Initializable {
     @FXML private TableColumn<Parent, String> columnContactsFiscalCode;
 
     @FXML private Tab tabAllergies;
+    @FXML private TextField tfAddAllergies;
+    @FXML private ListView<Ingredient> lwAllergies;
+    @FXML private Button buttonAddAllergies;
+    @FXML private Button buttonRemoveSelectedAllergies;
+    @FXML private Label labelErrorAllergies;
+
+
     @FXML private Tab tabIntollerances;
     @FXML private Tab tabLoginData;
     @FXML private TabPane tabPane;
@@ -147,6 +154,25 @@ public class AddPersonController implements Initializable {
 
         tableContacts.setItems(contactsData);
 
+        // Allergies tab
+
+        // Add allergies button
+        buttonAddAllergies.setOnAction(event -> addAllergies());
+
+        // Add Allergies on enter key press
+        EventHandler<KeyEvent> keyPressEventInAddAllergiesTextField = event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                addAllergies();
+        };
+
+        tfAddAllergies.setOnKeyPressed(keyPressEventInAddAllergiesTextField);
+
+        // Remove allergies button
+        buttonRemoveSelectedAllergies.setOnAction(event -> removeSelectedAllergies());
+
+        // Set multiple selection model
+        lwAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 
         // Avvia il programma, seleziona le voci, aspetta 5 secondi e leggi il log
         new Timer().schedule(new TimerTask() {
@@ -158,6 +184,35 @@ public class AddPersonController implements Initializable {
                 }
             }
         }, 5000);
+    }
+
+    public void addAllergies() {
+        if(!tfAddAllergies.getText().isEmpty()){
+            String allergyName = tfAddAllergies.getText().trim().toLowerCase();
+            Ingredient ingredient = new Ingredient();
+            ingredient.setName(allergyName);
+            lwAllergies.getItems().add(ingredient);
+            tfAddAllergies.setText("");
+            labelErrorAllergies.setText("");
+        }
+
+    }
+
+
+    public void removeSelectedAllergies() {
+
+        if(!lwAllergies.getSelectionModel().isEmpty()) {
+            lwAllergies.getItems().removeAll(lwAllergies.getSelectionModel().getSelectedItems());
+            lwAllergies.getSelectionModel().clearSelection();
+            labelErrorAllergies.setText("");
+        }
+        else if(lwAllergies.getItems().isEmpty()){
+            labelErrorAllergies.setText("Non ci sono allergie nella lista");
+        }
+        else{
+            labelErrorAllergies.setText("Non ci sono allergie selezionate");
+        }
+
     }
 
 }
