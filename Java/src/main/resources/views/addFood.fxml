@@ -7,11 +7,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="addFoodPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddFoodController">
+<AnchorPane fx:id="addFoodPane" maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddFoodController">
    <children>
-      <HBox alignment="CENTER" layoutX="21.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="21.0" layoutY="14.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="600.0" prefWidth="239.0" spacing="10.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Pietanza:">
                      <font>
@@ -67,7 +67,7 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="600.0" prefWidth="287.0" spacing="10.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Elenco ingredienti:">
                      <font>

@@ -15,7 +15,9 @@ import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.layout.MyCheckBoxTableCell;
 import main.java.client.layout.MyTableViewSelectionModel;
+import main.java.models.Contact;
 import main.java.models.Parent;
+import main.java.models.Pediatrist;
 import main.java.models.PersonType;
 
 import java.net.URL;
@@ -34,9 +36,21 @@ public class AddPersonController implements Initializable {
     @FXML private TableColumn<Parent, String> columnParentsFiscalCode;
 
     @FXML private Tab tabPediatrist;
+    @FXML private TableView<Pediatrist> tablePediatrist;
+    @FXML private TableColumn<Parent, Boolean> columnPediatristSelected;
+    @FXML private TableColumn<Parent, String> columnPediatristFirstName;
+    @FXML private TableColumn<Parent, String> columnPediatristLastName;
+    @FXML private TableColumn<Parent, String> columnPediatristFiscalCode;
+
+    @FXML private Tab tabContacts;
+    @FXML private TableView<Contact> tableContacts;
+    @FXML private TableColumn<Parent, Boolean> columnContactsSelected;
+    @FXML private TableColumn<Parent, String> columnContactsFirstName;
+    @FXML private TableColumn<Parent, String> columnContactsLastName;
+    @FXML private TableColumn<Parent, String> columnContactsFiscalCode;
+
     @FXML private Tab tabAllergies;
     @FXML private Tab tabIntollerances;
-    @FXML private Tab tabContacts;
     @FXML private Tab tabLoginData;
     @FXML private TabPane tabPane;
 
@@ -98,6 +112,41 @@ public class AddPersonController implements Initializable {
         tableParents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tableParents.setItems(parentsData);
+
+
+        // Pediatrist tab
+        List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
+        ObservableList<Pediatrist> pediatristData = FXCollections.observableArrayList(pediatrists);
+
+        columnPediatristSelected.setCellFactory(param -> new MyCheckBoxTableCell<>());
+        columnPediatristFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        columnPediatristLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
+
+        tablePediatrist.setEditable(true);
+        tablePediatrist.setFocusTraversable(false);
+        tablePediatrist.setSelectionModel(new MyTableViewSelectionModel<>(tablePediatrist));
+        tablePediatrist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        tablePediatrist.setItems(pediatristData);
+
+
+        // Contacts tab
+        List<Contact> contacts = connectionManager.getClient().getContacts();
+        ObservableList<Contact> contactsData = FXCollections.observableArrayList(contacts);
+
+        columnContactsSelected.setCellFactory(param -> new MyCheckBoxTableCell<>());
+        columnContactsFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        columnContactsLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        columnContactsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
+
+        tableContacts.setEditable(true);
+        tableContacts.setFocusTraversable(false);
+        tableContacts.setSelectionModel(new MyTableViewSelectionModel<>(tableContacts));
+        tableContacts.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        tableContacts.setItems(contactsData);
+
 
         // Avvia il programma, seleziona le voci, aspetta 5 secondi e leggi il log
         new Timer().schedule(new TimerTask() {

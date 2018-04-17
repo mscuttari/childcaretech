@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -74,18 +79,25 @@
                         <TableView fx:id="tableParents">
                             <columns>
                                 <TableColumn fx:id="columnParentsSelected" style="-fx-alignment: center" />
-                                <TableColumn fx:id="columnParentsFirstName" text="Nome" style="-fx-alignment: center" />
-                                <TableColumn fx:id="columnParentsLastName" text="Cognome" style="-fx-alignment: center" />
-                                <TableColumn fx:id="columnParentsFiscalCode" text="Codice fiscale" style="-fx-alignment: center" />
+                                <TableColumn fx:id="columnParentsFirstName" style="-fx-alignment: center" text="Nome" />
+                                <TableColumn fx:id="columnParentsLastName" style="-fx-alignment: center" text="Cognome" />
+                                <TableColumn fx:id="columnParentsFiscalCode" style="-fx-alignment: center" text="Codice fiscale" />
                             </columns>
                         </TableView>
                     </content>
                 </Tab>
 
                 <Tab fx:id="tabPediatrist" text="Pediatra">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
+               <content>
+                  <TableView fx:id="tablePediatrist">
+                     <columns>
+                        <TableColumn fx:id="columnPediatristSelected" style="-fx-alignment: center" />
+                        <TableColumn fx:id="columnPediatristFirstName" style="-fx-alignment: center" text="Nome" />
+                        <TableColumn fx:id="columnPediatristLastName" style="-fx-alignment: center" text="Cognome" />
+                        <TableColumn fx:id="columnPediatristFiscalCode" style="-fx-alignment: center" text="Codice fiscale" />
+                     </columns>
+                  </TableView>
+               </content>
                 </Tab>
 
                 <Tab fx:id="tabAllergies" text="Allergie">
@@ -101,9 +113,16 @@
                 </Tab>
 
                 <Tab fx:id="tabContacts" text="Contatti">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
+               <content>
+                  <TableView fx:id="tableContacts">
+                     <columns>
+                        <TableColumn fx:id="columnContactsSelected" style="-fx-alignment: center" />
+                        <TableColumn fx:id="columnContactsFirstName" style="-fx-alignment: center" text="Nome" />
+                        <TableColumn fx:id="columnContactsLastName" style="-fx-alignment: center" text="Cognome" />
+                        <TableColumn fx:id="columnContactsFiscalCode" style="-fx-alignment: center" text="Codice fiscale" />
+                     </columns>
+                  </TableView>
+               </content>
                 </Tab>
 
                 <Tab fx:id="tabLoginData" text="Dati di accesso">
