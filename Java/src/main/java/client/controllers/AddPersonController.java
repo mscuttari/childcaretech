@@ -28,6 +28,9 @@ public class AddPersonController implements Initializable {
     @FXML private ComboBox<PersonType> cbPersonType;
     @FXML private ImageView imagePersonType;
 
+
+    @FXML private TabPane tabPane;
+
     @FXML private Tab tabParents;
     @FXML private TableView<Parent> tableParents;
     @FXML private TableColumn<Parent, Boolean> columnParentsSelected;
@@ -64,7 +67,6 @@ public class AddPersonController implements Initializable {
     @FXML private Label labelErrorIntollerances;
 
     @FXML private Tab tabLoginData;
-    @FXML private TabPane tabPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
