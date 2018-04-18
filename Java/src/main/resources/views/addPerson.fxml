@@ -211,24 +211,24 @@
                                     <Image url="@../images/login.png" />
                                  </image>
                               </ImageView>
-                              <VBox alignment="CENTER" spacing="10.0">
+                              <VBox alignment="CENTER" prefWidth="400.0" spacing="10.0">
                                  <children>
-                                    <TextField promptText="Username">
+                                    <TextField fx:id="tfUsername" promptText="Username">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </TextField>
-                                    <TextField layoutX="10.0" layoutY="225.0" promptText="Ripeti username">
+                                    <TextField fx:id="tfUsernameConfirmation" layoutX="10.0" layoutY="225.0" promptText="Conferma username">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </TextField>
-                                    <Label text="Username diversi" textFill="RED" underline="true">
+                                    <Label fx:id="labelUsername">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </Label>
-                                    <PasswordField promptText="Password">
+                                    <PasswordField fx:id="tfPassword" promptText="Password">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -236,12 +236,12 @@
                                           <Insets top="40.0" />
                                        </VBox.margin>
                                     </PasswordField>
-                                    <PasswordField promptText="Ripeti password">
+                                    <PasswordField fx:id="tfPasswordConfirmation" promptText="Conferma password">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </PasswordField>
-                                    <Label text="Password diverse" textFill="RED" underline="true">
+                                    <Label fx:id="labelPassword">
                                        <font>
                                           <Font size="18.0" />
                                        </font>

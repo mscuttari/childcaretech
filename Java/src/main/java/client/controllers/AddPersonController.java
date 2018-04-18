@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.layout.MyCheckBoxTableCell;
@@ -67,6 +68,12 @@ public class AddPersonController implements Initializable {
     @FXML private Label labelErrorIntollerances;
 
     @FXML private Tab tabLoginData;
+    @FXML private TextField tfUsername;
+    @FXML private TextField tfUsernameConfirmation;
+    @FXML private Label labelUsername;
+    @FXML private PasswordField tfPassword;
+    @FXML private PasswordField tfPasswordConfirmation;
+    @FXML private Label labelPassword;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -202,6 +209,17 @@ public class AddPersonController implements Initializable {
         lwIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 
+        // LoginData tab
+
+        //Username confirmation
+        tfUsername.textProperty().addListener((obs, oldText, newText) -> { usernameConfirmation(); });
+        tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> { usernameConfirmation(); });
+
+        //Password confirmation
+        tfPassword.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
+        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
+
+
         // Avvia il programma, seleziona le voci, aspetta 5 secondi e leggi il log
         new Timer().schedule(new TimerTask() {
             @Override
@@ -270,6 +288,34 @@ public class AddPersonController implements Initializable {
             labelErrorIntollerances.setText("Non ci sono intolleranze selezionate");
         }
 
+    }
+
+    public void usernameConfirmation(){
+        if(tfUsername.getText().isEmpty()){
+            labelUsername.setText(("Il campo USERNAME è vuoto"));
+            labelUsername.setTextFill(Color.BLUE);
+        }
+        else if (tfUsername.getText().equals(tfUsernameConfirmation.getText())) {
+            labelUsername.setText("Il campo USERNAME è confermato");
+            labelUsername.setTextFill(Color.GREEN);
+        } else {
+            labelUsername.setText("Il campo USERNAME non è confermato");
+            labelUsername.setTextFill(Color.RED);
+        }
+    }
+
+    public void passwordConfirmation(){
+        if(tfPassword.getText().isEmpty()){
+            labelPassword.setText(("Il campo PASSWORD è vuoto"));
+            labelPassword.setTextFill(Color.BLUE);
+        }
+        else if (tfPassword.getText().equals(tfPasswordConfirmation.getText())) {
+            labelPassword.setText("Il campo PASSWORD è confermato");
+            labelPassword.setTextFill(Color.GREEN);
+        } else {
+            labelPassword.setText("Il campo PASSWORD non è confermato");
+            labelPassword.setTextFill(Color.RED);
+        }
     }
 
 }
