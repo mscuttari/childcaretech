@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -25,6 +26,7 @@ public class HomeController implements Initializable{
     @FXML private Button buttonCanteen;
     @FXML private Button buttonTrip;
     @FXML private ImageView goToLoginImage;
+    @FXML private Label staffUsername;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -97,6 +99,10 @@ public class HomeController implements Initializable{
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
+    }
+
+    public void setStaffUsername(String username){
+        staffUsername.setText(username);
     }
 
 }
