@@ -103,7 +103,7 @@ public abstract class Person extends BaseModel {
         this.telephone = telephone;
     }
 
-    @ManyToMany
+    @ManyToMany//(fetch=FetchType.EAGER)
     @JoinTable(
             name = "allergies",
             joinColumns = { @JoinColumn(name = "person_id") },
@@ -117,7 +117,7 @@ public abstract class Person extends BaseModel {
         this.allergies = allergies;
     }
 
-    @ManyToMany
+    @ManyToMany//(fetch=FetchType.EAGER)
     @JoinTable(
             name = "intollerances",
             joinColumns = { @JoinColumn(name = "person_id") },
