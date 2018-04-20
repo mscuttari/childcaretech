@@ -7,16 +7,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="showPersonPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowPersonController">
-   <children>
-      <TableView fx:id="tablePeople" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="670.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <columns>
-            <TableColumn fx:id="columnPeopleFirstName" style="-fx-alignment: center" text="Nome" />
-            <TableColumn fx:id="columnPeopleLastName" style="-fx-alignment: center" text="Cognome" />
-            <TableColumn fx:id="columnPeopleFiscalCode" style="-fx-alignment: center" text="Codice fiscale" />
-            <TableColumn fx:id="columnPeopleType" style="-fx-alignment: center" text="Tipo" />
-            <TableColumn fx:id="columnPeopleEdit" style="-fx-alignment: center" />
-         </columns>
-      </TableView>
-   </children>
-</AnchorPane>
+
+<TableView fx:id="tablePeople" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowPersonController">
+   <columns>
+      <TableColumn fx:id="columnPeopleFirstName" style="-fx-alignment: center" text="Nome" />
+      <TableColumn fx:id="columnPeopleLastName" style="-fx-alignment: center" text="Cognome" />
+      <TableColumn fx:id="columnPeopleFiscalCode" style="-fx-alignment: center" text="Codice fiscale" />
+      <TableColumn fx:id="columnPeopleType" style="-fx-alignment: center" text="Tipo" />
+      <TableColumn fx:id="columnPeopleEdit" style="-fx-alignment: center" />
+   </columns>
+</TableView>
