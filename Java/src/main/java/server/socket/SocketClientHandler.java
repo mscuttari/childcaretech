@@ -84,6 +84,10 @@ public class SocketClientHandler implements Runnable {
                 delete(in, out);
                 break;
 
+            case "get_people":
+                getPeople(in, out);
+                break;
+
             case "get_children":
                 getChildren(in, out);
                 break;
@@ -286,6 +290,18 @@ public class SocketClientHandler implements Runnable {
             LogUtils.e(TAG, e.getMessage());
             e.printStackTrace();
         }
+    }
+
+
+
+    /**
+     * Get poeple
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getPeople(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Person.class);
     }
 
 

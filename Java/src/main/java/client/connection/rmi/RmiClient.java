@@ -129,6 +129,13 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
 
     /** {@inheritDoc} */
     @Override
+    public List<Person> getPeople() {
+        return getAll(Person.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     public List<Child> getChildren() {
         return getAll(Child.class);
     }

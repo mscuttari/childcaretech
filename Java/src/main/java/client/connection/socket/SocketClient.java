@@ -108,6 +108,15 @@ public class SocketClient extends BaseClient implements ClientInterface {
 
     /** {@inheritDoc} */
     @Override
+    public List<Person> getPeople() {
+        Object result = sendData("get_people", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Person>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     public List<Child> getChildren() {
         Object result = sendData("get_children", this);
         //noinspection unchecked

@@ -1,64 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.showPerson">
-  <items>
-    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="196.0">
-         <children>
-            <ToggleButton layoutX="-6.0" layoutY="145.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="117.0" text="Bambini" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <toggleGroup>
-                  <ToggleGroup fx:id="toggleGroup" />
-               </toggleGroup></ToggleButton>
-            <ToggleButton layoutX="-6.0" layoutY="185.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="117.0" text="Genitori" toggleGroup="$toggleGroup" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font size="18.0" />
-               </font></ToggleButton>
-            <ToggleButton layoutX="-6.0" layoutY="225.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="117.0" text="Personale" toggleGroup="$toggleGroup" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </ToggleButton>
-            <ToggleButton layoutX="-6.0" layoutY="265.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="117.0" text="Contatti" toggleGroup="$toggleGroup" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </ToggleButton>
-            <ToggleButton layoutX="-6.0" layoutY="305.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="117.0" text="Pediatri" toggleGroup="$toggleGroup" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </ToggleButton>
-            <ImageView fx:id="returnBack" fitHeight="80.0" fitWidth="80.0" layoutX="5.0" layoutY="335.0" onMouseClicked="#returnBack" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
-               <image>
-                  <Image url="@../images/back.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="63.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="196.0" text="Filtra" AnchorPane.bottomAnchor="560.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-         </children></AnchorPane>
-    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="794.0">
-         <children>
-            <TableView layoutY="135.0" prefHeight="398.0" prefWidth="473.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <columns>
-                <TableColumn prefWidth="138.07046508789062" text="CodFiscale" />
-                  <TableColumn prefWidth="75.08050537109375" text="Nome" />
-                  <TableColumn prefWidth="92.45236206054688" text="Cognome" />
-                  <TableColumn prefWidth="112.43218994140625" text="Data di Nascita" />
-                  <TableColumn prefWidth="151.62811279296875" text="Indirizzo" />
-                  <TableColumn prefWidth="112.84429931640625" text="Username" />
-                  <TableColumn prefWidth="117.15576171875" text="Password" />
-              </columns>
-            </TableView>
-         </children></AnchorPane>
-  </items>
-</SplitPane>
+<AnchorPane fx:id="showPersonPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowPersonController">
+   <children>
+      <TableView fx:id="tablePeople" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="670.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <columns>
+            <TableColumn fx:id="columnPeopleFirstName" style="-fx-alignment: center" text="Nome" />
+            <TableColumn fx:id="columnPeopleLastName" style="-fx-alignment: center" text="Cognome" />
+            <TableColumn fx:id="columnPeopleFiscalCode" style="-fx-alignment: center" text="Codice fiscale" />
+            <TableColumn fx:id="columnPeopleType" style="-fx-alignment: center" text="Tipo" />
+            <TableColumn fx:id="columnPeopleEdit" style="-fx-alignment: center" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

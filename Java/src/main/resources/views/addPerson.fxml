@@ -106,7 +106,7 @@
                               </Label>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <ListView fx:id="lwAllergies" prefWidth="600.0">
+                                    <ListView fx:id="listAllergies" prefWidth="600.0">
                                        <VBox.margin>
                                           <Insets left="100.0" right="100.0" />
                                        </VBox.margin>
@@ -154,7 +154,7 @@
                               </Label>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <ListView fx:id="lwIntollerances" prefWidth="600.0">
+                                    <ListView fx:id="listIntollerances" prefWidth="600.0">
                                        <VBox.margin>
                                           <Insets left="100.0" right="100.0" />
                                        </VBox.margin>

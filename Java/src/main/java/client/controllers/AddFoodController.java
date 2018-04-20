@@ -23,7 +23,7 @@ public class AddFoodController implements Initializable{
     private static final String TAG = "AddFoodController";
 
     @FXML private Pane addFoodPane;
-    @FXML private ListView<Ingredient> lwIngredients;
+    @FXML private ListView<Ingredient> listIngredients;
     @FXML private TextField tfAddIngredient;
     @FXML private Button buttonAddIngredient;
     @FXML private Button buttonRemoveSelected;
@@ -58,7 +58,7 @@ public class AddFoodController implements Initializable{
         goBackImage.setOnMouseClicked(event -> goBack());
 
         // Set multiple selection model
-        lwIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void addIngredient() {
@@ -67,7 +67,7 @@ public class AddFoodController implements Initializable{
             String ingredientName = tfAddIngredient.getText().trim().toLowerCase();
             Ingredient ingredient = new Ingredient();
             ingredient.setName(ingredientName);
-            lwIngredients.getItems().add(ingredient);
+            listIngredients.getItems().add(ingredient);
             tfAddIngredient.setText("");
             tfAddIngredient.setPromptText("Inserisci un nuovo ingrediente (#" + (i + 1) + ")");
             labelError.setText("");
@@ -78,14 +78,14 @@ public class AddFoodController implements Initializable{
 
     public void removeSelectedIngredients() {
 
-        if(!lwIngredients.getSelectionModel().isEmpty()) {
-            i = i-(lwIngredients.getSelectionModel().getSelectedItems().size()-1)-1;
-            lwIngredients.getItems().removeAll(lwIngredients.getSelectionModel().getSelectedItems());
-            lwIngredients.getSelectionModel().clearSelection();
+        if(!listIngredients.getSelectionModel().isEmpty()) {
+            i = i-(listIngredients.getSelectionModel().getSelectedItems().size()-1)-1;
+            listIngredients.getItems().removeAll(listIngredients.getSelectionModel().getSelectedItems());
+            listIngredients.getSelectionModel().clearSelection();
             tfAddIngredient.setPromptText("Inserisci nuovo ingrediente (#" + (i + 1) + ")");
             labelError.setText("");
         }
-        else if(lwIngredients.getItems().isEmpty()){
+        else if(listIngredients.getItems().isEmpty()){
             labelError.setText("Non ci sono ingredienti nella lista");
         }
         else{

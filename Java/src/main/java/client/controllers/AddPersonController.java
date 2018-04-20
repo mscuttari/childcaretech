@@ -55,14 +55,14 @@ public class AddPersonController implements Initializable {
 
     @FXML private Tab tabAllergies;
     @FXML private TextField tfAddAllergies;
-    @FXML private ListView<Ingredient> lwAllergies;
+    @FXML private ListView<Ingredient> listAllergies;
     @FXML private Button buttonAddAllergies;
     @FXML private Button buttonRemoveSelectedAllergies;
     @FXML private Label labelErrorAllergies;
 
     @FXML private Tab tabIntollerances;
     @FXML private TextField tfAddIntollerances;
-    @FXML private ListView<Ingredient> lwIntollerances;
+    @FXML private ListView<Ingredient> listIntollerances;
     @FXML private Button buttonAddIntollerances;
     @FXML private Button buttonRemoveSelectedIntollerances;
     @FXML private Label labelErrorIntollerances;
@@ -186,7 +186,7 @@ public class AddPersonController implements Initializable {
         buttonRemoveSelectedAllergies.setOnAction(event -> removeSelectedAllergies());
 
         // Set multiple selection model
-        lwAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 
         // Intollerances tab
@@ -206,7 +206,7 @@ public class AddPersonController implements Initializable {
         buttonRemoveSelectedIntollerances.setOnAction(event -> removeSelectedIntollerances());
 
         // Set multiple selection model
-        lwIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 
         // LoginData tab
@@ -237,7 +237,7 @@ public class AddPersonController implements Initializable {
             String allergyName = tfAddAllergies.getText().trim().toLowerCase();
             Ingredient ingredient = new Ingredient();
             ingredient.setName(allergyName);
-            lwAllergies.getItems().add(ingredient);
+            listAllergies.getItems().add(ingredient);
             tfAddAllergies.setText("");
             labelErrorAllergies.setText("");
         }
@@ -247,12 +247,12 @@ public class AddPersonController implements Initializable {
 
     public void removeSelectedAllergies() {
 
-        if(!lwAllergies.getSelectionModel().isEmpty()) {
-            lwAllergies.getItems().removeAll(lwAllergies.getSelectionModel().getSelectedItems());
-            lwAllergies.getSelectionModel().clearSelection();
+        if(!listAllergies.getSelectionModel().isEmpty()) {
+            listAllergies.getItems().removeAll(listAllergies.getSelectionModel().getSelectedItems());
+            listAllergies.getSelectionModel().clearSelection();
             labelErrorAllergies.setText("");
         }
-        else if(lwAllergies.getItems().isEmpty()){
+        else if(listAllergies.getItems().isEmpty()){
             labelErrorAllergies.setText("Non ci sono allergie nella lista");
         }
         else{
@@ -266,7 +266,7 @@ public class AddPersonController implements Initializable {
             String intolleranceName = tfAddIntollerances.getText().trim().toLowerCase();
             Ingredient ingredient = new Ingredient();
             ingredient.setName(intolleranceName);
-            lwIntollerances.getItems().add(ingredient);
+            listIntollerances.getItems().add(ingredient);
             tfAddIntollerances.setText("");
             labelErrorIntollerances.setText("");
         }
@@ -276,12 +276,12 @@ public class AddPersonController implements Initializable {
 
     public void removeSelectedIntollerances() {
 
-        if(!lwIntollerances.getSelectionModel().isEmpty()) {
-            lwIntollerances.getItems().removeAll(lwIntollerances.getSelectionModel().getSelectedItems());
-            lwIntollerances.getSelectionModel().clearSelection();
+        if(!listIntollerances.getSelectionModel().isEmpty()) {
+            listIntollerances.getItems().removeAll(listIntollerances.getSelectionModel().getSelectedItems());
+            listIntollerances.getSelectionModel().clearSelection();
             labelErrorIntollerances.setText("");
         }
-        else if(lwIntollerances.getItems().isEmpty()){
+        else if(listIntollerances.getItems().isEmpty()){
             labelErrorIntollerances.setText("Non ci sono intolleranze nella lista");
         }
         else{

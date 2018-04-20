@@ -69,7 +69,7 @@
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </Label>
-                  <ListView fx:id="lwIngredients" prefHeight="410.0" prefWidth="400.0" />
+                  <ListView fx:id="listIngredients" prefHeight="410.0" prefWidth="400.0" />
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
                         <Button fx:id="buttonRemoveSelected" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati">

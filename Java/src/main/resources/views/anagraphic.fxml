@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -57,19 +58,19 @@
                               </HBox>
                            </graphic>
                           </Button>
-                        <Button fx:id="buttonUpdatePerson" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                        <Button fx:id="buttonShowPerson" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                            <font>
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                  <children>
                                     <ImageView fitHeight="40.0" fitWidth="40.0">
                                        <image>
                                           <Image url="@../images/minus(blue).png" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Modifica persona" textFill="#337ab7">
+                                    <Label text="Visualizza persone" textFill="#337ab7">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
