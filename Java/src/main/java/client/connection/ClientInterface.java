@@ -67,6 +67,14 @@ public interface ClientInterface {
 
 
     /**
+     * Get people
+     *
+     * @return  list of people (null in case of error)
+     */
+    List<Person> getPeople();
+
+
+    /**
      * Get children
      *
      * @return  list of children (null in case of error)

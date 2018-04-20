@@ -19,7 +19,7 @@ public class AnagraphicController implements Initializable{
 
     @FXML private Pane anagraphicPane;
     @FXML private Button buttonAddPerson;
-    @FXML private Button buttonUpdatePerson;
+    @FXML private Button buttonShowPerson;
 
 
     @Override
@@ -28,8 +28,8 @@ public class AnagraphicController implements Initializable{
         // Add person button
         buttonAddPerson.setOnAction(event -> addPerson());
 
-        //Update person button
-        buttonUpdatePerson.setOnAction(event -> updatePerson());
+        //Show person button
+        buttonShowPerson.setOnAction(event -> showPerson());
     }
 
     public void addPerson() {
@@ -42,8 +42,14 @@ public class AnagraphicController implements Initializable{
         }
     }
 
-    public void updatePerson() {
-
+    public void showPerson() {
+        try {
+            Pane showPersonPane = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
+            BorderPane homePane = (BorderPane) anagraphicPane.getParent();
+            homePane.setCenter(showPersonPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 }
