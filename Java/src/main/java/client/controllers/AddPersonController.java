@@ -1,6 +1,5 @@
 package main.java.client.controllers;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -13,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
@@ -28,7 +26,6 @@ public class AddPersonController implements Initializable {
 
     @FXML private ComboBox<PersonType> cbPersonType;
     @FXML private ImageView imagePersonType;
-
 
     @FXML private TabPane tabPane;
 
@@ -54,15 +51,15 @@ public class AddPersonController implements Initializable {
     @FXML private TableColumn<Parent, String> columnContactsFiscalCode;
 
     @FXML private Tab tabAllergies;
-    @FXML private TextField tfAddAllergies;
-    @FXML private ListView<Ingredient> lwAllergies;
-    @FXML private Button buttonAddAllergies;
+    @FXML private TextField txAddAllergy;
+    @FXML private ListView<Ingredient> lvAllergies;
+    @FXML private Button buttonAddAllergy;
     @FXML private Button buttonRemoveSelectedAllergies;
     @FXML private Label labelErrorAllergies;
 
     @FXML private Tab tabIntollerances;
-    @FXML private TextField tfAddIntollerances;
-    @FXML private ListView<Ingredient> lwIntollerances;
+    @FXML private TextField txAddIntollerances;
+    @FXML private ListView<Ingredient> lvIntollerances;
     @FXML private Button buttonAddIntollerances;
     @FXML private Button buttonRemoveSelectedIntollerances;
     @FXML private Label labelErrorIntollerances;
@@ -170,43 +167,27 @@ public class AddPersonController implements Initializable {
 
 
         // Allergies tab
+        lvAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        buttonRemoveSelectedAllergies.setOnAction(event -> removeSelectedAllergies());
+        buttonAddAllergy.setOnAction(event -> addAllergies());
 
-        // Add allergies button
-        buttonAddAllergies.setOnAction(event -> addAllergies());
-
-        // Add Allergies on enter key press
-        EventHandler<KeyEvent> keyPressEventInAddAllergiesTextField = event -> {
+        // Add allergy on enter key press
+        txAddAllergy.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER)
                 addAllergies();
-        };
-
-        tfAddAllergies.setOnKeyPressed(keyPressEventInAddAllergiesTextField);
-
-        // Remove allergies button
-        buttonRemoveSelectedAllergies.setOnAction(event -> removeSelectedAllergies());
-
-        // Set multiple selection model
-        lwAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        });
 
 
         // Intollerances tab
-
-        // Add intollerances button
+        lvIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         buttonAddIntollerances.setOnAction(event -> addIntollerances());
-
-        // Add intollerances on enter key press
-        EventHandler<KeyEvent> keyPressEventInAddIntollerancesTextField = event -> {
-            if (event.getCode() == KeyCode.ENTER)
-                addIntollerances();
-        };
-
-        tfAddIntollerances.setOnKeyPressed(keyPressEventInAddIntollerancesTextField);
-
-        // Remove intollerances button
         buttonRemoveSelectedIntollerances.setOnAction(event -> removeSelectedIntollerances());
 
-        // Set multiple selection model
-        lwIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        // Add intollerance on enter key press
+        txAddIntollerances.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                addIntollerances();
+        });
 
 
         // LoginData tab
@@ -233,12 +214,12 @@ public class AddPersonController implements Initializable {
     }
 
     public void addAllergies() {
-        if(!tfAddAllergies.getText().isEmpty()){
-            String allergyName = tfAddAllergies.getText().trim().toLowerCase();
+        if(!txAddAllergy.getText().isEmpty()){
+            String allergyName = txAddAllergy.getText().trim();
             Ingredient ingredient = new Ingredient();
             ingredient.setName(allergyName);
-            lwAllergies.getItems().add(ingredient);
-            tfAddAllergies.setText("");
+            lvAllergies.getItems().add(ingredient);
+            txAddAllergy.setText("");
             labelErrorAllergies.setText("");
         }
 
@@ -247,12 +228,12 @@ public class AddPersonController implements Initializable {
 
     public void removeSelectedAllergies() {
 
-        if(!lwAllergies.getSelectionModel().isEmpty()) {
-            lwAllergies.getItems().removeAll(lwAllergies.getSelectionModel().getSelectedItems());
-            lwAllergies.getSelectionModel().clearSelection();
+        if(!lvAllergies.getSelectionModel().isEmpty()) {
+            lvAllergies.getItems().removeAll(lvAllergies.getSelectionModel().getSelectedItems());
+            lvAllergies.getSelectionModel().clearSelection();
             labelErrorAllergies.setText("");
         }
-        else if(lwAllergies.getItems().isEmpty()){
+        else if(lvAllergies.getItems().isEmpty()){
             labelErrorAllergies.setText("Non ci sono allergie nella lista");
         }
         else{
@@ -262,12 +243,12 @@ public class AddPersonController implements Initializable {
     }
 
     public void addIntollerances() {
-        if(!tfAddIntollerances.getText().isEmpty()){
-            String intolleranceName = tfAddIntollerances.getText().trim().toLowerCase();
+        if(!txAddIntollerances.getText().isEmpty()){
+            String intolleranceName = txAddIntollerances.getText().trim();
             Ingredient ingredient = new Ingredient();
             ingredient.setName(intolleranceName);
-            lwIntollerances.getItems().add(ingredient);
-            tfAddIntollerances.setText("");
+            lvIntollerances.getItems().add(ingredient);
+            txAddIntollerances.setText("");
             labelErrorIntollerances.setText("");
         }
 
@@ -276,12 +257,12 @@ public class AddPersonController implements Initializable {
 
     public void removeSelectedIntollerances() {
 
-        if(!lwIntollerances.getSelectionModel().isEmpty()) {
-            lwIntollerances.getItems().removeAll(lwIntollerances.getSelectionModel().getSelectedItems());
-            lwIntollerances.getSelectionModel().clearSelection();
+        if(!lvIntollerances.getSelectionModel().isEmpty()) {
+            lvIntollerances.getItems().removeAll(lvIntollerances.getSelectionModel().getSelectedItems());
+            lvIntollerances.getSelectionModel().clearSelection();
             labelErrorIntollerances.setText("");
         }
-        else if(lwIntollerances.getItems().isEmpty()){
+        else if(lvIntollerances.getItems().isEmpty()){
             labelErrorIntollerances.setText("Non ci sono intolleranze nella lista");
         }
         else{
