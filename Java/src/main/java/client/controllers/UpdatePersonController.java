@@ -148,6 +148,12 @@ public class UpdatePersonController implements Initializable {
 
         tableParents.setItems(parentsData);
 
+        for(Parent current : tableParents.getItems()){
+            if(person.getParents().contains(current)){
+                tableParents.getSelectionModel().getSelectedItems().add(current);
+            }
+        }
+
 
         // Pediatrist tab
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();

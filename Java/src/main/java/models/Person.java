@@ -136,6 +136,7 @@ public abstract class Person extends BaseModel {
     }
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "parents",
             joinColumns = { @JoinColumn(name = "child_id") },
