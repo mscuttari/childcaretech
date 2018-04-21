@@ -1,6 +1,8 @@
 package main.java.models;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -103,7 +105,8 @@ public abstract class Person extends BaseModel {
         this.telephone = telephone;
     }
 
-    @ManyToMany//(fetch=FetchType.EAGER)
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "allergies",
             joinColumns = { @JoinColumn(name = "person_id") },
@@ -117,7 +120,8 @@ public abstract class Person extends BaseModel {
         this.allergies = allergies;
     }
 
-    @ManyToMany//(fetch=FetchType.EAGER)
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "intollerances",
             joinColumns = { @JoinColumn(name = "person_id") },

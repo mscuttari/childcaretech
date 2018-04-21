@@ -184,7 +184,7 @@ public class UpdatePersonController implements Initializable {
 
 
         // Allergies tab
-        //lvAllergies.getItems().setAll(person.getAllergies());
+        lvAllergies.getItems().setAll(person.getAllergies());
         lvAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         buttonRemoveSelectedAllergies.setOnAction(event -> removeSelectedAllergies());
         buttonAddAllergy.setOnAction(event -> addAllergies());
@@ -197,7 +197,7 @@ public class UpdatePersonController implements Initializable {
 
 
         // Intollerances tab
-        //lvIntollerances.getItems().setAll(person.getIntollerances());
+        lvIntollerances.getItems().setAll(person.getIntollerances());
         lvIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         buttonAddIntollerances.setOnAction(event -> addIntollerances());
         buttonRemoveSelectedIntollerances.setOnAction(event -> removeSelectedIntollerances());
