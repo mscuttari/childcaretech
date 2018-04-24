@@ -1,6 +1,7 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -11,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
@@ -18,14 +21,22 @@ import main.java.client.layout.MyCheckBoxTableCell;
 import main.java.client.layout.MyTableViewSelectionModel;
 import main.java.models.*;
 
+import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.*;
 
 public class UpdatePersonController implements Initializable {
 
+    // Debug
+    private static final String TAG = "UpdatePersonController";
+
     private Person person;
 
+    @FXML private Pane updatePersonPane;
     @FXML private ImageView imagePersonType;
+    @FXML private ImageView updatePersonImage;
+    @FXML private ImageView deletePersonImage;
 
     @FXML private TabPane tabPane;
 
@@ -86,6 +97,12 @@ public class UpdatePersonController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // update person image
+        updatePersonImage.setOnMouseClicked(event -> updatePerson());
+
+        //delete person image
+        deletePersonImage.setOnMouseClicked(event -> deletePerson());
+
         tabPane.getTabs().remove(1, tabPane.getTabs().size());
 
         switch (PersonType.getPersonType(person)) {
@@ -109,11 +126,10 @@ public class UpdatePersonController implements Initializable {
 
             case "Staff":
                 imagePersonType.setImage(new Image("/images/secretary.png"));
-                Staff staff = (Staff) person;
-                tfUsername.setText(staff.getUsername());
-                tfUsernameConfirmation.setText(staff.getUsername());
-                tfPassword.setText(staff.getPassword());
-                tfPasswordConfirmation.setText(staff.getPassword());
+                tfUsername.setText(((Staff)person).getUsername());
+                tfUsernameConfirmation.setText(((Staff)person).getUsername());
+                tfPassword.setText(((Staff)person).getPassword());
+                tfPasswordConfirmation.setText(((Staff)person).getPassword());
                 tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabContacts, tabLoginData);
                 break;
         }
@@ -147,13 +163,6 @@ public class UpdatePersonController implements Initializable {
         tableParents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tableParents.setItems(parentsData);
-
-        for(Parent current : tableParents.getItems()){
-            if(person.getParents().contains(current)){
-                tableParents.getSelectionModel().getSelectedItems().add(current);
-            }
-        }
-
 
         // Pediatrist tab
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
@@ -321,6 +330,53 @@ public class UpdatePersonController implements Initializable {
         } else {
             labelPassword.setText("Il campo PASSWORD non è confermato");
             labelPassword.setTextFill(Color.RED);
+        }
+    }
+
+    public void updatePerson() {
+
+        // Connection
+        ConnectionManager connectionManager = ConnectionManager.getInstance();
+/*
+        switch (PersonType.getPersonType(person)) {
+            case "Bambino":
+                ((Child)person).setParents((Collection<Parent>) tableParents.getSelectionModel().getSelectedItems());
+                break;
+            case "Genitore":
+                break;
+            case "Staff":
+                ((Staff)person).setUsername(tfUsername.getText());
+                ((Staff)person).setPassword(tfPassword.getText());
+        }*/
+
+        person.setFiscalCode(tfFiscalCode.getText());
+        person.setFirstName(tfFirstName.getText());
+        person.setLastName(tfLastName.getText());
+        person.setBirthdate(Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        person.setAddress(tfAddress.getText());
+        person.setTelephone(tfTelephone.getText());
+        //person.setIntollerances((Collection<Ingredient>)lvIntollerances.getSelectionModel().getSelectedItems());
+        //person.setAllergies((Collection<Ingredient>) lvAllergies.getSelectionModel().getSelectedItems());
+        //person.setContacts((Collection<Contact>) tableContacts.getSelectionModel().getSelectedItems());
+
+        connectionManager.getClient().update(person);
+
+    }
+
+    public void deletePerson() {
+
+        // Connection
+        ConnectionManager connectionManager = ConnectionManager.getInstance();
+
+        //delete
+        connectionManager.getClient().delete(person);
+
+        try {
+            TableView tablePeople = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
+            BorderPane homePane = (BorderPane) updatePersonPane.getParent();
+            homePane.setCenter(tablePeople);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
         }
     }
 

@@ -15,19 +15,32 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
+import main.java.client.connection.ConnectionType;
 import main.java.client.layout.MyCheckBoxTableCell;
 import main.java.client.layout.MyTableViewSelectionModel;
 import main.java.models.*;
 
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.*;
 
 public class AddPersonController implements Initializable {
 
+    // Debug
+    private static final String TAG = "AddPersonController";
+
     @FXML private ComboBox<PersonType> cbPersonType;
     @FXML private ImageView imagePersonType;
+    @FXML private ImageView addPersonImage;
 
     @FXML private TabPane tabPane;
+
+    @FXML private TextField tfFiscalCode;
+    @FXML private TextField tfFirstName;
+    @FXML private TextField tfLastName;
+    @FXML private DatePicker dpBirthdate;
+    @FXML private TextField tfAddress;
+    @FXML private TextField tfTelephone;
 
     @FXML private Tab tabParents;
     @FXML private TableView<Parent> tableParents;
@@ -76,6 +89,9 @@ public class AddPersonController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Person type
         cbPersonType.getItems().addAll(PersonType.values());
+
+        // add person image
+        addPersonImage.setOnMouseClicked(event -> addPerson());
 
         cbPersonType.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue == newValue) return;
@@ -193,12 +209,20 @@ public class AddPersonController implements Initializable {
         // LoginData tab
 
         //Username confirmation
-        tfUsername.textProperty().addListener((obs, oldText, newText) -> { usernameConfirmation(); });
-        tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> { usernameConfirmation(); });
+        tfUsername.textProperty().addListener((obs, oldText, newText) -> {
+            usernameConfirmation();
+        });
+        tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> {
+            usernameConfirmation();
+        });
 
         //Password confirmation
-        tfPassword.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
-        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
+        tfPassword.textProperty().addListener((obs, oldText, newText) -> {
+            passwordConfirmation();
+        });
+        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> {
+            passwordConfirmation();
+        });
 
 
         // Avvia il programma, seleziona le voci, aspetta 5 secondi e leggi il log
@@ -213,8 +237,9 @@ public class AddPersonController implements Initializable {
         }, 5000);
     }
 
+
     public void addAllergies() {
-        if(!txAddAllergy.getText().isEmpty()){
+        if (!txAddAllergy.getText().isEmpty()) {
             String allergyName = txAddAllergy.getText().trim();
             Ingredient ingredient = new Ingredient();
             ingredient.setName(allergyName);
@@ -228,22 +253,20 @@ public class AddPersonController implements Initializable {
 
     public void removeSelectedAllergies() {
 
-        if(!lvAllergies.getSelectionModel().isEmpty()) {
+        if (!lvAllergies.getSelectionModel().isEmpty()) {
             lvAllergies.getItems().removeAll(lvAllergies.getSelectionModel().getSelectedItems());
             lvAllergies.getSelectionModel().clearSelection();
             labelErrorAllergies.setText("");
-        }
-        else if(lvAllergies.getItems().isEmpty()){
+        } else if (lvAllergies.getItems().isEmpty()) {
             labelErrorAllergies.setText("Non ci sono allergie nella lista");
-        }
-        else{
+        } else {
             labelErrorAllergies.setText("Non ci sono allergie selezionate");
         }
 
     }
 
     public void addIntollerances() {
-        if(!txAddIntollerances.getText().isEmpty()){
+        if (!txAddIntollerances.getText().isEmpty()) {
             String intolleranceName = txAddIntollerances.getText().trim();
             Ingredient ingredient = new Ingredient();
             ingredient.setName(intolleranceName);
@@ -257,26 +280,23 @@ public class AddPersonController implements Initializable {
 
     public void removeSelectedIntollerances() {
 
-        if(!lvIntollerances.getSelectionModel().isEmpty()) {
+        if (!lvIntollerances.getSelectionModel().isEmpty()) {
             lvIntollerances.getItems().removeAll(lvIntollerances.getSelectionModel().getSelectedItems());
             lvIntollerances.getSelectionModel().clearSelection();
             labelErrorIntollerances.setText("");
-        }
-        else if(lvIntollerances.getItems().isEmpty()){
+        } else if (lvIntollerances.getItems().isEmpty()) {
             labelErrorIntollerances.setText("Non ci sono intolleranze nella lista");
-        }
-        else{
+        } else {
             labelErrorIntollerances.setText("Non ci sono intolleranze selezionate");
         }
 
     }
 
-    public void usernameConfirmation(){
-        if(tfUsername.getText().isEmpty()){
+    public void usernameConfirmation() {
+        if (tfUsername.getText().isEmpty()) {
             labelUsername.setText(("Il campo USERNAME è vuoto"));
             labelUsername.setTextFill(Color.BLUE);
-        }
-        else if (tfUsername.getText().equals(tfUsernameConfirmation.getText())) {
+        } else if (tfUsername.getText().equals(tfUsernameConfirmation.getText())) {
             labelUsername.setText("Il campo USERNAME è confermato");
             labelUsername.setTextFill(Color.GREEN);
         } else {
@@ -285,12 +305,11 @@ public class AddPersonController implements Initializable {
         }
     }
 
-    public void passwordConfirmation(){
-        if(tfPassword.getText().isEmpty()){
+    public void passwordConfirmation() {
+        if (tfPassword.getText().isEmpty()) {
             labelPassword.setText(("Il campo PASSWORD è vuoto"));
             labelPassword.setTextFill(Color.BLUE);
-        }
-        else if (tfPassword.getText().equals(tfPasswordConfirmation.getText())) {
+        } else if (tfPassword.getText().equals(tfPasswordConfirmation.getText())) {
             labelPassword.setText("Il campo PASSWORD è confermato");
             labelPassword.setTextFill(Color.GREEN);
         } else {
@@ -299,4 +318,88 @@ public class AddPersonController implements Initializable {
         }
     }
 
+    public void addPerson() {
+
+        // Connection
+        ConnectionManager connectionManager = ConnectionManager.getInstance();
+
+        switch (cbPersonType.getValue()) {
+            case CHILD:
+                Child newChild = new Child(tfFiscalCode.getText(),
+                        tfFirstName.getText(),
+                        tfLastName.getText(),
+                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        tfAddress.getText(),
+                        tfTelephone.getText(),
+                        null /*tablePediatrist.getSelectionModel().getSelectedItem()*/);
+                List<Parent> allParents = connectionManager.getClient().getParents();
+                List<Parent> test = new ArrayList<>(2);
+                test.add(allParents.get(0));
+                test.add(allParents.get(1));
+                newChild.setParents(test);
+                //newChild.setIntollerances((Collection<Ingredient>) lvIntollerances.getSelectionModel().getSelectedItems());
+                //newChild.setAllergies((Collection<Ingredient>) lvAllergies.getSelectionModel().getSelectedItems());
+                //newChild.setContacts((Collection<Contact>) tableContacts.getSelectionModel().getSelectedItems());
+
+                connectionManager.getClient().create(newChild);
+
+                break;
+
+            case CONTACT:
+                Contact newContact = new Contact(tfFiscalCode.getText(),
+                        tfFirstName.getText(),
+                        tfLastName.getText(),
+                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        tfAddress.getText(),
+                        tfTelephone.getText());
+
+                connectionManager.getClient().create(newContact);
+
+                break;
+
+            case PARENT:
+                Parent newParent = new Parent(tfFiscalCode.getText(),
+                        tfFirstName.getText(),
+                        tfLastName.getText(),
+                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        tfAddress.getText(),
+                        tfTelephone.getText());
+
+                connectionManager.getClient().create(newParent);
+
+                break;
+
+            case PEDIATRIST:
+                Pediatrist newPediatris = new Pediatrist(tfFiscalCode.getText(),
+                        tfFirstName.getText(),
+                        tfLastName.getText(),
+                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        tfAddress.getText(),
+                        tfTelephone.getText());
+                newPediatris.setIntollerances((Collection<Ingredient>) lvIntollerances.getSelectionModel().getSelectedItems());
+                newPediatris.setAllergies((Collection<Ingredient>) lvAllergies.getSelectionModel().getSelectedItems());
+
+                connectionManager.getClient().create(newPediatris);
+
+                break;
+
+            case STAFF:
+                Staff newStaff = new Staff(tfFiscalCode.getText(),
+                        tfFirstName.getText(),
+                        tfLastName.getText(),
+                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        tfAddress.getText(),
+                        tfTelephone.getText(),
+                        tfUsername.getText(),
+                        tfPassword.getText());
+                newStaff.setIntollerances((Collection<Ingredient>)lvIntollerances.getSelectionModel().getSelectedItems());
+                newStaff.setAllergies((Collection<Ingredient>) lvAllergies.getSelectionModel().getSelectedItems());
+                newStaff.setContacts((Collection<Contact>) tableContacts.getSelectionModel().getSelectedItems());
+
+                connectionManager.getClient().create(newStaff);
+
+                break;
+        }
+
+    }
 }

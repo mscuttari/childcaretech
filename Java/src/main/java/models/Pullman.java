@@ -16,7 +16,8 @@ public class Pullman extends BaseModel {
     private Trip trip;
     private String numberplate;
     private int seats;
-    private Collection<Person> childrenAssignments = new ArrayList<>();
+
+    private Collection<Child> childrenAssignments = new ArrayList<>();
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
@@ -64,11 +65,11 @@ public class Pullman extends BaseModel {
             joinColumns = { @JoinColumn(name = "pullman_id") },
             inverseJoinColumns = { @JoinColumn(name = "child_id") }
     )
-    public Collection<Person> getChildrenAssignments() {
+    public Collection<Child> getChildrenAssignments() {
         return childrenAssignments;
     }
 
-    public void setChildrenAssignments(Collection<Person> childrenAssignments) {
+    public void setChildrenAssignments(Collection<Child> childrenAssignments) {
         this.childrenAssignments = childrenAssignments;
     }
 

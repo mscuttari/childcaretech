@@ -14,7 +14,7 @@ public class Menu extends BaseModel {
     private Long id;
     private String name;
     private String type;
-    private Person responsible;
+    private Staff responsible;
     private Collection<Food> composition = new ArrayList<>();
 
     @Id
@@ -49,11 +49,11 @@ public class Menu extends BaseModel {
 
     @ManyToOne
     @JoinColumn(name = "responsible_id", referencedColumnName = "id")
-    public Person getResponsible() {
+    public Staff getResponsible() {
         return responsible;
     }
 
-    public void setResponsible(Person responsible) {
+    public void setResponsible(Staff responsible) {
         this.responsible = responsible;
     }
 

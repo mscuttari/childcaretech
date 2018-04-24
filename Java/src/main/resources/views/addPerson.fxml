@@ -10,50 +10,50 @@
 <AnchorPane stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddPersonController">
    <children>
    
-       <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+             <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
       
-              <Tab text="Tipo">
+                    <Tab text="Tipo">
          <content>
                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
                         <children>
                             <HBox alignment="CENTER" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                <children>
                
-                                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
                                           <ImageView fx:id="imagePersonType" fitHeight="200.0" fitWidth="200.0" />
                                           <ComboBox fx:id="cbPersonType" />
                   </children>
                                    </VBox>
                
-                                   <VBox alignment="CENTER" spacing="15.0">
+                                         <VBox alignment="CENTER" spacing="15.0">
                   <children>
-                                          <TextField promptText="Codice Fiscale">
+                                          <TextField fx:id="tfFiscalCode" promptText="Codice Fiscale">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>
                                           </TextField>
                   
-                                          <TextField layoutX="10.0" layoutY="276.0" promptText="Nome">
+                                                <TextField fx:id="tfFirstName" layoutX="10.0" layoutY="276.0" promptText="Nome">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>
                                           </TextField>
                   
-                                          <TextField layoutX="10.0" layoutY="299.0" promptText="Cognome">
+                                                <TextField fx:id="tfLastName" layoutX="10.0" layoutY="299.0" promptText="Cognome">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>
                                           </TextField>
-                                    <DatePicker prefHeight="37.0" prefWidth="234.0" promptText="Data di nascita" style="-fx-font-size: 18;" />
+                                    <DatePicker fx:id="dpBirthdate" prefHeight="37.0" prefWidth="234.0" promptText="Data di nascita" style="-fx-font-size: 18;" />
                   
-                                          <TextField layoutX="10.0" layoutY="352.0" promptText="Indirizzo">
+                                                <TextField fx:id="tfAddress" layoutX="10.0" layoutY="352.0" promptText="Indirizzo">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>
                                           </TextField>
-                                    <TextField layoutX="10.0" layoutY="395.0" promptText="Telefono">
+                                    <TextField fx:id="tfTelephone" layoutX="10.0" layoutY="395.0" promptText="Telefono">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -67,7 +67,7 @@
          </content>
               </Tab>
       
-              <Tab fx:id="tabParents" text="Genitori">
+                    <Tab fx:id="tabParents" text="Genitori">
          <content>
                      <TableView fx:id="tableParents">
                          <columns>
@@ -80,7 +80,7 @@
          </content>
               </Tab>
       
-              <Tab fx:id="tabPediatrist" text="Pediatra">
+                    <Tab fx:id="tabPediatrist" text="Pediatra">
          <content>
                      <TableView fx:id="tablePediatrist">
                          <columns>
@@ -93,13 +93,13 @@
          </content>
               </Tab>
       
-              <Tab fx:id="tabAllergies" text="Allergie">
+                    <Tab fx:id="tabAllergies" text="Allergie">
          <content>
                      <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
                         <children>
                             <ListView fx:id="lvAllergies" HBox.hgrow="ALWAYS" />
             
-                            <HBox alignment="CENTER">
+                                  <HBox alignment="CENTER">
                <children>
                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
                                       <children>
@@ -108,31 +108,38 @@
                                       </children>
                                    </HBox>
                
-                                   <Pane HBox.hgrow="ALWAYS" />
-                                   <Button fx:id="buttonRemoveSelectedAllergies" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                                         <Pane HBox.hgrow="ALWAYS" />
+                              <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                 <children>
+                        
+                                              <Label fx:id="labelErrorAllergies" textFill="RED" underline="true">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                        </Label>
+                                         <Button fx:id="buttonRemoveSelectedAllergies" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                                 </children>
+                              </HBox>
                </children>
+                           <VBox.margin>
+                              <Insets bottom="50.0" />
+                           </VBox.margin>
                             </HBox>
-            
-                            <Label fx:id="labelErrorAllergies" textFill="RED" underline="true">
-                                <font>
-                                    <Font size="14.0" />
-                                </font>
-                                <VBox.margin>
-                                    <Insets bottom="10.0" left="400.0" />
-                                </VBox.margin>
-                            </Label>
                         </children>
                      </VBox>
          </content>
               </Tab>
       
-              <Tab fx:id="tabIntollerances" text="Intolleranze">
+                    <Tab fx:id="tabIntollerances" text="Intolleranze">
          <content>
                      <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
                         <children>
                             <ListView fx:id="lvIntollerances" prefWidth="600.0" />
             
-                            <HBox alignment="CENTER">
+                                  <HBox alignment="CENTER">
                <children>
                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
                                       <children>
@@ -141,25 +148,29 @@
                                       </children>
                                    </HBox>
                
-                                   <Pane HBox.hgrow="ALWAYS" />
-                                   <Button fx:id="buttonRemoveSelectedIntollerances" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                                         <Pane HBox.hgrow="ALWAYS" />
+                              <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                 <children>
+                        
+                                              <Label fx:id="labelErrorIntollerances" textFill="RED" underline="true">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                         <Button fx:id="buttonRemoveSelectedIntollerances" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                                 </children>
+                              </HBox>
                </children>
+                           <VBox.margin>
+                              <Insets bottom="50.0" />
+                           </VBox.margin>
                             </HBox>
-            
-                            <Label fx:id="labelErrorIntollerances" textFill="RED" underline="true">
-                                <font>
-                                    <Font size="14.0" />
-                                </font>
-                                <VBox.margin>
-                                    <Insets bottom="10.0" left="400.0" />
-                                </VBox.margin>
-                            </Label>
                         </children>
                      </VBox>
          </content>
               </Tab>
       
-              <Tab fx:id="tabContacts" text="Contatti">
+                    <Tab fx:id="tabContacts" text="Contatti">
          <content>
                      <TableView fx:id="tableContacts">
                          <columns>
@@ -172,7 +183,7 @@
          </content>
               </Tab>
       
-              <Tab fx:id="tabLoginData" text="Dati di accesso">
+                    <Tab fx:id="tabLoginData" text="Dati di accesso">
          <content>
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -184,7 +195,7 @@
                                       </image>
                                    </ImageView>
                
-                                   <VBox alignment="CENTER" prefWidth="400.0" spacing="10.0">
+                                         <VBox alignment="CENTER" prefWidth="400.0" spacing="10.0">
                   <children>
                                           <TextField fx:id="tfUsername" promptText="Username">
                                               <font>
@@ -192,19 +203,19 @@
                                               </font>
                                           </TextField>
                   
-                                          <TextField fx:id="tfUsernameConfirmation" layoutX="10.0" layoutY="225.0" promptText="Conferma username">
+                                                <TextField fx:id="tfUsernameConfirmation" layoutX="10.0" layoutY="225.0" promptText="Conferma username">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>
                                           </TextField>
                   
-                                          <Label fx:id="labelUsername">
+                                                <Label fx:id="labelUsername">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>
                                           </Label>
                   
-                                          <PasswordField fx:id="tfPassword" promptText="Password">
+                                                <PasswordField fx:id="tfPassword" promptText="Password">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>
@@ -213,13 +224,13 @@
                                               </VBox.margin>
                                           </PasswordField>
                   
-                                          <PasswordField fx:id="tfPasswordConfirmation" promptText="Conferma password">
+                                                <PasswordField fx:id="tfPasswordConfirmation" promptText="Conferma password">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>
                                           </PasswordField>
                   
-                                          <Label fx:id="labelPassword">
+                                                <Label fx:id="labelPassword">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>
@@ -234,5 +245,10 @@
               </Tab>
       </tabs>
        </TabPane>
+      <ImageView fx:id="addPersonImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+         <image>
+            <Image url="@../images/save-data.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

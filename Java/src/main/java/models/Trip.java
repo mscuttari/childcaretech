@@ -16,10 +16,11 @@ public class Trip extends BaseModel {
     private Long id;
     private Date date;
     private String title;
+
     private Collection<Stop> stops = new ArrayList<>();
     private Collection<Pullman> transports = new ArrayList<>();
-    private Collection<Person> childrenEnrollments = new ArrayList<>();
-    private Collection<Person> staffEnrollments = new ArrayList<>();
+    private Collection<Child> childrenEnrollments = new ArrayList<>();
+    private Collection<Staff> staffEnrollments = new ArrayList<>();
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
@@ -76,11 +77,11 @@ public class Trip extends BaseModel {
             joinColumns = { @JoinColumn(name = "trip_id") },
             inverseJoinColumns = { @JoinColumn(name = "child_id") }
     )
-    public Collection<Person> getChildrenEnrollments() {
+    public Collection<Child> getChildrenEnrollments() {
         return childrenEnrollments;
     }
 
-    public void setChildrenEnrollments(Collection<Person> childrenEnrollments) {
+    public void setChildrenEnrollments(Collection<Child> childrenEnrollments) {
         this.childrenEnrollments = childrenEnrollments;
     }
 
@@ -90,11 +91,11 @@ public class Trip extends BaseModel {
             joinColumns = { @JoinColumn(name = "trip_id") },
             inverseJoinColumns = { @JoinColumn(name = "person_id") }
     )
-    public Collection<Person> getStaffEnrollments() {
+    public Collection<Staff> getStaffEnrollments() {
         return staffEnrollments;
     }
 
-    public void setStaffEnrollments(Collection<Person> staffEnrollments) {
+    public void setStaffEnrollments(Collection<Staff> staffEnrollments) {
         this.staffEnrollments = staffEnrollments;
     }
 

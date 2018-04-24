@@ -20,23 +20,26 @@ public abstract class Person extends BaseModel {
     protected String fiscalCode;
     protected String firstName;
     protected String lastName;
-    protected Date birthdate;
+    protected Date birthDate;
     protected String address;
     protected String telephone;
 
-    private Collection<Ingredient> allergies = new ArrayList<>();
-    private Collection<Ingredient> intollerances = new ArrayList<>();
-    private Collection<Person> parents = new ArrayList<>();
-    private Collection<Person> children = new ArrayList<>();
-    private Collection<Person> contacts = new ArrayList<>();
-    private Collection<Person> bounds = new ArrayList<>();
-    private Person pediatrist;
-    private Collection<Person> curing = new ArrayList<>();
-    private Collection<Menu> menuResponsibility = new ArrayList<>();
-    private Collection<Trip> childTripsEnrollments = new ArrayList<>();
-    private Collection<Trip> staffTripsEnrollments = new ArrayList<>();
-    private Collection<Stop> childStopsPresences = new ArrayList<>();
-    private Collection<Pullman> childPullmansAssignments = new ArrayList<>();
+    protected Collection<Ingredient> allergies = new ArrayList<>();
+    protected Collection<Ingredient> intollerances = new ArrayList<>();
+    protected Collection<Contact> contacts = new ArrayList<>();
+
+    public Person() {
+        this(null, null, null, null, null, null);
+    }
+
+    public Person(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone) {
+        this.fiscalCode = fiscalCode;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.telephone = telephone;
+    }
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
@@ -80,11 +83,11 @@ public abstract class Person extends BaseModel {
     @Temporal(TemporalType.DATE)
     @Column(name = "birthdate")
     public Date getBirthdate() {
-        return birthdate;
+        return birthDate;
     }
 
     public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
+        this.birthDate = birthdate;
     }
 
     @Column(name = "address")
@@ -138,126 +141,16 @@ public abstract class Person extends BaseModel {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
-            name = "parents",
-            joinColumns = { @JoinColumn(name = "child_id") },
-            inverseJoinColumns = { @JoinColumn(name = "parent_id") }
-    )
-    public Collection<Person> getParents() {
-        return parents;
-    }
-
-    public void setParents(Collection<Person> parents) {
-        this.parents = parents;
-    }
-
-    @ManyToMany(mappedBy = "parents")
-    public Collection<Person> getChildren() {
-        return children;
-    }
-
-    public void setChildren(Collection<Person> children) {
-        this.children = children;
-    }
-
-    @ManyToMany
-    @JoinTable(
             name = "contacts",
             joinColumns = { @JoinColumn(name = "child_id") },
             inverseJoinColumns = { @JoinColumn(name = "contact_id") }
     )
-    public Collection<Person> getContacts() {
+    public Collection<Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(Collection<Person> contacts) {
+    public void setContacts(Collection<Contact> contacts) {
         this.contacts = contacts;
-    }
-
-    @ManyToMany(mappedBy = "contacts")
-    public Collection<Person> getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Collection<Person> bounds) {
-        this.bounds = bounds;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "pediatrist_id")
-    public Person getPediatrist() {
-        return pediatrist;
-    }
-
-    public void setPediatrist(Person pediatrist) {
-        this.pediatrist = pediatrist;
-    }
-
-    @OneToMany(mappedBy = "pediatrist")
-    public Collection<Person> getCuring() {
-        return curing;
-    }
-
-    public void setCuring(Collection<Person> curing) {
-        this.curing = curing;
-    }
-
-    @OneToMany(mappedBy = "responsible")
-    public Collection<Menu> getMenuResponsibility() {
-        return menuResponsibility;
-    }
-
-    public void setMenuResponsibility(Collection<Menu> menuResponsibility) {
-        this.menuResponsibility = menuResponsibility;
-    }
-
-    @ManyToMany(mappedBy = "childrenEnrollments")
-    public Collection<Trip> getChildTripsEnrollments() {
-        return childTripsEnrollments;
-    }
-
-    public void setChildTripsEnrollments(Collection<Trip> childTripsEnrollments) {
-        this.childTripsEnrollments = childTripsEnrollments;
-    }
-
-    @ManyToMany(mappedBy = "staffEnrollments")
-    public Collection<Trip> getStaffTripsEnrollments() {
-        return staffTripsEnrollments;
-    }
-
-    public void setStaffTripsEnrollments(Collection<Trip> staffTripsEnrollments) {
-        this.staffTripsEnrollments = staffTripsEnrollments;
-    }
-
-    @Transient
-    public Collection<Trip> getTripEnrollments() {
-        return this instanceof Child ? getChildTripsEnrollments() : getStaffTripsEnrollments();
-    }
-
-    @Transient
-    public void setTripEnrollments(Collection<Trip> trips) {
-        if (this instanceof Child) {
-            setChildTripsEnrollments(trips);
-        } else {
-            setStaffTripsEnrollments(trips);
-        }
-    }
-
-    @ManyToMany(mappedBy = "childrenPresences")
-    public Collection<Stop> getChildStopsPresences() {
-        return childStopsPresences;
-    }
-
-    public void setChildStopsPresences(Collection<Stop> childStopsPresences) {
-        this.childStopsPresences = childStopsPresences;
-    }
-
-    @ManyToMany(mappedBy = "childrenAssignments")
-    public Collection<Pullman> getChildPullmansAssignments() {
-        return childPullmansAssignments;
-    }
-
-    public void setChildPullmansAssignments(Collection<Pullman> childPullmansAssignments) {
-        this.childPullmansAssignments = childPullmansAssignments;
     }
 
 }

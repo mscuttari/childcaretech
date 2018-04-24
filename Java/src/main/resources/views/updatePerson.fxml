@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="updatePersonPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
    
        <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -108,18 +108,22 @@
                                    </HBox>
                
                                    <Pane HBox.hgrow="ALWAYS" />
-                                   <Button fx:id="buttonRemoveSelectedAllergies" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                              <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                 <children>
+                        
+                                        <Label fx:id="labelErrorAllergies" textFill="RED" underline="true">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                         <Button fx:id="buttonRemoveSelectedAllergies" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                                 </children>
+                              </HBox>
                </children>
+                           <VBox.margin>
+                              <Insets bottom="50.0" />
+                           </VBox.margin>
                             </HBox>
-            
-                            <Label fx:id="labelErrorAllergies" textFill="RED" underline="true">
-                                <font>
-                                    <Font size="14.0" />
-                                </font>
-                                <VBox.margin>
-                                    <Insets bottom="10.0" left="400.0" />
-                                </VBox.margin>
-                            </Label>
                         </children>
                      </VBox>
          </content>
@@ -141,18 +145,25 @@
                                    </HBox>
                
                                    <Pane HBox.hgrow="ALWAYS" />
-                                   <Button fx:id="buttonRemoveSelectedIntollerances" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                              <HBox spacing="10.0">
+                                 <children>
+                        
+                                              <Label fx:id="labelErrorIntollerances" textFill="RED" underline="true">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                         <Button fx:id="buttonRemoveSelectedIntollerances" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </HBox>
                </children>
+                           <VBox.margin>
+                              <Insets bottom="50.0" />
+                           </VBox.margin>
                             </HBox>
-            
-                            <Label fx:id="labelErrorIntollerances" textFill="RED" underline="true">
-                                <font>
-                                    <Font size="14.0" />
-                                </font>
-                                <VBox.margin>
-                                    <Insets bottom="10.0" left="400.0" />
-                                </VBox.margin>
-                            </Label>
                         </children>
                      </VBox>
          </content>
@@ -233,5 +244,15 @@
               </Tab>
       </tabs>
        </TabPane>
+      <ImageView fx:id="updatePersonImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="110.0">
+         <image>
+            <Image url="@../images/update-data.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="deletePersonImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+         <image>
+            <Image url="@../images/delete-data.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

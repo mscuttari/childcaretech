@@ -142,7 +142,7 @@ public class HibernateUtils {
             em.getTransaction().begin();
             em.persist(obj);
             em.getTransaction().commit();
-            flushAndClear(em);
+            //flushAndClear(em);
             return true;
 
         } catch (Exception e) {
@@ -169,7 +169,7 @@ public class HibernateUtils {
 
         try {
             em.merge(obj);
-            flushAndClear(em);
+            //flushAndClear(em);
             return true;
         } catch (Exception e) {
             LogUtils.e(TAG, e.getMessage());
@@ -193,9 +193,10 @@ public class HibernateUtils {
 
         try {
             em.getTransaction().begin();
-            em.remove(obj);
+            //em.remove(obj);
+            em.remove(em.contains(obj) ? obj : em.merge(obj));
             em.getTransaction().commit();
-            flushAndClear(em);
+            //flushAndClear(em);
             return true;
 
         } catch (Exception e) {
