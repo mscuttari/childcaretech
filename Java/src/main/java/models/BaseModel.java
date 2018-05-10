@@ -1,6 +1,11 @@
 package main.java.models;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import main.java.client.gui.GuiBaseModel;
+
 import javax.persistence.Column;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -8,6 +13,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class BaseModel implements Serializable {
+
+    public abstract Class<? extends GuiBaseModel> getGuiClass();
+
 
     /**
      * Get string representation of the object

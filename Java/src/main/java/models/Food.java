@@ -1,5 +1,7 @@
 package main.java.models;
 
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiFood;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -95,6 +97,12 @@ public class Food extends BaseModel {
     @Override
     public int hashCode() {
         return Objects.hash(getName());
+    }
+
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiFood.class;
     }
 
 }

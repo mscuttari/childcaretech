@@ -1,5 +1,7 @@
 package main.java.models;
 
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiMenu;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -69,6 +71,12 @@ public class Menu extends BaseModel {
 
     public void setComposition(Collection<Food> composition) {
         this.composition = composition;
+    }
+
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiMenu.class;
     }
 
 }

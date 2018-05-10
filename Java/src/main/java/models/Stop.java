@@ -1,5 +1,7 @@
 package main.java.models;
 
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiStop;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -107,6 +109,12 @@ public class Stop extends BaseModel {
     @Override
     public int hashCode() {
         return Objects.hash(getPlaceName(), getProvince(), getNation(), getNumber());
+    }
+
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiStop.class;
     }
 
 }

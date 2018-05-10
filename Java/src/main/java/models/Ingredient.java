@@ -1,5 +1,7 @@
 package main.java.models;
 
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiIngredient;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -68,6 +70,12 @@ public class Ingredient extends BaseModel {
     @Override
     public String toString(){
         return name;
+    }
+
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiIngredient.class;
     }
 
 }
