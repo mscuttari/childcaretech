@@ -15,8 +15,6 @@ import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.layout.MyButtonTableCell;
-import main.java.client.layout.MyCheckBoxTableCell;
-import main.java.client.layout.MyTableViewSelectionModel;
 import main.java.models.*;
 
 import java.io.IOException;
@@ -72,7 +70,6 @@ public class ShowFoodController implements Initializable{
 
         tableFood.setEditable(true);
         tableFood.setFocusTraversable(false);
-        tableFood.setSelectionModel(new MyTableViewSelectionModel<>(tableFood));
         tableFood.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tableFood.setItems(foodData);
