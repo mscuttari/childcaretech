@@ -393,7 +393,6 @@ VBox > .split-menu-button.last > .arrow-button {
 .combo-box, .choice-box, .color-picker, .date-picker {
     -fx-border-radius: 4;
     -fx-background-radius: 4;
-    -fx-pref-height: 30;
 }
 
 .combo-box:editable > .arrow-button {

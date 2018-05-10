@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.LogUtils;
@@ -19,7 +20,7 @@ public class FoodController implements Initializable{
 
     @FXML private Pane foodPane;
     @FXML private Button buttonAddFood;
-    @FXML private Button buttonUpdateFood;
+    @FXML private Button buttonShowFood;
 
 
     @Override
@@ -29,7 +30,7 @@ public class FoodController implements Initializable{
         buttonAddFood.setOnAction(event -> addFood());
 
         //Update food button
-        buttonUpdateFood.setOnAction(event -> updateFood());
+        buttonShowFood.setOnAction(event -> showFood());
     }
 
     public void addFood() {
@@ -42,8 +43,14 @@ public class FoodController implements Initializable{
         }
     }
 
-    public void updateFood() {
-
+    public void showFood() {
+        try {
+            TableView tableFood = FXMLLoader.load(getClass().getResource("/views/showFood.fxml"));
+            BorderPane homePane = (BorderPane) foodPane.getParent();
+            homePane.setCenter(tableFood);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 }

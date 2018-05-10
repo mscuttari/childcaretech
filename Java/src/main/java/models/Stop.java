@@ -20,7 +20,8 @@ public class Stop extends BaseModel {
     private String province;
     private String nation;
     private Integer number;
-    private Collection<Person> childrenPresences = new ArrayList<>();
+
+    private Collection<Child> childrenPresences = new ArrayList<>();
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
@@ -86,11 +87,11 @@ public class Stop extends BaseModel {
             joinColumns = { @JoinColumn(name = "stop_id") },
             inverseJoinColumns = { @JoinColumn(name = "child_id") }
     )
-    public Collection<Person> getChildrenPresences() {
+    public Collection<Child> getChildrenPresences() {
         return childrenPresences;
     }
 
-    public void setChildrenPresences(Collection<Person> childrenPresences) {
+    public void setChildrenPresences(Collection<Child> childrenPresences) {
         this.childrenPresences = childrenPresences;
     }
 

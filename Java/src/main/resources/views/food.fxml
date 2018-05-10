@@ -58,19 +58,19 @@
                                         </HBox>
                                     </graphic>
                                 </Button>
-                                <Button fx:id="buttonUpdateFood" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                                <Button fx:id="buttonShowFood" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
                                     <graphic>
-                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                             <children>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0">
                                                     <image>
                                                         <Image url="@../images/minus(orange).png" />
                                                     </image>
                                                 </ImageView>
-                                                <Label text="Modifica pietanza" textFill="ORANGE">
+                                                <Label text="Visualizza pietanza" textFill="ORANGE">
                                                     <font>
                                                         <Font size="18.0" />
                                                     </font>

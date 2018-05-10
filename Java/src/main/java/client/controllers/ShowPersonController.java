@@ -27,10 +27,7 @@ public class ShowPersonController implements Initializable{
     // Debug
     private static final String TAG = "ShowPersonController";
 
-    @FXML private Pane showPersonPane;
-
     @FXML private TableView<Person> tablePeople;
-    @FXML private TableColumn<Person, Boolean> columnPeopleSelected;
     @FXML private TableColumn<Person, String> columnPeopleFirstName;
     @FXML private TableColumn<Person, String> columnPeopleLastName;
     @FXML private TableColumn<Person, String> columnPeopleFiscalCode;
@@ -55,9 +52,21 @@ public class ShowPersonController implements Initializable{
 
             @Override
             public Object call(Person param) {
+                try {
 
-                System.out.println(param.getFirstName());
-                System.out.println(param.getLastName());
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updatePerson.fxml"));
+
+                    UpdatePersonController updatePersonController = new UpdatePersonController(param);
+                    loader.setController(updatePersonController);
+
+                    Pane updatePersonPane = loader.load();
+                    BorderPane homePane = (BorderPane) tablePeople.getParent();
+                    homePane.setCenter(updatePersonPane);
+
+                } catch (IOException e) {
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
                 return null;
             }
         }));
@@ -67,6 +76,6 @@ public class ShowPersonController implements Initializable{
 
         tablePeople.setItems(parentsData);
     }
-    
+
 
 }
