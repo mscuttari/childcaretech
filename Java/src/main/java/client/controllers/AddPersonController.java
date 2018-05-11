@@ -15,7 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
-import main.java.client.connection.ConnectionType;
 import main.java.client.layout.MyCheckBoxTableCell;
 import main.java.client.layout.MyTableViewSelectionModel;
 import main.java.models.*;
