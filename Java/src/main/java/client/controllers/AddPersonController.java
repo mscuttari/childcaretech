@@ -1,10 +1,13 @@
 package main.java.client.controllers;
 
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,10 +16,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
-import main.java.client.layout.MyCheckBoxTableCell;
-import main.java.client.layout.MyTableViewSelectionModel;
+import main.java.client.gui.GuiParent;
+import main.java.client.gui.TableUtils;
 import main.java.models.*;
 
 import java.net.URL;
@@ -42,11 +46,11 @@ public class AddPersonController implements Initializable {
     @FXML private TextField tfTelephone;
 
     @FXML private Tab tabParents;
-    @FXML private TableView<Parent> tableParents;
-    @FXML private TableColumn<Parent, Boolean> columnParentsSelected;
-    @FXML private TableColumn<Parent, String> columnParentsFirstName;
-    @FXML private TableColumn<Parent, String> columnParentsLastName;
-    @FXML private TableColumn<Parent, String> columnParentsFiscalCode;
+    @FXML private TableView<GuiParent> tableParents;
+    @FXML private TableColumn<GuiParent, Boolean> columnParentsSelected;
+    @FXML private TableColumn<GuiParent, String> columnParentsFirstName;
+    @FXML private TableColumn<GuiParent, String> columnParentsLastName;
+    @FXML private TableColumn<GuiParent, String> columnParentsFiscalCode;
 
     @FXML private Tab tabPediatrist;
     @FXML private TableView<Pediatrist> tablePediatrist;
@@ -132,16 +136,15 @@ public class AddPersonController implements Initializable {
 
         // Parents tab
         List<Parent> parents = connectionManager.getClient().getParents();
-        ObservableList<Parent> parentsData = FXCollections.observableArrayList(parents);
+        ObservableList<GuiParent> parentsData = TableUtils.getGuiModelsList(parents);
 
-        columnParentsSelected.setCellFactory(param -> new MyCheckBoxTableCell<>());
+        columnParentsSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnParentsSelected));
+        columnParentsSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
         columnParentsFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnParentsLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnParentsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableParents.setEditable(true);
-        tableParents.setFocusTraversable(false);
-        tableParents.setSelectionModel(new MyTableViewSelectionModel<>(tableParents));
         tableParents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tableParents.setItems(parentsData);
@@ -151,15 +154,13 @@ public class AddPersonController implements Initializable {
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
         ObservableList<Pediatrist> pediatristData = FXCollections.observableArrayList(pediatrists);
 
-        columnPediatristSelected.setCellFactory(param -> new MyCheckBoxTableCell<>());
         columnPediatristFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPediatristLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tablePediatrist.setEditable(true);
-        tablePediatrist.setFocusTraversable(false);
-        tablePediatrist.setSelectionModel(new MyTableViewSelectionModel<>(tablePediatrist));
         tablePediatrist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 
         tablePediatrist.setItems(pediatristData);
 
@@ -168,14 +169,11 @@ public class AddPersonController implements Initializable {
         List<Contact> contacts = connectionManager.getClient().getContacts();
         ObservableList<Contact> contactsData = FXCollections.observableArrayList(contacts);
 
-        columnContactsSelected.setCellFactory(param -> new MyCheckBoxTableCell<>());
         columnContactsFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnContactsLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnContactsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableContacts.setEditable(true);
-        tableContacts.setFocusTraversable(false);
-        tableContacts.setSelectionModel(new MyTableViewSelectionModel<>(tableContacts));
         tableContacts.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tableContacts.setItems(contactsData);
@@ -216,24 +214,8 @@ public class AddPersonController implements Initializable {
         });
 
         //Password confirmation
-        tfPassword.textProperty().addListener((obs, oldText, newText) -> {
-            passwordConfirmation();
-        });
-        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> {
-            passwordConfirmation();
-        });
-
-
-        // Avvia il programma, seleziona le voci, aspetta 5 secondi e leggi il log
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                ObservableList<Parent> selected = tableParents.getSelectionModel().getSelectedItems();
-                for (Parent parent : selected) {
-                    LogUtils.e("Parent", parent.getFirstName() + ", " + parent.getLastName());
-                }
-            }
-        }, 5000);
+        tfPassword.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
+        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
     }
 
 

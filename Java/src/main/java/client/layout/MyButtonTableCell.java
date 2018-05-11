@@ -1,7 +1,5 @@
 package main.java.client.layout;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
@@ -16,8 +14,6 @@ public class MyButtonTableCell<S, T> extends TableCell<S, T> {
         this.callback = callback;
     }
 
-
-
     @Override
     protected void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
@@ -31,4 +27,5 @@ public class MyButtonTableCell<S, T> extends TableCell<S, T> {
 
         setText(null);
     }
+
 }

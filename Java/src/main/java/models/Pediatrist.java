@@ -1,7 +1,11 @@
 package main.java.models;
 
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiPediatrist;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +14,13 @@ import java.util.Date;
 
 @Entity(name = "Pediatrist")
 @DiscriminatorValue("pediatrist")
-public final class Pediatrist extends Person {
+public class Pediatrist extends Person {
+
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiPediatrist.class;
+    }
 
     private Collection<Child> curing = new ArrayList<>();
 

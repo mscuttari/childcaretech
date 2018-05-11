@@ -1,5 +1,11 @@
 package main.java.models;
 
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiChild;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -11,7 +17,13 @@ import java.util.Date;
 
 @Entity(name = "Child")
 @DiscriminatorValue("child")
-public final class Child extends Person {
+public class Child extends Person {
+
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiChild.class;
+    }
 
     private Pediatrist pediatrist;
 

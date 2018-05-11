@@ -17,8 +17,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
-import main.java.client.layout.MyCheckBoxTableCell;
-import main.java.client.layout.MyTableViewSelectionModel;
 import main.java.models.*;
 
 import java.io.IOException;
@@ -152,14 +150,12 @@ public class UpdatePersonController implements Initializable {
         List<Parent> parents = connectionManager.getClient().getParents();
         ObservableList<Parent> parentsData = FXCollections.observableArrayList(parents);
 
-        columnParentsSelected.setCellFactory(param -> new MyCheckBoxTableCell<>());
         columnParentsFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnParentsLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnParentsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableParents.setEditable(true);
         tableParents.setFocusTraversable(false);
-        tableParents.setSelectionModel(new MyTableViewSelectionModel<>(tableParents));
         tableParents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tableParents.setItems(parentsData);
@@ -168,14 +164,11 @@ public class UpdatePersonController implements Initializable {
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
         ObservableList<Pediatrist> pediatristData = FXCollections.observableArrayList(pediatrists);
 
-        columnPediatristSelected.setCellFactory(param -> new MyCheckBoxTableCell<>());
         columnPediatristFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPediatristLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tablePediatrist.setEditable(true);
-        tablePediatrist.setFocusTraversable(false);
-        tablePediatrist.setSelectionModel(new MyTableViewSelectionModel<>(tablePediatrist));
         tablePediatrist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tablePediatrist.setItems(pediatristData);
@@ -185,14 +178,11 @@ public class UpdatePersonController implements Initializable {
         List<Contact> contacts = connectionManager.getClient().getContacts();
         ObservableList<Contact> contactsData = FXCollections.observableArrayList(contacts);
 
-        columnContactsSelected.setCellFactory(param -> new MyCheckBoxTableCell<>());
         columnContactsFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnContactsLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnContactsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableContacts.setEditable(true);
-        tableContacts.setFocusTraversable(false);
-        tableContacts.setSelectionModel(new MyTableViewSelectionModel<>(tableContacts));
         tableContacts.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tableContacts.setItems(contactsData);

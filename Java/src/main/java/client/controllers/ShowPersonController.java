@@ -15,8 +15,6 @@ import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.layout.MyButtonTableCell;
-import main.java.client.layout.MyCheckBoxTableCell;
-import main.java.client.layout.MyTableViewSelectionModel;
 import main.java.models.*;
 
 import java.io.IOException;
@@ -74,8 +72,6 @@ public class ShowPersonController implements Initializable{
         }));
 
         tablePeople.setEditable(true);
-        tablePeople.setFocusTraversable(false);
-        tablePeople.setSelectionModel(new MyTableViewSelectionModel<>(tablePeople));
         tablePeople.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tablePeople.setItems(parentsData);

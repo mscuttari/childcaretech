@@ -1,5 +1,7 @@
 package main.java.models;
 
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiTrip;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -112,6 +114,12 @@ public class Trip extends BaseModel {
     @Override
     public int hashCode() {
         return Objects.hash(getDate(), getTitle());
+    }
+
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiTrip.class;
     }
 
 }

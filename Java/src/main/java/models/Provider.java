@@ -1,5 +1,7 @@
 package main.java.models;
 
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiProvider;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -68,6 +70,12 @@ public class Provider extends BaseModel {
     @Override
     public int hashCode() {
         return Objects.hash(getVat());
+    }
+
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiProvider.class;
     }
 
 }

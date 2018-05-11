@@ -1,5 +1,7 @@
 package main.java.models;
 
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiPullman;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -86,6 +88,12 @@ public class Pullman extends BaseModel {
     @Override
     public int hashCode() {
         return Objects.hash(getTrip(), getNumberplate());
+    }
+
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiPullman.class;
     }
 
 }
