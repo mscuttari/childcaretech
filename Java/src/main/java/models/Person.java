@@ -123,7 +123,7 @@ public abstract class Person extends BaseModel {
         this.allergies = allergies;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "intollerances",

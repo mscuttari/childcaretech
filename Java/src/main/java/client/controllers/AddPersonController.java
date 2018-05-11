@@ -19,7 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
+import main.java.client.gui.GuiContact;
 import main.java.client.gui.GuiParent;
+import main.java.client.gui.GuiPediatrist;
 import main.java.client.gui.TableUtils;
 import main.java.models.*;
 
@@ -53,18 +55,18 @@ public class AddPersonController implements Initializable {
     @FXML private TableColumn<GuiParent, String> columnParentsFiscalCode;
 
     @FXML private Tab tabPediatrist;
-    @FXML private TableView<Pediatrist> tablePediatrist;
-    @FXML private TableColumn<Parent, Boolean> columnPediatristSelected;
-    @FXML private TableColumn<Parent, String> columnPediatristFirstName;
-    @FXML private TableColumn<Parent, String> columnPediatristLastName;
-    @FXML private TableColumn<Parent, String> columnPediatristFiscalCode;
+    @FXML private TableView<GuiPediatrist> tablePediatrist;
+    @FXML private TableColumn<GuiPediatrist, Boolean> columnPediatristSelected;
+    @FXML private TableColumn<GuiPediatrist, String> columnPediatristFirstName;
+    @FXML private TableColumn<GuiPediatrist, String> columnPediatristLastName;
+    @FXML private TableColumn<GuiPediatrist, String> columnPediatristFiscalCode;
 
     @FXML private Tab tabContacts;
-    @FXML private TableView<Contact> tableContacts;
-    @FXML private TableColumn<Parent, Boolean> columnContactsSelected;
-    @FXML private TableColumn<Parent, String> columnContactsFirstName;
-    @FXML private TableColumn<Parent, String> columnContactsLastName;
-    @FXML private TableColumn<Parent, String> columnContactsFiscalCode;
+    @FXML private TableView<GuiContact> tableContacts;
+    @FXML private TableColumn<GuiContact, Boolean> columnContactsSelected;
+    @FXML private TableColumn<GuiContact, String> columnContactsFirstName;
+    @FXML private TableColumn<GuiContact, String> columnContactsLastName;
+    @FXML private TableColumn<GuiContact, String> columnContactsFiscalCode;
 
     @FXML private Tab tabAllergies;
     @FXML private TextField txAddAllergy;
@@ -152,23 +154,26 @@ public class AddPersonController implements Initializable {
 
         // Pediatrist tab
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
-        ObservableList<Pediatrist> pediatristData = FXCollections.observableArrayList(pediatrists);
+        ObservableList<GuiPediatrist> pediatristData = TableUtils.getGuiModelsList(pediatrists);
 
+        columnPediatristSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnPediatristSelected));
+        columnPediatristSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
         columnPediatristFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPediatristLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tablePediatrist.setEditable(true);
-        tablePediatrist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
+        tablePediatrist.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         tablePediatrist.setItems(pediatristData);
 
 
         // Contacts tab
         List<Contact> contacts = connectionManager.getClient().getContacts();
-        ObservableList<Contact> contactsData = FXCollections.observableArrayList(contacts);
+        ObservableList<GuiContact> contactsData = TableUtils.getGuiModelsList(contacts);
 
+        columnContactsSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnContactsSelected));
+        columnContactsSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
         columnContactsFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnContactsLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnContactsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
@@ -312,15 +317,32 @@ public class AddPersonController implements Initializable {
                         Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                         tfAddress.getText(),
                         tfTelephone.getText(),
-                        null /*tablePediatrist.getSelectionModel().getSelectedItem()*/);
-                List<Parent> allParents = connectionManager.getClient().getParents();
-                List<Parent> test = new ArrayList<>(2);
-                test.add(allParents.get(0));
-                test.add(allParents.get(1));
-                newChild.setParents(test);
-                //newChild.setIntollerances((Collection<Ingredient>) lvIntollerances.getSelectionModel().getSelectedItems());
-                //newChild.setAllergies((Collection<Ingredient>) lvAllergies.getSelectionModel().getSelectedItems());
-                //newChild.setContacts((Collection<Contact>) tableContacts.getSelectionModel().getSelectedItems());
+                        null/*TableUtils.getSelectedItems(tablePediatrist).get(0)*/);
+
+                newChild.setParents(TableUtils.getSelectedItems(tableParents));
+
+                boolean ingredientExists = false;
+                List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
+                List<Ingredient> intollerances = new ArrayList<>();
+                for (Ingredient listViewItem : lvIntollerances.getItems()) {
+                    for(Ingredient databaseListItem : allIngredients){
+                        if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
+                            intollerances.add(databaseListItem);
+                            ingredientExists = true;
+                            break;
+                        }
+                    }
+
+                    if (!ingredientExists) {
+                        intollerances.add(listViewItem);
+                    }
+                    ingredientExists = false;
+                }
+                newChild.setIntollerances(intollerances);
+
+                //Allergie
+
+                newChild.setContacts(TableUtils.getSelectedItems(tableContacts));
 
                 connectionManager.getClient().create(newChild);
 
@@ -357,8 +379,10 @@ public class AddPersonController implements Initializable {
                         Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                         tfAddress.getText(),
                         tfTelephone.getText());
-                newPediatris.setIntollerances((Collection<Ingredient>) lvIntollerances.getSelectionModel().getSelectedItems());
-                newPediatris.setAllergies((Collection<Ingredient>) lvAllergies.getSelectionModel().getSelectedItems());
+
+                //Intolleranze
+
+                //Allergie
 
                 connectionManager.getClient().create(newPediatris);
 
@@ -373,9 +397,6 @@ public class AddPersonController implements Initializable {
                         tfTelephone.getText(),
                         tfUsername.getText(),
                         tfPassword.getText());
-                newStaff.setIntollerances((Collection<Ingredient>)lvIntollerances.getSelectionModel().getSelectedItems());
-                newStaff.setAllergies((Collection<Ingredient>) lvAllergies.getSelectionModel().getSelectedItems());
-                newStaff.setContacts((Collection<Contact>) tableContacts.getSelectionModel().getSelectedItems());
 
                 connectionManager.getClient().create(newStaff);
 

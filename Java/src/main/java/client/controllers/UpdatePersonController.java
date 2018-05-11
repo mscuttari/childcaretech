@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
+import main.java.client.gui.GuiContact;
+import main.java.client.gui.GuiParent;
+import main.java.client.gui.GuiPediatrist;
+import main.java.client.gui.TableUtils;
 import main.java.models.*;
 
 import java.io.IOException;
@@ -46,25 +51,25 @@ public class UpdatePersonController implements Initializable {
     @FXML TextField tfTelephone;
 
     @FXML private Tab tabParents;
-    @FXML private TableView<Parent> tableParents;
-    @FXML private TableColumn<Parent, Boolean> columnParentsSelected;
-    @FXML private TableColumn<Parent, String> columnParentsFirstName;
-    @FXML private TableColumn<Parent, String> columnParentsLastName;
-    @FXML private TableColumn<Parent, String> columnParentsFiscalCode;
+    @FXML private TableView<GuiParent> tableParents;
+    @FXML private TableColumn<GuiParent, Boolean> columnParentsSelected;
+    @FXML private TableColumn<GuiParent, String> columnParentsFirstName;
+    @FXML private TableColumn<GuiParent, String> columnParentsLastName;
+    @FXML private TableColumn<GuiParent, String> columnParentsFiscalCode;
 
     @FXML private Tab tabPediatrist;
-    @FXML private TableView<Pediatrist> tablePediatrist;
-    @FXML private TableColumn<Parent, Boolean> columnPediatristSelected;
-    @FXML private TableColumn<Parent, String> columnPediatristFirstName;
-    @FXML private TableColumn<Parent, String> columnPediatristLastName;
-    @FXML private TableColumn<Parent, String> columnPediatristFiscalCode;
+    @FXML private TableView<GuiPediatrist> tablePediatrist;
+    @FXML private TableColumn<GuiPediatrist, Boolean> columnPediatristSelected;
+    @FXML private TableColumn<GuiPediatrist, String> columnPediatristFirstName;
+    @FXML private TableColumn<GuiPediatrist, String> columnPediatristLastName;
+    @FXML private TableColumn<GuiPediatrist, String> columnPediatristFiscalCode;
 
     @FXML private Tab tabContacts;
-    @FXML private TableView<Contact> tableContacts;
-    @FXML private TableColumn<Parent, Boolean> columnContactsSelected;
-    @FXML private TableColumn<Parent, String> columnContactsFirstName;
-    @FXML private TableColumn<Parent, String> columnContactsLastName;
-    @FXML private TableColumn<Parent, String> columnContactsFiscalCode;
+    @FXML private TableView<GuiContact> tableContacts;
+    @FXML private TableColumn<GuiContact, Boolean> columnContactsSelected;
+    @FXML private TableColumn<GuiContact, String> columnContactsFirstName;
+    @FXML private TableColumn<GuiContact, String> columnContactsLastName;
+    @FXML private TableColumn<GuiContact, String> columnContactsFiscalCode;
 
     @FXML private Tab tabAllergies;
     @FXML private TextField txAddAllergy;
@@ -124,10 +129,10 @@ public class UpdatePersonController implements Initializable {
 
             case "Staff":
                 imagePersonType.setImage(new Image("/images/secretary.png"));
-                tfUsername.setText(((Staff)person).getUsername());
-                tfUsernameConfirmation.setText(((Staff)person).getUsername());
-                tfPassword.setText(((Staff)person).getPassword());
-                tfPasswordConfirmation.setText(((Staff)person).getPassword());
+                tfUsername.setText(((Staff) person).getUsername());
+                tfUsernameConfirmation.setText(((Staff) person).getUsername());
+                tfPassword.setText(((Staff) person).getPassword());
+                tfPasswordConfirmation.setText(((Staff) person).getPassword());
                 tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabContacts, tabLoginData);
                 break;
         }
@@ -142,42 +147,47 @@ public class UpdatePersonController implements Initializable {
         tfLastName.setText(person.getLastName());
         tfAddress.setText(person.getAddress());
         tfTelephone.setText(person.getTelephone());
-        if(person.getBirthdate()!=null){
+        if (person.getBirthdate() != null) {
             dpBirthdate.setValue(new java.sql.Date(person.getBirthdate().getTime()).toLocalDate());
         }
 
         // Parents tab
         List<Parent> parents = connectionManager.getClient().getParents();
-        ObservableList<Parent> parentsData = FXCollections.observableArrayList(parents);
+        ObservableList<GuiParent> parentsData = TableUtils.getGuiModelsList(parents);
 
+        columnParentsSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnParentsSelected));
+        columnParentsSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
         columnParentsFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnParentsLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnParentsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableParents.setEditable(true);
-        tableParents.setFocusTraversable(false);
         tableParents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tableParents.setItems(parentsData);
 
         // Pediatrist tab
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
-        ObservableList<Pediatrist> pediatristData = FXCollections.observableArrayList(pediatrists);
+        ObservableList<GuiPediatrist> pediatristData = TableUtils.getGuiModelsList(pediatrists);
 
+        columnPediatristSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnPediatristSelected));
+        columnPediatristSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
         columnPediatristFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPediatristLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tablePediatrist.setEditable(true);
-        tablePediatrist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tablePediatrist.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         tablePediatrist.setItems(pediatristData);
 
 
         // Contacts tab
         List<Contact> contacts = connectionManager.getClient().getContacts();
-        ObservableList<Contact> contactsData = FXCollections.observableArrayList(contacts);
+        ObservableList<GuiContact> contactsData = TableUtils.getGuiModelsList(contacts);
 
+        columnContactsSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnContactsSelected));
+        columnContactsSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
         columnContactsFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnContactsLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnContactsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
@@ -187,6 +197,11 @@ public class UpdatePersonController implements Initializable {
 
         tableContacts.setItems(contactsData);
 
+        List<Contact> personContacts = (List<Contact>) person.getContacts();
+        for (GuiContact item : tableContacts.getItems()){
+            if(personContacts.contains(item.getModel()))
+                item.setSelected(true);
+        }
 
         // Allergies tab
         lvAllergies.getItems().setAll(person.getAllergies());
@@ -217,24 +232,21 @@ public class UpdatePersonController implements Initializable {
         // LoginData tab
 
         //Username confirmation
-        tfUsername.textProperty().addListener((obs, oldText, newText) -> { usernameConfirmation(); });
-        tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> { usernameConfirmation(); });
+        tfUsername.textProperty().addListener((obs, oldText, newText) -> {
+            usernameConfirmation();
+        });
+        tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> {
+            usernameConfirmation();
+        });
 
         //Password confirmation
-        tfPassword.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
-        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
+        tfPassword.textProperty().addListener((obs, oldText, newText) -> {
+            passwordConfirmation();
+        });
+        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> {
+            passwordConfirmation();
+        });
 
-
-        // Avvia il programma, seleziona le voci, aspetta 5 secondi e leggi il log
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                ObservableList<Parent> selected = tableParents.getSelectionModel().getSelectedItems();
-                for (Parent parent : selected) {
-                    LogUtils.e("Parent", parent.getFirstName() + ", " + parent.getLastName());
-                }
-            }
-        }, 5000);
     }
 
     public void addAllergies() {
