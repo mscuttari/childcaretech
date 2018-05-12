@@ -29,7 +29,7 @@
                   </ImageView>
                   <VBox alignment="CENTER" spacing="15.0">
                      <children>
-                        <Button fx:id="buttonAddTrip" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                        <Button fx:id="buttonTripAdministration" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -46,19 +46,25 @@
                                  <children>
                                     <ImageView fitHeight="40.0" fitWidth="40.0">
                                        <image>
-                                          <Image url="@../images/plus(green).png" />
+                                          <Image url="@../images/cabin.png" />
                                        </image>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
                                     </ImageView>
-                                    <Label text="Aggiungi gita" textFill="#45b39c">
+                                    <Label text="Gestione" textFill="#45b39c">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
                                     </Label>
                                  </children>
                               </HBox>
                            </graphic>
                         </Button>
-                        <Button fx:id="buttonUpdateTrip" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                        <Button fx:id="buttonPresences" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -67,10 +73,10 @@
                                  <children>
                                     <ImageView fitHeight="40.0" fitWidth="40.0">
                                        <image>
-                                          <Image url="@../images/minus(green).png" />
+                                          <Image url="@../images/bus.png" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Modifica gita" textFill="#45b39c">
+                                    <Label text="Presenze" textFill="#45b39c">
                                        <font>
                                           <Font size="18.0" />
                                        </font>

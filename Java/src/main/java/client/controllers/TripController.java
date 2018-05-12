@@ -1,10 +1,14 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import main.java.LogUtils;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -14,25 +18,32 @@ public class TripController implements Initializable{
     private static final String TAG = "TripController";
 
     @FXML private Pane tripPane;
-    @FXML private Button buttonAddTrip;
-    @FXML private Button buttonUpdateTrip;
+    @FXML private Button buttonTripAdministration;
+    @FXML private Button buttonPresences;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         // Add trip button
-        buttonAddTrip.setOnAction(event -> addTrip());
+        buttonTripAdministration.setOnAction(event -> tripAdministration());
 
         //Update trip button
-        buttonUpdateTrip.setOnAction(event -> updateTrip());
+        buttonPresences.setOnAction(event -> presences());
     }
 
-    public void addTrip() {
+    public void tripAdministration() {
+        try {
+            Pane tripAdministrationPane = FXMLLoader.load(getClass().getResource("/views/tripAdministration.fxml"));
+            BorderPane homePane = (BorderPane) tripPane.getParent();
+            homePane.setCenter(tripAdministrationPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
 
     }
 
-    public void updateTrip() {
+    public void presences() {
 
     }
 
