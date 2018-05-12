@@ -199,7 +199,7 @@ public class UpdatePersonController implements Initializable {
 
         List<Contact> personContacts = (List<Contact>) person.getContacts();
         for (GuiContact item : tableContacts.getItems()){
-            if(personContacts.contains(item.getModel()))
+            //if(personContacts.contains(item.getModel()))
                 item.setSelected(true);
         }
 
