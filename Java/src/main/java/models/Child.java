@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity(name = "Child")
 @DiscriminatorValue("child")
@@ -71,6 +72,23 @@ public class Child extends Person {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiChild.class;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Child)) return false;
+
+        Child that = (Child) obj;
+        return Objects.equals(getPediatrist(), that.getPediatrist()) &&
+                super.equals(obj);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPediatrist(), super.hashCode());
     }
 
 

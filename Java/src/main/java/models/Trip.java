@@ -67,6 +67,22 @@ public class Trip extends BaseModel {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Trip)) return false;
+
+        Trip that = (Trip) o;
+        return Objects.equals(getDate(), that.getDate()) &&
+                Objects.equals(getTitle(), that.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDate(), getTitle());
+    }
+
+
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
     @GeneratedValue(generator = "native_generator")
@@ -142,21 +158,6 @@ public class Trip extends BaseModel {
 
     public void setStaffEnrollments(Collection<Staff> staffEnrollments) {
         this.staffEnrollments = staffEnrollments;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Trip)) return false;
-
-        Trip that = (Trip) o;
-        return Objects.equals(getDate(), that.getDate()) &&
-                Objects.equals(getTitle(), that.getTitle());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getDate(), getTitle());
     }
 
 }

@@ -64,6 +64,21 @@ public class Provider extends BaseModel {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Provider)) return false;
+
+        Provider that = (Provider) o;
+        return Objects.equals(getVat(), that.getVat());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVat());
+    }
+
+
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
     @GeneratedValue(generator = "native_generator")
@@ -101,20 +116,6 @@ public class Provider extends BaseModel {
 
     public void setFood(Collection<Food> food) {
         this.food = food;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Provider)) return false;
-
-        Provider that = (Provider) o;
-        return Objects.equals(getVat(), that.getVat());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getVat());
     }
 
 }

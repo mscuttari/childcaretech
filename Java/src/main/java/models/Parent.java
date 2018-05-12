@@ -50,6 +50,21 @@ public class Parent extends Person {
     }
 
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Parent)) return false;
+
+        return super.equals(obj);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+
     @ManyToMany(mappedBy = "parents")
     public Collection<Child> getChildren() {
         return children;

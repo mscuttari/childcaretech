@@ -50,6 +50,21 @@ public class Pediatrist extends Person {
     }
 
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Pediatrist)) return false;
+
+        return super.equals(obj);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+
     @OneToMany(mappedBy = "pediatrist")
     public Collection<Child> getCuring() {
         return curing;

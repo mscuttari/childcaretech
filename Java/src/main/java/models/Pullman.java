@@ -70,6 +70,22 @@ public class Pullman extends BaseModel {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pullman)) return false;
+
+        Pullman that = (Pullman) o;
+        return Objects.equals(getTrip(), that.getTrip()) &&
+                Objects.equals(getNumberplate(), that.getNumberplate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTrip(), getNumberplate());
+    }
+
+
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
     @GeneratedValue(generator = "native_generator")
@@ -122,21 +138,6 @@ public class Pullman extends BaseModel {
 
     public void setChildrenAssignments(Collection<Child> childrenAssignments) {
         this.childrenAssignments = childrenAssignments;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Pullman)) return false;
-
-        Pullman that = (Pullman) o;
-        return Objects.equals(getTrip(), that.getTrip()) &&
-                Objects.equals(getNumberplate(), that.getNumberplate());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getTrip(), getNumberplate());
     }
 
 }

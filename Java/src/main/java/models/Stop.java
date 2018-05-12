@@ -84,6 +84,24 @@ public class Stop extends BaseModel {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Stop)) return false;
+
+        Stop that = (Stop) o;
+        return Objects.equals(getPlaceName(), that.getPlaceName()) &&
+                Objects.equals(getProvince(), that.getProvince()) &&
+                Objects.equals(getNation(), that.getNation()) &&
+                Objects.equals(getNumber(), that.getNumber());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPlaceName(), getProvince(), getNation(), getNumber());
+    }
+
+
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
     @GeneratedValue(generator = "native_generator")
@@ -154,23 +172,6 @@ public class Stop extends BaseModel {
 
     public void setChildrenPresences(Collection<Child> childrenPresences) {
         this.childrenPresences = childrenPresences;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Stop)) return false;
-
-        Stop that = (Stop) o;
-        return Objects.equals(getPlaceName(), that.getPlaceName()) &&
-                Objects.equals(getProvince(), that.getProvince()) &&
-                Objects.equals(getNation(), that.getNation()) &&
-                Objects.equals(getNumber(), that.getNumber());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getPlaceName(), getProvince(), getNation(), getNumber());
     }
 
 }
