@@ -388,6 +388,7 @@ VBox > .split-menu-button.last > .arrow-button {
     -fx-background-insets: 0;
     -fx-border-color: #cecece;
     -fx-border-width: 1;
+    -fx-pref-height: 30;
 }
 .combo-box, .choice-box, .color-picker, .date-picker {
     -fx-border-radius: 4;
