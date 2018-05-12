@@ -6,7 +6,6 @@ import main.java.client.gui.GuiPullman;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,6 +13,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "pullmans", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_id", "numberplate"}))
 public class Pullman extends BaseModel {
+
+    // Serialization
+    private static final long serialVersionUID = 1788156831943646482L;
 
     private Long id;
     private Trip trip;
@@ -79,6 +81,7 @@ public class Pullman extends BaseModel {
         return Objects.equals(getTrip(), that.getTrip()) &&
                 Objects.equals(getNumberplate(), that.getNumberplate());
     }
+
 
     @Override
     public int hashCode() {

@@ -6,7 +6,6 @@ import main.java.client.gui.GuiIngredient;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,6 +13,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "ingredients")
 public class Ingredient extends BaseModel {
+
+    // Serialization
+    private static final long serialVersionUID = 2539848520616597694L;
 
     private Long id;
     private String name;
@@ -57,6 +59,7 @@ public class Ingredient extends BaseModel {
         return GuiIngredient.class;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,6 +68,7 @@ public class Ingredient extends BaseModel {
         Ingredient that = (Ingredient) o;
         return Objects.equals(getName(), that.getName());
     }
+
 
     @Override
     public int hashCode() {

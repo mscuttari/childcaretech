@@ -1,7 +1,5 @@
 package main.java.models;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 
@@ -14,6 +12,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class BaseModel implements Serializable {
+
+    // Serialization
+    private static final long serialVersionUID = 5852497063598077389L;
 
     /**
      * Check if fields contains valid data

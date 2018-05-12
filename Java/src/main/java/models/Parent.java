@@ -7,7 +7,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.persistence.ManyToMany;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -15,6 +14,9 @@ import java.util.Date;
 @Entity(name = "Parent")
 @DiscriminatorValue("parent")
 public class Parent extends Person {
+
+    // Serialization
+    private static final long serialVersionUID = -8335298083415447342L;
 
     private Collection<Child> children = new ArrayList<>();
 

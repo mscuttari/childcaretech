@@ -6,7 +6,6 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,17 +17,20 @@ import java.util.Objects;
 @DiscriminatorColumn(name = "type")
 public abstract class Person extends BaseModel {
 
-    protected Long id;
-    protected String fiscalCode;
-    protected String firstName;
-    protected String lastName;
-    protected Date birthDate;
-    protected String address;
-    protected String telephone;
+    // Serialization
+    private static final long serialVersionUID = -5315181403037638727L;
 
-    protected Collection<Ingredient> allergies = new ArrayList<>();
-    protected Collection<Ingredient> intollerances = new ArrayList<>();
-    protected Collection<Contact> contacts = new ArrayList<>();
+    private Long id;
+    private String fiscalCode;
+    private String firstName;
+    private String lastName;
+    private Date birthDate;
+    private String address;
+    private String telephone;
+
+    private Collection<Ingredient> allergies = new ArrayList<>();
+    private Collection<Ingredient> intollerances = new ArrayList<>();
+    private Collection<Contact> contacts = new ArrayList<>();
 
 
     /**

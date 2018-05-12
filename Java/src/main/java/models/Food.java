@@ -6,7 +6,6 @@ import main.java.client.gui.GuiFood;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,6 +13,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "food")
 public class Food extends BaseModel {
+
+    // Serialization
+    private static final long serialVersionUID = 4169234131175265564L;
 
     private Long id;
     private String name;
@@ -74,6 +76,7 @@ public class Food extends BaseModel {
         Food that = (Food) o;
         return Objects.equals(getName(), that.getName());
     }
+
 
     @Override
     public int hashCode() {
