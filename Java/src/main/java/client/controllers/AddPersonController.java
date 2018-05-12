@@ -2,8 +2,10 @@ package main.java.client.controllers;
 
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -15,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import main.java.LogUtils;
@@ -95,7 +98,11 @@ public class AddPersonController implements Initializable {
         // Person type
         cbPersonType.getItems().addAll(PersonType.values());
 
-        // add person image
+        // Save button cursor
+        addPersonImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
+        addPersonImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
+
+        // Save button click
         addPersonImage.setOnMouseClicked(event -> addPerson());
 
         cbPersonType.valueProperty().addListener((observable, oldValue, newValue) -> {
