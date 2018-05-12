@@ -28,6 +28,7 @@ import main.java.client.utils.StringUtils;
 import main.java.models.*;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -316,7 +317,7 @@ public class AddPersonController implements Initializable {
         String fiscalCode = tfFiscalCode.getText().trim();
         String firstName = tfFirstName.getText().trim();
         String lastName = tfLastName.getText().trim();
-        Date birthDate = Date.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date birthDate = dpBirthDate.getValue() == null ? null : Date.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
         String address = tfAddress.getText().trim();
         String telephone = tfTelephone.getText().trim();
         String username = tfUsername.getText().trim();
