@@ -109,6 +109,7 @@ public class Child extends Person {
     }
 
     @ManyToOne
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "pediatrist_id")
     public Pediatrist getPediatrist() {
         return pediatrist;
