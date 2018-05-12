@@ -173,7 +173,7 @@ public abstract class Person extends BaseModel {
         this.telephone = telephone == null || telephone.isEmpty() ? null : telephone;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "allergies",

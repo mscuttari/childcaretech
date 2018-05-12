@@ -384,7 +384,7 @@ public class UpdatePersonController implements Initializable {
 
         boolean allergyExists = false;
         List<Ingredient> allergies = new ArrayList<>();
-        for (Ingredient listViewItem : lvIntollerances.getItems()) {
+        for (Ingredient listViewItem : lvAllergies.getItems()) {
             for(Ingredient databaseListItem : allIngredients){
                 if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
                     allergies.add(databaseListItem);

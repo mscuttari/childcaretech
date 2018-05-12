@@ -332,28 +332,7 @@ public class AddPersonController implements Initializable {
             case CHILD:
                 Child child = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
                 child.setParents(TableUtils.getSelectedItems(tableParents));
-
-                boolean ingredientExists = false;
-                List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
-                List<Ingredient> intollerances = new ArrayList<>();
-                for (Ingredient listViewItem : lvIntollerances.getItems()) {
-                    for(Ingredient databaseListItem : allIngredients){
-                        if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
-                            intollerances.add(databaseListItem);
-                            ingredientExists = true;
-                            break;
-                        }
-                    }
-
-                    if (!ingredientExists) {
-                        intollerances.add(listViewItem);
-                    }
-                    ingredientExists = false;
-                }
-                child.setIntollerances(intollerances);
-
-                //Allergie
-                child.setContacts(TableUtils.getSelectedItems(tableContacts));
+                child.setPediatrist(TableUtils.getFirstSelectedItem(tablePediatrist));
                 person = child;
                 break;
 
@@ -373,6 +352,46 @@ public class AddPersonController implements Initializable {
                 person = new Staff(fiscalCode, firstName, lastName, birthDate, address, telephone, username, password);
                 break;
         }
+
+
+        boolean ingredientExists = false;
+        List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
+        List<Ingredient> intollerances = new ArrayList<>();
+        for (Ingredient listViewItem : lvIntollerances.getItems()) {
+            for(Ingredient databaseListItem : allIngredients){
+                if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
+                    intollerances.add(databaseListItem);
+                    ingredientExists = true;
+                    break;
+                }
+            }
+
+            if (!ingredientExists) {
+                intollerances.add(listViewItem);
+            }
+            ingredientExists = false;
+        }
+        person.setIntollerances(intollerances);
+
+        boolean allergyExists = false;
+        List<Ingredient> allergies = new ArrayList<>();
+        for (Ingredient listViewItem : lvAllergies.getItems()) {
+            for(Ingredient databaseListItem : allIngredients){
+                if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
+                    allergies.add(databaseListItem);
+                    allergyExists = true;
+                    break;
+                }
+            }
+
+            if (!allergyExists) {
+                allergies.add(listViewItem);
+            }
+            allergyExists = false;
+        }
+        person.setAllergies(allergies);
+
+        person.setContacts(TableUtils.getSelectedItems(tableContacts));
 
         // Check data
         try {
