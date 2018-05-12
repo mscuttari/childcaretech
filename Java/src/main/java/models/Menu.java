@@ -6,7 +6,6 @@ import main.java.client.gui.GuiMenu;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,6 +13,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "menus", uniqueConstraints = @UniqueConstraint(columnNames = {"responsible_id"}))
 public class Menu extends BaseModel {
+
+    // Serialization
+    private static final long serialVersionUID = -8284040804525605098L;
 
     private Long id;
     private String name;
@@ -78,6 +80,7 @@ public class Menu extends BaseModel {
         Menu that = (Menu) o;
         return Objects.equals(getName(), that.getName());
     }
+
 
     @Override
     public int hashCode() {

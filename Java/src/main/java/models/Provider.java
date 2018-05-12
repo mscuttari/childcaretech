@@ -6,7 +6,6 @@ import main.java.client.gui.GuiProvider;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,6 +13,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "providers", uniqueConstraints = @UniqueConstraint(columnNames = {"vat"}))
 public class Provider extends BaseModel {
+
+    // Serialization
+    private static final long serialVersionUID = -2813171935508565148L;
 
     private Long id;
     private String vat;
@@ -72,6 +74,7 @@ public class Provider extends BaseModel {
         Provider that = (Provider) o;
         return Objects.equals(getVat(), that.getVat());
     }
+
 
     @Override
     public int hashCode() {

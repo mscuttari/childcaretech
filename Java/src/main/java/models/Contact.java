@@ -7,7 +7,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.persistence.ManyToMany;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -15,6 +14,9 @@ import java.util.Date;
 @Entity(name = "Contact")
 @DiscriminatorValue("contact")
 public class Contact extends Person {
+
+    // Serialization
+    private static final long serialVersionUID = 7139409983483815073L;
 
     private Collection<Person> bounds = new ArrayList<>();
 

@@ -6,7 +6,6 @@ import main.java.client.gui.GuiStop;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,6 +13,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_id", "place_name", "province", "nation", "number"}))
 public class Stop extends BaseModel {
+
+    // Serialization
+    private static final long serialVersionUID = 4963210863188064706L;
 
     private Long id;
     private Trip trip;
@@ -95,6 +97,7 @@ public class Stop extends BaseModel {
                 Objects.equals(getNation(), that.getNation()) &&
                 Objects.equals(getNumber(), that.getNumber());
     }
+
 
     @Override
     public int hashCode() {

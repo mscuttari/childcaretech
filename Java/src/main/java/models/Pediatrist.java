@@ -7,7 +7,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.persistence.OneToMany;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -15,6 +14,9 @@ import java.util.Date;
 @Entity(name = "Pediatrist")
 @DiscriminatorValue("pediatrist")
 public class Pediatrist extends Person {
+
+    // Serialization
+    private static final long serialVersionUID = -2598504963548813092L;
 
     private Collection<Child> curing = new ArrayList<>();
 

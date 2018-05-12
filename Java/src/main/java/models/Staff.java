@@ -18,6 +18,9 @@ import java.util.Objects;
 @DiscriminatorValue("staff")
 public class Staff extends Person {
 
+    // Serialization
+    private static final long serialVersionUID = -3026738919615064997L;
+
     private String username;
     private String password;
 

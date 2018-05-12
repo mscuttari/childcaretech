@@ -1,6 +1,5 @@
 package main.java.models;
 
-import com.sun.media.sound.InvalidDataException;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiChild;
@@ -12,7 +11,6 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -21,6 +19,9 @@ import java.util.Objects;
 @Entity(name = "Child")
 @DiscriminatorValue("child")
 public class Child extends Person {
+
+    // Serialization
+    private static final long serialVersionUID = 6653642585718262873L;
 
     private Pediatrist pediatrist;
 

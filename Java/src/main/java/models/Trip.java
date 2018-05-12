@@ -6,7 +6,6 @@ import main.java.client.gui.GuiTrip;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +14,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "trips", uniqueConstraints = @UniqueConstraint(columnNames = {"date", "title"}))
 public class Trip extends BaseModel {
+
+    // Serialization
+    private static final long serialVersionUID = 9041385768903721723L;
 
     private Long id;
     private Date date;
@@ -76,6 +78,7 @@ public class Trip extends BaseModel {
         return Objects.equals(getDate(), that.getDate()) &&
                 Objects.equals(getTitle(), that.getTitle());
     }
+
 
     @Override
     public int hashCode() {
