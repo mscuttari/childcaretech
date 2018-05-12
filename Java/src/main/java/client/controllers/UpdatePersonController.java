@@ -1,5 +1,6 @@
 package main.java.client.controllers;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +22,8 @@ import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
 import main.java.client.gui.GuiParent;
 import main.java.client.gui.GuiPediatrist;
+import main.java.client.layout.RadioButtonTableCell;
+import main.java.client.layout.RadioSelectionModel;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
@@ -136,14 +139,17 @@ public class UpdatePersonController implements Initializable {
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
         ObservableList<GuiPediatrist> pediatristData = TableUtils.getGuiModelsList(pediatrists);
 
-        columnPediatristSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnPediatristSelected));
-        columnPediatristSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
+        SingleSelectionModel<GuiPediatrist> model = new RadioSelectionModel<>(tablePediatrist.itemsProperty());
+        columnPediatristSelected.setCellFactory(c -> new RadioButtonTableCell<>(model));
+        columnPediatristSelected.setCellValueFactory(c -> Bindings.equal(c.getValue().selectedProperty(), model.selectedItemProperty()));
+
         columnPediatristFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPediatristLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tablePediatrist.setEditable(true);
         tablePediatrist.setItems(pediatristData);
+
 
         // Contacts tab
         List<Contact> contacts = connectionManager.getClient().getContacts();
@@ -219,7 +225,6 @@ public class UpdatePersonController implements Initializable {
                     if(((Child)person).getParents().contains(item.getModel()))
                         item.setSelected(true);
                 }
-
 
                 for (GuiPediatrist item : tablePediatrist.getItems()){
                     if(((Child)person).getPediatrist().equals(item.getModel()))
@@ -348,6 +353,7 @@ public class UpdatePersonController implements Initializable {
         switch (PersonType.getPersonType(person)) {
             case "Bambino":
                 ((Child) person).setParents(TableUtils.getSelectedItems(tableParents));
+                ((Child)person).setPediatrist(TableUtils.getFirstSelectedItem(tablePediatrist));
                 break;
             case "Staff":
                 ((Staff) person).setUsername(tfUsername.getText());
