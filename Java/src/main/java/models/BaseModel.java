@@ -2,6 +2,7 @@ package main.java.models;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 
 import javax.persistence.Column;
@@ -14,6 +15,21 @@ import java.util.*;
 
 public abstract class BaseModel implements Serializable {
 
+    /**
+     * Check if fields contains valid data
+     *
+     * @throws  InvalidFieldException   if any of the fields is invalid
+     */
+    @Transient
+    public abstract void checkDataValidity() throws InvalidFieldException;
+
+
+    /**
+     * Get the class used to represent the object in the GUI
+     *
+     * @return  GUI model class
+     */
+    @Transient
     public abstract Class<? extends GuiBaseModel> getGuiClass();
 
 

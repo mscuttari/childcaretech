@@ -1,5 +1,6 @@
 package main.java.models;
 
+import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiMenu;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,7 +18,56 @@ public class Menu extends BaseModel {
     private String name;
     private String type;
     private Staff responsible;
+
     private Collection<Food> composition = new ArrayList<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Menu() {
+        this(null, null, null);
+    }
+
+
+    /**
+     * Constructor
+     *
+     * @param   name            name
+     * @param   type            type
+     * @param   responsible     responsible (staff person)
+     */
+    public Menu(String name, String type, Staff responsible) {
+        this.name = name;
+        this.type = type;
+        this.responsible = responsible;
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // Name: [a-z] [A-Z] space
+        if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");
+        if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+
+        // Type: [a-z] [A-Z] space
+        if (type == null || type.isEmpty()) throw new InvalidFieldException("Tipologia mancante");
+        if (!type.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Tipologia non valida");
+
+        // Responsible
+        if (responsible == null) throw new InvalidFieldException("Responsabile mancante");
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiMenu.class;
+    }
+
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
@@ -71,12 +121,6 @@ public class Menu extends BaseModel {
 
     public void setComposition(Collection<Food> composition) {
         this.composition = composition;
-    }
-
-    @Transient
-    @Override
-    public Class<? extends GuiBaseModel> getGuiClass() {
-        return GuiMenu.class;
     }
 
 }

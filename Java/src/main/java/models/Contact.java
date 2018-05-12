@@ -16,21 +16,54 @@ import java.util.Date;
 @DiscriminatorValue("contact")
 public class Contact extends Person {
 
+    private Collection<Person> bounds = new ArrayList<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Contact(){
+        this(null, null, null, null, null, null);
+    }
+
+
+    /**
+     * Constructor
+     *
+     * @param   fiscalCode      fiscal code
+     * @param   firstName       first name
+     * @param   lastName        last name
+     * @param   birthDate       birth date
+     * @param   address         address
+     * @param   telephone       telephone
+     */
+    public Contact(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone) {
+        super(fiscalCode, firstName, lastName, birthDate, address, telephone);
+    }
+
+
+    /** {@inheritDoc} */
     @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiContact.class;
     }
 
-    private Collection<Person> bounds = new ArrayList<>();
 
-    public Contact(){
-        this(null, null, null, null, null, null);
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Contact)) return false;
+
+        return super.equals(obj);
     }
 
-    public Contact(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone) {
-        super(fiscalCode, firstName, lastName, birthDate, address, telephone);
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
+
 
     @ManyToMany(mappedBy = "contacts")
     public Collection<Person> getBounds() {

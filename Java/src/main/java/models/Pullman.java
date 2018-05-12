@@ -1,5 +1,6 @@
 package main.java.models;
 
+import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiPullman;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,9 +18,57 @@ public class Pullman extends BaseModel {
     private Long id;
     private Trip trip;
     private String numberplate;
-    private int seats;
+    private Integer seats;
 
     private Collection<Child> childrenAssignments = new ArrayList<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Pullman() {
+        this(null, null, null);
+    }
+
+
+    /**
+     * Constructor
+     *
+     * @param   trip            trip the pullman is used for
+     * @param   numberplate     numberplate
+     * @param   seats           max seats available
+     */
+    public Pullman(Trip trip, String numberplate, Integer seats) {
+        this.trip = trip;
+        this.numberplate = numberplate;
+        this.seats = seats;
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // Trip
+        if (trip == null) throw new InvalidFieldException("Gita mancante");
+
+        // Type: [a-z] [A-Z] [0-9]
+        if (numberplate == null || numberplate.isEmpty()) throw new InvalidFieldException("Targa mancante");
+        if (!numberplate.matches("^[a-zA-Z\\d]+$")) throw new InvalidFieldException("Targa non valida");
+
+        // Seats: > 0
+        if (seats == null) throw new InvalidFieldException("Numero di posti mancante");
+        if (seats <= 0) throw new InvalidFieldException("Numero di posti non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiPullman.class;
+    }
+
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
@@ -53,11 +102,11 @@ public class Pullman extends BaseModel {
     }
 
     @Column(name = "seats", nullable = false)
-    public int getSeats() {
+    public Integer getSeats() {
         return seats;
     }
 
-    public void setSeats(int seats) {
+    public void setSeats(Integer seats) {
         this.seats = seats;
     }
 
@@ -88,12 +137,6 @@ public class Pullman extends BaseModel {
     @Override
     public int hashCode() {
         return Objects.hash(getTrip(), getNumberplate());
-    }
-
-    @Transient
-    @Override
-    public Class<? extends GuiBaseModel> getGuiClass() {
-        return GuiPullman.class;
     }
 
 }
