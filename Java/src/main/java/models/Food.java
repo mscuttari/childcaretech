@@ -102,7 +102,7 @@ public class Food extends BaseModel {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null || name.isEmpty() ? null : name;
     }
 
     @Column(name = "type")
@@ -111,7 +111,7 @@ public class Food extends BaseModel {
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.type = type == null || type.isEmpty() ? null : type;
     }
 
     @ManyToOne

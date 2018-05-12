@@ -98,7 +98,7 @@ public class Staff extends Person {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username == null || username.isEmpty() ? null : username;
     }
 
     @Column(name = "password")
@@ -107,7 +107,7 @@ public class Staff extends Person {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null || password.isEmpty() ? null : password;
     }
 
     @OneToMany(mappedBy = "responsible")

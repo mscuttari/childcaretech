@@ -94,7 +94,7 @@ public class Ingredient extends BaseModel {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null || name.isEmpty() ? null : name;
     }
 
     @ManyToMany(mappedBy = "composition")

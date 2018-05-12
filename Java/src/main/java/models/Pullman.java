@@ -117,7 +117,7 @@ public class Pullman extends BaseModel {
     }
 
     public void setNumberplate(String numberplate) {
-        this.numberplate = numberplate;
+        this.numberplate = numberplate == null || numberplate.isEmpty() ? null : numberplate;
     }
 
     @Column(name = "seats", nullable = false)

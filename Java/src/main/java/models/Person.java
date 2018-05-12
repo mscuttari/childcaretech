@@ -78,10 +78,10 @@ public abstract class Person extends BaseModel {
         if (!lastName.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Cognome non valido");
 
         // Address: [a-z] [A-Z] space . , ; \ / °
-        if (address != null && !address.matches("^[a-zA-Z\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
+        if (address != null && !address.matches("^$|^[a-zA-Z\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
 
         // Telephone: [0-9] space +
-        if (telephone != null && !telephone.matches("^[\\d\\040+]+$")) throw new InvalidFieldException("Telefono non valido");
+        if (telephone != null && !telephone.matches("^$|^[\\d\\040+]+$")) throw new InvalidFieldException("Telefono non valido");
     }
 
 
@@ -124,7 +124,7 @@ public abstract class Person extends BaseModel {
     }
 
     public void setFiscalCode(String fiscalCode) {
-        this.fiscalCode = fiscalCode;
+        this.fiscalCode = fiscalCode == null || fiscalCode.isEmpty() ? null : fiscalCode;
     }
 
     @Column(name = "name", nullable = false)
@@ -133,7 +133,7 @@ public abstract class Person extends BaseModel {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = firstName == null || firstName.isEmpty() ? null : firstName;
     }
 
     @Column(name = "surname", nullable = false)
@@ -142,7 +142,7 @@ public abstract class Person extends BaseModel {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = lastName == null || lastName.isEmpty() ? null : lastName;
     }
 
     @Temporal(TemporalType.DATE)
@@ -161,7 +161,7 @@ public abstract class Person extends BaseModel {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = address == null || address.isEmpty() ? null : address;
     }
 
     @Column(name = "telephone")
@@ -170,7 +170,7 @@ public abstract class Person extends BaseModel {
     }
 
     public void setTelephone(String telephone) {
-        this.telephone = telephone;
+        this.telephone = telephone == null || telephone.isEmpty() ? null : telephone;
     }
 
     @ManyToMany

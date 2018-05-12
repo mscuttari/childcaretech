@@ -1,5 +1,6 @@
 package main.java.client.controllers;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -8,27 +9,23 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
-import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
 import main.java.client.gui.GuiParent;
 import main.java.client.gui.GuiPediatrist;
-import main.java.client.gui.TableUtils;
-import main.java.client.utils.StringUtils;
+import main.java.client.utils.TableUtils;
+import main.java.client.layout.RadioButtonTableCell;
+import main.java.client.layout.RadioSelectionModel;
 import main.java.models.*;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -161,8 +158,10 @@ public class AddPersonController implements Initializable {
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
         ObservableList<GuiPediatrist> pediatristData = TableUtils.getGuiModelsList(pediatrists);
 
-        columnPediatristSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnPediatristSelected));
-        columnPediatristSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
+        SingleSelectionModel<GuiPediatrist> model = new RadioSelectionModel<>(tablePediatrist.itemsProperty());
+        columnPediatristSelected.setCellFactory(c -> new RadioButtonTableCell<>(model));
+        columnPediatristSelected.setCellValueFactory(c -> Bindings.equal(c.getValue().selectedProperty(), model.selectedItemProperty()));
+
         columnPediatristFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPediatristLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
@@ -188,24 +187,24 @@ public class AddPersonController implements Initializable {
         // Allergies tab
         lvAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         buttonRemoveSelectedAllergies.setOnAction(event -> removeSelectedAllergies());
-        buttonAddAllergy.setOnAction(event -> addAllergies());
+        buttonAddAllergy.setOnAction(event -> addAllergy());
 
         // Add allergy on enter key press
         txAddAllergy.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER)
-                addAllergies();
+                addAllergy();
         });
 
 
         // Intollerances tab
         lvIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        buttonAddIntollerances.setOnAction(event -> addIntollerances());
+        buttonAddIntollerances.setOnAction(event -> addIntollerance());
         buttonRemoveSelectedIntollerances.setOnAction(event -> removeSelectedIntollerances());
 
         // Add intollerance on enter key press
         txAddIntollerances.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER)
-                addIntollerances();
+                addIntollerance();
         });
 
 
@@ -225,59 +224,62 @@ public class AddPersonController implements Initializable {
     }
 
 
-    public void addAllergies() {
+    /**
+     * Add allergy to the allergies list
+     */
+    private void addAllergy() {
         if (!txAddAllergy.getText().isEmpty()) {
             String allergyName = txAddAllergy.getText().trim();
-            Ingredient ingredient = new Ingredient();
-            ingredient.setName(allergyName);
+            Ingredient ingredient = new Ingredient(allergyName);
             lvAllergies.getItems().add(ingredient);
             txAddAllergy.setText("");
-            labelErrorAllergies.setText("");
         }
-
     }
 
 
-    public void removeSelectedAllergies() {
+    /**
+     * Remove the selected allergies
+     */
+    private void removeSelectedAllergies() {
+        List<Ingredient> selectedAllergies = lvAllergies.getSelectionModel().getSelectedItems();
 
-        if (!lvAllergies.getSelectionModel().isEmpty()) {
-            lvAllergies.getItems().removeAll(lvAllergies.getSelectionModel().getSelectedItems());
-            lvAllergies.getSelectionModel().clearSelection();
-            labelErrorAllergies.setText("");
-        } else if (lvAllergies.getItems().isEmpty()) {
-            labelErrorAllergies.setText("Non ci sono allergie nella lista");
+        if (selectedAllergies.isEmpty()) {
+            showErrorDialog("Nessuna allergia selezionata");
         } else {
-            labelErrorAllergies.setText("Non ci sono allergie selezionate");
+            lvAllergies.getItems().removeAll(selectedAllergies);
+            lvAllergies.getSelectionModel().clearSelection();
         }
-
     }
 
-    public void addIntollerances() {
+
+    /**
+     * Add intollerance to the intollerances list
+     */
+    private void addIntollerance() {
         if (!txAddIntollerances.getText().isEmpty()) {
             String intolleranceName = txAddIntollerances.getText().trim();
-            Ingredient ingredient = new Ingredient();
-            ingredient.setName(intolleranceName);
+            Ingredient ingredient = new Ingredient(intolleranceName);
             lvIntollerances.getItems().add(ingredient);
             txAddIntollerances.setText("");
-            labelErrorIntollerances.setText("");
         }
 
     }
 
 
-    public void removeSelectedIntollerances() {
+    /**
+     * Remove selected intollerances from the intollerances list
+     */
+    private void removeSelectedIntollerances() {
+        List<Ingredient> selectedIntollerances = lvIntollerances.getSelectionModel().getSelectedItems();
 
-        if (!lvIntollerances.getSelectionModel().isEmpty()) {
-            lvIntollerances.getItems().removeAll(lvIntollerances.getSelectionModel().getSelectedItems());
-            lvIntollerances.getSelectionModel().clearSelection();
-            labelErrorIntollerances.setText("");
-        } else if (lvIntollerances.getItems().isEmpty()) {
-            labelErrorIntollerances.setText("Non ci sono intolleranze nella lista");
+        if (selectedIntollerances.isEmpty()) {
+            showErrorDialog("Nessuna intolleranza selezionata");
         } else {
-            labelErrorIntollerances.setText("Non ci sono intolleranze selezionate");
+            lvIntollerances.getItems().removeAll(selectedIntollerances);
+            lvIntollerances.getSelectionModel().clearSelection();
         }
-
     }
+
 
     public void usernameConfirmation() {
         if (tfUsername.getText().isEmpty()) {
@@ -352,7 +354,6 @@ public class AddPersonController implements Initializable {
 
                 //Allergie
                 child.setContacts(TableUtils.getSelectedItems(tableContacts));
-
                 person = child;
                 break;
 

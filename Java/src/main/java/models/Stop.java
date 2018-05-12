@@ -133,7 +133,7 @@ public class Stop extends BaseModel {
     }
 
     public void setPlaceName(String placeName) {
-        this.placeName = placeName;
+        this.placeName = placeName == null || placeName.isEmpty() ? null : placeName;
     }
 
     @Column(name = "province", nullable = false)
@@ -142,7 +142,7 @@ public class Stop extends BaseModel {
     }
 
     public void setProvince(String province) {
-        this.province = province;
+        this.province = province == null || province.isEmpty() ? null : province;
     }
 
     @Column(name = "nation", nullable = false)
@@ -151,7 +151,7 @@ public class Stop extends BaseModel {
     }
 
     public void setNation(String nation) {
-        this.nation = nation;
+        this.nation = nation == null || nation.isEmpty() ? null : nation;
     }
 
     @Column(name = "number", nullable = false)

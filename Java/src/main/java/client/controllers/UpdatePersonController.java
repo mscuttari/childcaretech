@@ -7,7 +7,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,7 +20,7 @@ import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
 import main.java.client.gui.GuiParent;
 import main.java.client.gui.GuiPediatrist;
-import main.java.client.gui.TableUtils;
+import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
 import java.io.IOException;

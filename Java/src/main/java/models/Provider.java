@@ -100,7 +100,7 @@ public class Provider extends BaseModel {
     }
 
     public void setVat(String vat) {
-        this.vat = vat;
+        this.vat = vat == null || vat.isEmpty() ? null : vat;
     }
 
     @Column(name = "name", nullable = false)
@@ -109,7 +109,7 @@ public class Provider extends BaseModel {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null || name.isEmpty() ? null : name;
     }
 
     @OneToMany(mappedBy = "provider")
