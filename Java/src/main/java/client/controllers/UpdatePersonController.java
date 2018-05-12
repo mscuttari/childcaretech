@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import main.java.LogUtils;
+import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
 import main.java.client.gui.GuiParent;
@@ -106,38 +107,6 @@ public class UpdatePersonController implements Initializable {
         //delete person image
         deletePersonImage.setOnMouseClicked(event -> deletePerson());
 
-        tabPane.getTabs().remove(1, tabPane.getTabs().size());
-
-        switch (PersonType.getPersonType(person)) {
-            case "Bambino":
-                imagePersonType.setImage(new Image("/images/baby.png"));
-                tabPane.getTabs().addAll(tabParents, tabPediatrist, tabAllergies, tabIntollerances, tabContacts);
-                break;
-
-            case "Contatto":
-                imagePersonType.setImage(new Image("/images/grandparents.png"));
-                break;
-
-            case "Genitore":
-                imagePersonType.setImage(new Image("/images/family.png"));
-                break;
-
-            case "Pediatra":
-                imagePersonType.setImage(new Image("/images/doctor.png"));
-                tabPane.getTabs().addAll(tabAllergies, tabIntollerances);
-                break;
-
-            case "Staff":
-                imagePersonType.setImage(new Image("/images/secretary.png"));
-                tfUsername.setText(((Staff) person).getUsername());
-                tfUsernameConfirmation.setText(((Staff) person).getUsername());
-                tfPassword.setText(((Staff) person).getPassword());
-                tfPasswordConfirmation.setText(((Staff) person).getPassword());
-                tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabContacts, tabLoginData);
-                break;
-        }
-
-
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
@@ -162,8 +131,6 @@ public class UpdatePersonController implements Initializable {
         columnParentsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableParents.setEditable(true);
-        tableParents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         tableParents.setItems(parentsData);
 
         // Pediatrist tab
@@ -177,10 +144,7 @@ public class UpdatePersonController implements Initializable {
         columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tablePediatrist.setEditable(true);
-        tablePediatrist.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
         tablePediatrist.setItems(pediatristData);
-
 
         // Contacts tab
         List<Contact> contacts = connectionManager.getClient().getContacts();
@@ -244,6 +208,50 @@ public class UpdatePersonController implements Initializable {
         tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> {
             passwordConfirmation();
         });
+
+        tabPane.getTabs().remove(1, tabPane.getTabs().size());
+
+        switch (PersonType.getPersonType(person)) {
+            case "Bambino":
+                imagePersonType.setImage(new Image("/images/baby.png"));
+                tabPane.getTabs().addAll(tabParents, tabPediatrist, tabAllergies, tabIntollerances, tabContacts);
+
+                for (GuiParent item : tableParents.getItems()){
+                    if(((Child)person).getParents().contains(item.getModel()))
+                        item.setSelected(true);
+                }
+
+
+                for (GuiPediatrist item : tablePediatrist.getItems()){
+                    if(((Child)person).getPediatrist().equals(item.getModel()))
+                        item.setSelected(true);
+                }
+
+                break;
+
+            case "Contatto":
+                imagePersonType.setImage(new Image("/images/grandparents.png"));
+                break;
+
+            case "Genitore":
+                imagePersonType.setImage(new Image("/images/family.png"));
+                break;
+
+            case "Pediatra":
+                imagePersonType.setImage(new Image("/images/doctor.png"));
+                tabPane.getTabs().addAll(tabAllergies, tabIntollerances);
+                break;
+
+            case "Staff":
+                imagePersonType.setImage(new Image("/images/secretary.png"));
+                tfUsername.setText(((Staff) person).getUsername());
+                tfUsernameConfirmation.setText(((Staff) person).getUsername());
+                tfPassword.setText(((Staff) person).getPassword());
+                tfPasswordConfirmation.setText(((Staff) person).getPassword());
+                tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabContacts, tabLoginData);
+                break;
+        }
+
 
     }
 
@@ -337,17 +345,16 @@ public class UpdatePersonController implements Initializable {
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
-/*
+
         switch (PersonType.getPersonType(person)) {
             case "Bambino":
-                ((Child)person).setParents((Collection<Parent>) tableParents.getSelectionModel().getSelectedItems());
-                break;
-            case "Genitore":
+                ((Child) person).setParents(TableUtils.getSelectedItems(tableParents));
                 break;
             case "Staff":
-                ((Staff)person).setUsername(tfUsername.getText());
-                ((Staff)person).setPassword(tfPassword.getText());
-        }*/
+                ((Staff) person).setUsername(tfUsername.getText());
+                ((Staff) person).setPassword(tfPassword.getText());
+                break;
+        }
 
         person.setFiscalCode(tfFiscalCode.getText());
         person.setFirstName(tfFirstName.getText());
@@ -355,13 +362,71 @@ public class UpdatePersonController implements Initializable {
         person.setBirthdate(Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         person.setAddress(tfAddress.getText());
         person.setTelephone(tfTelephone.getText());
-        //person.setIntollerances((Collection<Ingredient>)lvIntollerances.getSelectionModel().getSelectedItems());
-        //person.setAllergies((Collection<Ingredient>) lvAllergies.getSelectionModel().getSelectedItems());
-        //person.setContacts((Collection<Contact>) tableContacts.getSelectionModel().getSelectedItems());
+        person.setContacts(TableUtils.getSelectedItems(tableContacts));
 
+        List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
+        boolean intolleranceExists = false;
+        List<Ingredient> intollerances = new ArrayList<>();
+        for (Ingredient listViewItem : lvIntollerances.getItems()) {
+            for(Ingredient databaseListItem : allIngredients){
+                if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
+                    intollerances.add(databaseListItem);
+                    intolleranceExists = true;
+                    break;
+                }
+            }
+
+            if (!intolleranceExists) {
+                intollerances.add(listViewItem);
+            }
+            intolleranceExists = false;
+        }
+        person.setIntollerances(intollerances);
+
+        boolean allergyExists = false;
+        List<Ingredient> allergies = new ArrayList<>();
+        for (Ingredient listViewItem : lvIntollerances.getItems()) {
+            for(Ingredient databaseListItem : allIngredients){
+                if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
+                    allergies.add(databaseListItem);
+                    allergyExists = true;
+                    break;
+                }
+            }
+
+            if (!allergyExists) {
+                allergies.add(listViewItem);
+            }
+            allergyExists = false;
+        }
+        person.setAllergies(allergies);
+
+
+        // Check data
+        try {
+            person.checkDataValidity();
+        } catch (InvalidFieldException e) {
+            showErrorDialog(e.getMessage());
+            return;
+        }
+
+        // Update person
         connectionManager.getClient().update(person);
-
     }
+
+
+    /**
+     * Show error dialog
+     *
+     * @param   message     error message
+     */
+    private static void showErrorDialog(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.setTitle("Errore");
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
 
     public void deletePerson() {
 

@@ -168,7 +168,9 @@ public class HibernateUtils {
         EntityManager em = emf.createEntityManager();
 
         try {
+            em.getTransaction().begin();
             em.merge(obj);
+            em.getTransaction().commit();
             //flushAndClear(em);
             return true;
         } catch (Exception e) {
