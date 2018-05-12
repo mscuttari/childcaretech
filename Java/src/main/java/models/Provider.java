@@ -1,5 +1,6 @@
 package main.java.models;
 
+import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiProvider;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,7 +18,51 @@ public class Provider extends BaseModel {
     private Long id;
     private String vat;
     private String name;
+
     private Collection<Food> food = new ArrayList<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Provider() {
+        this(null, null);
+    }
+
+
+    /**
+     * Constructor
+     *
+     * @param   vat     VAT
+     * @param   name    name
+     */
+    public Provider(String vat, String name) {
+        this.vat = vat;
+        this.name = name;
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // VAT: [a-z] [A-Z] [0-9]
+        if (vat == null || vat.isEmpty()) throw new InvalidFieldException("Partita IVA mancante");
+        if (!name.matches("^[a-zA-Z\\d]+$")) throw new InvalidFieldException("Partita IVA non valida");
+
+        // Name: [a-z] [A-Z] space
+        if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");
+        if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiProvider.class;
+    }
+
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
@@ -70,12 +115,6 @@ public class Provider extends BaseModel {
     @Override
     public int hashCode() {
         return Objects.hash(getVat());
-    }
-
-    @Transient
-    @Override
-    public Class<? extends GuiBaseModel> getGuiClass() {
-        return GuiProvider.class;
     }
 
 }

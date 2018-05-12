@@ -1,5 +1,6 @@
 package main.java.models;
 
+import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiTrip;
 import org.hibernate.annotations.GenericGenerator;
@@ -23,6 +24,48 @@ public class Trip extends BaseModel {
     private Collection<Pullman> transports = new ArrayList<>();
     private Collection<Child> childrenEnrollments = new ArrayList<>();
     private Collection<Staff> staffEnrollments = new ArrayList<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Trip() {
+        this(null, null);
+    }
+
+
+    /**
+     * Constructor
+     *
+     * @param   date    date the trip has been scheduled for
+     * @param   title   name of the trip
+     */
+    public Trip(Date date, String title) {
+        this.date = date;
+        this.title = title;
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // Date
+        if (date == null) throw new InvalidFieldException("Data mancante");
+
+        // Title: [a-z] [A-Z] space
+        if (title == null || title.isEmpty()) throw new InvalidFieldException("Titolo mancante");
+        if (!title.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Titolo non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiTrip.class;
+    }
+
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
@@ -114,12 +157,6 @@ public class Trip extends BaseModel {
     @Override
     public int hashCode() {
         return Objects.hash(getDate(), getTitle());
-    }
-
-    @Transient
-    @Override
-    public Class<? extends GuiBaseModel> getGuiClass() {
-        return GuiTrip.class;
     }
 
 }

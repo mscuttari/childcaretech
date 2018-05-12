@@ -1,5 +1,6 @@
 package main.java.models;
 
+import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiIngredient;
 import org.hibernate.annotations.GenericGenerator;
@@ -18,6 +19,43 @@ public class Ingredient extends BaseModel {
     private Collection<Food> food = new ArrayList<>();
     private Collection<Person> allergicPeople = new ArrayList<>();
     private Collection<Person> intollerantPeople = new ArrayList<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Ingredient() {
+        this(null);
+    }
+
+
+    /**
+     * Constructor
+     *
+     * @param   name    name
+     */
+    public Ingredient(String name) {
+        this.name = name;
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // Name: [a-z] [A-Z] space
+        if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");
+        if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiIngredient.class;
+    }
+
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")
@@ -70,12 +108,6 @@ public class Ingredient extends BaseModel {
     @Override
     public String toString(){
         return name;
-    }
-
-    @Transient
-    @Override
-    public Class<? extends GuiBaseModel> getGuiClass() {
-        return GuiIngredient.class;
     }
 
 }

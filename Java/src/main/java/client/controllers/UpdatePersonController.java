@@ -193,8 +193,6 @@ public class UpdatePersonController implements Initializable {
         columnContactsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableContacts.setEditable(true);
-        tableContacts.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         tableContacts.setItems(contactsData);
 
         List<Contact> personContacts = (List<Contact>) person.getContacts();

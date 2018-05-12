@@ -16,21 +16,39 @@ import java.util.Date;
 @DiscriminatorValue("parent")
 public class Parent extends Person {
 
+    private Collection<Child> children = new ArrayList<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Parent(){
+        this(null, null, null, null, null, null);
+    }
+
+
+    /**
+     * Constructor
+     *
+     * @param   fiscalCode      fiscal code
+     * @param   firstName       first name
+     * @param   lastName        last name
+     * @param   birthDate       birth date
+     * @param   address         address
+     * @param   telephone       telephone
+     */
+    public Parent(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone) {
+        super(fiscalCode, firstName, lastName, birthDate, address, telephone);
+    }
+
+
+    /** {@inheritDoc} */
     @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiParent.class;
     }
 
-    private Collection<Child> children = new ArrayList<>();
-
-    public Parent(){
-        this(null, null, null, null, null, null);
-    }
-
-    public Parent(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone) {
-        super(fiscalCode, firstName, lastName, birthDate, address, telephone);
-    }
 
     @ManyToMany(mappedBy = "parents")
     public Collection<Child> getChildren() {

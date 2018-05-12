@@ -2,8 +2,10 @@ package main.java.client.controllers;
 
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -15,14 +17,17 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import main.java.LogUtils;
+import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
 import main.java.client.gui.GuiParent;
 import main.java.client.gui.GuiPediatrist;
 import main.java.client.gui.TableUtils;
+import main.java.client.utils.StringUtils;
 import main.java.models.*;
 
 import java.net.URL;
@@ -43,7 +48,7 @@ public class AddPersonController implements Initializable {
     @FXML private TextField tfFiscalCode;
     @FXML private TextField tfFirstName;
     @FXML private TextField tfLastName;
-    @FXML private DatePicker dpBirthdate;
+    @FXML private DatePicker dpBirthDate;
     @FXML private TextField tfAddress;
     @FXML private TextField tfTelephone;
 
@@ -95,8 +100,12 @@ public class AddPersonController implements Initializable {
         // Person type
         cbPersonType.getItems().addAll(PersonType.values());
 
-        // add person image
-        addPersonImage.setOnMouseClicked(event -> addPerson());
+        // Save button cursor
+        addPersonImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
+        addPersonImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
+
+        // Save button click
+        addPersonImage.setOnMouseClicked(event -> savePerson());
 
         cbPersonType.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue == newValue) return;
@@ -147,8 +156,6 @@ public class AddPersonController implements Initializable {
         columnParentsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableParents.setEditable(true);
-        tableParents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         tableParents.setItems(parentsData);
 
 
@@ -163,8 +170,6 @@ public class AddPersonController implements Initializable {
         columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tablePediatrist.setEditable(true);
-        tablePediatrist.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
         tablePediatrist.setItems(pediatristData);
 
 
@@ -179,8 +184,6 @@ public class AddPersonController implements Initializable {
         columnContactsFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableContacts.setEditable(true);
-        tableContacts.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         tableContacts.setItems(contactsData);
 
 
@@ -304,22 +307,31 @@ public class AddPersonController implements Initializable {
         }
     }
 
-    public void addPerson() {
 
+    /**
+     * Save person in the database
+     */
+    private void savePerson() {
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
+        // Data
+        String fiscalCode = tfFiscalCode.getText().trim();
+        String firstName = tfFirstName.getText().trim();
+        String lastName = tfLastName.getText().trim();
+        Date birthDate = Date.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        String address = tfAddress.getText().trim();
+        String telephone = tfTelephone.getText().trim();
+        String username = tfUsername.getText().trim();
+        String password = tfPassword.getText();
+
+        // Create person
+        Person person = null;
+
         switch (cbPersonType.getValue()) {
             case CHILD:
-                Child newChild = new Child(tfFiscalCode.getText(),
-                        tfFirstName.getText(),
-                        tfLastName.getText(),
-                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        tfAddress.getText(),
-                        tfTelephone.getText(),
-                        null/*TableUtils.getSelectedItems(tablePediatrist).get(0)*/);
-
-                newChild.setParents(TableUtils.getSelectedItems(tableParents));
+                Child child = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
+                child.setParents(TableUtils.getSelectedItems(tableParents));
 
                 boolean ingredientExists = false;
                 List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
@@ -338,70 +350,54 @@ public class AddPersonController implements Initializable {
                     }
                     ingredientExists = false;
                 }
-                newChild.setIntollerances(intollerances);
+                child.setIntollerances(intollerances);
 
                 //Allergie
+                child.setContacts(TableUtils.getSelectedItems(tableContacts));
 
-                newChild.setContacts(TableUtils.getSelectedItems(tableContacts));
-
-                connectionManager.getClient().create(newChild);
-
+                person = child;
                 break;
 
             case CONTACT:
-                Contact newContact = new Contact(tfFiscalCode.getText(),
-                        tfFirstName.getText(),
-                        tfLastName.getText(),
-                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        tfAddress.getText(),
-                        tfTelephone.getText());
-
-                connectionManager.getClient().create(newContact);
-
+                person = new Contact(fiscalCode, firstName, lastName, birthDate, address, telephone);
                 break;
 
             case PARENT:
-                Parent newParent = new Parent(tfFiscalCode.getText(),
-                        tfFirstName.getText(),
-                        tfLastName.getText(),
-                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        tfAddress.getText(),
-                        tfTelephone.getText());
-
-                connectionManager.getClient().create(newParent);
-
+                person = new Parent(fiscalCode, firstName, lastName, birthDate, address, telephone);
                 break;
 
             case PEDIATRIST:
-                Pediatrist newPediatris = new Pediatrist(tfFiscalCode.getText(),
-                        tfFirstName.getText(),
-                        tfLastName.getText(),
-                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        tfAddress.getText(),
-                        tfTelephone.getText());
-
-                //Intolleranze
-
-                //Allergie
-
-                connectionManager.getClient().create(newPediatris);
-
+                person = new Pediatrist(fiscalCode, firstName, lastName, birthDate, address, telephone);
                 break;
 
             case STAFF:
-                Staff newStaff = new Staff(tfFiscalCode.getText(),
-                        tfFirstName.getText(),
-                        tfLastName.getText(),
-                        Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        tfAddress.getText(),
-                        tfTelephone.getText(),
-                        tfUsername.getText(),
-                        tfPassword.getText());
-
-                connectionManager.getClient().create(newStaff);
-
+                person = new Staff(fiscalCode, firstName, lastName, birthDate, address, telephone, username, password);
                 break;
         }
 
+        // Check data
+        try {
+            person.checkDataValidity();
+        } catch (InvalidFieldException e) {
+            showErrorDialog(e.getMessage());
+            return;
+        }
+
+        // Save person
+        connectionManager.getClient().create(person);
     }
+
+
+    /**
+     * Show error dialog
+     *
+     * @param   message     error message
+     */
+    private static void showErrorDialog(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.setTitle("Errore");
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
 }

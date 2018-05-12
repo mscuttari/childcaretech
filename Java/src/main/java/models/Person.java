@@ -1,5 +1,6 @@
 package main.java.models;
 
+import main.java.client.InvalidFieldException;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "people", uniqueConstraints = {@UniqueConstraint(columnNames = "fiscal_code")})
@@ -28,10 +30,25 @@ public abstract class Person extends BaseModel {
     protected Collection<Ingredient> intollerances = new ArrayList<>();
     protected Collection<Contact> contacts = new ArrayList<>();
 
+
+    /**
+     * Default constructor
+     */
     public Person() {
         this(null, null, null, null, null, null);
     }
 
+
+    /**
+     * Constructor
+     *
+     * @param   fiscalCode      fiscal code
+     * @param   firstName       first name
+     * @param   lastName        last name
+     * @param   birthDate       birth date
+     * @param   address         address
+     * @param   telephone       telephone
+     */
     public Person(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone) {
         this.fiscalCode = fiscalCode;
         this.firstName = firstName;
@@ -40,6 +57,52 @@ public abstract class Person extends BaseModel {
         this.address = address;
         this.telephone = telephone;
     }
+
+
+    /** {@inheritDoc} */
+    @Transient
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // Fiscal code: [A-Z] [0-9] 16 chars length
+        if (fiscalCode == null || fiscalCode.isEmpty()) throw new InvalidFieldException("Codice fiscale mancante");
+        if (fiscalCode.length() != 16) throw new InvalidFieldException("Codice fiscale non valido");
+
+        // First name: [a-z] [A-Z] space
+        if (firstName == null || firstName.isEmpty()) throw new InvalidFieldException("Nome mancante");
+        if (!firstName.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+
+        // Last name: [a-z] [A-Z] space
+        if (lastName == null || lastName.isEmpty()) throw new InvalidFieldException("Cognome mancante");
+        if (!lastName.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Cognome non valido");
+
+        // Address: [a-z] [A-Z] space . , ; \ / °
+        if (address != null && !address.matches("^[a-zA-Z\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
+
+        // Telephone: [0-9] space +
+        if (telephone != null && !telephone.matches("^[\\d\\040+]+$")) throw new InvalidFieldException("Telefono non valido");
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Person)) return false;
+
+        Person that = (Person)obj;
+        return Objects.equals(getFiscalCode(), that.getFiscalCode()) &&
+                Objects.equals(getFirstName(), that.getFirstName()) &&
+                Objects.equals(getLastName(), that.getLastName()) &&
+                Objects.equals(getBirthdate(), that.getBirthdate()) &&
+                Objects.equals(getAddress(), that.getAddress()) &&
+                Objects.equals(getTelephone(), that.getTelephone());
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFiscalCode());
+    }
+
 
     @Id
     @GenericGenerator(name = "native_generator", strategy = "native")

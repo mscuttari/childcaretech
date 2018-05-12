@@ -1,5 +1,7 @@
 package main.java.models;
 
+import com.sun.media.sound.InvalidDataException;
+import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiChild;
 
@@ -19,12 +21,6 @@ import java.util.Date;
 @DiscriminatorValue("child")
 public class Child extends Person {
 
-    @Transient
-    @Override
-    public Class<? extends GuiBaseModel> getGuiClass() {
-        return GuiChild.class;
-    }
-
     private Pediatrist pediatrist;
 
     private Collection<Parent> parents = new ArrayList<>();
@@ -32,14 +28,51 @@ public class Child extends Person {
     private Collection<Pullman> pullmansAssignments = new ArrayList<>();
     private Collection<Stop> stopsPresences = new ArrayList<>();
 
+
+    /**
+     * Default constructor
+     */
     public Child() {
         this(null, null, null, null, null, null,null);
     }
 
+
+    /**
+     * Constructor
+     *
+     * @param   fiscalCode      fiscal code
+     * @param   firstName       first name
+     * @param   lastName        last name
+     * @param   birthDate       birth date
+     * @param   address         address
+     * @param   telephone       telephone
+     * @param   pediatrist      pediatrist
+     */
     public Child(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone, Pediatrist pediatrist) {
         super(fiscalCode, firstName, lastName, birthDate, address, telephone);
+
         this.pediatrist = pediatrist;
     }
+
+
+    /** {@inheritDoc */
+    @Transient
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        super.checkDataValidity();
+
+        // Pediatrist
+        if (pediatrist == null) throw new InvalidFieldException("Pediatra mancante");
+    }
+
+
+    /** {@inheritDoc */
+    @Transient
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiChild.class;
+    }
+
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
