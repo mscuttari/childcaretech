@@ -352,6 +352,8 @@ public class AddPersonController implements Initializable {
                 //Allergie
                 child.setContacts(TableUtils.getSelectedItems(tableContacts));
 
+                child.setPediatrist(TableUtils.getSelectedItems(tablePediatrist).get(0));
+
                 person = child;
                 break;
 
