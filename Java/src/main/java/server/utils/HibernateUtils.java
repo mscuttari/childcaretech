@@ -140,7 +140,7 @@ public class HibernateUtils {
 
         try {
             em.getTransaction().begin();
-            em.persist(obj);
+            em.merge(obj);
             em.getTransaction().commit();
             //flushAndClear(em);
             return true;
