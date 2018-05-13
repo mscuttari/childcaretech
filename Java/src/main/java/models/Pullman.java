@@ -129,11 +129,12 @@ public class Pullman extends BaseModel {
         this.seats = seats;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "children_pullmans_assignments",
             joinColumns = { @JoinColumn(name = "pullman_id") },
-            inverseJoinColumns = { @JoinColumn(name = "child_id") }
+            inverseJoinColumns = { @JoinColumn(name = "child_id")
+            }
     )
     public Collection<Child> getChildrenAssignments() {
         return childrenAssignments;

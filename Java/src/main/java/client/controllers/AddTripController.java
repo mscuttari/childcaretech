@@ -79,7 +79,7 @@ public class AddTripController implements Initializable {
         addTripImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
 
         // Save button click
-        addTripImage.setOnMouseClicked(event -> savePrimaryTripData());
+        addTripImage.setOnMouseClicked(event -> saveTrip());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -177,11 +177,11 @@ public class AddTripController implements Initializable {
             showErrorDialog("Nessuna fermata selezionata");
         } else {
             for(Stop selectedItem : selectedStops){
-                for(Stop followingItem : lvStops.getItems().subList(selectedItem.getNumber()-1, lvStops.getItems().size())){
+                for(Stop followingItem : lvStops.getItems().subList(selectedItem.getNumber(), lvStops.getItems().size())){
                     followingItem.setNumber(followingItem.getNumber()-1);
                 }
-                lvStops.getItems().remove(selectedItem);
             }
+            lvStops.getItems().removeAll(selectedStops);
             lvStops.getSelectionModel().clearSelection();
         }
     }
@@ -191,7 +191,7 @@ public class AddTripController implements Initializable {
      */
     private void addPullman() {
         String pullmanNumberplate = tfPullmanNumberplate.getText().trim();
-        Integer pullmanSeats = Integer.valueOf(tfPullmanSeats.getText().trim());
+        Integer pullmanSeats = tfPullmanSeats.getText().isEmpty() ? null : Integer.valueOf(tfPullmanSeats.getText().trim());
         Pullman pullman = new Pullman(trip, pullmanNumberplate, pullmanSeats);
 
         // Check data
@@ -225,7 +225,7 @@ public class AddTripController implements Initializable {
     /**
      * Save trip in the database
      */
-    private void savePrimaryTripData() {
+    private void saveTrip() {
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -239,6 +239,30 @@ public class AddTripController implements Initializable {
 
         trip.setChildrenEnrollments(TableUtils.getSelectedItems(tableChildren));
         trip.setStaffEnrollments(TableUtils.getSelectedItems(tableStaff));
+
+        int totalNumberOfSeats = 0;
+        for(Pullman current : lvPullman.getItems()){
+            totalNumberOfSeats += current.getSeats();
+        }
+
+        if(totalNumberOfSeats < TableUtils.getSelectedItems(tableChildren).size()){
+            showErrorDialog("Posti insufficienti per tutti i bambini");
+            return;
+        }
+
+
+        int i=0;
+        int occupiedSeats = 0;
+        double totalNumberOfChildren = TableUtils.getSelectedItems(tableChildren).size();
+        for(Pullman current : lvPullman.getItems()){
+            List<Child> children = new ArrayList<>();
+            occupiedSeats += current.getSeats();
+            double occupiedSeatsPercentage = occupiedSeats/(double)totalNumberOfSeats;
+            children.addAll(TableUtils.getSelectedItems(tableChildren).subList
+                    (i, (int)(occupiedSeatsPercentage*totalNumberOfChildren)));
+            current.setChildrenAssignments(children);
+            i = (int)(occupiedSeatsPercentage*totalNumberOfChildren);
+        }
 
         // Check data
         try {
