@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="seatsAssignmentPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.SeatsAssignmentController">
+    <children>
+        <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label text="Assegnamento posti" textFill="#9bcc5f">
+                    <padding>
+                        <Insets bottom="15.0" />
+                    </padding>
+                    <font>
+                        <Font name="Comic Sans MS" size="36.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER" layoutX="550.0" layoutY="150.0" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <ImageView fitHeight="250.0" fitWidth="250.0">
+                            <image>
+                                <Image url="@../images/bus.png" />
+                            </image>
+                        </ImageView>
+                        <VBox alignment="CENTER" spacing="15.0">
+                            <children>
+                                <Button fx:id="buttonShowSeats" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                    <textFill>
+                                        <LinearGradient endX="1.0" endY="1.0">
+                                            <stops>
+                                                <Stop color="BLACK" />
+                                                <Stop color="WHITE" offset="1.0" />
+                                            </stops>
+                                        </LinearGradient>
+                                    </textFill>
+                                    <graphic>
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                                            <children>
+                                                <ImageView fitHeight="40.0" fitWidth="40.0">
+                                                    <image>
+                                                        <Image url="@../images/seat.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <Label text="Visualizza posti" textFill="#9bcc5f">
+                                                    <font>
+                                                        <Font size="18.0" />
+                                                    </font>
+                                                    <HBox.margin>
+                                                        <Insets right="25.0" />
+                                                    </HBox.margin>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                    </graphic>
+                                </Button>
+                                <Button fx:id="buttonInsertPresences" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                    <graphic>
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                                            <children>
+                                                <ImageView fitHeight="40.0" fitWidth="40.0">
+                                                    <image>
+                                                        <Image url="@../images/checklist-trip.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <Label text="Inserisci presenze" textFill="#9bcc5f">
+                                                    <font>
+                                                        <Font size="18.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                    </graphic>
+                                    <textFill>
+                                        <LinearGradient endX="1.0" endY="1.0">
+                                            <stops>
+                                                <Stop color="BLACK" />
+                                                <Stop color="WHITE" offset="1.0" />
+                                            </stops>
+                                        </LinearGradient>
+                                    </textFill>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

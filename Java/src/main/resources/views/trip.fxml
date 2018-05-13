@@ -52,19 +52,19 @@
                                           <Insets />
                                        </HBox.margin>
                                     </ImageView>
-                                    <Label text="Gestione" textFill="#45b39c">
+                                    <Label text="Gestione gite" textFill="#45b39c">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                        <HBox.margin>
-                                          <Insets right="10.0" />
+                                          <Insets right="60.0" />
                                        </HBox.margin>
                                     </Label>
                                  </children>
                               </HBox>
                            </graphic>
                         </Button>
-                        <Button fx:id="buttonPresences" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                        <Button fx:id="buttonSeatsAssignment" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -76,7 +76,7 @@
                                           <Image url="@../images/bus.png" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Presenze" textFill="#45b39c">
+                                    <Label text="Assegnamento posti" textFill="#45b39c">
                                        <font>
                                           <Font size="18.0" />
                                        </font>

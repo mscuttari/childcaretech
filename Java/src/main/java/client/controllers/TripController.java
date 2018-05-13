@@ -19,7 +19,7 @@ public class TripController implements Initializable{
 
     @FXML private Pane tripPane;
     @FXML private Button buttonTripAdministration;
-    @FXML private Button buttonPresences;
+    @FXML private Button buttonSeatsAssignment;
 
 
     @Override
@@ -29,7 +29,7 @@ public class TripController implements Initializable{
         buttonTripAdministration.setOnAction(event -> tripAdministration());
 
         //Update trip button
-        buttonPresences.setOnAction(event -> presences());
+        buttonSeatsAssignment.setOnAction(event -> seatsAssignment());
     }
 
     public void tripAdministration() {
@@ -43,8 +43,14 @@ public class TripController implements Initializable{
 
     }
 
-    public void presences() {
-
+    public void seatsAssignment() {
+        try {
+            Pane seatsAssignmentPane = FXMLLoader.load(getClass().getResource("/views/seatsAssignment.fxml"));
+            BorderPane homePane = (BorderPane) tripPane.getParent();
+            homePane.setCenter(seatsAssignmentPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 }
