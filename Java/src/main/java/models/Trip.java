@@ -117,7 +117,7 @@ public class Trip extends BaseModel {
         this.title = title == null || title.isEmpty() ? null : title;
     }
 
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(mappedBy = "trip", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public Collection<Stop> getStops() {
         return stops;
     }
@@ -126,7 +126,7 @@ public class Trip extends BaseModel {
         this.stops = stops;
     }
 
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(mappedBy = "trip", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public Collection<Pullman> getTransports() {
         return transports;
     }

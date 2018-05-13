@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddTripController">
+    <children>
+
+        <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+
+                <Tab fx:id="tabData" text="Dati Gita">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <HBox alignment="CENTER" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <children>
+
+                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <children>
+                                                <ImageView fitHeight="200.0" fitWidth="200.0">
+                                       <image>
+                                          <Image url="@../images/hiker.png" />
+                                       </image></ImageView>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox alignment="CENTER" spacing="15.0">
+                                            <children>
+
+                                                <TextField fx:id="tfTripName" layoutX="10.0" layoutY="276.0" promptText="Nome gita">
+                                                    <font>
+                                                        <Font size="18.0" />
+                                                    </font>
+                                                </TextField>
+                                                <DatePicker fx:id="dpTripDate" prefHeight="37.0" prefWidth="234.0" promptText="Data" style="-fx-font-size: 18;" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+
+                <Tab fx:id="tabChildren" text="Bambini partecipanti">
+                    <content>
+                        <TableView fx:id="tableChildren">
+                            <columns>
+                                <TableColumn fx:id="columnChildrenSelected" style="-fx-alignment: center" />
+                                <TableColumn fx:id="columnChildrenFirstName" style="-fx-alignment: center" text="Nome" />
+                                <TableColumn fx:id="columnChildrenLastName" style="-fx-alignment: center" text="Cognome" />
+                                <TableColumn fx:id="columnChildrenFiscalCode" style="-fx-alignment: center" text="Codice fiscale" />
+                            </columns>
+                        </TableView>
+                    </content>
+                </Tab>
+
+                <Tab fx:id="tabStaff" text="Accompagnatori">
+                    <content>
+                        <TableView fx:id="tableStaff">
+                            <columns>
+                                <TableColumn fx:id="columnStaffSelected" style="-fx-alignment: center" />
+                                <TableColumn fx:id="columnStaffFirstName" style="-fx-alignment: center" text="Nome" />
+                                <TableColumn fx:id="columnStaffLastName" style="-fx-alignment: center" text="Cognome" />
+                                <TableColumn fx:id="columnStaffFiscalCode" style="-fx-alignment: center" text="Codice fiscale" />
+                            </columns>
+                        </TableView>
+                    </content>
+                </Tab>
+
+                <Tab fx:id="tabStops" text="Fermate">
+                    <content>
+                        <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
+                            <children>
+                        <HBox>
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TextField fx:id="tfStopName" promptText="Nome">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="tfStopProvince" layoutX="10.0" layoutY="192.0" promptText="Provincia">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="tfStopNation" layoutX="10.0" layoutY="210.0" promptText="Nazione">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <Pane HBox.hgrow="ALWAYS" />
+                                      <ListView fx:id="lvStops" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+
+                                <HBox alignment="CENTER">
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <children>
+                                                <Button fx:id="buttonAddStop" mnemonicParsing="false" style="-fx-border-color: lightgreen;" text="Aggiungi" />
+                                            </children>
+                                        </HBox>
+
+                                        <Pane HBox.hgrow="ALWAYS" />
+                                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                            <children>
+
+                                                <Label fx:id="labelErrorStops" textFill="RED" underline="true">
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                    <HBox.margin>
+                                                        <Insets />
+                                                    </HBox.margin>
+                                                </Label>
+                                                <Button fx:id="buttonRemoveSelectedStops" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="50.0" />
+                                    </VBox.margin>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+            <Tab fx:id="tabPullman" text="Pullman">
+               <content>
+                  <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
+                     <children>
+                        <HBox>
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TextField fx:id="tfPullmanNumberplate" layoutX="10.0" layoutY="192.0" promptText="Targa">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="tfPullmanSeats" layoutX="10.0" layoutY="210.0" promptText="Numero di posti">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              <Pane HBox.hgrow="ALWAYS" />
+                              <ListView fx:id="lvPullman" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <Button fx:id="buttonAddPullman" mnemonicParsing="false" style="-fx-border-color: lightgreen;" text="Aggiungi" />
+                                 </children>
+                              </HBox>
+                              <Pane HBox.hgrow="ALWAYS" />
+                              <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="labelErrorPullman" textFill="RED" underline="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Button fx:id="buttonRemoveSelectedPullman" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="50.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            </tabs>
+        </TabPane>
+        <ImageView fx:id="addTripImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+            <image>
+                <Image url="@../images/save-data.png" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

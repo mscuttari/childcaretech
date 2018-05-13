@@ -177,4 +177,8 @@ public class Stop extends BaseModel {
         this.childrenPresences = childrenPresences;
     }
 
+    @Override
+    public String toString(){
+        return number.toString()+") "+placeName+"("+province+")";
+    }
 }
