@@ -22,8 +22,6 @@ import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
-import main.java.client.layout.RadioButtonTableCell;
-import main.java.client.layout.RadioSelectionModel;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
