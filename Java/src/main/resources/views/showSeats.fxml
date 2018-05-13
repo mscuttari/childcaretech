@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="showSeatsPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowSeatsController">
+   <children>
+      <SplitPane dividerPositions="0.3, 0.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>
+            <TableView fx:id="tableTrip" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+              <columns>
+                <TableColumn fx:id="columnTripTitle" prefWidth="107.0" text="Nome" />
+                <TableColumn fx:id="columnTripDate" prefWidth="68.0" text="Data" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tablePullman" prefHeight="398.0" prefWidth="211.0">
+               <columns>
+                  <TableColumn fx:id="columnPullmanNumberplate" prefWidth="112.0" text="Targa" />
+               </columns>
+            </TableView>
+            <TableView fx:id="tableChildren" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="columnChildrenFiscalCode" prefWidth="117.0" text="Codice Fiscale" />
+                  <TableColumn fx:id="columnChildrenFirstName" prefWidth="58.0" text="Nome" />
+                  <TableColumn fx:id="columnChildrenLastName" prefWidth="90.0" text="Cognome" />
+               </columns>
+            </TableView>
+         </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

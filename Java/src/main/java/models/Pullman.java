@@ -4,6 +4,8 @@ import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiPullman;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -130,6 +132,7 @@ public class Pullman extends BaseModel {
     }
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_pullmans_assignments",
             joinColumns = { @JoinColumn(name = "pullman_id") },

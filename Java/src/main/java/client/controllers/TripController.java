@@ -40,7 +40,6 @@ public class TripController implements Initializable{
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
-
     }
 
     public void seatsAssignment() {

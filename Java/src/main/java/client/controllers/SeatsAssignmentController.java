@@ -27,30 +27,24 @@ public class SeatsAssignmentController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         // Add trip button
-        buttonAddTrip.setOnAction(event -> addTrip());
+        buttonShowSeats.setOnAction(event -> showSeats());
 
         //Show trip button
-        buttonShowTrip.setOnAction(event -> showTrip());
+        buttonInsertPresences.setOnAction(event -> insertPresences());
     }
 
-    public void addTrip() {
+    public void showSeats() {
         try {
-            Pane addTripPane = FXMLLoader.load(getClass().getResource("/views/addTrip.fxml"));
-            BorderPane homePane = (BorderPane) tripAdministrationPane.getParent();
-            homePane.setCenter(addTripPane);
+            Pane showSeatsPane = FXMLLoader.load(getClass().getResource("/views/showSeats.fxml"));
+            BorderPane homePane = (BorderPane) seatsAssignmentPane.getParent();
+            homePane.setCenter(showSeatsPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
     }
 
-    public void showTrip() {
-        try {
-            TableView tableTrips = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));
-            BorderPane homePane = (BorderPane) tripAdministrationPane.getParent();
-            homePane.setCenter(tableTrips);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+    public void insertPresences() {
+        
     }
 
 }

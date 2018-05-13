@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.connection.ConnectionType;
-import main.java.client.layout.RadioButtonTableCell;
 
 import java.io.IOException;
 import java.net.URL;
