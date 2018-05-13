@@ -1,6 +1,7 @@
 package main.java.client.controllers;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,14 +17,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
 import main.java.client.gui.GuiParent;
 import main.java.client.gui.GuiPediatrist;
-import main.java.client.layout.RadioButtonTableCell;
-import main.java.client.layout.RadioSelectionModel;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
@@ -139,9 +139,8 @@ public class UpdatePersonController implements Initializable {
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
         ObservableList<GuiPediatrist> pediatristData = TableUtils.getGuiModelsList(pediatrists);
 
-        SingleSelectionModel<GuiPediatrist> model = new RadioSelectionModel<>(tablePediatrist.itemsProperty());
-        columnPediatristSelected.setCellFactory(c -> new RadioButtonTableCell<>(model));
-        columnPediatristSelected.setCellValueFactory(c -> Bindings.equal(c.getValue().selectedProperty(), model.selectedItemProperty()));
+        columnPediatristSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnPediatristSelected));
+        columnPediatristSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
 
         columnPediatristFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPediatristLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));

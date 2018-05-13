@@ -2,6 +2,8 @@ package main.java.client.controllers;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.connection.ConnectionType;
+import main.java.client.layout.RadioButtonTableCell;
 
 import java.io.IOException;
 import java.net.URL;
