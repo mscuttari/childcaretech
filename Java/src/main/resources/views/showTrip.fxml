@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+
+<TableView fx:id="tableTrip" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowTripController">
+    <columns>
+        <TableColumn fx:id="columnTripTitle" style="-fx-alignment: center" text="Nome" />
+        <TableColumn fx:id="columnTripDate" style="-fx-alignment: center" text="Data" />
+        <TableColumn fx:id="columnTripEdit" style="-fx-alignment: center" />
+    </columns>
+</TableView>

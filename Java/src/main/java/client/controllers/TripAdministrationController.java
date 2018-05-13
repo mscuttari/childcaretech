@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.LogUtils;
@@ -43,7 +44,13 @@ public class TripAdministrationController implements Initializable{
     }
 
     public void showTrip() {
-
+        try {
+            TableView tableTrips = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));
+            BorderPane homePane = (BorderPane) tripAdministrationPane.getParent();
+            homePane.setCenter(tableTrips);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 }
