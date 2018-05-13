@@ -4,6 +4,8 @@ import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiTrip;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -117,7 +119,8 @@ public class Trip extends BaseModel {
         this.title = title == null || title.isEmpty() ? null : title;
     }
 
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     public Collection<Stop> getStops() {
         return stops;
     }
@@ -126,7 +129,8 @@ public class Trip extends BaseModel {
         this.stops = stops;
     }
 
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     public Collection<Pullman> getTransports() {
         return transports;
     }
@@ -136,6 +140,7 @@ public class Trip extends BaseModel {
     }
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_trips_enrollments",
             joinColumns = { @JoinColumn(name = "trip_id") },
@@ -150,6 +155,7 @@ public class Trip extends BaseModel {
     }
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "staff_trips_enrollments",
             joinColumns = { @JoinColumn(name = "trip_id") },
