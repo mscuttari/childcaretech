@@ -165,7 +165,8 @@ public class Stop extends BaseModel {
         this.number = number;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_stops_presence",
             joinColumns = { @JoinColumn(name = "stop_id") },

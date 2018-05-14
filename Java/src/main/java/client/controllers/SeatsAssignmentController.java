@@ -44,7 +44,13 @@ public class SeatsAssignmentController implements Initializable{
     }
 
     public void insertPresences() {
-        
+        try {
+            Pane insertPresencesPane = FXMLLoader.load(getClass().getResource("/views/insertPresences.fxml"));
+            BorderPane homePane = (BorderPane) seatsAssignmentPane.getParent();
+            homePane.setCenter(insertPresencesPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 }

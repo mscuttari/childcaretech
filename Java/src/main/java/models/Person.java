@@ -218,4 +218,9 @@ public abstract class Person extends BaseModel {
         this.contacts = contacts;
     }
 
+    @Override
+    public String toString(){
+        return "(" + fiscalCode + ") " + firstName + lastName;
+    }
+
 }

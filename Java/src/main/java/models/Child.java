@@ -89,7 +89,7 @@ public class Child extends Person {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPediatrist(), super.hashCode());
+        return super.hashCode();
     }
 
 
@@ -145,5 +145,11 @@ public class Child extends Person {
     public void setStopsPresences(Collection<Stop> stopsPresences) {
         this.stopsPresences = stopsPresences;
     }
+
+    @Override
+    public String toString(){
+        return super.toString();
+    }
+
 
 }

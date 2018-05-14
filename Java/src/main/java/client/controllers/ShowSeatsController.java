@@ -28,9 +28,9 @@ public class ShowSeatsController implements Initializable{
     // Debug
     private static final String TAG = "ShowSeatsController";
 
-    @FXML private TableView<Trip> tableTrip;
-    @FXML private TableColumn<Trip, String> columnTripTitle;
-    @FXML private TableColumn<Trip, Date> columnTripDate;
+    @FXML private TableView<Trip> tableTrips;
+    @FXML private TableColumn<Trip, String> columnTripsTitle;
+    @FXML private TableColumn<Trip, Date> columnTripsDate;
 
     @FXML private TableView<Pullman> tablePullman;
     @FXML private TableColumn<Pullman, String> columnPullmanNumberplate;
@@ -50,12 +50,12 @@ public class ShowSeatsController implements Initializable{
         List<Trip> trips = connectionManager.getClient().getTrips();
         ObservableList<Trip> tripsData = FXCollections.observableArrayList(trips);
 
-        columnTripTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        columnTripDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        columnTripsTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        columnTripsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-        tableTrip.setEditable(true);
-        tableTrip.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        tableTrip.setItems(tripsData);
+        tableTrips.setEditable(true);
+        tableTrips.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableTrips.setItems(tripsData);
 
         columnPullmanNumberplate.setCellValueFactory(new PropertyValueFactory<>("numberplate"));
         tablePullman.setEditable(true);
@@ -65,9 +65,9 @@ public class ShowSeatsController implements Initializable{
         columnChildrenFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnChildrenLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
-        tableTrip.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        tableTrips.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                List<Pullman> pullman = (List<Pullman>) tableTrip.getSelectionModel().getSelectedItem().getTransports();
+                List<Pullman> pullman = (List<Pullman>) tableTrips.getSelectionModel().getSelectedItem().getTransports();
                 ObservableList<Pullman> pullmanData = FXCollections.observableArrayList(pullman);
                 tablePullman.setItems(pullmanData);
             }
@@ -81,6 +81,4 @@ public class ShowSeatsController implements Initializable{
             }
         });
     }
-
-
 }
