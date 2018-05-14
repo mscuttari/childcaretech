@@ -1,9 +1,7 @@
 package main.java.client.controllers;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.ComboBox;
@@ -16,8 +14,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
@@ -27,6 +26,7 @@ import main.java.client.gui.GuiPediatrist;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.*;
@@ -36,9 +36,11 @@ public class AddPersonController implements Initializable {
     // Debug
     private static final String TAG = "AddPersonController";
 
+    @FXML private Pane addPersonPane;
     @FXML private ComboBox<PersonType> cbPersonType;
     @FXML private ImageView imagePersonType;
     @FXML private ImageView addPersonImage;
+    @FXML private  ImageView goBackImage;
 
     @FXML private TabPane tabPane;
 
@@ -103,6 +105,13 @@ public class AddPersonController implements Initializable {
 
         // Save button click
         addPersonImage.setOnMouseClicked(event -> savePerson());
+
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
 
         cbPersonType.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue == newValue) return;
@@ -429,6 +438,16 @@ public class AddPersonController implements Initializable {
         alert.setTitle("Errore");
         alert.setHeaderText(null);
         alert.showAndWait();
+    }
+
+    public void goBack() {
+        try {
+            Pane anagraphicPane = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
+            BorderPane homePane = (BorderPane) addPersonPane.getParent();
+            homePane.setCenter(anagraphicPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 }

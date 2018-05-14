@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -30,5 +31,10 @@
             </TableView>
          </children>
       </HBox>
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+         <image>
+            <Image url="@../images/goBack(green).png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

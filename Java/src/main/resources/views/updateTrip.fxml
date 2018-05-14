@@ -196,9 +196,9 @@
             <Image url="@../images/update-data.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="deleteTripImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
          <image>
-            <Image url="@../images/delete-data.png" />
+            <Image url="@../images/goBack(green).png" />
          </image>
       </ImageView>
     </children>

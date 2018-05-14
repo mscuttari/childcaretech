@@ -1,23 +1,16 @@
 package main.java.client.controllers;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.util.Callback;
-import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.layout.MyButtonTableCell;
 import main.java.models.*;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;

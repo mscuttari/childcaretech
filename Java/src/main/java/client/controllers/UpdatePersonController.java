@@ -1,10 +1,9 @@
 package main.java.client.controllers;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.cell.CheckBoxTableCell;
@@ -17,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
@@ -42,7 +40,7 @@ public class UpdatePersonController implements Initializable {
     @FXML private Pane updatePersonPane;
     @FXML private ImageView imagePersonType;
     @FXML private ImageView updatePersonImage;
-    @FXML private ImageView deletePersonImage;
+    @FXML private ImageView goBackImage;
 
     @FXML private TabPane tabPane;
 
@@ -103,11 +101,19 @@ public class UpdatePersonController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // update button cursor
+        updatePersonImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
+        updatePersonImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
+
         // update person image
         updatePersonImage.setOnMouseClicked(event -> updatePerson());
 
-        //delete person image
-        deletePersonImage.setOnMouseClicked(event -> deletePerson());
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -432,18 +438,11 @@ public class UpdatePersonController implements Initializable {
     }
 
 
-    public void deletePerson() {
-
-        // Connection
-        ConnectionManager connectionManager = ConnectionManager.getInstance();
-
-        //delete
-        connectionManager.getClient().delete(person);
-
+    public void goBack() {
         try {
-            TableView tablePeople = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
+            Pane showPersonPane = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
             BorderPane homePane = (BorderPane) updatePersonPane.getParent();
-            homePane.setCenter(tablePeople);
+            homePane.setCenter(showPersonPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }

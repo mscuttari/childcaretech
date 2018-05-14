@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddPersonController">
+<AnchorPane fx:id="addPersonPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddPersonController">
    <children>
    
              <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -245,9 +245,14 @@
               </Tab>
       </tabs>
        </TabPane>
-      <ImageView fx:id="addPersonImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+      <ImageView fx:id="addPersonImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="110.0">
          <image>
             <Image url="@../images/save-data.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+         <image>
+            <Image url="@../images/goBack(blue).png" />
          </image>
       </ImageView>
    </children>

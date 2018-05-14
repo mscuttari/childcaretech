@@ -1,14 +1,13 @@
 package main.java.client.controllers;
 
-import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.image.Image;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
@@ -39,7 +37,7 @@ public class UpdateTripController implements Initializable {
 
     @FXML private Pane updateTripPane;
     @FXML private ImageView updateTripImage;
-    @FXML private ImageView deleteTripImage;
+    @FXML private ImageView goBackImage;
 
     @FXML private TabPane tabPane;
 
@@ -85,12 +83,19 @@ public class UpdateTripController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // update trip button cursor
+        updateTripImage.setOnMouseEntered(event -> updateTripPane.getScene().setCursor(Cursor.HAND));
+        updateTripImage.setOnMouseExited(event -> updateTripPane.getScene().setCursor(Cursor.DEFAULT));
 
         // update trip image
         updateTripImage.setOnMouseClicked(event -> updateTrip());
 
-        //delete trip image
-        deleteTripImage.setOnMouseClicked(event -> deleteTrip());
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> updateTripPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> updateTripPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -331,6 +336,16 @@ public class UpdateTripController implements Initializable {
             TableView tableTrips = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));
             BorderPane homePane = (BorderPane) updateTripPane.getParent();
             homePane.setCenter(tableTrips);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
+    }
+
+    public void goBack() {
+        try {
+            Pane showTripPane = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));
+            BorderPane homePane = (BorderPane) updateTripPane.getParent();
+            homePane.setCenter(showTripPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }

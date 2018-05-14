@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
 
-<TableView fx:id="tableTrip" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowTripController">
-    <columns>
-        <TableColumn fx:id="columnTripTitle" style="-fx-alignment: center" text="Nome" />
-        <TableColumn fx:id="columnTripDate" style="-fx-alignment: center" text="Data" />
-        <TableColumn fx:id="columnTripEdit" style="-fx-alignment: center" />
-    </columns>
-</TableView>
+<AnchorPane fx:id="showTripPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowTripController">
+   <children>
+      <TableView fx:id="tableTrip" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <columns>
+              <TableColumn fx:id="columnTripTitle" style="-fx-alignment: center" text="Nome" />
+              <TableColumn fx:id="columnTripDate" style="-fx-alignment: center" text="Data" />
+              <TableColumn fx:id="columnTripEdit" style="-fx-alignment: center" />
+            <TableColumn fx:id="columnTripDelete" style="-fx-alignment: center" />
+          </columns>
+      </TableView>
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+         <image>
+            <Image url="@../images/goBack(green).png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

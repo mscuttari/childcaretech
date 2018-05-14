@@ -1,20 +1,18 @@
 package main.java.client.controllers;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
-import main.java.client.layout.MyButtonTableCell;
 import main.java.models.*;
 
 import java.io.IOException;
@@ -27,6 +25,9 @@ public class ShowSeatsController implements Initializable{
 
     // Debug
     private static final String TAG = "ShowSeatsController";
+
+    @FXML Pane showSeatsPane;
+    @FXML ImageView goBackImage;
 
     @FXML private TableView<Trip> tableTrips;
     @FXML private TableColumn<Trip, String> columnTripsTitle;
@@ -42,6 +43,13 @@ public class ShowSeatsController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> showSeatsPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> showSeatsPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -80,5 +88,15 @@ public class ShowSeatsController implements Initializable{
                 tableChildren.setItems(childrenData);
             }
         });
+    }
+
+    public void goBack() {
+        try {
+            Pane seatsAssignmentPane = FXMLLoader.load(getClass().getResource("/views/seatsAssignment.fxml"));
+            BorderPane homePane = (BorderPane) showSeatsPane.getParent();
+            homePane.setCenter(seatsAssignmentPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 }

@@ -1,7 +1,5 @@
 package main.java.client.controllers;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,7 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiChild;
 import main.java.client.utils.TableUtils;
@@ -28,9 +28,11 @@ public class InsertPresencesController implements Initializable {
     private static final String TAG = "InsertPresencesController";
 
     @FXML
-    private AnchorPane insertPresencesPane;
+    private Pane insertPresencesPane;
     @FXML
     private ImageView imageSavePresences;
+    @FXML
+    private ImageView goBackImage;
 
     @FXML
     private TableView<Trip> tableTrips;
@@ -67,6 +69,13 @@ public class InsertPresencesController implements Initializable {
 
         // Save button click
         imageSavePresences.setOnMouseClicked(event -> savePresences());
+
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> insertPresencesPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> insertPresencesPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -195,6 +204,16 @@ public class InsertPresencesController implements Initializable {
         alert.setHeaderText(null);
         alert.showAndWait();
 
+    }
+
+    public void goBack() {
+        try {
+            Pane seatsAssignmentPane = FXMLLoader.load(getClass().getResource("/views/seatsAssignment.fxml"));
+            BorderPane homePane = (BorderPane) insertPresencesPane.getParent();
+            homePane.setCenter(seatsAssignmentPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 }

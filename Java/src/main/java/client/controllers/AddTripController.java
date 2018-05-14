@@ -2,6 +2,7 @@ package main.java.client.controllers;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Tab;
@@ -13,12 +14,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.*;
@@ -31,7 +36,9 @@ public class AddTripController implements Initializable {
     //Create trip
     Trip trip = new Trip();
 
+    @FXML private Pane addTripPane;
     @FXML private ImageView addTripImage;
+    @FXML private ImageView goBackImage;
 
     @FXML private TabPane tabPane;
 
@@ -80,6 +87,13 @@ public class AddTripController implements Initializable {
 
         // Save button click
         addTripImage.setOnMouseClicked(event -> saveTrip());
+
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -297,4 +311,13 @@ public class AddTripController implements Initializable {
         alert.showAndWait();
     }
 
+    public void goBack() {
+        try {
+            Pane tripAdministrationPane = FXMLLoader.load(getClass().getResource("/views/tripAdministration.fxml"));
+            BorderPane homePane = (BorderPane) addTripPane.getParent();
+            homePane.setCenter(tripAdministrationPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
+    }
 }

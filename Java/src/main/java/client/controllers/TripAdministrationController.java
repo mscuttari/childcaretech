@@ -3,8 +3,9 @@ package main.java.client.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.LogUtils;
@@ -21,6 +22,7 @@ public class TripAdministrationController implements Initializable{
     @FXML private Pane tripAdministrationPane;
     @FXML private Button buttonAddTrip;
     @FXML private Button buttonShowTrip;
+    @FXML private ImageView goBackImage;
 
 
     @Override
@@ -31,6 +33,13 @@ public class TripAdministrationController implements Initializable{
 
         //Show trip button
         buttonShowTrip.setOnAction(event -> showTrip());
+
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> tripAdministrationPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> tripAdministrationPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
     }
 
     public void addTrip() {
@@ -45,9 +54,19 @@ public class TripAdministrationController implements Initializable{
 
     public void showTrip() {
         try {
-            TableView tableTrips = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));
+            Pane showTripPane = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));
             BorderPane homePane = (BorderPane) tripAdministrationPane.getParent();
-            homePane.setCenter(tableTrips);
+            homePane.setCenter(showTripPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
+    }
+
+    public void goBack() {
+        try {
+            Pane tripPane = FXMLLoader.load(getClass().getResource("/views/trip.fxml"));
+            BorderPane homePane = (BorderPane) tripAdministrationPane.getParent();
+            homePane.setCenter(tripPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }

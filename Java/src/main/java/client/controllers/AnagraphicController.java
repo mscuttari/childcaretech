@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.LogUtils;
@@ -45,7 +45,7 @@ public class AnagraphicController implements Initializable{
 
     public void showPerson() {
         try {
-            TableView tablePeople = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
+            AnchorPane tablePeople = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
             BorderPane homePane = (BorderPane) anagraphicPane.getParent();
             homePane.setCenter(tablePeople);
         } catch (IOException e) {

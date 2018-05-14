@@ -1,14 +1,15 @@
 package main.java.client.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
@@ -27,15 +28,26 @@ public class ShowPersonController implements Initializable{
     // Debug
     private static final String TAG = "ShowPersonController";
 
+    @FXML private Pane showPersonPane;
+    @FXML private ImageView goBackImage;
+
     @FXML private TableView<Person> tablePeople;
     @FXML private TableColumn<Person, String> columnPeopleFirstName;
     @FXML private TableColumn<Person, String> columnPeopleLastName;
     @FXML private TableColumn<Person, String> columnPeopleFiscalCode;
     @FXML private TableColumn<Person, String> columnPeopleType;
     @FXML private TableColumn<Person, Void> columnPeopleEdit;
+    @FXML private TableColumn<Person, Void> columnPeopleDelete;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> showPersonPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> showPersonPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -60,7 +72,7 @@ public class ShowPersonController implements Initializable{
                     loader.setController(updatePersonController);
 
                     Pane updatePersonPane = loader.load();
-                    BorderPane homePane = (BorderPane) tablePeople.getParent();
+                    BorderPane homePane = (BorderPane) showPersonPane.getParent();
                     homePane.setCenter(updatePersonPane);
 
                 } catch (IOException e) {
@@ -70,11 +82,36 @@ public class ShowPersonController implements Initializable{
                 return null;
             }
         }));
+        columnPeopleDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
+
+            //delete
+            connectionManager.getClient().delete(param1);
+
+            try {
+                Pane newPaneShowPerson = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
+                BorderPane homePane = (BorderPane) showPersonPane.getParent();
+                homePane.setCenter(newPaneShowPerson);
+            } catch (IOException e) {
+                LogUtils.e(TAG, e.getMessage());
+            }
+
+            return null;
+        }));
 
         tablePeople.setEditable(true);
         tablePeople.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tablePeople.setItems(parentsData);
+    }
+
+    public void goBack() {
+        try {
+            Pane anagraphicPane = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
+            BorderPane homePane = (BorderPane) showPersonPane.getParent();
+            homePane.setCenter(anagraphicPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 
