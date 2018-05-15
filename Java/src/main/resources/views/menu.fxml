@@ -53,12 +53,15 @@
                                                     <font>
                                                         <Font size="18.0" />
                                                     </font>
+                                       <HBox.margin>
+                                          <Insets right="15.0" />
+                                       </HBox.margin>
                                                 </Label>
                                             </children>
                                         </HBox>
                                     </graphic>
                                 </Button>
-                                <Button fx:id="buttonUpdateMenu" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                                <Button fx:id="buttonShowMenu" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
@@ -70,7 +73,7 @@
                                                         <Image url="@../images/minus(red).png" />
                                                     </image>
                                                 </ImageView>
-                                                <Label text="Modifica menù" textFill="#ed5564">
+                                                <Label text="Visualizza menù" textFill="#ed5564">
                                                     <font>
                                                         <Font size="18.0" />
                                                     </font>

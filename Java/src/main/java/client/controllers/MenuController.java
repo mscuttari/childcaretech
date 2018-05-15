@@ -19,7 +19,7 @@ public class MenuController implements Initializable{
 
     @FXML private Pane menuPane;
     @FXML private Button buttonAddMenu;
-    @FXML private Button buttonUpdateMenu;
+    @FXML private Button buttonShowMenu;
 
 
     @Override
@@ -28,8 +28,8 @@ public class MenuController implements Initializable{
         // Add menu button
         buttonAddMenu.setOnAction(event -> addMenu());
 
-        //Update menu button
-        buttonUpdateMenu.setOnAction(event -> updateMenu());
+        //Show menu button
+        buttonShowMenu.setOnAction(event -> showMenu());
     }
 
     public void addMenu() {
@@ -42,8 +42,14 @@ public class MenuController implements Initializable{
         }
     }
 
-    public void updateMenu() {
-
+    public void showMenu() {
+        try {
+            Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
+            BorderPane homePane = (BorderPane) menuPane.getParent();
+            homePane.setCenter(showMenuPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
     }
 
 }

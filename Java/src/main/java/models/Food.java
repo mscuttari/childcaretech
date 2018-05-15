@@ -4,6 +4,8 @@ import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiFood;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -74,7 +76,8 @@ public class Food extends BaseModel {
         if (!(o instanceof Food)) return false;
 
         Food that = (Food) o;
-        return Objects.equals(getName(), that.getName());
+        return Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getType(), that.getType());
     }
 
 
@@ -125,6 +128,7 @@ public class Food extends BaseModel {
     }
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "food_composition",
             joinColumns = { @JoinColumn(name = "food_id") },

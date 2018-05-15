@@ -32,6 +32,9 @@
                      </font>
                   </TextField>
                </children>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
             </VBox>
             <TableView fx:id="tableFood" layoutX="290.0" layoutY="10.0" prefWidth="300.0">
                <columns>

@@ -323,24 +323,6 @@ public class UpdateTripController implements Initializable {
         alert.showAndWait();
     }
 
-
-    public void deleteTrip() {
-
-        // Connection
-        ConnectionManager connectionManager = ConnectionManager.getInstance();
-
-        //delete
-        connectionManager.getClient().delete(trip);
-
-        try {
-            TableView tableTrips = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));
-            BorderPane homePane = (BorderPane) updateTripPane.getParent();
-            homePane.setCenter(tableTrips);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
-    }
-
     public void goBack() {
         try {
             Pane showTripPane = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));

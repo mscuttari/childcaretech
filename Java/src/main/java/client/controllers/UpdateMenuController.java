@@ -23,18 +23,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class AddMenuController implements Initializable {
+public class UpdateMenuController implements Initializable {
 
     // Debug
-    private static final String TAG = "AddMenuController";
+    private static final String TAG = "UpdateMenuController";
 
-    //Create menù
-    Menu menu = new Menu();
+    private Menu menu;
 
-    @FXML private Pane addMenuPane;
+    @FXML private Pane updateMenuPane;
     @FXML private TextField tfMenuName;
     @FXML private TextField tfMenuType;
-    @FXML private ImageView addMenuImage;
+    @FXML private ImageView updateMenuImage;
     @FXML private ImageView goBackImage;
 
     @FXML private TableView<GuiFood> tableFood;
@@ -49,25 +48,33 @@ public class AddMenuController implements Initializable {
     @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode;
 
 
+    public UpdateMenuController(Menu menu){
+        this.menu = menu;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Save button cursor
-        addMenuImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
-        addMenuImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
+        // update menu button cursor
+        updateMenuImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
+        updateMenuImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
 
-        // Save button click
-        addMenuImage.setOnMouseClicked(event -> saveMenu());
+        // update menu image
+        updateMenuImage.setOnMouseClicked(event -> updateMenu());
 
         // go back button cursor
-        goBackImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
+        goBackImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
 
         //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
+
+        //Data tab
+        tfMenuName.setText(menu.getName());
+        tfMenuType.setText(menu.getType());
 
         //Food table
         List<Food> food = connectionManager.getClient().getFood();
@@ -80,6 +87,12 @@ public class AddMenuController implements Initializable {
 
         tableFood.setEditable(true);
         tableFood.setItems(foodData);
+
+        List<Food> foodInTheMenu = (List<Food>) menu.getComposition();
+        for (GuiFood item : tableFood.getItems()) {
+            if (foodInTheMenu.contains(item.getModel()))
+                item.setSelected(true);
+        }
 
         // Staff table
         List<Staff> staff = connectionManager.getClient().getStaff();
@@ -94,24 +107,20 @@ public class AddMenuController implements Initializable {
         tableStaff.setEditable(true);
         tableStaff.setItems(staffData);
 
+        for (GuiStaff item : tableStaff.getItems()) {
+            if (menu.getResponsible().equals(item.getModel()))
+                item.setSelected(true);
+        }
+
     }
 
-
-    /**
-     * Save menu in the database
-     */
-    private void saveMenu() {
+    public void updateMenu() {
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        // Data
-        String name = tfMenuName.getText().trim();
-        String type = tfMenuType.getText().trim();
-
-        menu.setName(name);
-        menu.setType(type);
-
+        menu.setName(tfMenuName.getText().trim());
+        menu.setType(tfMenuType.getText().trim());
         menu.setComposition(TableUtils.getSelectedItems(tableFood));
         menu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
 
@@ -123,10 +132,10 @@ public class AddMenuController implements Initializable {
             return;
         }
 
-        // Save menu
-        connectionManager.getClient().create(menu);
-
+        // Update menu
+        connectionManager.getClient().update(menu);
     }
+
 
     /**
      * Show error dialog
@@ -142,11 +151,12 @@ public class AddMenuController implements Initializable {
 
     public void goBack() {
         try {
-            Pane menuPane = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
-            BorderPane homePane = (BorderPane) addMenuPane.getParent();
-            homePane.setCenter(menuPane);
+            Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
+            BorderPane homePane = (BorderPane) updateMenuPane.getParent();
+            homePane.setCenter(showMenuPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
     }
+
 }
