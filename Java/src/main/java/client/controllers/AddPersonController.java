@@ -341,19 +341,24 @@ public class AddPersonController implements Initializable {
         switch (cbPersonType.getValue()) {
             case CHILD:
                 Child child = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
+
+                // Parents
                 child.setParents(TableUtils.getSelectedItems(tableParents));
 
+                // Pediatrist
                 List<Pediatrist> selectedPediatrists = TableUtils.getSelectedItems(tablePediatrist);
 
-                if (selectedPediatrists.size() == 0) {
-                    showErrorDialog("Nessun pediatra selezionato");
-                    return;
-                } else if (selectedPediatrists.size() > 1) {
+                if (selectedPediatrists.size() > 1) {
                     showErrorDialog("E' possibile selezionare solo un pediatra");
                     return;
                 }
 
-                child.setPediatrist(selectedPediatrists.get(0));
+                if (selectedPediatrists.size() >= 1)
+                    child.setPediatrist(selectedPediatrists.get(0));
+
+                // Contacts
+                List<Contact> contacts = TableUtils.getSelectedItems(tableContacts);
+                child.setContacts(contacts);
 
                 person = child;
                 break;

@@ -63,6 +63,10 @@ public class Child extends Person {
     public void checkDataValidity() throws InvalidFieldException {
         super.checkDataValidity();
 
+        // Parents
+        if (parents == null || parents.size() == 0) throw new InvalidFieldException("Genitori mancanti");
+        if (parents.size() > 2) throw new InvalidFieldException("Non è possibile specificare più di due genitori");
+
         // Pediatrist
         if (pediatrist == null) throw new InvalidFieldException("Pediatra mancante");
     }
