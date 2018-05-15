@@ -77,8 +77,11 @@ public abstract class Person extends BaseModel {
         if (lastName == null || lastName.isEmpty()) throw new InvalidFieldException("Cognome mancante");
         if (!lastName.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Cognome non valido");
 
-        // Address: [a-z] [A-Z] space . , ; \ / °
-        if (address != null && !address.matches("^$|^[a-zA-Z\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
+        // Date
+        if (birthDate == null) throw new InvalidFieldException("Data di nascita mancante");
+
+        // Address: [a-z] [A-Z] [0-9] space . , ; \ / °
+        if (address != null && !address.matches("^$|^[a-zA-Z0-9\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
 
         // Telephone: [0-9] space +
         if (telephone != null && !telephone.matches("^$|^[\\d\\040+]+$")) throw new InvalidFieldException("Telefono non valido");
@@ -145,7 +148,7 @@ public abstract class Person extends BaseModel {
         this.lastName = lastName == null || lastName.isEmpty() ? null : lastName;
     }
 
-    @Temporal(TemporalType.DATE)
+    //@Temporal(TemporalType.DATE)
     @Column(name = "birthdate")
     public Date getBirthdate() {
         return birthDate;
