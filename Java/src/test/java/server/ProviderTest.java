@@ -17,6 +17,14 @@ class ProviderTest extends BaseModelTest<Provider> {
 
     /** {@inheritDoc} */
     @Override
+    void assertModelsEquals(Provider x, Provider y) {
+        assertEquals(x.getVat(), y.getVat());
+        assertEquals(x.getName(), y.getName());
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     void assignValidData(Provider obj) {
         obj.setVat("AAAAAAAAAAAAAAAA");
         obj.setName("BBB");
@@ -37,9 +45,7 @@ class ProviderTest extends BaseModelTest<Provider> {
 
         // Check creation
         assertNotNull(createdProvider);
-
-        assertEquals(provider.getVat(), createdProvider.getVat());
-        assertEquals(provider.getName(), createdProvider.getName());
+        assertModelsEquals(provider, createdProvider);
 
         // Update
         createdProvider.setVat("BBBBBBBBBBBBBBBB");
@@ -53,9 +59,7 @@ class ProviderTest extends BaseModelTest<Provider> {
         assertNull(oldProvider);    // The old vat number should not be found anymore
 
         assertNotNull(updatedProvider);
-
-        assertEquals(createdProvider.getVat(), updatedProvider.getVat());
-        assertEquals(createdProvider.getName(), updatedProvider.getName());
+        assertModelsEquals(createdProvider, updatedProvider);
 
         // Delete
         HibernateUtils.getInstance().delete(updatedProvider);

@@ -30,13 +30,7 @@ class ContactTest extends PersonTest<Contact> {
 
         // Check creation
         assertNotNull(createdContact);
-
-        assertEquals(contact.getFiscalCode(), createdContact.getFiscalCode());
-        assertEquals(contact.getFirstName(), createdContact.getFirstName());
-        assertEquals(contact.getLastName(), createdContact.getLastName());
-        assertDateEquals(contact.getBirthdate(), createdContact.getBirthdate());
-        assertEquals(contact.getAddress(), createdContact.getAddress());
-        assertEquals(contact.getTelephone(), createdContact.getTelephone());
+        assertModelsEquals(contact, createdContact);
 
         // Update
         createdContact.setFiscalCode("BBBBBBBBBBBBBBBB");
@@ -54,13 +48,7 @@ class ContactTest extends PersonTest<Contact> {
         assertNull(oldContact);      // The old fiscal code should not be found anymore
 
         assertNotNull(updatedContact);
-
-        assertEquals(createdContact.getFiscalCode(), updatedContact.getFiscalCode());
-        assertEquals(createdContact.getFirstName(), updatedContact.getFirstName());
-        assertEquals(createdContact.getLastName(), updatedContact.getLastName());
-        assertDateEquals(createdContact.getBirthdate(), updatedContact.getBirthdate());
-        assertEquals(createdContact.getAddress(), updatedContact.getAddress());
-        assertEquals(createdContact.getTelephone(), updatedContact.getTelephone());
+        assertModelsEquals(createdContact, updatedContact);
 
         // Delete
         HibernateUtils.getInstance().delete(updatedContact);

@@ -32,13 +32,7 @@ class PediatristTest extends PersonTest<Pediatrist> {
 
         // Check creation
         assertNotNull(createdPediatrist);
-
-        assertEquals(pediatrist.getFiscalCode(), createdPediatrist.getFiscalCode());
-        assertEquals(pediatrist.getFirstName(), createdPediatrist.getFirstName());
-        assertEquals(pediatrist.getLastName(), createdPediatrist.getLastName());
-        assertDateEquals(pediatrist.getBirthdate(), createdPediatrist.getBirthdate());
-        assertEquals(pediatrist.getAddress(), createdPediatrist.getAddress());
-        assertEquals(pediatrist.getTelephone(), createdPediatrist.getTelephone());
+        assertModelsEquals(pediatrist, createdPediatrist);
 
         // Update
         createdPediatrist.setFiscalCode("BBBBBBBBBBBBBBBB");
@@ -56,13 +50,7 @@ class PediatristTest extends PersonTest<Pediatrist> {
         assertNull(oldPediatrist);      // The old fiscal code should not be found anymore
 
         assertNotNull(updatedPediatrist);
-
-        assertEquals(createdPediatrist.getFiscalCode(), updatedPediatrist.getFiscalCode());
-        assertEquals(createdPediatrist.getFirstName(), updatedPediatrist.getFirstName());
-        assertEquals(createdPediatrist.getLastName(), updatedPediatrist.getLastName());
-        assertDateEquals(createdPediatrist.getBirthdate(), updatedPediatrist.getBirthdate());
-        assertEquals(createdPediatrist.getAddress(), updatedPediatrist.getAddress());
-        assertEquals(createdPediatrist.getTelephone(), updatedPediatrist.getTelephone());
+        assertModelsEquals(createdPediatrist, updatedPediatrist);
 
         // Delete
         HibernateUtils.getInstance().delete(updatedPediatrist);

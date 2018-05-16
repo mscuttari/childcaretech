@@ -21,6 +21,14 @@ class TripTest extends BaseModelTest<Trip> {
 
     /** {@inheritDoc} */
     @Override
+    void assertModelsEquals(Trip x, Trip y) {
+        assertDateEquals(x.getDate(), y.getDate());
+        assertEquals(x.getTitle(), y.getTitle());
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     void assignValidData(Trip obj) {
         obj.setDate(new Date());
         obj.setTitle("AAA");
@@ -41,9 +49,7 @@ class TripTest extends BaseModelTest<Trip> {
 
         // Check creation
         assertNotNull(createdTrip);
-
-        assertDateEquals(trip.getDate(), createdTrip.getDate());
-        assertEquals(trip.getTitle(), createdTrip.getTitle());
+        assertModelsEquals(trip, createdTrip);
 
         // Update
         createdTrip.setDate(new Date());
@@ -57,9 +63,7 @@ class TripTest extends BaseModelTest<Trip> {
         assertNull(oldTrip);        // The old fiscal code should not be found anymore
 
         assertNotNull(updatedTrip);
-
-        assertDateEquals(createdTrip.getDate(), updatedTrip.getDate());
-        assertEquals(createdTrip.getTitle(), updatedTrip.getTitle());
+        assertEquals(createdTrip, updatedTrip);
 
         // Delete
         HibernateUtils.getInstance().delete(updatedTrip);

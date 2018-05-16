@@ -21,6 +21,16 @@ class StaffTest extends PersonTest<Staff> {
 
     /** {@inheritDoc} */
     @Override
+    void assertModelsEquals(Staff x, Staff y) {
+        super.assertModelsEquals(x, y);
+
+        assertEquals(x.getUsername(), y.getUsername());
+        assertEquals(x.getPassword(), y.getPassword());
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     void assignValidData(Staff obj) {
         super.assignValidData(obj);
 
@@ -43,13 +53,7 @@ class StaffTest extends PersonTest<Staff> {
 
         // Check creation
         assertNotNull(createdStaff);
-
-        assertEquals(staff.getFiscalCode(), createdStaff.getFiscalCode());
-        assertEquals(staff.getFirstName(), createdStaff.getFirstName());
-        assertEquals(staff.getLastName(), createdStaff.getLastName());
-        assertDateEquals(staff.getBirthdate(), createdStaff.getBirthdate());
-        assertEquals(staff.getAddress(), createdStaff.getAddress());
-        assertEquals(staff.getTelephone(), createdStaff.getTelephone());
+        assertModelsEquals(staff, createdStaff);
 
         // Update
         createdStaff.setFiscalCode("BBBBBBBBBBBBBBBB");
@@ -67,13 +71,7 @@ class StaffTest extends PersonTest<Staff> {
         assertNull(oldStaff);       // The old fiscal code should not be found anymore
 
         assertNotNull(updatedStaff);
-
-        assertEquals(createdStaff.getFiscalCode(), updatedStaff.getFiscalCode());
-        assertEquals(createdStaff.getFirstName(), updatedStaff.getFirstName());
-        assertEquals(createdStaff.getLastName(), updatedStaff.getLastName());
-        assertDateEquals(createdStaff.getBirthdate(), updatedStaff.getBirthdate());
-        assertEquals(createdStaff.getAddress(), updatedStaff.getAddress());
-        assertEquals(createdStaff.getTelephone(), updatedStaff.getTelephone());
+        assertModelsEquals(createdStaff, updatedStaff);
 
         // Delete
         HibernateUtils.getInstance().delete(updatedStaff);

@@ -12,7 +12,9 @@ import javax.persistence.criteria.Root;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static test.java.utils.TestUtils.assertDateEquals;
 
 abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
@@ -20,6 +22,18 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
     PersonTest(Class<M> modelClass) {
         this.modelClass = modelClass;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    void assertModelsEquals(M x, M y) {
+        assertEquals(x.getFiscalCode(), y.getFiscalCode());
+        assertEquals(x.getFirstName(), y.getFirstName());
+        assertEquals(x.getLastName(), y.getLastName());
+        assertDateEquals(x.getBirthdate(), y.getBirthdate());
+        assertEquals(x.getAddress(), y.getAddress());
+        assertEquals(x.getTelephone(), y.getTelephone());
     }
 
 

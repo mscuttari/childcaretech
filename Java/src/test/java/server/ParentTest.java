@@ -30,13 +30,7 @@ class ParentTest extends PersonTest<Parent> {
 
         // Check creation
         assertNotNull(createdParent);
-
-        assertEquals(parent.getFiscalCode(), createdParent.getFiscalCode());
-        assertEquals(parent.getFirstName(), createdParent.getFirstName());
-        assertEquals(parent.getLastName(), createdParent.getLastName());
-        assertDateEquals(parent.getBirthdate(), createdParent.getBirthdate());
-        assertEquals(parent.getAddress(), createdParent.getAddress());
-        assertEquals(parent.getTelephone(), createdParent.getTelephone());
+        assertModelsEquals(parent, createdParent);
 
         // Update
         createdParent.setFiscalCode("BBBBBBBBBBBBBBBB");
@@ -54,13 +48,7 @@ class ParentTest extends PersonTest<Parent> {
         assertNull(oldParent);      // The old fiscal code should not be found anymore
 
         assertNotNull(updatedParent);
-
-        assertEquals(createdParent.getFiscalCode(), updatedParent.getFiscalCode());
-        assertEquals(createdParent.getFirstName(), updatedParent.getFirstName());
-        assertEquals(createdParent.getLastName(), updatedParent.getLastName());
-        assertDateEquals(createdParent.getBirthdate(), updatedParent.getBirthdate());
-        assertEquals(createdParent.getAddress(), updatedParent.getAddress());
-        assertEquals(createdParent.getTelephone(), updatedParent.getTelephone());
+        assertModelsEquals(createdParent, updatedParent);
 
         // Delete
         HibernateUtils.getInstance().delete(updatedParent);
