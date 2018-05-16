@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="addFoodPane" maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddFoodController">
    <children>
-      <HBox alignment="CENTER" layoutX="21.0" layoutY="14.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="21.0" layoutY="14.0" spacing="30.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
@@ -18,42 +18,25 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <TextField promptText="Nome pietanza">
+                  <TextField fx:id="tfFoodName" promptText="Nome pietanza">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></TextField>
+                  <ComboBox fx:id="cbFoodType" prefWidth="169.0">
                      <VBox.margin>
                         <Insets bottom="40.0" />
-                     </VBox.margin></TextField>
+                     </VBox.margin>
+                  </ComboBox>
                   <Label text="Fornitore:">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <TextField promptText="Nome fornitore" />
-                  <TextField promptText="Partita IVA">
+                  <TextField fx:id="tfProviderName" promptText="Nome fornitore" />
+                  <TextField fx:id="tfProviderVat" promptText="Partita IVA">
                      <VBox.margin>
                         <Insets bottom="40.0" />
                      </VBox.margin></TextField>
-                  <Label text="Ingredienti:">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="346.0" spacing="10.0">
-                     <children>
-                        <TextField fx:id="tfAddIngredient" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="buttonAddIngredient" mnemonicParsing="false" text="Aggiungi" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <Button fx:id="buttonAddFood" mnemonicParsing="false" prefHeight="40.0" prefWidth="141.0" style="-fx-border-color: lightgreen;" text="Aggiungi pietanza">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="60.0" />
-                     </VBox.margin>
-                  </Button>
                </children>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -69,7 +52,13 @@
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </Label>
-                  <ListView fx:id="listIngredients" prefHeight="410.0" prefWidth="400.0" />
+                  <ListView fx:id="listIngredients" prefHeight="300.0" prefWidth="400.0" />
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="346.0" spacing="10.0">
+                     <children>
+                        <TextField fx:id="tfAddIngredient" promptText="Inserisci ingrediente" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="buttonAddIngredient" mnemonicParsing="false" text="Aggiungi ingrediente" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
                         <Button fx:id="buttonRemoveSelected" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati">
@@ -87,24 +76,6 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT">
-                     <children>
-                        <ImageView fx:id="goBackImage" fitHeight="50.0" fitWidth="50.0">
-                           <image>
-                              <Image url="@../images/back.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </ImageView>
-                     </children>
-                  </HBox>
                </children>
                <HBox.margin>
                   <Insets right="10.0" />
@@ -112,5 +83,15 @@
             </VBox>
          </children>
       </HBox>
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
+         <image>
+            <Image url="@../images/goBack(red).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="addFoodImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="30.0">
+         <image>
+            <Image url="@../images/save-data.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

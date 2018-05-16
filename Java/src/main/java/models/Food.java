@@ -21,7 +21,7 @@ public class Food extends BaseModel {
 
     private Long id;
     private String name;
-    private String type;
+    private FoodType type;
 
     private Provider provider;
     private Collection<Ingredient> composition = new ArrayList<>();
@@ -42,7 +42,7 @@ public class Food extends BaseModel {
      * @param   name    name
      * @param   type    type
      */
-    public Food(String name, String type) {
+    public Food(String name, FoodType type) {
         this.name = name;
         this.type = type;
     }
@@ -57,8 +57,8 @@ public class Food extends BaseModel {
         if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
         // Type: [a-z] [A-Z] space
-        if (type == null || type.isEmpty()) throw new InvalidFieldException("Tipologia mancante");
-        if (!type.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Tipologia non valida");
+        //if (type == null || type.isEmpty()) throw new InvalidFieldException("Tipologia mancante");
+        //if (!type.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Tipologia non valida");
     }
 
 
@@ -109,15 +109,16 @@ public class Food extends BaseModel {
     }
 
     @Column(name = "type")
-    public String getType() {
+    public FoodType getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type == null || type.isEmpty() ? null : type;
+    public void setType(FoodType type) {
+        this.type = type;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "provider_id", nullable = false)
     public Provider getProvider() {
         return provider;
@@ -127,7 +128,7 @@ public class Food extends BaseModel {
         this.provider = provider;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "food_composition",
@@ -142,7 +143,8 @@ public class Food extends BaseModel {
         this.composition = composition;
     }
 
-    @ManyToMany(mappedBy = "composition")
+    @ManyToMany(mappedBy = "composition", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     public Collection<Menu> getMenus() {
         return menus;
     }
