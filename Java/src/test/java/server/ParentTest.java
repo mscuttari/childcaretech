@@ -1,33 +1,32 @@
 package test.java.server;
 
-import main.java.client.InvalidFieldException;
 import main.java.models.Parent;
 import main.java.server.utils.HibernateUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static test.java.server.TestUtils.assertDateEquals;
+import static test.java.utils.TestUtils.assertDateEquals;
 
-public class ParentTest {
+class ParentTest extends PersonTest<Parent> {
+
+    ParentTest() {
+        super(Parent.class);
+    }
+
 
     /**
      * Creation, update and delete of a valid parent
      */
     @Test
-    public void dbTest() {
-        Parent parent = new Parent("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
+    void dbTest() {
+        Parent parent = new Parent();
+        assignValidData(parent);
 
         // Create
         HibernateUtils.getInstance().create(parent);
-        Parent createdParent = getParentByFiscalCode(parent.getFiscalCode());
+        Parent createdParent = getPersonByFiscalCode(parent.getFiscalCode());
 
         // Check creation
         assertNotNull(createdParent);
@@ -48,10 +47,10 @@ public class ParentTest {
         createdParent.setTelephone("2222222222");
 
         HibernateUtils.getInstance().update(createdParent);
-        Parent updatedParent = getParentByFiscalCode(createdParent.getFiscalCode());
+        Parent updatedParent = getPersonByFiscalCode(createdParent.getFiscalCode());
 
         // Check update
-        Parent oldParent = getParentByFiscalCode(parent.getFiscalCode());
+        Parent oldParent = getPersonByFiscalCode(parent.getFiscalCode());
         assertNull(oldParent);      // The old fiscal code should not be found anymore
 
         assertNotNull(updatedParent);
@@ -67,7 +66,7 @@ public class ParentTest {
         HibernateUtils.getInstance().delete(updatedParent);
 
         // Check delete
-        Parent deletedParent = getParentByFiscalCode(updatedParent.getFiscalCode());
+        Parent deletedParent = getPersonByFiscalCode(updatedParent.getFiscalCode());
         assertNull(deletedParent);
     }
 
@@ -76,16 +75,8 @@ public class ParentTest {
      * Test the fiscal code validity control
      */
     @Test
-    public void fiscalCodeValidity() {
-        // Valid data
-        Parent parent = new Parent("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
-        assertDoesNotThrow(parent::checkDataValidity);
-
-        // Invalid data
-        parent.setFiscalCode(null);
-        assertThrows(InvalidFieldException.class, parent::checkDataValidity);
-        parent.setFiscalCode("A");
-        assertThrows(InvalidFieldException.class, parent::checkDataValidity);
+    void fiscalCodeValidity() {
+        super.fiscalCodeValidity(new Parent());
     }
 
 
@@ -93,16 +84,8 @@ public class ParentTest {
      * Test the first name validity control
      */
     @Test
-    public void firstNameValidity() {
-        // Valid data
-        Parent parent = new Parent("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
-        assertDoesNotThrow(parent::checkDataValidity);
-
-        // Invalid data
-        parent.setFirstName(null);
-        assertThrows(InvalidFieldException.class, parent::checkDataValidity);
-        parent.setFirstName("AA1");
-        assertThrows(InvalidFieldException.class, parent::checkDataValidity);
+    void firstNameValidity() {
+        super.firstNameValidity(new Parent());
     }
 
 
@@ -110,32 +93,17 @@ public class ParentTest {
      * Test the last name validity control
      */
     @Test
-    public void lastNameValidity() {
-        // Valid data
-        Parent parent = new Parent("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
-        assertDoesNotThrow(parent::checkDataValidity);
-
-        // Invalid data: fiscal code
-        parent.setLastName(null);
-        assertThrows(InvalidFieldException.class, parent::checkDataValidity);
-        parent.setLastName("AA1");
-        assertThrows(InvalidFieldException.class, parent::checkDataValidity);
+    void lastNameValidity() {
+        super.lastNameValidity(new Parent());
     }
-
 
 
     /**
      * Test the date validity control
      */
     @Test
-    public void birthDateValidity() {
-        // Valid data
-        Parent parent = new Parent("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
-        assertDoesNotThrow(parent::checkDataValidity);
-
-        // Invalid data
-        parent.setBirthdate(null);
-        assertThrows(InvalidFieldException.class, parent::checkDataValidity);
+    void birthDateValidity() {
+        super.birthDateValidity(new Parent());
     }
 
 
@@ -143,10 +111,8 @@ public class ParentTest {
      * Test the address validity control
      */
     @Test
-    public void addressValidity() {
-        // Valid data
-        Parent parent = new Parent("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
-        assertDoesNotThrow(parent::checkDataValidity);
+    void addressValidity() {
+        super.addressValidity(new Parent());
     }
 
 
@@ -154,40 +120,8 @@ public class ParentTest {
      * Test the telephone validity control
      */
     @Test
-    public void telephoneValidity() {
-        // Valid data
-        Parent parent = new Parent("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
-        assertDoesNotThrow(parent::checkDataValidity);
-        parent.setTelephone("+391111111111");
-        assertDoesNotThrow(parent::checkDataValidity);
-        parent.setTelephone("1111111111");
-        assertDoesNotThrow(parent::checkDataValidity);
-        parent.setTelephone("111 1111111");
-        assertDoesNotThrow(parent::checkDataValidity);
-
-        // Invalid data
-        parent.setTelephone("AAA");
-        assertThrows(InvalidFieldException.class, parent::checkDataValidity);
-    }
-
-
-    /**
-     * Get parent by fiscal code
-     *
-     * @param   fiscalCode  fiscal code
-     * @return  parent (null if not found)
-     */
-    private static Parent getParentByFiscalCode(String fiscalCode) {
-        HibernateUtils hibernateUtils = HibernateUtils.getInstance();
-        EntityManager em = hibernateUtils.getEntityManager();
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Parent> cq = cb.createQuery(Parent.class);
-        Root<Parent> root = cq.from(Parent.class);
-        cq.where(cb.equal(root.get("fiscalCode"), fiscalCode));
-        TypedQuery<Parent> q = em.createQuery(cq);
-
-        return HibernateUtils.getSingleResult(q);
+    void telephoneValidity() {
+        super.telephoneValidity(new Parent());
     }
 
 }
