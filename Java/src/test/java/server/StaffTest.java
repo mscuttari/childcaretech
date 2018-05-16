@@ -1,12 +1,74 @@
 package test.java.server;
 
 import main.java.models.Staff;
+import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
+
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static test.java.utils.TestUtils.assertDateEquals;
 
 class StaffTest extends PersonTest<Staff> {
 
     StaffTest() {
         super(Staff.class);
+    }
+
+
+    /**
+     * Creation, update and delete of a valid parent
+     */
+    @Test
+    void dbTest() {
+        Staff staff = new Staff("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111", "user", "pass");
+
+        // Create
+        HibernateUtils.getInstance().create(staff);
+        Staff createdStaff = getPersonByFiscalCode(staff.getFiscalCode());
+
+        // Check creation
+        assertNotNull(createdStaff);
+
+        assertEquals(staff.getFiscalCode(), createdStaff.getFiscalCode());
+        assertEquals(staff.getFirstName(), createdStaff.getFirstName());
+        assertEquals(staff.getLastName(), createdStaff.getLastName());
+        assertDateEquals(staff.getBirthdate(), createdStaff.getBirthdate());
+        assertEquals(staff.getAddress(), createdStaff.getAddress());
+        assertEquals(staff.getTelephone(), createdStaff.getTelephone());
+
+        // Update
+        createdStaff.setFiscalCode("BBBBBBBBBBBBBBBB");
+        createdStaff.setFirstName("CCC");
+        createdStaff.setLastName("DDD");
+        createdStaff.setBirthdate(new Date());
+        createdStaff.setAddress("Test, A/2");
+        createdStaff.setTelephone("2222222222");
+
+        HibernateUtils.getInstance().update(createdStaff);
+        Staff updatedStaff = getPersonByFiscalCode(createdStaff.getFiscalCode());
+
+        // Check update
+        Staff oldStaff = getPersonByFiscalCode(staff.getFiscalCode());
+        assertNull(oldStaff);       // The old fiscal code should not be found anymore
+
+        assertNotNull(updatedStaff);
+
+        assertEquals(createdStaff.getFiscalCode(), updatedStaff.getFiscalCode());
+        assertEquals(createdStaff.getFirstName(), updatedStaff.getFirstName());
+        assertEquals(createdStaff.getLastName(), updatedStaff.getLastName());
+        assertDateEquals(createdStaff.getBirthdate(), updatedStaff.getBirthdate());
+        assertEquals(createdStaff.getAddress(), updatedStaff.getAddress());
+        assertEquals(createdStaff.getTelephone(), updatedStaff.getTelephone());
+
+        // Delete
+        HibernateUtils.getInstance().delete(updatedStaff);
+
+        // Check delete
+        Staff deletedStaff = getPersonByFiscalCode(updatedStaff.getFiscalCode());
+        assertNull(deletedStaff);
     }
 
 
