@@ -23,6 +23,18 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
     }
 
 
+    /** {@inheritDoc} */
+    @Override
+    void assignValidData(M obj) {
+        obj.setFiscalCode("AAAAAAAAAAAAAAAA");
+        obj.setFirstName("AAA");
+        obj.setLastName("BBB");
+        obj.setBirthdate(new Date());
+        obj.setAddress("Test, A/1");
+        obj.setTelephone("+39 111 1111111");
+    }
+
+
     /**
      * Test the fiscal code validity control
      */
@@ -60,7 +72,7 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
 
     /**
-     * Test the fiscal code validity control
+     * Test the fiscal code validity check
      *
      * @param   person      person instance to be tested
      */
@@ -78,7 +90,7 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
 
     /**
-     * Test the first name validity control
+     * Test the first name validity check
      *
      * @param   person      person instance to be tested
      */
@@ -96,7 +108,7 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
 
     /**
-     * Test the last name validity control
+     * Test the last name validity check
      *
      * @param   person      person instance to be tested
      */
@@ -114,7 +126,7 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
 
     /**
-     * Test the date validity control
+     * Test the date validity check
      *
      * @param   person      person instance to be tested
      */
@@ -130,7 +142,7 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
 
     /**
-     * Test the address validity control
+     * Test the address validity check
      *
      * @param   person      person instance to be tested
      */
@@ -142,7 +154,7 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
 
     /**
-     * Test the telephone validity control
+     * Test the telephone validity check
      *
      * @param   person      person instance to be tested
      */
@@ -160,18 +172,6 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
         // Invalid data
         person.setTelephone("AAA");
         assertThrows(InvalidFieldException.class, person::checkDataValidity);
-    }
-
-
-    /** {@inheritDoc} */
-    @Override
-    void assignValidData(M obj) {
-        obj.setFiscalCode("AAAAAAAAAAAAAAAA");
-        obj.setFirstName("AAA");
-        obj.setLastName("BBB");
-        obj.setBirthdate(new Date());
-        obj.setAddress("Test, A/1");
-        obj.setTelephone("+39 111 1111111");
     }
 
 

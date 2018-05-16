@@ -100,7 +100,6 @@ public class Trip extends BaseModel {
         this.id = id;
     }
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "date", nullable = false)
     public Date getDate() {
         return date;

@@ -21,7 +21,8 @@ class ContactTest extends PersonTest<Contact> {
      */
     @Test
     void dbTest() {
-        Contact contact = new Contact("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
+        Contact contact = new Contact();
+        assignValidData(contact);
 
         // Create
         HibernateUtils.getInstance().create(contact);

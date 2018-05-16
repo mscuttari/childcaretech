@@ -21,7 +21,8 @@ class ParentTest extends PersonTest<Parent> {
      */
     @Test
     void dbTest() {
-        Parent parent = new Parent("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
+        Parent parent = new Parent();
+        assignValidData(parent);
 
         // Create
         HibernateUtils.getInstance().create(parent);

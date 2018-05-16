@@ -16,6 +16,24 @@ class ChildTest extends PersonTest<Child> {
 
 
     /** {@inheritDoc} */
+    @Override
+    void assignValidData(Child obj) {
+        super.assignValidData(obj);
+
+        List<Parent> parents = new ArrayList<>();
+        parents.add(new Parent());
+        parents.add(new Parent());
+        obj.setParents(parents);
+
+        Pediatrist pediatrist = new Pediatrist();
+        obj.setPediatrist(pediatrist);
+    }
+
+
+    // TODO: dbTest
+
+
+    /** {@inheritDoc} */
     @Test
     @Override
     void fiscalCodeValidity() {
@@ -60,21 +78,6 @@ class ChildTest extends PersonTest<Child> {
     @Override
     void telephoneValidity() {
         super.telephoneValidity(new Child());
-    }
-
-
-    /** {@inheritDoc} */
-    @Override
-    void assignValidData(Child obj) {
-        super.assignValidData(obj);
-
-        List<Parent> parents = new ArrayList<>();
-        parents.add(new Parent());
-        parents.add(new Parent());
-        obj.setParents(parents);
-
-        Pediatrist pediatrist = new Pediatrist();
-        obj.setPediatrist(pediatrist);
     }
 
 }

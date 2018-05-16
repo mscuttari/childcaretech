@@ -19,12 +19,23 @@ class StaffTest extends PersonTest<Staff> {
     }
 
 
+    /** {@inheritDoc} */
+    @Override
+    void assignValidData(Staff obj) {
+        super.assignValidData(obj);
+
+        obj.setUsername("user");
+        obj.setPassword("password");
+    }
+
+
     /**
      * Creation, update and delete of a valid parent
      */
     @Test
     void dbTest() {
-        Staff staff = new Staff("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111", "user", "pass");
+        Staff staff = new Staff();
+        assignValidData(staff);
 
         // Create
         HibernateUtils.getInstance().create(staff);
@@ -152,16 +163,6 @@ class StaffTest extends PersonTest<Staff> {
         // Invalid data
         staff.setPassword(null);
         assertThrows(InvalidFieldException.class, staff::checkDataValidity);
-    }
-
-
-    /** {@inheritDoc} */
-    @Override
-    void assignValidData(Staff obj) {
-        super.assignValidData(obj);
-
-        obj.setUsername("user");
-        obj.setPassword("password");
     }
 
 }

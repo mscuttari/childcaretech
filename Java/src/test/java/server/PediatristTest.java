@@ -19,11 +19,12 @@ class PediatristTest extends PersonTest<Pediatrist> {
 
 
     /**
-     * Creation, update and delete of a valid parent
+     * Creation, update and delete of a valid pediatrist
      */
     @Test
     void dbTest() {
-        Pediatrist pediatrist = new Pediatrist("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
+        Pediatrist pediatrist = new Pediatrist();
+        assignValidData(pediatrist);
 
         // Create
         HibernateUtils.getInstance().create(pediatrist);

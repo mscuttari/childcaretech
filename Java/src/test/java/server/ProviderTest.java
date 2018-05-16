@@ -15,12 +15,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProviderTest extends BaseModelTest<Provider> {
 
+    /** {@inheritDoc} */
+    @Override
+    void assignValidData(Provider obj) {
+        obj.setVat("AAAAAAAAAAAAAAAA");
+        obj.setName("BBB");
+    }
+
+
     /**
      * Creation, update and delete of a valid parent
      */
     @Test
     void dbTest() {
-        Provider provider = new Provider("AAAAAAAAAAAAAAAA", "BBB");
+        Provider provider = new Provider();
+        assignValidData(provider);
 
         // Create
         HibernateUtils.getInstance().create(provider);
@@ -58,7 +67,7 @@ class ProviderTest extends BaseModelTest<Provider> {
 
 
     /**
-     * Test the VAT number validity control
+     * Test the VAT number validity check
      */
     @Test
     void vatValidity() {
@@ -73,7 +82,7 @@ class ProviderTest extends BaseModelTest<Provider> {
 
 
     /**
-     * Test the name validity control
+     * Test the name validity check
      */
     @Test
     void nameValidity() {
@@ -106,14 +115,6 @@ class ProviderTest extends BaseModelTest<Provider> {
         TypedQuery<Provider> q = em.createQuery(cq);
 
         return HibernateUtils.getSingleResult(q);
-    }
-
-
-    /** {@inheritDoc} */
-    @Override
-    void assignValidData(Provider obj) {
-        obj.setVat("AAAAAAAAAAAAAAAA");
-        obj.setName("BBB");
     }
 
 }
