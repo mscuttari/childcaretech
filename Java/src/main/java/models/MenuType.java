@@ -2,8 +2,8 @@ package main.java.models;
 
 public enum MenuType {
 
-    ALTERNATIVEMENU("Menu alternativo"),
-    REGULARMENU("Menu regolare");
+    ALTERNATIVE_MENU("Menù alternativo"),
+    REGULAR_MENU("Menù regolare");
 
     private String name;
 
@@ -25,9 +25,9 @@ public enum MenuType {
      */
     public static String getMenuType(Menu menu) {
         if (menu instanceof AlternativeMenu) {
-            return ALTERNATIVEMENU.toString();
+            return ALTERNATIVE_MENU.toString();
         } else if (menu instanceof RegularMenu) {
-            return REGULARMENU.toString();
+            return REGULAR_MENU.toString();
         }
 
         return null;

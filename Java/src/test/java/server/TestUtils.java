@@ -26,12 +26,14 @@ public class TestUtils {
     public static void assertDateEquals(Date x, Date y) {
         if (x instanceof Timestamp && !(y instanceof Timestamp)) {
             Timestamp ts = new Timestamp(y.getTime());
-            //ts.setNanos(0);
+            ((Timestamp)x).setNanos(0);
+            ts.setNanos(0);
             Assertions.assertTrue(x.compareTo(ts) == 0);
 
         } else if (!(x instanceof Timestamp) && y instanceof Timestamp) {
             Timestamp ts = new Timestamp(x.getTime());
-            //ts.setNanos(0);
+            ts.setNanos(0);
+            ((Timestamp)y).setNanos(0);
             Assertions.assertTrue(y.compareTo(ts) == 0);
 
         } else {

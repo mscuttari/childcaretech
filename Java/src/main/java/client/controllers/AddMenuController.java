@@ -114,11 +114,11 @@ public class AddMenuController implements Initializable {
         String name = tfMenuName.getText().trim();
 
         switch (cbMenuType.getValue()) {
-            case ALTERNATIVEMENU:
+            case ALTERNATIVE_MENU:
                 menu = new AlternativeMenu(name, TableUtils.getFirstSelectedItem(tableStaff), null);
                 break;
 
-            case REGULARMENU:
+            case REGULAR_MENU:
                 menu = new RegularMenu(name, TableUtils.getFirstSelectedItem(tableStaff));
                 break;
         }

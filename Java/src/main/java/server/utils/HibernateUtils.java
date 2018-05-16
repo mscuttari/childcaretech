@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HibernateUtils {
@@ -103,6 +104,36 @@ public class HibernateUtils {
 
 
     /**
+     * Get single result
+     *
+     * @param   query   query to be run
+     * @return  result object (null if no item or error)
+     */
+    public static synchronized <M extends BaseModel> M getSingleResult(TypedQuery<M> query) {
+        try {
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+    /**
+     * Get results list
+     *
+     * @param   query   query to be run
+     * @return  results list (empty if no items or error)
+     */
+    public static synchronized <M extends BaseModel> List<M> getResultsList(TypedQuery<M> query) {
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+
+    /**
      * Get all the elements
      *
      * @param   modelClass          model class
@@ -117,11 +148,7 @@ public class HibernateUtils {
         TypedQuery<M> q = em.createQuery(cq);
 
         try {
-            return q.getResultList();
-        } catch (Exception e) {
-            LogUtils.e(TAG, e.getMessage());
-            e.printStackTrace();
-            return null;
+            return getResultsList(q);
         } finally {
             em.close();
         }

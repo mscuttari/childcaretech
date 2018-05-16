@@ -14,6 +14,9 @@ import java.util.Collection;
 @DiscriminatorValue("regular")
 public class RegularMenu extends Menu {
 
+    // Serialization
+    private static final long serialVersionUID = 4801684474319217042L;
+
     private Collection<AlternativeMenu> alternativeMenus = new ArrayList<>();
 
 

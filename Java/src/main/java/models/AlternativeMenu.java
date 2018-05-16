@@ -11,6 +11,9 @@ import java.util.Collection;
 @DiscriminatorValue("alternative")
 public class AlternativeMenu extends Menu {
 
+    // Serialization
+    private static final long serialVersionUID = -3413541435253247635L;
+
     private RegularMenu regularMenu;
 
     private Collection<Person> people = new ArrayList<>();
