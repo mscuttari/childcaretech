@@ -28,7 +28,7 @@ abstract class PersonTest<M extends Person> {
      *
      * @param   person      person instance to be tested
      */
-    void fiscalCodeValidity(Person person) {
+    void fiscalCodeValidity(M person) {
         // Valid data
         assignValidData(person);
         assertDoesNotThrow(person::checkDataValidity);
@@ -46,7 +46,7 @@ abstract class PersonTest<M extends Person> {
      *
      * @param   person      person instance to be tested
      */
-    void firstNameValidity(Person person) {
+    void firstNameValidity(M person) {
         // Valid data
         assignValidData(person);
         assertDoesNotThrow(person::checkDataValidity);
@@ -64,7 +64,7 @@ abstract class PersonTest<M extends Person> {
      *
      * @param   person      person instance to be tested
      */
-    void lastNameValidity(Person person) {
+    void lastNameValidity(M person) {
         // Valid data
         assignValidData(person);
         assertDoesNotThrow(person::checkDataValidity);
@@ -82,7 +82,7 @@ abstract class PersonTest<M extends Person> {
      *
      * @param   person      person instance to be tested
      */
-    void birthDateValidity(Person person) {
+    void birthDateValidity(M person) {
         // Valid data
         assignValidData(person);
         assertDoesNotThrow(person::checkDataValidity);
@@ -98,7 +98,7 @@ abstract class PersonTest<M extends Person> {
      *
      * @param   person      person instance to be tested
      */
-    void addressValidity(Person person) {
+    void addressValidity(M person) {
         // Valid data
         assignValidData(person);
         assertDoesNotThrow(person::checkDataValidity);
@@ -110,7 +110,7 @@ abstract class PersonTest<M extends Person> {
      *
      * @param   person      person instance to be tested
      */
-    void telephoneValidity(Person person) {
+    void telephoneValidity(M person) {
         // Valid data
         assignValidData(person);
         assertDoesNotThrow(person::checkDataValidity);
@@ -132,7 +132,7 @@ abstract class PersonTest<M extends Person> {
      *
      * @param   person      person instance to be populated with valid data
      */
-    void assignValidData(Person person) {
+    void assignValidData(M person) {
         person.setFiscalCode("AAAAAAAAAAAAAAAA");
         person.setFirstName("AAA");
         person.setLastName("BBB");
