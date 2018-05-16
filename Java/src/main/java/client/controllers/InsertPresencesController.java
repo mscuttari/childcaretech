@@ -42,11 +42,6 @@ public class InsertPresencesController implements Initializable {
     private TableColumn<Trip, Date> columnTripsDate;
 
     @FXML
-    private TableView<Stop> tableStops;
-    @FXML
-    private TableColumn<Stop, String> columnStopsPlaceName;
-
-    @FXML
     private TableView<Pullman> tablePullman;
     @FXML
     private TableColumn<Pullman, String> columnPullmanNumberplate;
@@ -95,10 +90,6 @@ public class InsertPresencesController implements Initializable {
         tablePullman.setEditable(true);
         tablePullman.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        columnStopsPlaceName.setCellValueFactory(new PropertyValueFactory<>("placeName"));
-        tablePullman.setEditable(true);
-        tablePullman.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
         columnChildrenSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnChildrenSelected));
         columnChildrenSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
         columnChildrenFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -109,10 +100,6 @@ public class InsertPresencesController implements Initializable {
                 List<Pullman> pullman = (List<Pullman>) tableTrips.getSelectionModel().getSelectedItem().getTransports();
                 ObservableList<Pullman> pullmanData = FXCollections.observableArrayList(pullman);
                 tablePullman.setItems(pullmanData);
-
-                List<Stop> stops = (List<Stop>) tableTrips.getSelectionModel().getSelectedItem().getStops();
-                ObservableList<Stop> stopsData = FXCollections.observableArrayList(stops);
-                tableStops.setItems(stopsData);
             }
         });
 
@@ -141,10 +128,6 @@ public class InsertPresencesController implements Initializable {
             showErrorDialog("Nessun bambino è selezionato");
             return;
         }
-        else  if(tableStops.getSelectionModel().getSelectedItem() == null){
-            showErrorDialog("Nessuna tappa è selezionata");
-            return;
-        }
 
         List<Child> assignedChildren = (List<Child>) tablePullman.getSelectionModel().getSelectedItem().getChildrenAssignments();
 
@@ -164,8 +147,7 @@ public class InsertPresencesController implements Initializable {
         notPresentChildren.removeAll(presentChildren);
 
         if(wrongPullmanChildren.isEmpty() && notPresentChildren.isEmpty() ){
-            tableStops.getSelectionModel().getSelectedItem().setChildrenPresences(presentChildren);
-            connectionManager.getClient().update(tableStops.getSelectionModel().getSelectedItem());
+            showErrorDialog("Tutti i bambini sono presenti e non cè nessun bambino di un altro pullman");
         }
         else {
            showPresencesErrorDialog(notPresentChildren, wrongPullmanChildren);

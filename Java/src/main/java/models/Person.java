@@ -31,6 +31,7 @@ public abstract class Person extends BaseModel {
     private Collection<Ingredient> allergies = new ArrayList<>();
     private Collection<Ingredient> intollerances = new ArrayList<>();
     private Collection<Contact> contacts = new ArrayList<>();
+    private Collection<AlternativeMenu> personalizedMenus = new ArrayList<>();
 
 
     /**
@@ -219,6 +220,15 @@ public abstract class Person extends BaseModel {
 
     public void setContacts(Collection<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    @ManyToMany(mappedBy = "people")
+    public Collection<AlternativeMenu> getPersonalizedMenus() {
+        return personalizedMenus;
+    }
+
+    public void setPersonalizedMenus(Collection<AlternativeMenu> personalizedMenus) {
+        this.personalizedMenus = personalizedMenus;
     }
 
     @Override

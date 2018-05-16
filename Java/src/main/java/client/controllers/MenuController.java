@@ -3,7 +3,9 @@ package main.java.client.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.LogUtils;
@@ -20,6 +22,7 @@ public class MenuController implements Initializable{
     @FXML private Pane menuPane;
     @FXML private Button buttonAddMenu;
     @FXML private Button buttonShowMenu;
+    @FXML private ImageView goBackImage;
 
 
     @Override
@@ -30,6 +33,13 @@ public class MenuController implements Initializable{
 
         //Show menu button
         buttonShowMenu.setOnAction(event -> showMenu());
+
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> menuPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> menuPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
     }
 
     public void addMenu() {
@@ -47,6 +57,16 @@ public class MenuController implements Initializable{
             Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
             BorderPane homePane = (BorderPane) menuPane.getParent();
             homePane.setCenter(showMenuPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
+    }
+
+    public void goBack() {
+        try {
+            Pane canteenPane = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
+            BorderPane homePane = (BorderPane) menuPane.getParent();
+            homePane.setCenter(canteenPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }

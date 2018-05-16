@@ -32,7 +32,6 @@ public class UpdateMenuController implements Initializable {
 
     @FXML private Pane updateMenuPane;
     @FXML private TextField tfMenuName;
-    @FXML private TextField tfMenuType;
     @FXML private ImageView updateMenuImage;
     @FXML private ImageView goBackImage;
 
@@ -74,7 +73,6 @@ public class UpdateMenuController implements Initializable {
 
         //Data tab
         tfMenuName.setText(menu.getName());
-        tfMenuType.setText(menu.getType());
 
         //Food table
         List<Food> food = connectionManager.getClient().getFood();
@@ -120,7 +118,6 @@ public class UpdateMenuController implements Initializable {
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         menu.setName(tfMenuName.getText().trim());
-        menu.setType(tfMenuType.getText().trim());
         menu.setComposition(TableUtils.getSelectedItems(tableFood));
         menu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
 

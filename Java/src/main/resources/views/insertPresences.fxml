@@ -9,25 +9,20 @@
 
 <AnchorPane fx:id="insertPresencesPane" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.InsertPresencesController">
     <children>
-      <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-                <TableView fx:id="tableTrips" prefWidth="230.0" HBox.hgrow="ALWAYS">
+                <TableView fx:id="tableTrips" HBox.hgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="columnTripsTitle" prefWidth="89.0" text=" Nome Gita" />
                         <TableColumn fx:id="columnTripsDate" prefWidth="94.0" text="Data Gita" />
                     </columns>
                 </TableView>
-            <TableView fx:id="tableStops" prefWidth="170.0" HBox.hgrow="ALWAYS">
-              <columns>
-                <TableColumn fx:id="columnStopsPlaceName" prefWidth="126.0" text="Nome Tappa" />
-              </columns>
-            </TableView>
-                <TableView fx:id="tablePullman" prefWidth="150.0">
+                <TableView fx:id="tablePullman">
                     <columns>
                         <TableColumn fx:id="columnPullmanNumberplate" prefWidth="112.0" text="Targa Pullman" />
                     </columns>
                 </TableView>
-                <TableView fx:id="tableChildren" prefWidth="350.0">
+                <TableView fx:id="tableChildren">
                     <columns>
                         <TableColumn fx:id="columnChildrenSelected" prefWidth="48.912841796875" />
                         <TableColumn fx:id="columnChildrenFirstName" prefWidth="100.36029052734375" text="Nome" />
@@ -36,12 +31,12 @@
                 </TableView>
          </children>
       </HBox>
-      <ImageView fx:id="imageSavePresences" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="110.0">
+      <ImageView fx:id="imageSavePresences" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="30.0">
          <image>
             <Image url="@../images/save-data.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
          <image>
             <Image url="@../images/goBack(green).png" />
          </image>

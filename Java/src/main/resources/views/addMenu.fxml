@@ -26,11 +26,7 @@
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="tfMenuType" promptText="Tipo">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </TextField>
+                  <ComboBox fx:id="cbMenuType" prefHeight="35.0" prefWidth="232.0" />
                </children>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -53,12 +49,12 @@
             </TableView>
          </children>
       </HBox>
-      <ImageView fx:id="addMenuImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="110.0">
+      <ImageView fx:id="addMenuImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="30.0">
          <image>
             <Image url="@../images/save-data.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
          <image>
             <Image url="@../images/goBack(red).png" />
          </image>

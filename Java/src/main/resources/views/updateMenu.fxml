@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="updateMenuPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
@@ -22,11 +22,6 @@
                             </VBox.margin>
                         </ImageView>
                         <TextField fx:id="tfMenuName" promptText="Nome">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                        </TextField>
-                        <TextField fx:id="tfMenuType" promptText="Tipo">
                             <font>
                                 <Font size="18.0" />
                             </font>
@@ -53,12 +48,12 @@
                 </TableView>
             </children>
         </HBox>
-        <ImageView fx:id="updateMenuImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="110.0">
+        <ImageView fx:id="updateMenuImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="30.0">
             <image>
                 <Image url="@../images/update-data.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+        <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
             <image>
                 <Image url="@../images/goBack(red).png" />
             </image>

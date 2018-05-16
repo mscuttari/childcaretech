@@ -3,8 +3,10 @@ package main.java.client.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.LogUtils;
@@ -21,6 +23,7 @@ public class FoodController implements Initializable{
     @FXML private Pane foodPane;
     @FXML private Button buttonAddFood;
     @FXML private Button buttonShowFood;
+    @FXML private ImageView goBackImage;
 
 
     @Override
@@ -31,6 +34,13 @@ public class FoodController implements Initializable{
 
         //Update food button
         buttonShowFood.setOnAction(event -> showFood());
+
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> foodPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> foodPane.getScene().setCursor(Cursor.DEFAULT));
+
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
     }
 
     public void addFood() {
@@ -52,5 +62,16 @@ public class FoodController implements Initializable{
             LogUtils.e(TAG, e.getMessage());
         }
     }
+
+    public void goBack() {
+        try {
+            Pane canteenPane = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
+            BorderPane homePane = (BorderPane) foodPane.getParent();
+            homePane.setCenter(canteenPane);
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+        }
+    }
+
 
 }

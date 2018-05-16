@@ -14,14 +14,15 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "menus", uniqueConstraints = @UniqueConstraint(columnNames = {"responsible_id"}))
-public class Menu extends BaseModel {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
+public abstract class Menu extends BaseModel {
 
     // Serialization
     private static final long serialVersionUID = -8284040804525605098L;
 
     private Long id;
     private String name;
-    private String type;
     private Staff responsible;
 
     private Collection<Food> composition = new ArrayList<>();
@@ -31,7 +32,7 @@ public class Menu extends BaseModel {
      * Default constructor
      */
     public Menu() {
-        this(null, null, null);
+        this(null, null);
     }
 
 
@@ -39,12 +40,10 @@ public class Menu extends BaseModel {
      * Constructor
      *
      * @param   name            name
-     * @param   type            type
      * @param   responsible     responsible (staff person)
      */
-    public Menu(String name, String type, Staff responsible) {
+    public Menu(String name, Staff responsible) {
         this.name = name;
-        this.type = type;
         this.responsible = responsible;
     }
 
@@ -58,8 +57,8 @@ public class Menu extends BaseModel {
         if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
         // Type: [a-z] [A-Z] space
-        if (type == null || type.isEmpty()) throw new InvalidFieldException("Tipologia mancante");
-        if (!type.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Tipologia non valida");
+        //if (type == null || type.isEmpty()) throw new InvalidFieldException("Tipologia mancante");
+        //if (!type.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Tipologia non valida");
 
         // Responsible
         if (responsible == null) throw new InvalidFieldException("Responsabile mancante");
@@ -109,15 +108,6 @@ public class Menu extends BaseModel {
 
     public void setName(String name) {
         this.name = name == null || name.isEmpty() ? null : name;
-    }
-
-    @Column(name = "type", nullable = false)
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type == null || type.isEmpty() ? null : type;
     }
 
     @ManyToOne

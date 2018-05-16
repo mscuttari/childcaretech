@@ -4,24 +4,18 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import main.java.models.Menu;
 
-public class GuiMenu extends GuiBaseModel<Menu> {
+public abstract class GuiMenu<M extends Menu> extends GuiBaseModel<M> {
 
     private StringProperty name;
-    private StringProperty type;
 
-    public GuiMenu(Menu model) {
+    public GuiMenu(M model) {
         super(model);
 
         this.name = new SimpleStringProperty(model.getName());
-        this.type = new SimpleStringProperty(model.getType());
     }
 
     public StringProperty nameProperty() {
         return name;
-    }
-
-    public StringProperty typeProperty() {
-        return type;
     }
 
 }

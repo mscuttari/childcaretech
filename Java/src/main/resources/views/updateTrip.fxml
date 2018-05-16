@@ -191,12 +191,12 @@
                 </Tab>
             </tabs>
         </TabPane>
-      <ImageView fx:id="updateTripImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="110.0">
+      <ImageView fx:id="updateTripImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="30.0">
          <image>
             <Image url="@../images/update-data.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
          <image>
             <Image url="@../images/goBack(green).png" />
          </image>

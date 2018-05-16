@@ -28,12 +28,9 @@ public class AddMenuController implements Initializable {
     // Debug
     private static final String TAG = "AddMenuController";
 
-    //Create menù
-    Menu menu = new Menu();
-
     @FXML private Pane addMenuPane;
     @FXML private TextField tfMenuName;
-    @FXML private TextField tfMenuType;
+    @FXML private ComboBox<MenuType> cbMenuType;
     @FXML private ImageView addMenuImage;
     @FXML private ImageView goBackImage;
 
@@ -51,6 +48,11 @@ public class AddMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        // Menu type
+        cbMenuType.getItems().addAll(MenuType.values());
+        cbMenuType.getSelectionModel().select(1);
+
 
         // Save button cursor
         addMenuImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
@@ -102,18 +104,26 @@ public class AddMenuController implements Initializable {
      */
     private void saveMenu() {
 
+        //Create menù
+        Menu menu = null;
+
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         // Data
         String name = tfMenuName.getText().trim();
-        String type = tfMenuType.getText().trim();
 
-        menu.setName(name);
-        menu.setType(type);
+        switch (cbMenuType.getValue()) {
+            case ALTERNATIVEMENU:
+                menu = new AlternativeMenu(name, TableUtils.getFirstSelectedItem(tableStaff), null);
+                break;
+
+            case REGULARMENU:
+                menu = new RegularMenu(name, TableUtils.getFirstSelectedItem(tableStaff));
+                break;
+        }
 
         menu.setComposition(TableUtils.getSelectedItems(tableFood));
-        menu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
 
         // Check data
         try {
