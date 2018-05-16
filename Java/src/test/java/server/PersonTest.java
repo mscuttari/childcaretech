@@ -1,10 +1,8 @@
 package test.java.server;
 
 import main.java.client.InvalidFieldException;
-import main.java.models.Contact;
 import main.java.models.Person;
 import main.java.server.utils.HibernateUtils;
-import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -16,7 +14,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-abstract class PersonTest<M extends Person> {
+abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
     private Class<M> modelClass;
 
@@ -165,20 +163,16 @@ abstract class PersonTest<M extends Person> {
     }
 
 
-    /**
-     * Assign basic valid data to a person instance
-     *
-     * @param   person      person instance to be populated with valid data
-     */
-    void assignValidData(M person) {
-        person.setFiscalCode("AAAAAAAAAAAAAAAA");
-        person.setFirstName("AAA");
-        person.setLastName("BBB");
-        person.setBirthdate(new Date());
-        person.setAddress("Test, A/1");
-        person.setTelephone("+39 111 1111111");
+    /** {@inheritDoc} */
+    @Override
+    void assignValidData(M obj) {
+        obj.setFiscalCode("AAAAAAAAAAAAAAAA");
+        obj.setFirstName("AAA");
+        obj.setLastName("BBB");
+        obj.setBirthdate(new Date());
+        obj.setAddress("Test, A/1");
+        obj.setTelephone("+39 111 1111111");
     }
-
 
 
     /**

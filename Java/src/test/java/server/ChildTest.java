@@ -65,16 +65,16 @@ class ChildTest extends PersonTest<Child> {
 
     /** {@inheritDoc} */
     @Override
-    void assignValidData(Child person) {
-        super.assignValidData(person);
+    void assignValidData(Child obj) {
+        super.assignValidData(obj);
 
         List<Parent> parents = new ArrayList<>();
         parents.add(new Parent());
         parents.add(new Parent());
-        person.setParents(parents);
+        obj.setParents(parents);
 
         Pediatrist pediatrist = new Pediatrist();
-        person.setPediatrist(pediatrist);
+        obj.setPediatrist(pediatrist);
     }
 
 }

@@ -157,11 +157,11 @@ class StaffTest extends PersonTest<Staff> {
 
     /** {@inheritDoc} */
     @Override
-    void assignValidData(Staff person) {
-        super.assignValidData(person);
+    void assignValidData(Staff obj) {
+        super.assignValidData(obj);
 
-        person.setUsername("user");
-        person.setPassword("password");
+        obj.setUsername("user");
+        obj.setPassword("password");
     }
 
 }

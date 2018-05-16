@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProviderTest {
+class ProviderTest extends BaseModelTest<Provider> {
 
     /**
      * Creation, update and delete of a valid parent
@@ -106,6 +106,14 @@ class ProviderTest {
         TypedQuery<Provider> q = em.createQuery(cq);
 
         return HibernateUtils.getSingleResult(q);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    void assignValidData(Provider obj) {
+        obj.setVat("AAAAAAAAAAAAAAAA");
+        obj.setName("BBB");
     }
 
 }
