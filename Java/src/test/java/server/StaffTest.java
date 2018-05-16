@@ -1,14 +1,15 @@
 package test.java.server;
 
+import main.java.client.InvalidFieldException;
 import main.java.models.Staff;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static test.java.utils.TestUtils.assertDateEquals;
 
 class StaffTest extends PersonTest<Staff> {
@@ -117,6 +118,55 @@ class StaffTest extends PersonTest<Staff> {
     @Override
     void telephoneValidity() {
         super.telephoneValidity(new Staff());
+    }
+
+
+    /**
+     * Test the username validity control
+     */
+    @Test
+    void usernameValidity() {
+        Staff staff = createBasicStaff();
+
+        // Valid data
+        assignValidData(staff);
+        assertDoesNotThrow(staff::checkDataValidity);
+
+        // Invalid data
+        staff.setUsername(null);
+        assertThrows(InvalidFieldException.class, staff::checkDataValidity);
+    }
+
+
+    /**
+     * Test the password validity control
+     */
+    @Test
+    void passwordValidity() {
+        Staff staff = createBasicStaff();
+
+        // Valid data
+        assignValidData(staff);
+        assertDoesNotThrow(staff::checkDataValidity);
+
+        // Invalid data
+        staff.setPassword(null);
+        assertThrows(InvalidFieldException.class, staff::checkDataValidity);
+    }
+
+
+    /**
+     * Create a staff object
+     *
+     * @return  staff object
+     */
+    private static Staff createBasicStaff() {
+        Staff staff = new Staff();
+
+        staff.setUsername("user");
+        staff.setPassword("pass");
+
+        return staff;
     }
 
 }

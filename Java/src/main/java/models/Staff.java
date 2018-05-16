@@ -61,8 +61,12 @@ public class Staff extends Person {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         super.checkDataValidity();
+        
+        // Username
+        if (username == null || username.isEmpty()) throw new InvalidFieldException("Username mancante");
 
-        // TODO: username and password management
+        // Password
+        if (password == null || password.isEmpty()) throw new InvalidFieldException("Password mancante");
     }
 
 

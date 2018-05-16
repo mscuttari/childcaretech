@@ -69,6 +69,7 @@ public abstract class Person extends BaseModel {
         // Fiscal code: [A-Z] [0-9] 16 chars length
         if (fiscalCode == null || fiscalCode.isEmpty()) throw new InvalidFieldException("Codice fiscale mancante");
         if (fiscalCode.length() != 16) throw new InvalidFieldException("Codice fiscale non valido");
+        if (!fiscalCode.matches("^[A-Z\\d]+$")) throw new InvalidFieldException("Codice fiscale non valido");
 
         // First name: [a-z] [A-Z] space
         if (firstName == null || firstName.isEmpty()) throw new InvalidFieldException("Nome mancante");
@@ -82,7 +83,7 @@ public abstract class Person extends BaseModel {
         if (birthDate == null) throw new InvalidFieldException("Data di nascita mancante");
 
         // Address: [a-z] [A-Z] [0-9] space . , ; \ / °
-        if (address != null && !address.matches("^$|^[a-zA-Z0-9\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
+        if (address != null && !address.matches("^$|^[a-zA-Z\\d\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
 
         // Telephone: [0-9] space +
         if (telephone != null && !telephone.matches("^$|^[\\d\\040+]+$")) throw new InvalidFieldException("Telefono non valido");
