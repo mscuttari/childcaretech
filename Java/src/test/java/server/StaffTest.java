@@ -126,7 +126,7 @@ class StaffTest extends PersonTest<Staff> {
      */
     @Test
     void usernameValidity() {
-        Staff staff = createBasicStaff();
+        Staff staff = new Staff();
 
         // Valid data
         assignValidData(staff);
@@ -143,7 +143,7 @@ class StaffTest extends PersonTest<Staff> {
      */
     @Test
     void passwordValidity() {
-        Staff staff = createBasicStaff();
+        Staff staff = new Staff();
 
         // Valid data
         assignValidData(staff);
@@ -155,18 +155,13 @@ class StaffTest extends PersonTest<Staff> {
     }
 
 
-    /**
-     * Create a staff object
-     *
-     * @return  staff object
-     */
-    private static Staff createBasicStaff() {
-        Staff staff = new Staff();
+    /** {@inheritDoc} */
+    @Override
+    void assignValidData(Staff person) {
+        super.assignValidData(person);
 
-        staff.setUsername("user");
-        staff.setPassword("pass");
-
-        return staff;
+        person.setUsername("user");
+        person.setPassword("password");
     }
 
 }

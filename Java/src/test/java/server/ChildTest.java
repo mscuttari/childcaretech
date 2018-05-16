@@ -19,7 +19,7 @@ class ChildTest extends PersonTest<Child> {
     @Test
     @Override
     void fiscalCodeValidity() {
-        super.fiscalCodeValidity(createBasicChild());
+        super.fiscalCodeValidity(new Child());
     }
 
 
@@ -27,7 +27,7 @@ class ChildTest extends PersonTest<Child> {
     @Test
     @Override
     void firstNameValidity() {
-        super.firstNameValidity(createBasicChild());
+        super.firstNameValidity(new Child());
     }
 
 
@@ -35,7 +35,7 @@ class ChildTest extends PersonTest<Child> {
     @Test
     @Override
     void lastNameValidity() {
-        super.lastNameValidity(createBasicChild());
+        super.lastNameValidity(new Child());
     }
 
 
@@ -43,7 +43,7 @@ class ChildTest extends PersonTest<Child> {
     @Test
     @Override
     void birthDateValidity() {
-        super.birthDateValidity(createBasicChild());
+        super.birthDateValidity(new Child());
     }
 
 
@@ -51,7 +51,7 @@ class ChildTest extends PersonTest<Child> {
     @Test
     @Override
     void addressValidity() {
-        super.addressValidity(createBasicChild());
+        super.addressValidity(new Child());
     }
 
 
@@ -59,27 +59,22 @@ class ChildTest extends PersonTest<Child> {
     @Test
     @Override
     void telephoneValidity() {
-        super.telephoneValidity(createBasicChild());
+        super.telephoneValidity(new Child());
     }
 
 
-    /**
-     * Create a child object with two parents and a pediatrist
-     *
-     * @return  child object
-     */
-    private static Child createBasicChild() {
-        Child child = new Child();
+    /** {@inheritDoc} */
+    @Override
+    void assignValidData(Child person) {
+        super.assignValidData(person);
 
         List<Parent> parents = new ArrayList<>();
         parents.add(new Parent());
         parents.add(new Parent());
-        child.setParents(parents);
+        person.setParents(parents);
 
         Pediatrist pediatrist = new Pediatrist();
-        child.setPediatrist(pediatrist);
-
-        return child;
+        person.setPediatrist(pediatrist);
     }
 
 }
