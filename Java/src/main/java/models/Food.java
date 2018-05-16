@@ -56,9 +56,11 @@ public class Food extends BaseModel {
         if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");
         if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
-        // Type: [a-z] [A-Z] space
-        //if (type == null || type.isEmpty()) throw new InvalidFieldException("Tipologia mancante");
-        //if (!type.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Tipologia non valida");
+        // Food type
+        if (type == null) throw new InvalidFieldException("Tipologia mancante");
+
+        // Provider
+        if (provider == null) throw new InvalidFieldException("Fornitore mancante");
     }
 
 

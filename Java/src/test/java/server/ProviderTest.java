@@ -13,13 +13,13 @@ import javax.persistence.criteria.Root;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProviderTest {
+class ProviderTest {
 
     /**
      * Creation, update and delete of a valid parent
      */
     @Test
-    public void dbTest() {
+    void dbTest() {
         Provider provider = new Provider("AAAAAAAAAAAAAAAA", "BBB");
 
         // Create
@@ -61,7 +61,7 @@ public class ProviderTest {
      * Test the VAT number validity control
      */
     @Test
-    public void vatValidity() {
+    void vatValidity() {
         // Valid data
         Provider provider = new Provider("AAAAAAAAAAAAAAAA", "BBB");
         assertDoesNotThrow(provider::checkDataValidity);
@@ -76,7 +76,7 @@ public class ProviderTest {
      * Test the name validity control
      */
     @Test
-    public void nameValidity() {
+    void nameValidity() {
         // Valid data
         Provider provider = new Provider("AAAAAAAAAAAAAAAA", "BBB");
         assertDoesNotThrow(provider::checkDataValidity);

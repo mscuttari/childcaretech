@@ -70,55 +70,49 @@ class ContactTest extends PersonTest<Contact> {
     }
 
 
-    /**
-     * Test the fiscal code validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void fiscalCodeValidity() {
         super.fiscalCodeValidity(new Contact());
     }
 
 
-    /**
-     * Test the first name validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void firstNameValidity() {
         super.firstNameValidity(new Contact());
     }
 
 
-    /**
-     * Test the last name validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void lastNameValidity() {
         super.lastNameValidity(new Contact());
     }
 
 
-    /**
-     * Test the date validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void birthDateValidity() {
         super.birthDateValidity(new Contact());
     }
 
 
-    /**
-     * Test the address validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void addressValidity() {
         super.addressValidity(new Contact());
     }
 
 
-    /**
-     * Test the telephone validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void telephoneValidity() {
         super.telephoneValidity(new Contact());
     }

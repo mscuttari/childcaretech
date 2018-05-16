@@ -70,55 +70,49 @@ class ParentTest extends PersonTest<Parent> {
     }
 
 
-    /**
-     * Test the fiscal code validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void fiscalCodeValidity() {
         super.fiscalCodeValidity(new Parent());
     }
 
 
-    /**
-     * Test the first name validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void firstNameValidity() {
         super.firstNameValidity(new Parent());
     }
 
 
-    /**
-     * Test the last name validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void lastNameValidity() {
         super.lastNameValidity(new Parent());
     }
 
 
-    /**
-     * Test the date validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void birthDateValidity() {
         super.birthDateValidity(new Parent());
     }
 
 
-    /**
-     * Test the address validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void addressValidity() {
         super.addressValidity(new Parent());
     }
 
 
-    /**
-     * Test the telephone validity control
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void telephoneValidity() {
         super.telephoneValidity(new Parent());
     }

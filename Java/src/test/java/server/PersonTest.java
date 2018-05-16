@@ -1,8 +1,10 @@
 package test.java.server;
 
 import main.java.client.InvalidFieldException;
+import main.java.models.Contact;
 import main.java.models.Person;
 import main.java.server.utils.HibernateUtils;
+import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -21,6 +23,42 @@ abstract class PersonTest<M extends Person> {
     PersonTest(Class<M> modelClass) {
         this.modelClass = modelClass;
     }
+
+
+    /**
+     * Test the fiscal code validity control
+     */
+    abstract void fiscalCodeValidity();
+
+
+    /**
+     * Test the first name validity control
+     */
+    abstract void firstNameValidity();
+
+
+    /**
+     * Test the last name validity control
+     */
+    abstract void lastNameValidity();
+
+
+    /**
+     * Test the date validity control
+     */
+    abstract void birthDateValidity();
+
+
+    /**
+     * Test the address validity control
+     */
+    abstract void addressValidity();
+
+
+    /**
+     * Test the telephone validity control
+     */
+    abstract void telephoneValidity();
 
 
     /**
