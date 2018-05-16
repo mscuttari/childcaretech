@@ -55,9 +55,9 @@ public class FoodController implements Initializable{
 
     public void showFood() {
         try {
-            TableView tableFood = FXMLLoader.load(getClass().getResource("/views/showFood.fxml"));
+            Pane showFoodPane = FXMLLoader.load(getClass().getResource("/views/showFood.fxml"));
             BorderPane homePane = (BorderPane) foodPane.getParent();
-            homePane.setCenter(tableFood);
+            homePane.setCenter(showFoodPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
