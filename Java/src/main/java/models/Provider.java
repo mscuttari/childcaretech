@@ -48,9 +48,9 @@ public class Provider extends BaseModel {
     @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
-        // VAT: [a-z] [A-Z] [0-9]
+        // VAT: [a-z] [A-Z] [0-9] space
         if (vat == null || vat.isEmpty()) throw new InvalidFieldException("Partita IVA mancante");
-        if (!name.matches("^[a-zA-Z\\d]+$")) throw new InvalidFieldException("Partita IVA non valida");
+        if (!vat.matches("^[a-zA-Z\\d\\040]+$")) throw new InvalidFieldException("Partita IVA non valida");
 
         // Name: [a-z] [A-Z] space
         if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");

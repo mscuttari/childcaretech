@@ -30,7 +30,7 @@ public class ParentTest {
         Parent createdParent = getParentByFiscalCode(parent.getFiscalCode());
 
         // Check creation
-        Assertions.assertNotNull(createdParent);
+        assertNotNull(createdParent);
 
         assertEquals(parent.getFiscalCode(), createdParent.getFiscalCode());
         assertEquals(parent.getFirstName(), createdParent.getFirstName());
@@ -81,7 +81,7 @@ public class ParentTest {
         Parent parent = new Parent("AAAAAAAAAAAAAAAA", "AAA", "BBB", new Date(), "Test, A/1", "+39 111 1111111");
         assertDoesNotThrow(parent::checkDataValidity);
 
-        // Invalid data: fiscal code
+        // Invalid data
         parent.setFiscalCode(null);
         assertThrows(InvalidFieldException.class, parent::checkDataValidity);
         parent.setFiscalCode("A");
