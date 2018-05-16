@@ -34,7 +34,6 @@ public class ShowMenuController implements Initializable{
 
     @FXML private TableView<Menu> tableMenu;
     @FXML private TableColumn<Menu, String> columnMenuName;
-    @FXML private TableColumn<Menu, Date> columnMenuType;
     @FXML private TableColumn<Menu, Void> columnMenuEdit;
     @FXML private TableColumn<Menu, Void> columnMenuDelete;
 
@@ -56,7 +55,6 @@ public class ShowMenuController implements Initializable{
         ObservableList<Menu> menuData = FXCollections.observableArrayList(menu);
 
         columnMenuName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        columnMenuType.setCellValueFactory(new PropertyValueFactory<>("type"));
         columnMenuEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<Menu, Object>() {
 
             @Override
