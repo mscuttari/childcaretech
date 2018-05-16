@@ -75,7 +75,7 @@ class TripTest extends BaseModelTest<Trip> {
 
 
     /**
-     * Test the date validity control
+     * Test the date validity check
      */
     @Test
     void dateValidty() {
@@ -92,7 +92,7 @@ class TripTest extends BaseModelTest<Trip> {
 
 
     /**
-     * Test the title validity control
+     * Test the title validity check
      */
     @Test
     void titleValidity() {

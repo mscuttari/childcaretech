@@ -50,37 +50,37 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
 
 
     /**
-     * Test the fiscal code validity control
+     * Test the fiscal code validity check
      */
     abstract void fiscalCodeValidity();
 
 
     /**
-     * Test the first name validity control
+     * Test the first name validity check
      */
     abstract void firstNameValidity();
 
 
     /**
-     * Test the last name validity control
+     * Test the last name validity check
      */
     abstract void lastNameValidity();
 
 
     /**
-     * Test the date validity control
+     * Test the date validity check
      */
     abstract void birthDateValidity();
 
 
     /**
-     * Test the address validity control
+     * Test the address validity check
      */
     abstract void addressValidity();
 
 
     /**
-     * Test the telephone validity control
+     * Test the telephone validity check
      */
     abstract void telephoneValidity();
 

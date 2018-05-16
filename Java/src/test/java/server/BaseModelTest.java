@@ -5,7 +5,7 @@ import main.java.models.BaseModel;
 abstract class BaseModelTest<M extends BaseModel> {
 
     /**
-     * Check the equality betwewn two objects of the same class
+     * Check the equality between two objects of the same class
      *
      * @param   x   first object
      * @param   y   second model
