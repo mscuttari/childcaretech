@@ -1,9 +1,12 @@
 package test.java.utils;
 
+import main.java.models.BaseModel;
 import org.junit.jupiter.api.Assertions;
 
 import java.sql.Timestamp;
 import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestUtils {
 
@@ -24,21 +27,7 @@ public class TestUtils {
      * @param   y   second date
      */
     public static void assertDateEquals(Date x, Date y) {
-        if (x instanceof Timestamp && !(y instanceof Timestamp)) {
-            Timestamp ts = new Timestamp(y.getTime());
-            ((Timestamp)x).setNanos(0);
-            ts.setNanos(0);
-            Assertions.assertTrue(x.compareTo(ts) == 0);
-
-        } else if (!(x instanceof Timestamp) && y instanceof Timestamp) {
-            Timestamp ts = new Timestamp(x.getTime());
-            ts.setNanos(0);
-            ((Timestamp)y).setNanos(0);
-            Assertions.assertTrue(y.compareTo(ts) == 0);
-
-        } else {
-            Assertions.assertTrue(x.compareTo(y) == 0);
-        }
+        assertTrue(BaseModel.dateEquals(x, y));
     }
 
 }

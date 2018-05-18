@@ -3,20 +3,19 @@ package main.java.models;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiRegularMenu;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity(name = "RegularMenu")
+@Table(name = "regular_menus")
 @DiscriminatorValue("regular")
 public class RegularMenu extends Menu {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = 4801684474319217042L;
 
+    @OneToMany(mappedBy = "regularMenu")
     private Collection<AlternativeMenu> alternativeMenus = new ArrayList<>();
 
 
@@ -54,18 +53,18 @@ public class RegularMenu extends Menu {
     }
 
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-
-    @OneToMany(mappedBy = "regularMenu")
     public Collection<AlternativeMenu> getAlternativeMenus() {
         return alternativeMenus;
     }
 
-    public void setAlternativeMenus(Collection<AlternativeMenu> alternativeMenus) {
-        this.alternativeMenus = alternativeMenus;
+
+    public void addAlternativeMenu(AlternativeMenu alternativeMenu) {
+        this.alternativeMenus.add(alternativeMenu);
     }
+
+
+    public void addAlternativeMenus(Collection<AlternativeMenu> alternativeMenus) {
+        this.alternativeMenus.addAll(alternativeMenus);
+    }
+
 }

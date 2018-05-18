@@ -3,22 +3,21 @@ package main.java.models;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiPediatrist;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 @Entity(name = "Pediatrist")
+@Table(name = "pediatrists")
 @DiscriminatorValue("pediatrist")
 public class Pediatrist extends Person {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = -2598504963548813092L;
 
-    private Collection<Child> curing = new ArrayList<>();
+    @OneToMany(mappedBy = "pediatrist", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<Child> children = new ArrayList<>();
 
 
     /**
@@ -61,19 +60,20 @@ public class Pediatrist extends Person {
     }
 
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
+    public Collection<Child> getChildren() {
+        return children;
     }
 
 
-    @OneToMany(mappedBy = "pediatrist")
-    public Collection<Child> getCuring() {
-        return curing;
+    public void addChild(Child child) {
+        children.add(child);
     }
 
-    public void setCuring(Collection<Child> curing) {
-        this.curing = curing;
+
+    public void addChildren(Collection<Child> children) {
+        for (Child child : children) {
+            addChild(child);
+        }
     }
 
 }

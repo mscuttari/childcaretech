@@ -8,7 +8,7 @@
     <persistence-unit name="ChildCareTechPU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>main.java.models.Food</class>
+        <class>main.java.models.Dish</class>
         <class>main.java.models.Ingredient</class>
         <class>main.java.models.Menu</class>
         <class>main.java.models.Person</class>

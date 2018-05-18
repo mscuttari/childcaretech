@@ -47,24 +47,20 @@ class ProviderTest extends BaseModelTest<Provider> {
         assertModelsEquals(provider, createdProvider);
 
         // Update
-        createdProvider.setVat("BBBBBBBBBBBBBBBB");
-        createdProvider.setName("CCC");
+        provider.setName("CCC");
 
-        HibernateUtils.getInstance().update(createdProvider);
-        Provider updatedProvider = getProviderByVat(createdProvider.getVat());
+        HibernateUtils.getInstance().update(provider);
 
         // Check update
-        Provider oldProvider = getProviderByVat(provider.getVat());
-        assertNull(oldProvider);    // The old vat number should not be found anymore
-
+        Provider updatedProvider = getProviderByVat(provider.getVat());
         assertNotNull(updatedProvider);
-        assertModelsEquals(createdProvider, updatedProvider);
+        assertModelsEquals(provider, updatedProvider);
 
         // Delete
-        HibernateUtils.getInstance().delete(updatedProvider);
+        HibernateUtils.getInstance().delete(provider);
 
         // Check delete
-        Provider deletedProvider = getProviderByVat(updatedProvider.getVat());
+        Provider deletedProvider = getProviderByVat(provider.getVat());
         assertNull(deletedProvider);
     }
 
@@ -75,7 +71,8 @@ class ProviderTest extends BaseModelTest<Provider> {
     @Test
     void vatValidity() {
         // Valid data
-        Provider provider = new Provider("AAAAAAAAAAAAAAAA", "BBB");
+        Provider provider = new Provider();
+        assignValidData(provider);
         assertDoesNotThrow(provider::checkDataValidity);
 
         // Invalid data
@@ -90,7 +87,8 @@ class ProviderTest extends BaseModelTest<Provider> {
     @Test
     void nameValidity() {
         // Valid data
-        Provider provider = new Provider("AAAAAAAAAAAAAAAA", "BBB");
+        Provider provider = new Provider();
+        assignValidData(provider);
         assertDoesNotThrow(provider::checkDataValidity);
 
         // Invalid data

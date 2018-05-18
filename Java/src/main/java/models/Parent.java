@@ -9,12 +9,14 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity(name = "Parent")
+@Table(name = "parents")
 @DiscriminatorValue("parent")
 public class Parent extends Person {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = -8335298083415447342L;
 
+    @ManyToMany(mappedBy = "parents", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<Child> children = new ArrayList<>();
 
 
@@ -64,18 +66,20 @@ public class Parent extends Person {
     }
 
 
-    @ManyToMany(mappedBy = "parents", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public Collection<Child> getChildren() {
         return children;
     }
 
-    private void setChildren(Collection<Child> children) {
-        this.children = children;
-    }
 
     public void addChild(Child child) {
-        children.add(child);
-        child.getParents().add(this);
+        this.children.add(child);
+    }
+
+
+    public void addChildren(Collection<Child> children) {
+        for (Child child : children) {
+            addChild(child);
+        }
     }
 
 }

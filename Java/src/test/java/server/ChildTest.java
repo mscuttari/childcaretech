@@ -6,12 +6,9 @@ import main.java.models.Pediatrist;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ChildTest extends PersonTest<Child> {
 
@@ -25,7 +22,16 @@ class ChildTest extends PersonTest<Child> {
     void assertModelsEquals(Child x, Child y) {
         super.assertModelsEquals(x, y);
 
+        // Check parents
+        assertEquals(x.getParents().size(), y.getParents().size());
+        for (Parent parent : x.getParents()) {
+            assertTrue(y.getParents().contains(parent));
+        }
 
+        // Check pediatrist
+        Pediatrist xP = x.getPediatrist();
+        Pediatrist yP = y.getPediatrist();
+        assertTrue(x.getPediatrist().equals(y.getPediatrist()));
     }
 
 
@@ -35,14 +41,11 @@ class ChildTest extends PersonTest<Child> {
         super.assignValidData(obj);
 
         // Create two parents
-        List<Parent> parents = new ArrayList<>();
-        parents.add(new Parent("AAAAAAAAAAAAAAAA", "BBB", "CCC", new Date(), "Test, A/1", "1111111111"));
-        parents.add(new Parent("DDDDDDDDDDDDDDDD", "EEE", "FFF", new Date(), "Test, A/2", "2222222222"));
-        obj.setParents(parents);
+        obj.addParent(new Parent("BBBBBBBBBBBBBBBB", "BBB", "CCC", new Date(), "Test, A/1", "1111111111"));
+        obj.addParent(new Parent("CCCCCCCCCCCCCCCC", "DDD", "EEE", new Date(), "Test, A/2", "2222222222"));
 
         // Create pediatrist
-        Pediatrist pediatrist = new Pediatrist("GGGGGGGGGGGGGGGG", "HHH", "III", new Date(), "Test, A/3", "3333333333");
-        obj.setPediatrist(pediatrist);
+        obj.setPediatrist(new Pediatrist("DDDDDDDDDDDDDDDD", "FFF", "GGG", new Date(), "Test, A/3", "3333333333"));
     }
 
 
@@ -53,13 +56,6 @@ class ChildTest extends PersonTest<Child> {
         Child child = new Child();
         assignValidData(child);
 
-        // Create parents
-        //for (Parent parent : child.getParents())
-        //    HibernateUtils.getInstance().create(parent);
-
-        // Create pediatrist
-        //HibernateUtils.getInstance().create(child.getPediatrist());
-
         // Create child
         HibernateUtils.getInstance().create(child);
         Child createdChild = getPersonByFiscalCode(child.getFiscalCode());
@@ -69,29 +65,35 @@ class ChildTest extends PersonTest<Child> {
         assertModelsEquals(child, createdChild);
 
         // Update
-        /*createdChild.setFiscalCode("LLLLLLLLLLLLLLLL");
-        createdChild.setFirstName("MMM");
-        createdChild.setLastName("NNN");
+        createdChild.setFirstName("HHH");
+        createdChild.setLastName("III");
         createdChild.setBirthdate(new Date());
         createdChild.setAddress("Test, A/4");
         createdChild.setTelephone("4444444444");
 
-        HibernateUtils.getInstance().update(createdChild);
-        Child updatedChild = getPersonByFiscalCode(createdChild.getFiscalCode());
+        HibernateUtils.getInstance().update(child);
 
         // Check update
-        Child oldChild = getPersonByFiscalCode(child.getFiscalCode());
-        assertNull(oldChild);       // The old fiscal code should not be found anymore
-
+        Child updatedChild = getPersonByFiscalCode(child.getFiscalCode());
         assertNotNull(updatedChild);
-        assertModelsEquals(createdChild, updatedChild);
+        assertModelsEquals(child, updatedChild);
 
         // Delete
-        HibernateUtils.getInstance().delete(updatedChild);
+        HibernateUtils.getInstance().delete(child);
 
         // Check delete
-        Child deletedChild = getPersonByFiscalCode(updatedChild.getFiscalCode());
-        assertNull(deletedChild);*/
+        Child deletedChild = getPersonByFiscalCode(child.getFiscalCode());
+        assertNull(deletedChild);
+
+        // Delete parents
+        for (Parent parent : child.getParents()) {
+            HibernateUtils.getInstance().delete(parent);
+            assertNull(getPersonByFiscalCode(parent.getFiscalCode()));
+        }
+
+        // Delete pediatrist
+        HibernateUtils.getInstance().delete(child.getPediatrist());
+        assertNull(getPersonByFiscalCode(child.getPediatrist().getFiscalCode()));
     }
 
 

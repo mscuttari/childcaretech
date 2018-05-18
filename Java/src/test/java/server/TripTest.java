@@ -50,25 +50,11 @@ class TripTest extends BaseModelTest<Trip> {
         assertNotNull(createdTrip);
         assertModelsEquals(trip, createdTrip);
 
-        // Update
-        createdTrip.setDate(new Date());
-        createdTrip.setTitle("BBB");
-
-        HibernateUtils.getInstance().update(createdTrip);
-        Trip updatedTrip = getTripByDateAndTitle(createdTrip.getDate(), createdTrip.getTitle());
-
-        // Check update
-        Trip oldTrip = getTripByDateAndTitle(trip.getDate(), trip.getTitle());
-        assertNull(oldTrip);        // The old fiscal code should not be found anymore
-
-        assertNotNull(updatedTrip);
-        assertEquals(createdTrip, updatedTrip);
-
         // Delete
-        HibernateUtils.getInstance().delete(updatedTrip);
+        HibernateUtils.getInstance().delete(trip);
 
         // Check delete
-        Trip deletedTrip = getTripByDateAndTitle(updatedTrip.getDate(), updatedTrip.getTitle());
+        Trip deletedTrip = getTripByDateAndTitle(trip.getDate(), trip.getTitle());
         assertNull(deletedTrip);
     }
 
@@ -122,7 +108,7 @@ class TripTest extends BaseModelTest<Trip> {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Trip> cq = cb.createQuery(Trip.class);
         Root<Trip> root = cq.from(Trip.class);
-        cq.where(cb.equal(root.get("date"), date), cb.equal(root.get("title"), title));
+        cq.where(cb.equal(root.get("id").get("date"), date), cb.equal(root.get("id").get("title"), title));
         TypedQuery<Trip> q = em.createQuery(cq);
 
         return HibernateUtils.getSingleResult(q);

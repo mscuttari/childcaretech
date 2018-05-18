@@ -13,18 +13,29 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "pullmans", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_id", "numberplate"}))
+@Table(name = "pullmans")
 public class Pullman extends BaseModel {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = 1788156831943646482L;
 
-    private Long id;
-    private Trip trip;
-    private String numberplate;
+    @EmbeddedId
+    private PullmanPK id;
+
+    @Column(name = "seats", nullable = false)
     private Integer seats;
 
-    private Collection<Child> childrenAssignments = new ArrayList<>();
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "children_pullmans_assignments",
+            joinColumns = {
+                    @JoinColumn(name = "trip_date", referencedColumnName = "trip_date"),
+                    @JoinColumn(name = "trip_title", referencedColumnName = "trip_title"),
+                    @JoinColumn(name = "pullman_numberplate", referencedColumnName = "numberplate")
+            },
+            inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
+    )
+    private Collection<Child> children = new ArrayList<>();
 
 
     /**
@@ -43,8 +54,7 @@ public class Pullman extends BaseModel {
      * @param   seats           max seats available
      */
     public Pullman(Trip trip, String numberplate, Integer seats) {
-        this.trip = trip;
-        this.numberplate = numberplate;
+        this.id = new PullmanPK(trip, numberplate);
         this.seats = seats;
     }
 
@@ -54,11 +64,11 @@ public class Pullman extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Trip
-        if (trip == null) throw new InvalidFieldException("Gita mancante");
+        if (id.getTrip() == null) throw new InvalidFieldException("Gita mancante");
 
         // Type: [a-z] [A-Z] [0-9]
-        if (numberplate == null || numberplate.isEmpty()) throw new InvalidFieldException("Targa mancante");
-        if (!numberplate.matches("^[a-zA-Z\\d]+$")) throw new InvalidFieldException("Targa non valida");
+        if (id.getNumberplate() == null || id.getNumberplate().isEmpty()) throw new InvalidFieldException("Targa mancante");
+        if (!id.getNumberplate().matches("^[a-zA-Z\\d]+$")) throw new InvalidFieldException("Targa non valida");
 
         // Seats: > 0
         if (seats == null) throw new InvalidFieldException("Numero di posti mancante");
@@ -91,65 +101,52 @@ public class Pullman extends BaseModel {
     }
 
 
-    @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "trip_id", nullable = false)
     public Trip getTrip() {
-        return trip;
+        return id.getTrip();
     }
+
 
     public void setTrip(Trip trip) {
-        this.trip = trip;
+        if (this.id.getTrip() == null) {
+            this.id.setTrip(trip);
+        }
     }
 
-    @Column(name = "numberplate", nullable = false)
+
     public String getNumberplate() {
-        return numberplate;
+        return id.getNumberplate();
     }
+
 
     public void setNumberplate(String numberplate) {
-        this.numberplate = numberplate == null || numberplate.isEmpty() ? null : numberplate;
+        if (this.id.getNumberplate() == null) {
+            this.id.setNumberplate(numberplate);
+        }
     }
 
-    @Column(name = "seats", nullable = false)
+
     public Integer getSeats() {
         return seats;
     }
+
 
     public void setSeats(Integer seats) {
         this.seats = seats;
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "children_pullmans_assignments",
-            joinColumns = { @JoinColumn(name = "pullman_id") },
-            inverseJoinColumns = { @JoinColumn(name = "child_id")
-            }
-    )
-    public Collection<Child> getChildrenAssignments() {
-        return childrenAssignments;
+
+    public Collection<Child> getChildren() {
+        return children;
     }
 
-    public void setChildrenAssignments(Collection<Child> childrenAssignments) {
-        this.childrenAssignments = childrenAssignments;
+
+    public void addChild(Child child) {
+        this.children.add(child);
     }
 
-    @Override
-    public String toString(){
-        return numberplate;
+
+    public void addChildren(Collection<Child> children) {
+        this.children.addAll(children);
     }
 
 }
