@@ -15,10 +15,9 @@ class ContactTest extends PersonTest<Contact> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid contact
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Contact contact = new Contact();
         assignValidData(contact);

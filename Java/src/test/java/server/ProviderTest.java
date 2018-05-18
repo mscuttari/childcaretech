@@ -31,10 +31,9 @@ class ProviderTest extends BaseModelTest<Provider> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid parent
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Provider provider = new Provider();
         assignValidData(provider);

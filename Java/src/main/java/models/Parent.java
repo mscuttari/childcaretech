@@ -3,10 +3,7 @@ package main.java.models;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiParent;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -67,13 +64,18 @@ public class Parent extends Person {
     }
 
 
-    @ManyToMany(mappedBy = "parents")
+    @ManyToMany(mappedBy = "parents", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public Collection<Child> getChildren() {
         return children;
     }
 
-    public void setChildren(Collection<Child> children) {
+    private void setChildren(Collection<Child> children) {
         this.children = children;
+    }
+
+    public void addChild(Child child) {
+        children.add(child);
+        child.getParents().add(this);
     }
 
 }

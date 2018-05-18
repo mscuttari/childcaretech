@@ -29,10 +29,9 @@ class IngredientTest extends BaseModelTest<Ingredient> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid contact
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Ingredient ingredient = new Ingredient();
         assignValidData(ingredient);

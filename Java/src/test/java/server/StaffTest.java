@@ -39,10 +39,9 @@ class StaffTest extends PersonTest<Staff> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid parent
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Staff staff = new Staff();
         assignValidData(staff);

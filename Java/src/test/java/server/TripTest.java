@@ -35,10 +35,9 @@ class TripTest extends BaseModelTest<Trip> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid parent
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Trip trip = new Trip();
         assignValidData(trip);

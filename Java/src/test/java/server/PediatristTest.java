@@ -18,10 +18,9 @@ class PediatristTest extends PersonTest<Pediatrist> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid pediatrist
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Pediatrist pediatrist = new Pediatrist();
         assignValidData(pediatrist);

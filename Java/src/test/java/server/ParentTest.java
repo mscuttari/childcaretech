@@ -15,10 +15,9 @@ class ParentTest extends PersonTest<Parent> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid parent
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Parent parent = new Parent();
         assignValidData(parent);

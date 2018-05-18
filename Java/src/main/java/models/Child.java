@@ -97,8 +97,7 @@ public class Child extends Person {
     }
 
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "parents",
             joinColumns = { @JoinColumn(name = "child_id") },
@@ -112,9 +111,9 @@ public class Child extends Person {
         this.parents = parents;
     }
 
-    @ManyToOne
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "pediatrist_id")
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "pediatrist_id", nullable = false)
     public Pediatrist getPediatrist() {
         return pediatrist;
     }
@@ -122,6 +121,7 @@ public class Child extends Person {
     public void setPediatrist(Pediatrist pediatrist) {
         this.pediatrist = pediatrist;
     }
+
 
     @ManyToMany(mappedBy = "childrenEnrollments")
     public Collection<Trip> getTripsEnrollments() {
