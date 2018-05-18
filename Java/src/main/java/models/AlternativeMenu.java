@@ -2,10 +2,13 @@ package main.java.models;
 
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiRegularMenu;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity(name = "AlternativeMenu")
 @DiscriminatorValue("alternative")
@@ -51,7 +54,10 @@ public class AlternativeMenu extends Menu {
         if (this == obj) return true;
         if (!(obj instanceof AlternativeMenu)) return false;
 
-        return super.equals(obj);
+        AlternativeMenu that = (AlternativeMenu) obj;
+        return  Objects.equals(getResponsible(), that.getResponsible()) &&
+                Objects.equals(getRegularMenu(), that.getRegularMenu()) &&
+                super.equals(obj);
     }
 
 
@@ -72,6 +78,7 @@ public class AlternativeMenu extends Menu {
     }
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "personalized_menus_people",
             joinColumns = { @JoinColumn(name = "menu_id") },

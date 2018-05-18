@@ -111,6 +111,7 @@ public abstract class Menu extends BaseModel {
     }
 
     @ManyToOne
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "responsible_id", referencedColumnName = "id")
     public Staff getResponsible() {
         return responsible;
@@ -120,7 +121,7 @@ public abstract class Menu extends BaseModel {
         this.responsible = responsible;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "menus_composition",

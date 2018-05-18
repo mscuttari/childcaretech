@@ -145,7 +145,7 @@ public class Food extends BaseModel {
         this.composition = composition;
     }
 
-    @ManyToMany(mappedBy = "composition", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "composition")
     @LazyCollection(LazyCollectionOption.FALSE)
     public Collection<Menu> getMenus() {
         return menus;

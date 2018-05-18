@@ -99,8 +99,6 @@ public class ShowPersonController implements Initializable{
         }));
 
         tablePeople.setEditable(true);
-        tablePeople.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         tablePeople.setItems(parentsData);
     }
 

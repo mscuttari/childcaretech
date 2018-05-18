@@ -20,9 +20,7 @@ import main.java.models.Menu;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ShowMenuController implements Initializable{
 
@@ -40,15 +38,43 @@ public class ShowMenuController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Connection
+        ConnectionManager connectionManager = ConnectionManager.getInstance();
+
+        /*
+
+        //Show Regular Menus without Alternative Menus that satisfy all allergies and intollerance
+        List<RegularMenu> incompleteMenus = new ArrayList<>();
+
+        Set<Person> peopleWithAllergiesInTheMenu = new HashSet<>();
+        Set<Person> peopleWithAlternativeMenu = new HashSet<>();
+
+
+        for (Menu currentRegularMenu : connectionManager.getClient().getRegularMenus()){
+            for(AlternativeMenu currentAlternativeMenu : currentRegularMenu.getAlternativeMenus()){
+                peopleWithAlternativeMenu.addAll(currentAlternativeMenu.getPeople();
+            }
+            for (Food currentFood : currentRegularMenu.getComposition()) {
+                for (Ingredient currentIngredient : currentFood.getComposition()) {
+                    peopleWithAllergiesInTheMenu.addAll(currentIngredient.getAllergicPeople());
+                    peopleWithAllergiesInTheMenu.addAll(currentIngredient.getIntollerantPeople());
+                }
+            }
+            peopleWithAllergiesInTheMenu.removeAll(peopleWithAlternativeMenu)
+            if(!peopleWithALeergiesInTheMenu.isEmpty()){
+                incompleteMenus.add(currentRegularMenu);
+            }
+        }
+
+
+        */
+
         // go back button cursor
         goBackImage.setOnMouseEntered(event -> showMenuPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showMenuPane.getScene().setCursor(Cursor.DEFAULT));
 
         //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
-
-        // Connection
-        ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         // Table
         List<Menu> menu = connectionManager.getClient().getMenus();

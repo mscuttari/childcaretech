@@ -114,7 +114,7 @@ public class Staff extends Person {
         this.password = password == null || password.isEmpty() ? null : password;
     }
 
-    @OneToMany(mappedBy = "responsible")
+    @OneToMany(mappedBy = "responsible", cascade = CascadeType.ALL, orphanRemoval = true)
     public Collection<Menu> getMenuResponsibility() {
         return menuResponsibility;
     }

@@ -2,13 +2,14 @@ package main.java.models;
 
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiRegularMenu;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity(name = "RegularMenu")
 @DiscriminatorValue("regular")
@@ -50,7 +51,9 @@ public class RegularMenu extends Menu {
         if (this == obj) return true;
         if (!(obj instanceof RegularMenu)) return false;
 
-        return super.equals(obj);
+        RegularMenu that = (RegularMenu) obj;
+        return  Objects.equals(getResponsible(), that.getResponsible()) &&
+                super.equals(obj);
     }
 
 
@@ -60,7 +63,8 @@ public class RegularMenu extends Menu {
     }
 
 
-    @OneToMany(mappedBy = "regularMenu")
+    @OneToMany(mappedBy = "regularMenu", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     public Collection<AlternativeMenu> getAlternativeMenus() {
         return alternativeMenus;
     }
