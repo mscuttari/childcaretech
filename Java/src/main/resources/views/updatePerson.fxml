@@ -28,7 +28,7 @@
                
                                    <VBox alignment="CENTER" spacing="15.0">
                   <children>
-                                          <TextField fx:id="tfFiscalCode" promptText="Codice Fiscale">
+                                          <TextField fx:id="tfFiscalCode" disable="true" promptText="Codice Fiscale">
                                               <font>
                                                   <Font size="18.0" />
                                               </font>

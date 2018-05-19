@@ -29,7 +29,7 @@ public class Trip extends BaseModel {
     @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Pullman> transports = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "children_trips_enrollments",
             joinColumns = {
@@ -40,7 +40,7 @@ public class Trip extends BaseModel {
     )
     private Collection<Child> children = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "staff_trips_enrollments",
             joinColumns = {

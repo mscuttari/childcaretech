@@ -22,6 +22,7 @@
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver" />
             <property name="hibernate.connection.username" value="childcaretech" />
             <property name="hibernate.connection.password" value="childcaretech" />
+            <property name="hibernate.event.merge.entity_copy_observer" value="allow"/>
             <property name="hibernate.archive.autodetection" value="class" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />

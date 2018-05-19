@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class UpdateFoodController implements Initializable{
-
+/*
     // Debug
     private static final String TAG = "UpdateFoodController";
 
@@ -47,10 +47,10 @@ public class UpdateFoodController implements Initializable{
     @FXML private ImageView updateFoodImage;
     @FXML private ImageView goBackImage;
 
-    public UpdateFoodController(Food food){ this.food = food; }
+    public UpdateFoodController(Food food){ this.food = food; }*/
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources) {/*
 
         // Food type
         cbFoodType.getItems().addAll(FoodType.values());
@@ -122,14 +122,14 @@ public class UpdateFoodController implements Initializable{
         }
         else{
             labelError.setText("Non ci sono ingredienti selezionati");
-        }
+        }*/
 
     }
 
     /**
      * Save food in the database
      */
-    private void saveFood() {
+    private void saveFood() {/*
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -185,7 +185,7 @@ public class UpdateFoodController implements Initializable{
             homePane.setCenter(foodPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
-        }
+        }*/
     }
 
 }

@@ -156,4 +156,9 @@ public class Stop extends BaseModel {
         }
     }
 
+    @Override
+    public String toString(){
+        return getPlaceName() + "," + getProvince() + "," + getNation() + "(" + getNumber() + ")";
+    }
+
 }

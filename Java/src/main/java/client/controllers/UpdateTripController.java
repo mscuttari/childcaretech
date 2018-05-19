@@ -119,7 +119,7 @@ public class UpdateTripController implements Initializable {
         tableChildren.setEditable(true);
         tableChildren.setItems(childrenData);
 
-        List<Child> tripChildren = (List<Child>) trip.getChildrenEnrollments();
+       /* List<Child> tripChildren = (List<Child>) trip.getChildrenEnrollments();
         for (GuiChild item : tableChildren.getItems()){
             if(tripChildren.contains(item.getModel()))
                 item.setSelected(true);
@@ -174,7 +174,7 @@ public class UpdateTripController implements Initializable {
         };
 
         tfPullmanNumberplate.setOnKeyPressed(PullmanKeyPressEvent);
-        tfPullmanSeats.setOnKeyPressed(PullmanKeyPressEvent);
+        tfPullmanSeats.setOnKeyPressed(PullmanKeyPressEvent);*/
     }
 
     /**
@@ -256,7 +256,7 @@ public class UpdateTripController implements Initializable {
         }
     }
 
-    public void updateTrip() {
+    public void updateTrip() {/*
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -307,7 +307,7 @@ public class UpdateTripController implements Initializable {
         trip.setTransports(pullman);
 
         // Update trip
-        connectionManager.getClient().update(trip);
+        connectionManager.getClient().update(trip);*/
     }
 
 

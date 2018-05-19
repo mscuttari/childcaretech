@@ -169,12 +169,6 @@ public class UpdatePersonController implements Initializable {
         tableContacts.setEditable(true);
         tableContacts.setItems(contactsData);
 
-        List<Contact> personContacts = (List<Contact>) person.getContacts();
-        for (GuiContact item : tableContacts.getItems()){
-            if(personContacts.contains(item.getModel()))
-                item.setSelected(true);
-        }
-
         // Allergies tab
         lvAllergies.getItems().setAll(person.getAllergies());
         lvAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -189,7 +183,7 @@ public class UpdatePersonController implements Initializable {
 
 
         // Intollerances tab
-        lvIntollerances.getItems().setAll(person.getIntollerances());
+        lvIntollerances.getItems().setAll(person.getIntolerances());
         lvIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         buttonAddIntollerances.setOnAction(event -> addIntollerances());
         buttonRemoveSelectedIntollerances.setOnAction(event -> removeSelectedIntollerances());
@@ -226,16 +220,20 @@ public class UpdatePersonController implements Initializable {
                 imagePersonType.setImage(new Image("/images/baby.png"));
                 tabPane.getTabs().addAll(tabParents, tabPediatrist, tabAllergies, tabIntollerances, tabContacts);
 
-                for (GuiParent item : tableParents.getItems()){
-                    if(((Child)person).getParents().contains(item.getModel()))
+                for (GuiParent item : tableParents.getItems()) {
+                    if (((Child) person).getParents().contains(item.getModel()))
                         item.setSelected(true);
                 }
 
-                for (GuiPediatrist item : tablePediatrist.getItems()){
-                    if(((Child)person).getPediatrist().equals(item.getModel()))
+                for (GuiPediatrist item : tablePediatrist.getItems()) {
+                    if (((Child) person).getPediatrist().equals(item.getModel()))
                         item.setSelected(true);
                 }
 
+                for (GuiContact item : tableContacts.getItems()) {
+                    if (((Child) person).getContacts().contains(item.getModel()))
+                        item.setSelected(true);
+                }
                 break;
 
             case "Contatto":
@@ -257,18 +255,16 @@ public class UpdatePersonController implements Initializable {
                 tfUsernameConfirmation.setText(((Staff) person).getUsername());
                 tfPassword.setText(((Staff) person).getPassword());
                 tfPasswordConfirmation.setText(((Staff) person).getPassword());
-                tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabContacts, tabLoginData);
+                tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabLoginData);
                 break;
         }
-
 
     }
 
     public void addAllergies() {
         if(!txAddAllergy.getText().isEmpty()){
-            String allergyName = txAddAllergy.getText().trim();
-            Ingredient ingredient = new Ingredient();
-            ingredient.setName(allergyName);
+            String allergyName = txAddAllergy.getText().toLowerCase().trim();
+            Ingredient ingredient = new Ingredient(allergyName);
             lvAllergies.getItems().add(ingredient);
             txAddAllergy.setText("");
             labelErrorAllergies.setText("");
@@ -295,9 +291,8 @@ public class UpdatePersonController implements Initializable {
 
     public void addIntollerances() {
         if(!txAddIntollerances.getText().isEmpty()){
-            String intolleranceName = txAddIntollerances.getText().trim();
-            Ingredient ingredient = new Ingredient();
-            ingredient.setName(intolleranceName);
+            String intolleranceName = txAddIntollerances.getText().toLowerCase().trim();
+            Ingredient ingredient = new Ingredient(intolleranceName);
             lvIntollerances.getItems().add(ingredient);
             txAddIntollerances.setText("");
             labelErrorIntollerances.setText("");
@@ -357,7 +352,10 @@ public class UpdatePersonController implements Initializable {
 
         switch (PersonType.getPersonType(person)) {
             case "Bambino":
-                ((Child) person).setParents(TableUtils.getSelectedItems(tableParents));
+                ((Child)person).getParents().clear();
+                ((Child)person).getParents().addAll(TableUtils.getSelectedItems(tableParents));
+                ((Child)person).getContacts().clear();
+                ((Child)person).getContacts().addAll(TableUtils.getSelectedItems(tableContacts));
                 ((Child)person).setPediatrist(TableUtils.getFirstSelectedItem(tablePediatrist));
                 break;
             case "Staff":
@@ -366,51 +364,16 @@ public class UpdatePersonController implements Initializable {
                 break;
         }
 
-        person.setFiscalCode(tfFiscalCode.getText());
         person.setFirstName(tfFirstName.getText());
         person.setLastName(tfLastName.getText());
         person.setBirthdate(Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         person.setAddress(tfAddress.getText());
         person.setTelephone(tfTelephone.getText());
-        person.setContacts(TableUtils.getSelectedItems(tableContacts));
 
-        List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
-        boolean intolleranceExists = false;
-        List<Ingredient> intollerances = new ArrayList<>();
-        for (Ingredient listViewItem : lvIntollerances.getItems()) {
-            for(Ingredient databaseListItem : allIngredients){
-                if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
-                    intollerances.add(databaseListItem);
-                    intolleranceExists = true;
-                    break;
-                }
-            }
-
-            if (!intolleranceExists) {
-                intollerances.add(listViewItem);
-            }
-            intolleranceExists = false;
-        }
-        person.setIntollerances(intollerances);
-
-        boolean allergyExists = false;
-        List<Ingredient> allergies = new ArrayList<>();
-        for (Ingredient listViewItem : lvAllergies.getItems()) {
-            for(Ingredient databaseListItem : allIngredients){
-                if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
-                    allergies.add(databaseListItem);
-                    allergyExists = true;
-                    break;
-                }
-            }
-
-            if (!allergyExists) {
-                allergies.add(listViewItem);
-            }
-            allergyExists = false;
-        }
-        person.setAllergies(allergies);
-
+        person.getAllergies().clear();
+        person.getIntolerances().clear();
+        person.addAllergies(lvAllergies.getItems());
+        person.addIntollerances(lvIntollerances.getItems());
 
         // Check data
         try {

@@ -36,7 +36,7 @@ public class AddMenuController implements Initializable {
     @FXML private TextField tfMenuName;
     @FXML private ImageView addMenuImage;
     @FXML private ImageView goBackImage;
-
+/*
     @FXML private TableView<GuiFood> tableFood;
     @FXML private TableColumn<GuiFood, Boolean> columnFoodSelected;
     @FXML private TableColumn<GuiFood, String> columnFoodName;
@@ -46,7 +46,7 @@ public class AddMenuController implements Initializable {
     @FXML private TableColumn<GuiStaff, Boolean> columnStaffSelected;
     @FXML private TableColumn<GuiStaff, String> columnStaffFirstName;
     @FXML private TableColumn<GuiStaff, String> columnStaffLastName;
-    @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode;
+    @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode; */
 
 
     @Override
@@ -68,10 +68,10 @@ public class AddMenuController implements Initializable {
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
-
+/*
         //Food table
-        List<Food> food = connectionManager.getClient().getFood();
-        ObservableList<GuiFood> foodData = TableUtils.getGuiModelsList(food);
+        //List<Food> food = connectionManager.getClient().getFood();
+        //ObservableList<GuiFood> foodData = TableUtils.getGuiModelsList(food);
 
         columnFoodSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnFoodSelected));
         columnFoodSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
@@ -79,7 +79,7 @@ public class AddMenuController implements Initializable {
         columnFoodType.setCellValueFactory(new PropertyValueFactory<>("type"));
 
         tableFood.setEditable(true);
-        tableFood.setItems(foodData);
+        //tableFood.setItems(foodData);
 
         // Staff table
         List<Staff> staff = connectionManager.getClient().getStaff();
@@ -92,7 +92,7 @@ public class AddMenuController implements Initializable {
         columnStaffFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableStaff.setEditable(true);
-        tableStaff.setItems(staffData);
+        tableStaff.setItems(staffData);*/
 
     }
 
@@ -108,8 +108,8 @@ public class AddMenuController implements Initializable {
 
         // Data
         menu.setName(tfMenuName.getText().trim());
-        menu.setComposition(TableUtils.getSelectedItems(tableFood));
-        menu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
+        //menu.setComposition(TableUtils.getSelectedItems(tableFood));
+        //menu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
 
         // Check data
         try {

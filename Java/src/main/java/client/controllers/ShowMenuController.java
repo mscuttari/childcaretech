@@ -81,7 +81,7 @@ public class ShowMenuController implements Initializable{
         ObservableList<Menu> menuData = FXCollections.observableArrayList(menu);
 
         columnMenuName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        columnMenuEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<Menu, Object>() {
+/*        columnMenuEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<Menu, Object>() {
 
             @Override
             public Object call(Menu param) {
@@ -120,7 +120,7 @@ public class ShowMenuController implements Initializable{
         }));
 
         tableMenu.setEditable(true);
-        tableMenu.setItems(menuData);
+        tableMenu.setItems(menuData);*/
     }
 
     public void goBack() {

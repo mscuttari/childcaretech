@@ -30,14 +30,14 @@ public class ShowFoodController implements Initializable{
     @FXML private Pane showFoodPane;
     @FXML private ImageView goBackImage;
 
-    @FXML private TableView<Food> tableFood;
-    @FXML private TableColumn<Food, String> columnFoodName;
-    @FXML private TableColumn<Food, String> columnFoodType;
-    @FXML private TableColumn<Food, Void> columnFoodEdit;
-    @FXML private TableColumn<Food, Void> columnFoodDelete;
+    //@FXML private TableView<Food> tableFood;
+    //@FXML private TableColumn<Food, String> columnFoodName;
+    //@FXML private TableColumn<Food, String> columnFoodType;
+    //@FXML private TableColumn<Food, Void> columnFoodEdit;
+    //@FXML private TableColumn<Food, Void> columnFoodDelete;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources) {/*
 
         // go back button cursor
         goBackImage.setOnMouseEntered(event -> showFoodPane.getScene().setCursor(Cursor.HAND));
@@ -107,7 +107,7 @@ public class ShowFoodController implements Initializable{
             homePane.setCenter(foodPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
-        }
+        }*/
     }
 
 }

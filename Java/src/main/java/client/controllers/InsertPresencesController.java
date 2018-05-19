@@ -105,9 +105,9 @@ public class InsertPresencesController implements Initializable {
 
         tablePullman.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                List<Child> children = (List<Child>) tableTrips.getSelectionModel().getSelectedItem().getChildrenEnrollments();
-                ObservableList<GuiChild> childrenData = TableUtils.getGuiModelsList(children);
-                tableChildren.setItems(childrenData);
+                //List<Child> children = (List<Child>) tableTrips.getSelectionModel().getSelectedItem().getChildrenEnrollments();
+                //ObservableList<GuiChild> childrenData = TableUtils.getGuiModelsList(children);
+                //tableChildren.setItems(childrenData);
                 tableChildren.setEditable(true);
             }
         });
@@ -129,12 +129,12 @@ public class InsertPresencesController implements Initializable {
             return;
         }
 
-        List<Child> assignedChildren = (List<Child>) tablePullman.getSelectionModel().getSelectedItem().getChildrenAssignments();
+       // List<Child> assignedChildren = (List<Child>) tablePullman.getSelectionModel().getSelectedItem().getChildrenAssignments();
 
         List<Child> wrongPullmanChildren = new ArrayList<>();
         List<Child> presentChildren = new ArrayList<>();
 
-        for(Child current : TableUtils.getSelectedItems(tableChildren)){
+        /*for(Child current : TableUtils.getSelectedItems(tableChildren)){
             if(assignedChildren.contains(current)){
                 presentChildren.add(current);
             }
@@ -152,7 +152,7 @@ public class InsertPresencesController implements Initializable {
         else {
            showPresencesErrorDialog(notPresentChildren, wrongPullmanChildren);
            return;
-        }
+        }*/
     }
 
     /**

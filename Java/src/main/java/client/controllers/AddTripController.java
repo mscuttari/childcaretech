@@ -1,5 +1,6 @@
 package main.java.client.controllers;
 
+import javafx.collections.transformation.SortedList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,6 +65,7 @@ public class AddTripController implements Initializable {
     @FXML private TextField tfStopName;
     @FXML private TextField tfStopProvince;
     @FXML private TextField tfStopNation;
+    @FXML private TextField tfStopNumber;
     @FXML private ListView<Stop> lvStops;
     @FXML private Button buttonAddStop;
     @FXML private Button buttonRemoveSelectedStops;
@@ -125,7 +127,7 @@ public class AddTripController implements Initializable {
         tableStaff.setItems(staffData);
 
         // Stops tab
-        lvStops.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        lvStops.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         buttonRemoveSelectedStops.setOnAction(event -> removeSelectedStops());
         buttonAddStop.setOnAction(event -> addStop());
 
@@ -141,7 +143,7 @@ public class AddTripController implements Initializable {
 
 
         // Pullman tab
-        lvPullman.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        lvPullman.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         buttonRemoveSelectedPullman.setOnAction(event -> removeSelectedPullman());
         buttonAddPullman.setOnAction(event -> addPullman());
 
@@ -164,7 +166,8 @@ public class AddTripController implements Initializable {
         String stopName = tfStopName.getText().trim();
         String stopProvince = tfStopProvince.getText().trim();
         String stopNation = tfStopNation.getText().trim();
-        Stop stop = new Stop(trip, stopName, stopProvince, stopNation, lvStops.getItems().size()+1);
+        Integer stopNumber = tfStopNumber.getText().isEmpty() ? null : Integer.valueOf(tfStopNumber.getText().trim());
+        Stop stop = new Stop(trip, stopName, stopProvince, stopNation, stopNumber);
 
         // Check data
         try {
@@ -175,27 +178,38 @@ public class AddTripController implements Initializable {
         }
 
         lvStops.getItems().add(stop);
+        lvStops.getItems().setAll(lvStops.getItems().sorted(new Comparator<Stop>() {
+            @Override
+            public int compare(Stop o1, Stop o2) {
+                return o1.getNumber().compareTo(o2.getNumber());
+            }
+        }));
+
         tfStopName.setText("");
         tfStopProvince.setText("");
         tfStopNation.setText("");
+        tfStopNumber.setText("");
     }
 
 
     /**
-     * Remove the selected stops
+     * Remove the selected stop
      */
     private void removeSelectedStops() {
-        List<Stop> selectedStops = lvStops.getSelectionModel().getSelectedItems();
-
-        if (selectedStops.isEmpty()) {
+        Stop selectedItem = lvStops.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
             showErrorDialog("Nessuna fermata selezionata");
         } else {
-            for(Stop selectedItem : selectedStops){
-                for(Stop followingItem : lvStops.getItems().subList(selectedItem.getNumber(), lvStops.getItems().size())){
-                    followingItem.setNumber(followingItem.getNumber()-1);
+            List<Stop> stopsList = new ArrayList<>(lvStops.getItems());
+            for(Stop followingItem : stopsList){
+                if(selectedItem.getNumber()<followingItem.getNumber()){
+                    Stop newStop = new Stop(followingItem.getTrip(), followingItem.getPlaceName(),
+                            followingItem.getProvince(), followingItem.getNation(), followingItem.getNumber()-1);
+                    lvStops.getItems().remove(followingItem);
+                    lvStops.getItems().add(newStop);
                 }
             }
-            lvStops.getItems().removeAll(selectedStops);
+            lvStops.getItems().remove(selectedItem);
             lvStops.getSelectionModel().clearSelection();
         }
     }
@@ -226,12 +240,11 @@ public class AddTripController implements Initializable {
      * Remove selected pullman from the pullman list
      */
     private void removeSelectedPullman() {
-        List<Pullman> selectedPullman = lvPullman.getSelectionModel().getSelectedItems();
-
-        if (selectedPullman.isEmpty()) {
+        Pullman selectedPullman = lvPullman.getSelectionModel().getSelectedItem();
+        if (selectedPullman == null) {
             showErrorDialog("Nessun pullman selezionato");
         } else {
-            lvPullman.getItems().removeAll(selectedPullman);
+            lvPullman.getItems().remove(selectedPullman);
             lvPullman.getSelectionModel().clearSelection();
         }
     }
@@ -251,8 +264,8 @@ public class AddTripController implements Initializable {
         trip.setTitle(title);
         trip.setDate(date);
 
-        trip.setChildrenEnrollments(TableUtils.getSelectedItems(tableChildren));
-        trip.setStaffEnrollments(TableUtils.getSelectedItems(tableStaff));
+        trip.addChildren(TableUtils.getSelectedItems(tableChildren));
+        trip.addStaff(TableUtils.getSelectedItems(tableStaff));
 
         int totalNumberOfSeats = 0;
         for(Pullman current : lvPullman.getItems()){
@@ -274,7 +287,7 @@ public class AddTripController implements Initializable {
             double occupiedSeatsPercentage = occupiedSeats/(double)totalNumberOfSeats;
             children.addAll(TableUtils.getSelectedItems(tableChildren).subList
                     (i, (int)(occupiedSeatsPercentage*totalNumberOfChildren)));
-            current.setChildrenAssignments(children);
+            current.addChildren(children);
             i = (int)(occupiedSeatsPercentage*totalNumberOfChildren);
         }
 
@@ -286,13 +299,10 @@ public class AddTripController implements Initializable {
             return;
         }
 
-        List<Stop> stops = new ArrayList<>();
-        stops.addAll(lvStops.getItems());
+        List<Stop> stops = new ArrayList<>(lvStops.getItems());
         trip.setStops(stops);
 
-        List<Pullman> pullman = new ArrayList<>();
-        pullman.addAll(lvPullman.getItems());
-        trip.setTransports(pullman);
+        trip.addTransports(lvPullman.getItems());
 
         // Save trip
         connectionManager.getClient().create(trip);

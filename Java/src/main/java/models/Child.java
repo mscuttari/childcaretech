@@ -3,6 +3,8 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiChild;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -27,6 +29,7 @@ public class Child extends Person {
     private Pediatrist pediatrist;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_parents",
             joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
@@ -35,6 +38,7 @@ public class Child extends Person {
     private Collection<Parent> parents = new ArrayList<>();
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_contacts",
             joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
@@ -86,7 +90,7 @@ public class Child extends Person {
         if (parents.size() > 2) throw new InvalidFieldException("Non è possibile specificare più di due genitori");
 
         // Pediatrist
-        if (pediatrist == null) throw new InvalidFieldException("Pediatra mancante");
+        //if (pediatrist == null) throw new InvalidFieldException("Pediatra mancante");
     }
 
 
@@ -122,6 +126,23 @@ public class Child extends Person {
     public void addParents(Collection<Parent> parents) {
         for (Parent parent : parents) {
             addParent(parent);
+        }
+    }
+
+
+    public Collection<Contact> getContacts() {
+        return contacts;
+    }
+
+
+    public void addContact(Contact contact) {
+        this.contacts.add(contact);
+    }
+
+
+    public void addContacts(Collection<Contact> contacts) {
+        for (Contact contact : contacts) {
+            addContact(contact);
         }
     }
 
@@ -163,6 +184,11 @@ public class Child extends Person {
 
     public void addPullmansAssignments(Collection<Pullman> pullmans) {
         this.pullmansAssignments.addAll(pullmans);
+    }
+
+    @Override
+    public String toString(){
+        return super.toString();
     }
 
 }

@@ -25,6 +25,7 @@ import main.java.client.gui.GuiParent;
 import main.java.client.gui.GuiPediatrist;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
+import org.junit.platform.commons.util.CollectionUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -138,7 +139,7 @@ public class AddPersonController implements Initializable {
 
                 case STAFF:
                     imagePersonType.setImage(new Image("/images/secretary.png"));
-                    tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabContacts, tabLoginData);
+                    tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabLoginData);
                     break;
             }
         });
@@ -239,7 +240,7 @@ public class AddPersonController implements Initializable {
      */
     private void addAllergy() {
         if (!txAddAllergy.getText().isEmpty()) {
-            String allergyName = txAddAllergy.getText().trim();
+            String allergyName = txAddAllergy.getText().toLowerCase().trim();
             Ingredient ingredient = new Ingredient(allergyName);
             lvAllergies.getItems().add(ingredient);
             txAddAllergy.setText("");
@@ -267,7 +268,7 @@ public class AddPersonController implements Initializable {
      */
     private void addIntollerance() {
         if (!txAddIntollerances.getText().isEmpty()) {
-            String intolleranceName = txAddIntollerances.getText().trim();
+            String intolleranceName = txAddIntollerances.getText().toLowerCase().trim();
             Ingredient ingredient = new Ingredient(intolleranceName);
             lvIntollerances.getItems().add(ingredient);
             txAddIntollerances.setText("");
@@ -340,10 +341,6 @@ public class AddPersonController implements Initializable {
 
         switch (cbPersonType.getValue()) {
             case CHILD:
-                Child child = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
-
-                // Parents
-                child.setParents(TableUtils.getSelectedItems(tableParents));
 
                 // Pediatrist
                 List<Pediatrist> selectedPediatrists = TableUtils.getSelectedItems(tablePediatrist);
@@ -353,14 +350,18 @@ public class AddPersonController implements Initializable {
                     return;
                 }
 
-                if (selectedPediatrists.size() >= 1)
-                    child.setPediatrist(selectedPediatrists.get(0));
+                if (selectedPediatrists.size() >= 1){
+                    person = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
+                    //Pediatrist
+                    ((Child)person).setPediatrist(selectedPediatrists.get(0));
+                }
+
+                // Parents
+                ((Child)person).addParents(TableUtils.getSelectedItems(tableParents));
 
                 // Contacts
-                List<Contact> contacts = TableUtils.getSelectedItems(tableContacts);
-                child.setContacts(contacts);
+                ((Child)person).addContacts(TableUtils.getSelectedItems(tableContacts));
 
-                person = child;
                 break;
 
             case CONTACT:
@@ -381,44 +382,9 @@ public class AddPersonController implements Initializable {
         }
 
 
-        boolean ingredientExists = false;
-        List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
-        List<Ingredient> intollerances = new ArrayList<>();
-        for (Ingredient listViewItem : lvIntollerances.getItems()) {
-            for(Ingredient databaseListItem : allIngredients){
-                if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
-                    intollerances.add(databaseListItem);
-                    ingredientExists = true;
-                    break;
-                }
-            }
+        person.addIntollerances(lvIntollerances.getItems());
+        person.addAllergies(lvAllergies.getItems());
 
-            if (!ingredientExists) {
-                intollerances.add(listViewItem);
-            }
-            ingredientExists = false;
-        }
-        person.setIntollerances(intollerances);
-
-        boolean allergyExists = false;
-        List<Ingredient> allergies = new ArrayList<>();
-        for (Ingredient listViewItem : lvAllergies.getItems()) {
-            for(Ingredient databaseListItem : allIngredients){
-                if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
-                    allergies.add(databaseListItem);
-                    allergyExists = true;
-                    break;
-                }
-            }
-
-            if (!allergyExists) {
-                allergies.add(listViewItem);
-            }
-            allergyExists = false;
-        }
-        person.setAllergies(allergies);
-
-        person.setContacts(TableUtils.getSelectedItems(tableContacts));
 
         // Check data
         try {

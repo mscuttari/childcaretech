@@ -23,8 +23,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class UpdateMenuController implements Initializable {
-
+public class UpdateMenuController { //implements Initializable {
+/*
     // Debug
     private static final String TAG = "UpdateMenuController";
 
@@ -53,7 +53,7 @@ public class UpdateMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+/*
         // update menu button cursor
         updateMenuImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
         updateMenuImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
@@ -131,8 +131,7 @@ public class UpdateMenuController implements Initializable {
 
         // Update menu
         connectionManager.getClient().update(menu);
-    }
-
+    }*/
 
     /**
      * Show error dialog
@@ -149,10 +148,10 @@ public class UpdateMenuController implements Initializable {
     public void goBack() {
         try {
             Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
-            BorderPane homePane = (BorderPane) updateMenuPane.getParent();
-            homePane.setCenter(showMenuPane);
+            //BorderPane homePane = (BorderPane) updateMenuPane.getParent();
+            //homePane.setCenter(showMenuPane);
         } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
+            //LogUtils.e(TAG, e.getMessage());
         }
     }
 

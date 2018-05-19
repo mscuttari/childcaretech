@@ -95,7 +95,7 @@ public interface ClientInterface {
      *
      * @return  list of food (null in case of error)
      */
-    List<Food> getFood();
+    //List<Food> getFood();
 
 
     /**

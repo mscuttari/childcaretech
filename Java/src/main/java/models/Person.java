@@ -41,6 +41,7 @@ public abstract class Person extends BaseModel {
     private String telephone;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "allergies",
             joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
@@ -49,6 +50,7 @@ public abstract class Person extends BaseModel {
     private Collection<Ingredient> allergies = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "intolerances",
             joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
@@ -242,6 +244,11 @@ public abstract class Person extends BaseModel {
 
     public void addPersonalizedMenus(Collection<AlternativeMenu> personalizedMenus) {
         this.personalizedMenus.addAll(personalizedMenus);
+    }
+
+    @Override
+    public String toString(){
+        return "(" + getFiscalCode() + ")" + getFirstName() + getLastName() ;
     }
 
 }

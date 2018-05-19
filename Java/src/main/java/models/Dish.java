@@ -2,7 +2,6 @@ package main.java.models;
 
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
-import main.java.client.gui.GuiFood;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -79,7 +78,7 @@ public class Dish extends BaseModel {
     /** {@inheritDoc} */
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
-        return GuiFood.class;
+        return null; //GuiFood.class;
     }
 
 

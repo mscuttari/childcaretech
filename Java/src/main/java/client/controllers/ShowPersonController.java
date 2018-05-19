@@ -20,6 +20,7 @@ import main.java.models.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -53,8 +54,15 @@ public class ShowPersonController implements Initializable{
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         // Table
-        List<Person> people = connectionManager.getClient().getPeople();
-        ObservableList<Person> parentsData = FXCollections.observableArrayList(people);
+        List<Person> people = new ArrayList<>();
+
+        people.addAll(connectionManager.getClient().getChildren());
+        people.addAll(connectionManager.getClient().getParents());
+        people.addAll(connectionManager.getClient().getContacts());
+        people.addAll(connectionManager.getClient().getPediatrists());
+        people.addAll(connectionManager.getClient().getStaff());
+
+        ObservableList<Person> peopleData = FXCollections.observableArrayList(people);
 
         columnPeopleFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPeopleLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -83,7 +91,6 @@ public class ShowPersonController implements Initializable{
             }
         }));
         columnPeopleDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
-
             //delete
             connectionManager.getClient().delete(param1);
 
@@ -99,7 +106,7 @@ public class ShowPersonController implements Initializable{
         }));
 
         tablePeople.setEditable(true);
-        tablePeople.setItems(parentsData);
+        tablePeople.setItems(peopleData);
     }
 
     public void goBack() {

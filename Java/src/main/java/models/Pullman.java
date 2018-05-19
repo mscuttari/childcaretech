@@ -149,4 +149,9 @@ public class Pullman extends BaseModel {
         this.children.addAll(children);
     }
 
+    @Override
+    public String toString(){
+        return getNumberplate();
+    }
+
 }

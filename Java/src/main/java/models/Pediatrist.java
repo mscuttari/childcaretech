@@ -2,6 +2,8 @@ package main.java.models;
 
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiPediatrist;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -74,6 +76,11 @@ public class Pediatrist extends Person {
         for (Child child : children) {
             addChild(child);
         }
+    }
+
+    @Override
+    public String toString(){
+        return super.toString();
     }
 
 }

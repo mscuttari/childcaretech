@@ -122,13 +122,13 @@ public class AddFoodController implements Initializable{
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         // Create food
-        Food food = null;
+        //Food food = null;
 
         // Data
         String foodName = tfFoodName.getText().trim();
         FoodType foodType = cbFoodType.getSelectionModel().getSelectedItem();
 
-        food = new Food(foodName, foodType);
+        //food = new Food(foodName, foodType);
 
         //Provider
         List<Provider> allProviders = connectionManager.getClient().getProviders();
@@ -141,7 +141,7 @@ public class AddFoodController implements Initializable{
             }
         }
         if(provider == null){ provider = new Provider(providerVat, providerName); }
-        food.setProvider(provider);
+        //food.setProvider(provider);
 
         boolean ingredientExists = false;
         List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
@@ -161,10 +161,10 @@ public class AddFoodController implements Initializable{
             ingredientExists = false;
         }
 
-        food.setComposition(ingredients);
+       // food.setComposition(ingredients);
 
         // Save food
-        connectionManager.getClient().create(food);
+       // connectionManager.getClient().create(food);
     }
 
     public void goBack() {

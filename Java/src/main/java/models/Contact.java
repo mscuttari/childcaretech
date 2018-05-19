@@ -2,11 +2,14 @@ package main.java.models;
 
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiContact;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity(name = "Contact")
 @Table(name = "contacts")
@@ -60,6 +63,12 @@ public class Contact extends Person {
     }
 
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+
     public Collection<Child> getChildren() {
         return children;
     }
@@ -72,6 +81,11 @@ public class Contact extends Person {
 
     public void addChildren(Collection<Child> children) {
         this.children.addAll(children);
+    }
+
+    @Override
+    public String toString(){
+        return super.toString();
     }
 
 }

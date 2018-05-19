@@ -139,4 +139,9 @@ public class Ingredient extends BaseModel {
         this.intolerantPeople.addAll(people);
     }
 
+    @Override
+    public String toString(){
+        return getName();
+    }
+
 }
