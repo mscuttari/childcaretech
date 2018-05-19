@@ -7,8 +7,6 @@ import main.java.client.gui.GuiChild;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,18 +15,38 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity(name = "Child")
+@Table(name = "children")
 @DiscriminatorValue("child")
 public class Child extends Person {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = 6653642585718262873L;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "pediatrist_fiscal_code", nullable = false)
     private Pediatrist pediatrist;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "children_parents",
+            joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
+            inverseJoinColumns = { @JoinColumn(name = "parent_fiscal_code", referencedColumnName = "fiscal_code") }
+    )
     private Collection<Parent> parents = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "children_contacts",
+            joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
+            inverseJoinColumns = { @JoinColumn(name = "contact_fiscal_code", referencedColumnName = "fiscal_code") }
+    )
+    private Collection<Contact> contacts = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "children")
     private Collection<Trip> tripsEnrollments = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "children")
     private Collection<Pullman> pullmansAssignments = new ArrayList<>();
-    private Collection<Stop> stopsPresences = new ArrayList<>();
 
 
     /**
@@ -91,69 +109,60 @@ public class Child extends Person {
     }
 
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "parents",
-            joinColumns = { @JoinColumn(name = "child_id") },
-            inverseJoinColumns = { @JoinColumn(name = "parent_id") }
-    )
     public Collection<Parent> getParents() {
         return parents;
     }
 
-    public void setParents(Collection<Parent> parents) {
-        this.parents = parents;
+
+    public void addParent(Parent parent) {
+        this.parents.add(parent);
     }
 
-    @ManyToOne
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "pediatrist_id")
-    public Pediatrist getPediatrist() {
-        return pediatrist;
+
+    public void addParents(Collection<Parent> parents) {
+        for (Parent parent : parents) {
+            addParent(parent);
+        }
     }
+
+
+    public Pediatrist getPediatrist() {
+        return this.pediatrist;
+    }
+
 
     public void setPediatrist(Pediatrist pediatrist) {
         this.pediatrist = pediatrist;
     }
 
-    @ManyToMany(mappedBy = "childrenEnrollments")
+
     public Collection<Trip> getTripsEnrollments() {
         return tripsEnrollments;
     }
 
-    public void setTripsEnrollments(Collection<Trip> tripsEnrollments) {
-        this.tripsEnrollments = tripsEnrollments;
+
+    public void addTripEnrollment(Trip trip) {
+        this.tripsEnrollments.add(trip);
     }
 
-    @ManyToMany(mappedBy = "childrenAssignments")
+
+    public void addTripEnrollments(Collection<Trip> trips) {
+        this.tripsEnrollments.addAll(trips);
+    }
+
+
     public Collection<Pullman> getPullmansAssignments() {
         return pullmansAssignments;
     }
 
-    public void setPullmansAssignments(Collection<Pullman> pullmansAssignments) {
-        this.pullmansAssignments = pullmansAssignments;
+
+    public void addPullmanAssignment(Pullman pullman) {
+        this.pullmansAssignments.add(pullman);
     }
 
-    @ManyToMany(mappedBy = "childrenPresences")
-    public Collection<Stop> getStopsPresences() {
-        return stopsPresences;
-    }
 
-    public void setStopsPresences(Collection<Stop> stopsPresences) {
-        this.stopsPresences = stopsPresences;
+    public void addPullmansAssignments(Collection<Pullman> pullmans) {
+        this.pullmansAssignments.addAll(pullmans);
     }
-
-    @Override
-    public String toString(){
-        return super.toString();
-    }
-
 
 }

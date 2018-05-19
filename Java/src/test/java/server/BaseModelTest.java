@@ -20,4 +20,10 @@ abstract class BaseModelTest<M extends BaseModel> {
      */
     abstract void assignValidData(M obj);
 
+
+    /**
+     * Creation, update and delete in the database of a valid model
+     */
+    abstract void dbTest();
+
 }

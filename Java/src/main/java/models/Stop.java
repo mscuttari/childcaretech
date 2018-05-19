@@ -13,20 +13,14 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_id", "place_name", "province", "nation", "number"}))
+@Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_date", "trip_title", "place_name", "province", "nation", "number"}))
 public class Stop extends BaseModel {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = 4963210863188064706L;
 
-    private Long id;
-    private Trip trip;
-    private String placeName;
-    private String province;
-    private String nation;
-    private Integer number;
-
-    private Collection<Child> childrenPresences = new ArrayList<>();
+    @EmbeddedId
+    private StopPK id;
 
 
     /**
@@ -47,11 +41,7 @@ public class Stop extends BaseModel {
      * @param   number      sequential number of the stop (in the context of the trip)
      */
     public Stop(Trip trip, String placeName, String province, String nation, Integer number) {
-        this.trip = trip;
-        this.placeName = placeName;
-        this.province = province;
-        this.nation = nation;
-        this.number = number;
+        this.id = new StopPK(trip, placeName, province, nation, number);
     }
 
 
@@ -60,23 +50,23 @@ public class Stop extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Trip
-        if (trip == null) throw new InvalidFieldException("Gita mancante");
+        if (id.getTrip() == null) throw new InvalidFieldException("Gita mancante");
 
         // Place name: [a-z] [A-Z] space
-        if (placeName == null || placeName.isEmpty()) throw new InvalidFieldException("Nome mancante");
-        if (!placeName.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (id.getPlaceName() == null || id.getPlaceName().isEmpty()) throw new InvalidFieldException("Nome mancante");
+        if (!id.getPlaceName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
         // Province: [a-z] [A-Z] space
-        if (province == null || province.isEmpty()) throw new InvalidFieldException("Provincia mancante");
-        if (!province.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Provincia non valida");
+        if (id.getProvince() == null || id.getProvince().isEmpty()) throw new InvalidFieldException("Provincia mancante");
+        if (!id.getProvince().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Provincia non valida");
 
         // Nation: [a-z] [A-Z] space
-        if (nation == null || nation.isEmpty()) throw new InvalidFieldException("Stato mancante");
-        if (!nation.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Stato non valido");
+        if (id.getNation() == null || id.getNation().isEmpty()) throw new InvalidFieldException("Stato mancante");
+        if (!id.getNation().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Stato non valido");
 
         // Number: > 0
-        if (number == null) throw new InvalidFieldException("Numero della tappa mancante");
-        if (number < 0) throw new InvalidFieldException("Numero della tappa non valido");
+        if (id.getNumber() == null) throw new InvalidFieldException("Numero della tappa mancante");
+        if (id.getNumber() < 0) throw new InvalidFieldException("Numero della tappa non valido");
     }
 
 
@@ -107,81 +97,63 @@ public class Stop extends BaseModel {
     }
 
 
-    @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "trip_id", nullable = false)
     public Trip getTrip() {
-        return trip;
+        return id.getTrip();
     }
+
 
     public void setTrip(Trip trip) {
-        this.trip = trip;
+        if (this.id.getTrip() == null) {
+            this.id.setTrip(trip);
+        }
     }
 
-    @Column(name = "place_name", nullable = false)
+
     public String getPlaceName() {
-        return placeName;
+        return id.getPlaceName();
     }
+
 
     public void setPlaceName(String placeName) {
-        this.placeName = placeName == null || placeName.isEmpty() ? null : placeName;
+        if (this.id.getPlaceName() == null) {
+            this.id.setPlaceName(placeName);
+        }
     }
 
-    @Column(name = "province", nullable = false)
+
     public String getProvince() {
-        return province;
+        return id.getProvince();
     }
+
 
     public void setProvince(String province) {
-        this.province = province == null || province.isEmpty() ? null : province;
+        if (this.id.getProvince() == null) {
+            this.id.setProvince(province);
+        }
     }
 
-    @Column(name = "nation", nullable = false)
+
     public String getNation() {
-        return nation;
+        return id.getNation();
     }
+
 
     public void setNation(String nation) {
-        this.nation = nation == null || nation.isEmpty() ? null : nation;
+        if (this.id.getNation() == null) {
+            this.id.setNation(nation);
+        }
     }
 
-    @Column(name = "number", nullable = false)
+
     public Integer getNumber() {
-        return number;
+        return id.getNumber();
     }
+
 
     public void setNumber(Integer number) {
-        this.number = number;
+        if (this.id.getNumber() == null) {
+            this.id.setNumber(number);
+        }
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "children_stops_presence",
-            joinColumns = { @JoinColumn(name = "stop_id") },
-            inverseJoinColumns = { @JoinColumn(name = "child_id") }
-    )
-    public Collection<Child> getChildrenPresences() {
-        return childrenPresences;
-    }
-
-    public void setChildrenPresences(Collection<Child> childrenPresences) {
-        this.childrenPresences = childrenPresences;
-    }
-
-    @Override
-    public String toString(){
-        return number.toString()+") "+placeName+"("+province+")";
-    }
 }

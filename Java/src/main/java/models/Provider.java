@@ -14,14 +14,18 @@ import java.util.Objects;
 @Table(name = "providers", uniqueConstraints = @UniqueConstraint(columnNames = {"vat"}))
 public class Provider extends BaseModel {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = -2813171935508565148L;
 
-    private Long id;
+    @Id
+    @Column(name = "vat")
     private String vat;
+
+    @Column(name = "name", nullable = false)
     private String name;
 
-    private Collection<Food> food = new ArrayList<>();
+    @OneToMany(mappedBy = "provider")
+    private Collection<Dish> dishes = new ArrayList<>();
 
 
     /**
@@ -82,43 +86,40 @@ public class Provider extends BaseModel {
     }
 
 
-    @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Column(name = "vat", nullable = false)
     public String getVat() {
         return vat;
     }
 
+
     public void setVat(String vat) {
-        this.vat = vat == null || vat.isEmpty() ? null : vat;
+        if (this.vat == null) {
+            this.vat = vat == null || vat.isEmpty() ? null : vat;
+        }
     }
 
-    @Column(name = "name", nullable = false)
+
     public String getName() {
         return name;
     }
+
 
     public void setName(String name) {
         this.name = name == null || name.isEmpty() ? null : name;
     }
 
-    @OneToMany(mappedBy = "provider")
-    public Collection<Food> getFood() {
-        return food;
+
+    public Collection<Dish> getDishes() {
+        return dishes;
     }
 
-    public void setFood(Collection<Food> food) {
-        this.food = food;
+
+    public void addDish(Dish dish) {
+        this.dishes.add(dish);
+    }
+
+
+    public void addDishes(Collection<Dish> dishes) {
+        this.dishes.addAll(dishes);
     }
 
 }

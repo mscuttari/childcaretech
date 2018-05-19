@@ -13,19 +13,29 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "menus", uniqueConstraints = @UniqueConstraint(columnNames = {"responsible_id"}))
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "menus")
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type")
 public abstract class Menu extends BaseModel {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = -8284040804525605098L;
 
-    private Long id;
+    @Id
+    @Column(name = "name")
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "responsible_fiscal_code", referencedColumnName = "fiscal_code")
     private Staff responsible;
 
-    private Collection<Food> composition = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "menus_composition",
+            joinColumns = { @JoinColumn(name = "menu_name", referencedColumnName = "name") },
+            inverseJoinColumns = { @JoinColumn(name = "dish_name", referencedColumnName = "name") }
+    )
+    private Collection<Dish> dishes = new ArrayList<>();
 
 
     /**
@@ -56,10 +66,6 @@ public abstract class Menu extends BaseModel {
         if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");
         if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
-        // Type: [a-z] [A-Z] space
-        //if (type == null || type.isEmpty()) throw new InvalidFieldException("Tipologia mancante");
-        //if (!type.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Tipologia non valida");
-
         // Responsible
         if (responsible == null) throw new InvalidFieldException("Responsabile mancante");
     }
@@ -89,51 +95,40 @@ public abstract class Menu extends BaseModel {
     }
 
 
-    @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
 
+
     public void setName(String name) {
-        this.name = name == null || name.isEmpty() ? null : name;
+        if (this.name == null) {
+            this.name = name == null || name.isEmpty() ? null : name;
+        }
     }
 
-    @ManyToOne
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "responsible_id", referencedColumnName = "id")
+
     public Staff getResponsible() {
         return responsible;
     }
+
 
     public void setResponsible(Staff responsible) {
         this.responsible = responsible;
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "menus_composition",
-            joinColumns = { @JoinColumn(name = "menu_id") },
-            inverseJoinColumns = { @JoinColumn(name = "food_id") }
-    )
-    public Collection<Food> getComposition() {
-        return composition;
+
+    public Collection<Dish> getDishes() {
+        return dishes;
     }
 
-    public void setComposition(Collection<Food> composition) {
-        this.composition = composition;
+
+    public void addDish(Dish dish) {
+        dishes.add(dish);
+    }
+
+
+    public void addDishes(Collection<Dish> dishes) {
+        this.dishes.addAll(dishes);
     }
 
 }

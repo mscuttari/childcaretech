@@ -15,10 +15,9 @@ class ParentTest extends PersonTest<Parent> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid parent
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Parent parent = new Parent();
         assignValidData(parent);
@@ -32,28 +31,24 @@ class ParentTest extends PersonTest<Parent> {
         assertModelsEquals(parent, createdParent);
 
         // Update
-        createdParent.setFiscalCode("BBBBBBBBBBBBBBBB");
-        createdParent.setFirstName("CCC");
-        createdParent.setLastName("DDD");
-        createdParent.setBirthdate(new Date());
-        createdParent.setAddress("Test, A/2");
-        createdParent.setTelephone("2222222222");
+        parent.setFirstName("BBB");
+        parent.setLastName("CCC");
+        parent.setBirthdate(new Date());
+        parent.setAddress("Test, A/2");
+        parent.setTelephone("2222222222");
 
-        HibernateUtils.getInstance().update(createdParent);
-        Parent updatedParent = getPersonByFiscalCode(createdParent.getFiscalCode());
+        HibernateUtils.getInstance().update(parent);
 
         // Check update
-        Parent oldParent = getPersonByFiscalCode(parent.getFiscalCode());
-        assertNull(oldParent);      // The old fiscal code should not be found anymore
-
+        Parent updatedParent = getPersonByFiscalCode(parent.getFiscalCode());
         assertNotNull(updatedParent);
-        assertModelsEquals(createdParent, updatedParent);
+        assertModelsEquals(parent, updatedParent);
 
         // Delete
-        HibernateUtils.getInstance().delete(updatedParent);
+        HibernateUtils.getInstance().delete(parent);
 
         // Check delete
-        Parent deletedParent = getPersonByFiscalCode(updatedParent.getFiscalCode());
+        Parent deletedParent = getPersonByFiscalCode(parent.getFiscalCode());
         assertNull(deletedParent);
     }
 

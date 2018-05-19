@@ -18,10 +18,9 @@ class PediatristTest extends PersonTest<Pediatrist> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid pediatrist
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Pediatrist pediatrist = new Pediatrist();
         assignValidData(pediatrist);
@@ -35,28 +34,24 @@ class PediatristTest extends PersonTest<Pediatrist> {
         assertModelsEquals(pediatrist, createdPediatrist);
 
         // Update
-        createdPediatrist.setFiscalCode("BBBBBBBBBBBBBBBB");
-        createdPediatrist.setFirstName("CCC");
-        createdPediatrist.setLastName("DDD");
-        createdPediatrist.setBirthdate(new Date());
-        createdPediatrist.setAddress("Test, A/2");
-        createdPediatrist.setTelephone("2222222222");
+        pediatrist.setFirstName("BBB");
+        pediatrist.setLastName("CCC");
+        pediatrist.setBirthdate(new Date());
+        pediatrist.setAddress("Test, A/2");
+        pediatrist.setTelephone("2222222222");
 
-        HibernateUtils.getInstance().update(createdPediatrist);
-        Pediatrist updatedPediatrist = getPersonByFiscalCode(createdPediatrist.getFiscalCode());
+        HibernateUtils.getInstance().update(pediatrist);
 
         // Check update
-        Pediatrist oldPediatrist = getPersonByFiscalCode(pediatrist.getFiscalCode());
-        assertNull(oldPediatrist);      // The old fiscal code should not be found anymore
-
+        Pediatrist updatedPediatrist = getPersonByFiscalCode(pediatrist.getFiscalCode());
         assertNotNull(updatedPediatrist);
-        assertModelsEquals(createdPediatrist, updatedPediatrist);
+        assertModelsEquals(pediatrist, updatedPediatrist);
 
         // Delete
-        HibernateUtils.getInstance().delete(updatedPediatrist);
+        HibernateUtils.getInstance().delete(pediatrist);
 
         // Check delete
-        Pediatrist deletedPediatrist = getPersonByFiscalCode(updatedPediatrist.getFiscalCode());
+        Pediatrist deletedPediatrist = getPersonByFiscalCode(pediatrist.getFiscalCode());
         assertNull(deletedPediatrist);
     }
 

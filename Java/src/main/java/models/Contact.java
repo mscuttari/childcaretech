@@ -3,22 +3,21 @@ package main.java.models;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiContact;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 @Entity(name = "Contact")
+@Table(name = "contacts")
 @DiscriminatorValue("contact")
 public class Contact extends Person {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = 7139409983483815073L;
 
-    private Collection<Person> bounds = new ArrayList<>();
+    @ManyToMany(mappedBy = "contacts")
+    private Collection<Child> children = new ArrayList<>();
 
 
     /**
@@ -61,19 +60,18 @@ public class Contact extends Person {
     }
 
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
+    public Collection<Child> getChildren() {
+        return children;
     }
 
 
-    @ManyToMany(mappedBy = "contacts")
-    public Collection<Person> getBounds() {
-        return bounds;
+    public void addChild(Child child) {
+        this.children.add(child);
     }
 
-    public void setBounds(Collection<Person> bounds) {
-        this.bounds = bounds;
+
+    public void addChildren(Collection<Child> children) {
+        this.children.addAll(children);
     }
 
 }

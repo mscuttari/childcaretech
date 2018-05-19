@@ -2,24 +2,30 @@ package main.java.models;
 
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiRegularMenu;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity(name = "AlternativeMenu")
+@Table(name = "alternative_menus")
 @DiscriminatorValue("alternative")
 public class AlternativeMenu extends Menu {
 
-    // Serialization
     private static final long serialVersionUID = -3413541435253247635L;
 
+    @ManyToOne
+    @JoinColumn(name = "regular_menu_name", referencedColumnName = "name")
     private RegularMenu regularMenu;
 
+    @ManyToMany
+    @JoinTable(
+            name = "alternative_menus_people",
+            joinColumns = { @JoinColumn(name = "alternative_menu_name", referencedColumnName = "name") },
+            inverseJoinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") }
+    )
     private Collection<Person> people = new ArrayList<>();
+
 
     /**
      * Default constructor
@@ -32,9 +38,9 @@ public class AlternativeMenu extends Menu {
     /**
      * Constructor
      *
-     * @param   name      name
-     * @param   responsible       responsible
-     * @param   regularMenu      regular menu
+     * @param   name            name
+     * @param   responsible     responsible
+     * @param   regularMenu     regular menu
      */
     public AlternativeMenu(String name, Staff responsible, RegularMenu regularMenu) {
         super(name, responsible);
@@ -54,41 +60,32 @@ public class AlternativeMenu extends Menu {
         if (this == obj) return true;
         if (!(obj instanceof AlternativeMenu)) return false;
 
-        AlternativeMenu that = (AlternativeMenu) obj;
-        return  Objects.equals(getResponsible(), that.getResponsible()) &&
-                Objects.equals(getRegularMenu(), that.getRegularMenu()) &&
-                super.equals(obj);
+        return super.equals(obj);
     }
 
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-
-    @ManyToOne
-    @JoinColumn(name = "regularMenu_id")
     public RegularMenu getRegularMenu() {
         return regularMenu;
     }
+
 
     public void setRegularMenu(RegularMenu regularMenu) {
         this.regularMenu = regularMenu;
     }
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "personalized_menus_people",
-            joinColumns = { @JoinColumn(name = "menu_id") },
-            inverseJoinColumns = { @JoinColumn(name = "person_id") }
-    )
+
     public Collection<Person> getPeople() {
         return people;
     }
 
-    public void setPeople(Collection<Person> people) {
-        this.people = people;
+
+    public void addPerson(Person person) {
+        this.people.add(person);
     }
+
+
+    public void addPeople(Collection<Person> people) {
+        this.people.addAll(people);
+    }
+
 }

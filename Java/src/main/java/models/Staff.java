@@ -15,17 +15,24 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity(name = "Staff")
+@Table(name = "staff")
 @DiscriminatorValue("staff")
 public class Staff extends Person {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = -3026738919615064997L;
 
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
     private String password;
 
-    private Collection<Menu> menuResponsibility = new ArrayList<>();
-    private Collection<Trip> tripsEnrollments = new ArrayList<>();
+    @OneToMany(mappedBy = "responsible")
+    private Collection<Menu> menus = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "staff")
+    private Collection<Trip> trips = new ArrayList<>();
 
 
     /**
@@ -90,46 +97,53 @@ public class Staff extends Person {
     }
 
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUsername(), getPassword(), super.hashCode());
-    }
-
-
-    @Column(name = "username")
     public String getUsername() {
         return username;
     }
+
 
     public void setUsername(String username) {
         this.username = username == null || username.isEmpty() ? null : username;
     }
 
-    @Column(name = "password")
+
     public String getPassword() {
         return password;
     }
+
 
     public void setPassword(String password) {
         this.password = password == null || password.isEmpty() ? null : password;
     }
 
-    @OneToMany(mappedBy = "responsible", cascade = CascadeType.ALL, orphanRemoval = true)
-    public Collection<Menu> getMenuResponsibility() {
-        return menuResponsibility;
+
+    public Collection<Menu> getMenus() {
+        return menus;
     }
 
-    public void setMenuResponsibility(Collection<Menu> menuResponsibility) {
-        this.menuResponsibility = menuResponsibility;
+
+    public void addMenu(Menu menu) {
+        this.menus.add(menu);
     }
 
-    @ManyToMany(mappedBy = "staffEnrollments")
+
+    public void addMenus(Collection<Menu> menus) {
+        this.menus.addAll(menus);
+    }
+
+
     public Collection<Trip> getTripsEnrollments() {
-        return tripsEnrollments;
+        return trips;
     }
 
-    public void setTripsEnrollments(Collection<Trip> tripsEnrollments) {
-        this.tripsEnrollments = tripsEnrollments;
+
+    public void addTrip(Trip trip) {
+        this.trips.add(trip);
+    }
+
+
+    public void addTrips(Collection<Trip> trips) {
+        this.trips.addAll(trips);
     }
 
 }

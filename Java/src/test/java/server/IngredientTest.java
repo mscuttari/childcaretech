@@ -29,10 +29,9 @@ class IngredientTest extends BaseModelTest<Ingredient> {
     }
 
 
-    /**
-     * Creation, update and delete of a valid contact
-     */
+    /** {@inheritDoc} */
     @Test
+    @Override
     void dbTest() {
         Ingredient ingredient = new Ingredient();
         assignValidData(ingredient);
@@ -45,24 +44,11 @@ class IngredientTest extends BaseModelTest<Ingredient> {
         assertNotNull(createdIngredient);
         assertModelsEquals(ingredient, createdIngredient);
 
-        // Update
-        createdIngredient.setName("BBB");
-
-        HibernateUtils.getInstance().update(createdIngredient);
-        Ingredient updatedIngredient = getIngredientByName(createdIngredient.getName());
-
-        // Check update
-        Ingredient oldIngredient = getIngredientByName(ingredient.getName());
-        assertNull(oldIngredient);      // The old name should not be found anymore
-
-        assertNotNull(updatedIngredient);
-        assertModelsEquals(createdIngredient, updatedIngredient);
-
         // Delete
-        HibernateUtils.getInstance().delete(updatedIngredient);
+        HibernateUtils.getInstance().delete(ingredient);
 
         // Check delete
-        Ingredient deletedIngredient = getIngredientByName(updatedIngredient.getName());
+        Ingredient deletedIngredient = getIngredientByName(ingredient.getName());
         assertNull(deletedIngredient);
     }
 

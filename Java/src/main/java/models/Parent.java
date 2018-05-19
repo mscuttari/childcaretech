@@ -3,21 +3,20 @@ package main.java.models;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiParent;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 @Entity(name = "Parent")
+@Table(name = "parents")
 @DiscriminatorValue("parent")
 public class Parent extends Person {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = -8335298083415447342L;
 
+    @ManyToMany(mappedBy = "parents", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<Child> children = new ArrayList<>();
 
 
@@ -67,13 +66,20 @@ public class Parent extends Person {
     }
 
 
-    @ManyToMany(mappedBy = "parents")
     public Collection<Child> getChildren() {
         return children;
     }
 
-    public void setChildren(Collection<Child> children) {
-        this.children = children;
+
+    public void addChild(Child child) {
+        this.children.add(child);
+    }
+
+
+    public void addChildren(Collection<Child> children) {
+        for (Child child : children) {
+            addChild(child);
+        }
     }
 
 }

@@ -2,22 +2,20 @@ package main.java.models;
 
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiRegularMenu;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity(name = "RegularMenu")
+@Table(name = "regular_menus")
 @DiscriminatorValue("regular")
 public class RegularMenu extends Menu {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = 4801684474319217042L;
 
+    @OneToMany(mappedBy = "regularMenu")
     private Collection<AlternativeMenu> alternativeMenus = new ArrayList<>();
 
 
@@ -51,25 +49,22 @@ public class RegularMenu extends Menu {
         if (this == obj) return true;
         if (!(obj instanceof RegularMenu)) return false;
 
-        RegularMenu that = (RegularMenu) obj;
-        return  Objects.equals(getResponsible(), that.getResponsible()) &&
-                super.equals(obj);
+        return super.equals(obj);
     }
 
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-
-    @OneToMany(mappedBy = "regularMenu", cascade = CascadeType.ALL, orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.FALSE)
     public Collection<AlternativeMenu> getAlternativeMenus() {
         return alternativeMenus;
     }
 
-    public void setAlternativeMenus(Collection<AlternativeMenu> alternativeMenus) {
-        this.alternativeMenus = alternativeMenus;
+
+    public void addAlternativeMenu(AlternativeMenu alternativeMenu) {
+        this.alternativeMenus.add(alternativeMenu);
     }
+
+
+    public void addAlternativeMenus(Collection<AlternativeMenu> alternativeMenus) {
+        this.alternativeMenus.addAll(alternativeMenus);
+    }
+
 }

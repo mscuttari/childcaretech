@@ -17,17 +17,39 @@ import java.util.Objects;
 @Table(name = "trips", uniqueConstraints = @UniqueConstraint(columnNames = {"date", "title"}))
 public class Trip extends BaseModel {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = 9041385768903721723L;
 
-    private Long id;
-    private Date date;
-    private String title;
+    @EmbeddedId
+    private TripPK id;
 
+    @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Stop> stops = new ArrayList<>();
+
+    @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Pullman> transports = new ArrayList<>();
-    private Collection<Child> childrenEnrollments = new ArrayList<>();
-    private Collection<Staff> staffEnrollments = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "children_trips_enrollments",
+            joinColumns = {
+                    @JoinColumn(name = "trip_date", referencedColumnName = "date"),
+                    @JoinColumn(name = "trip_title", referencedColumnName = "title")
+            },
+            inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
+    )
+    private Collection<Child> children = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "staff_trips_enrollments",
+            joinColumns = {
+                    @JoinColumn(name = "trip_date", referencedColumnName = "date"),
+                    @JoinColumn(name = "trip_title", referencedColumnName = "title")
+            },
+            inverseJoinColumns = { @JoinColumn(name = "staff_fiscal_code", referencedColumnName = "fiscal_code") }
+    )
+    private Collection<Staff> staff = new ArrayList<>();
 
 
     /**
@@ -45,8 +67,7 @@ public class Trip extends BaseModel {
      * @param   title   name of the trip
      */
     public Trip(Date date, String title) {
-        this.date = date;
-        this.title = title;
+        id = new TripPK(date, title);
     }
 
 
@@ -55,11 +76,11 @@ public class Trip extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Date
-        if (date == null) throw new InvalidFieldException("Data mancante");
+        if (id.getDate() == null) throw new InvalidFieldException("Data mancante");
 
         // Title: [a-z] [A-Z] space
-        if (title == null || title.isEmpty()) throw new InvalidFieldException("Titolo mancante");
-        if (!title.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Titolo non valido");
+        if (id.getTitle() == null || id.getTitle().isEmpty()) throw new InvalidFieldException("Titolo mancante");
+        if (!id.getTitle().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Titolo non valido");
     }
 
 
@@ -77,7 +98,7 @@ public class Trip extends BaseModel {
         if (!(o instanceof Trip)) return false;
 
         Trip that = (Trip) o;
-        return Objects.equals(getDate(), that.getDate()) &&
+        return dateEquals(getDate(), that.getDate()) &&
                 Objects.equals(getTitle(), that.getTitle());
     }
 
@@ -88,84 +109,82 @@ public class Trip extends BaseModel {
     }
 
 
-    @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Column(name = "date", nullable = false)
     public Date getDate() {
-        return date;
+        return id.getDate();
     }
+
 
     public void setDate(Date date) {
-        this.date = date;
+        if (this.id.getDate() == null) {
+            this.id.setDate(date);
+        }
     }
 
-    @Column(name = "title", nullable = false)
+
     public String getTitle() {
-        return title;
+        return id.getTitle();
     }
+
 
     public void setTitle(String title) {
-        this.title = title == null || title.isEmpty() ? null : title;
+        if (this.id.getTitle() == null) {
+            this.id.setTitle(title);
+        }
     }
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.FALSE)
+
     public Collection<Stop> getStops() {
         return stops;
     }
+
 
     public void setStops(Collection<Stop> stops) {
         this.stops = stops;
     }
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.FALSE)
+
     public Collection<Pullman> getTransports() {
         return transports;
     }
 
-    public void setTransports(Collection<Pullman> transports) {
-        this.transports = transports;
+
+    public void addTransport(Pullman transport) {
+        this.transports.add(transport);
     }
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "children_trips_enrollments",
-            joinColumns = { @JoinColumn(name = "trip_id") },
-            inverseJoinColumns = { @JoinColumn(name = "child_id") }
-    )
-    public Collection<Child> getChildrenEnrollments() {
-        return childrenEnrollments;
+
+    public void addTransports(Collection<Pullman> transports) {
+        this.transports.addAll(transports);
     }
 
-    public void setChildrenEnrollments(Collection<Child> childrenEnrollments) {
-        this.childrenEnrollments = childrenEnrollments;
+
+    public Collection<Child> getChildren() {
+        return children;
     }
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "staff_trips_enrollments",
-            joinColumns = { @JoinColumn(name = "trip_id") },
-            inverseJoinColumns = { @JoinColumn(name = "person_id") }
-    )
-    public Collection<Staff> getStaffEnrollments() {
-        return staffEnrollments;
+
+    public void addChild(Child child) {
+        this.children.add(child);
     }
 
-    public void setStaffEnrollments(Collection<Staff> staffEnrollments) {
-        this.staffEnrollments = staffEnrollments;
+
+    public void addChildren(Collection<Child> children) {
+        this.children.addAll(children);
+    }
+
+
+    public Collection<Staff> getStaff() {
+        return staff;
+    }
+
+
+    public void addStaff(Staff staff) {
+        this.staff.add(staff);
+    }
+
+
+    public void addStaff(Collection<Staff> staff) {
+        this.staff.addAll(staff);
     }
 
 }

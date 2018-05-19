@@ -14,14 +14,21 @@ import java.util.Objects;
 @Table(name = "ingredients")
 public class Ingredient extends BaseModel {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = 2539848520616597694L;
 
-    private Long id;
+    @Id
+    @Column(name = "name")
     private String name;
-    private Collection<Food> food = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "ingredients")
+    private Collection<Dish> dishes = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "allergies")
     private Collection<Person> allergicPeople = new ArrayList<>();
-    private Collection<Person> intollerantPeople = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "intolerances")
+    private Collection<Person> intolerantPeople = new ArrayList<>();
 
 
     /**
@@ -76,57 +83,60 @@ public class Ingredient extends BaseModel {
     }
 
 
-    @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
 
+
     public void setName(String name) {
-        this.name = name == null || name.isEmpty() ? null : name;
+        if (this.name == null) {
+            this.name = name == null || name.isEmpty() ? null : name;
+        }
     }
 
-    @ManyToMany(mappedBy = "composition")
-    public Collection<Food> getFood() {
-        return food;
+
+    public Collection<Dish> getDishes() {
+        return dishes;
     }
 
-    public void setFood(Collection<Food> food) {
-        this.food = food;
+
+    public void addToDish(Dish dish) {
+        this.dishes.add(dish);
     }
 
-    @ManyToMany(mappedBy = "allergies")
+
+    public void addToDishes(Collection<Dish> dishes) {
+        this.dishes = dishes;
+    }
+
+
     public Collection<Person> getAllergicPeople() {
         return allergicPeople;
     }
 
-    public void setAllergicPeople(Collection<Person> allergicPeople) {
-        this.allergicPeople = allergicPeople;
+
+    public void addAllergicPerson(Person person) {
+        this.allergicPeople.add(person);
     }
 
-    @ManyToMany(mappedBy = "intollerances")
-    public Collection<Person> getIntollerantPeople() {
-        return intollerantPeople;
+
+    public void addAllergicPeople(Collection<Person> people) {
+        this.allergicPeople.addAll(people);
     }
 
-    public void setIntollerantPeople(Collection<Person> intollerantPeople) {
-        this.intollerantPeople = intollerantPeople;
+
+    public Collection<Person> getIntolerantPeople() {
+        return intolerantPeople;
     }
 
-    @Override
-    public String toString(){
-        return name;
+
+    public void addIntolerantPerson(Person person) {
+        this.intolerantPeople.add(person);
+    }
+
+
+    public void addIntolerantPeople(Collection<Person> people) {
+        this.intolerantPeople.addAll(people);
     }
 
 }

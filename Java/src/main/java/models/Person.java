@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import javax.naming.OperationNotSupportedException;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.ArrayList;
@@ -12,25 +13,51 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "people", uniqueConstraints = {@UniqueConstraint(columnNames = "fiscal_code")})
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "people")
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type")
 public abstract class Person extends BaseModel {
 
-    // Serialization
+    @Transient
     private static final long serialVersionUID = -5315181403037638727L;
 
-    private Long id;
+    @Id
+    @Column(name = "fiscal_code", nullable = false)
     private String fiscalCode;
+
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+
+    @Column(name = "birthdate")
     private Date birthDate;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "telephone")
     private String telephone;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "allergies",
+            joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
+            inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
+    )
     private Collection<Ingredient> allergies = new ArrayList<>();
-    private Collection<Ingredient> intollerances = new ArrayList<>();
-    private Collection<Contact> contacts = new ArrayList<>();
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "intolerances",
+            joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
+            inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
+    )
+    private Collection<Ingredient> intolerances = new ArrayList<>();
+
+
+    @ManyToMany(mappedBy = "people")
     private Collection<AlternativeMenu> personalizedMenus = new ArrayList<>();
 
 
@@ -99,7 +126,7 @@ public abstract class Person extends BaseModel {
         return Objects.equals(getFiscalCode(), that.getFiscalCode()) &&
                 Objects.equals(getFirstName(), that.getFirstName()) &&
                 Objects.equals(getLastName(), that.getLastName()) &&
-                Objects.equals(getBirthdate(), that.getBirthdate()) &&
+                dateEquals(getBirthdate(), that.getBirthdate()) &&
                 Objects.equals(getAddress(), that.getAddress()) &&
                 Objects.equals(getTelephone(), that.getTelephone());
     }
@@ -111,130 +138,110 @@ public abstract class Person extends BaseModel {
     }
 
 
-    @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Column(name = "fiscal_code", nullable = false)
     public String getFiscalCode() {
         return fiscalCode;
     }
 
+
     public void setFiscalCode(String fiscalCode) {
-        this.fiscalCode = fiscalCode == null || fiscalCode.isEmpty() ? null : fiscalCode;
+        if (this.fiscalCode == null) {
+            this.fiscalCode = fiscalCode == null || fiscalCode.isEmpty() ? null : fiscalCode;
+        }
     }
 
-    @Column(name = "name", nullable = false)
+
     public String getFirstName() {
         return firstName;
     }
+
 
     public void setFirstName(String firstName) {
         this.firstName = firstName == null || firstName.isEmpty() ? null : firstName;
     }
 
-    @Column(name = "surname", nullable = false)
+
     public String getLastName() {
         return lastName;
     }
+
 
     public void setLastName(String lastName) {
         this.lastName = lastName == null || lastName.isEmpty() ? null : lastName;
     }
 
-    //@Temporal(TemporalType.DATE)
-    @Column(name = "birthdate")
+
     public Date getBirthdate() {
         return birthDate;
     }
+
 
     public void setBirthdate(Date birthdate) {
         this.birthDate = birthdate;
     }
 
-    @Column(name = "address")
+
     public String getAddress() {
         return address;
     }
+
 
     public void setAddress(String address) {
         this.address = address == null || address.isEmpty() ? null : address;
     }
 
-    @Column(name = "telephone")
+
     public String getTelephone() {
         return telephone;
     }
+
 
     public void setTelephone(String telephone) {
         this.telephone = telephone == null || telephone.isEmpty() ? null : telephone;
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "allergies",
-            joinColumns = { @JoinColumn(name = "person_id") },
-            inverseJoinColumns = { @JoinColumn(name = "ingredient_id") }
-    )
+
     public Collection<Ingredient> getAllergies() {
         return allergies;
     }
 
-    public void setAllergies(Collection<Ingredient> allergies) {
-        this.allergies = allergies;
+
+    public void addAllergy(Ingredient ingredient) {
+        allergies.add(ingredient);
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "intollerances",
-            joinColumns = { @JoinColumn(name = "person_id") },
-            inverseJoinColumns = { @JoinColumn(name = "ingredient_id") }
-    )
-    public Collection<Ingredient> getIntollerances() {
-        return intollerances;
+
+    public void addAllergies(Collection<Ingredient> ingredients) {
+        allergies.addAll(ingredients);
     }
 
-    public void setIntollerances(Collection<Ingredient> intollerances) {
-        this.intollerances = intollerances;
+
+    public Collection<Ingredient> getIntolerances() {
+        return intolerances;
     }
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "contacts",
-            joinColumns = { @JoinColumn(name = "child_id") },
-            inverseJoinColumns = { @JoinColumn(name = "contact_id") }
-    )
-    public Collection<Contact> getContacts() {
-        return contacts;
+
+    public void addIntolerance(Ingredient ingredient) {
+        intolerances.add(ingredient);
     }
 
-    public void setContacts(Collection<Contact> contacts) {
-        this.contacts = contacts;
+
+    public void addIntollerances(Collection<Ingredient> ingredients) {
+        intolerances.addAll(ingredients);
     }
 
-    @ManyToMany(mappedBy = "people")
+
     public Collection<AlternativeMenu> getPersonalizedMenus() {
         return personalizedMenus;
     }
 
-    public void setPersonalizedMenus(Collection<AlternativeMenu> personalizedMenus) {
-        this.personalizedMenus = personalizedMenus;
+
+    public void addPersonalizedMenu(AlternativeMenu menu) {
+        this.personalizedMenus.add(menu);
     }
 
-    @Override
-    public String toString(){
-        return "(" + fiscalCode + ") " + firstName + lastName;
+
+    public void addPersonalizedMenus(Collection<AlternativeMenu> personalizedMenus) {
+        this.personalizedMenus.addAll(personalizedMenus);
     }
 
 }
