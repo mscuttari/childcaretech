@@ -142,20 +142,27 @@ public class ShowRegularMenuController implements Initializable{
                 return null;
             }
         }));
-        columnAlternativeMenuShow.setCellFactory(param -> new MyButtonTableCell<>("Mostra menù alternativi", param1 -> {
+        columnAlternativeMenuShow.setCellFactory(param -> new MyButtonTableCell<>("Mostra menù alternativi", new Callback<RegularMenu, Object>() {
 
-            //delete
-            connectionManager.getClient().delete(param1);
+            @Override
+            public Object call(RegularMenu param) {
+                try {
 
-            try {
-                Pane newPaneShowRegularMenu = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
-                BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
-                homePane.setCenter(newPaneShowRegularMenu);
-            } catch (IOException e) {
-                LogUtils.e(TAG, e.getMessage());
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showAlternativeMenu.fxml"));
+
+                    ShowAlternativeMenuController showAlternativeMenuController = new ShowAlternativeMenuController(param);
+                    loader.setController(showAlternativeMenuController);
+
+                    Pane showAlternativeMenuPane = loader.load();
+                    BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
+                    homePane.setCenter(showAlternativeMenuPane);
+
+                } catch (IOException e) {
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
+                return null;
             }
-
-            return null;
         }));
 
         tableRegularMenu.setEditable(true);

@@ -2,6 +2,8 @@ package main.java.models;
 
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiRegularMenu;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class RegularMenu extends Menu {
 
 
     @OneToMany(mappedBy = "regularMenu")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<AlternativeMenu> alternativeMenus = new ArrayList<>();
 
 
