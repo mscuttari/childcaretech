@@ -19,7 +19,7 @@ public class CanteenController implements Initializable{
 
     @FXML private Pane canteenPane;
     @FXML private Button buttonMenu;
-    @FXML private Button buttonFood;
+    @FXML private Button buttonDish;
 
 
     @Override
@@ -28,8 +28,8 @@ public class CanteenController implements Initializable{
         // Menu button
         buttonMenu.setOnAction(event -> menu());
 
-        //Food button
-        buttonFood.setOnAction(event -> food());
+        //Dish button
+        buttonDish.setOnAction(event -> dish());
     }
 
     public void menu() {
@@ -42,11 +42,11 @@ public class CanteenController implements Initializable{
         }
     }
 
-    public void food() {
+    public void dish() {
         try {
-            Pane foodPane = FXMLLoader.load(getClass().getResource("/views/food.fxml"));
+            Pane dishPane = FXMLLoader.load(getClass().getResource("/views/dish.fxml"));
             BorderPane homePane = (BorderPane) canteenPane.getParent();
-            homePane.setCenter(foodPane);
+            homePane.setCenter(dishPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }

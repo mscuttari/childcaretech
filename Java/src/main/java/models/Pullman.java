@@ -26,6 +26,7 @@ public class Pullman extends BaseModel {
     private Integer seats;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_pullmans_assignments",
             joinColumns = {

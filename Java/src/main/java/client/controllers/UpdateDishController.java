@@ -23,17 +23,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class UpdateFoodController implements Initializable{
-/*
+public class UpdateDishController implements Initializable{
+
     // Debug
-    private static final String TAG = "UpdateFoodController";
+    private static final String TAG = "UpdateDishController";
 
-    private Food food;
+    private Dish dish;
 
-    @FXML private Pane updateFoodPane;
+    @FXML private Pane updateDishPane;
 
-    @FXML private TextField tfFoodName;
-    @FXML private ComboBox<FoodType> cbFoodType;
+    @FXML private TextField tfDishName;
+    @FXML private ComboBox<DishType> cbDishType;
 
     @FXML private TextField tfProviderName;
     @FXML private TextField tfProviderVat;
@@ -44,27 +44,27 @@ public class UpdateFoodController implements Initializable{
     @FXML private Button buttonRemoveSelected;
     @FXML private Label labelError;
 
-    @FXML private ImageView updateFoodImage;
+    @FXML private ImageView updateDishImage;
     @FXML private ImageView goBackImage;
 
-    public UpdateFoodController(Food food){ this.food = food; }*/
+    public UpdateDishController(Dish dish){ this.dish = dish; }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {/*
+    public void initialize(URL location, ResourceBundle resources) {
 
-        // Food type
-        cbFoodType.getItems().addAll(FoodType.values());
+        // Dish type
+        cbDishType.getItems().addAll(DishType.values());
 
         // Update button cursor
-        updateFoodImage.setOnMouseEntered(event -> updateFoodPane.getScene().setCursor(Cursor.HAND));
-        updateFoodImage.setOnMouseExited(event -> updateFoodPane.getScene().setCursor(Cursor.DEFAULT));
+        updateDishImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
+        updateDishImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
 
         // Update button click
-        updateFoodImage.setOnMouseClicked(event -> saveFood());
+        updateDishImage.setOnMouseClicked(event -> saveDish());
 
         // go back button cursor
-        goBackImage.setOnMouseEntered(event -> updateFoodPane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> updateFoodPane.getScene().setCursor(Cursor.DEFAULT));
+        goBackImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
 
         //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
@@ -87,21 +87,20 @@ public class UpdateFoodController implements Initializable{
         listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //Data
-        tfFoodName.setText(food.getName());
-        cbFoodType.getSelectionModel().select(food.getType());
+        tfDishName.setText(dish.getName());
+        cbDishType.getSelectionModel().select(dish.getType());
 
-        tfProviderName.setText(food.getProvider().getName());
-        tfProviderVat.setText(food.getProvider().getVat());
+        tfProviderName.setText(dish.getProvider().getName());
+        tfProviderVat.setText(dish.getProvider().getVat());
 
-        listIngredients.getItems().setAll(food.getComposition());
+        listIngredients.getItems().setAll(dish.getIngredients());
         listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void addIngredient() {
         if(!tfAddIngredient.getText().isEmpty()){
             String ingredientName = tfAddIngredient.getText().trim().toLowerCase();
-            Ingredient ingredient = new Ingredient();
-            ingredient.setName(ingredientName);
+            Ingredient ingredient = new Ingredient(ingredientName);
             listIngredients.getItems().add(ingredient);
             tfAddIngredient.setText("");
             labelError.setText("");
@@ -122,24 +121,22 @@ public class UpdateFoodController implements Initializable{
         }
         else{
             labelError.setText("Non ci sono ingredienti selezionati");
-        }*/
+        }
 
     }
 
     /**
-     * Save food in the database
+     * Save dish in the database
      */
-    private void saveFood() {/*
+    private void saveDish() {
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         // Data
-        String foodName = tfFoodName.getText().trim();
-        FoodType foodType = cbFoodType.getSelectionModel().getSelectedItem();
+        DishType dishType = cbDishType.getSelectionModel().getSelectedItem();
 
-        food.setName(foodName);
-        food.setType(foodType);
+        dish.setType(dishType);
 
         //Provider
         List<Provider> allProviders = connectionManager.getClient().getProviders();
@@ -152,7 +149,7 @@ public class UpdateFoodController implements Initializable{
             }
         }
         if(provider == null){ provider = new Provider(providerVat, providerName); }
-        food.setProvider(provider);
+        dish.setProvider(provider);
 
         boolean ingredientExists = false;
         List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
@@ -172,20 +169,20 @@ public class UpdateFoodController implements Initializable{
             ingredientExists = false;
         }
 
-        food.setComposition(ingredients);
+        dish.setComposition(ingredients);
 
-        // Save food
-        connectionManager.getClient().update(food);
+        // Save dish
+        connectionManager.getClient().update(dish);
     }
 
     public void goBack() {
         try {
-            Pane foodPane = FXMLLoader.load(getClass().getResource("/views/food.fxml"));
-            BorderPane homePane = (BorderPane) updateFoodPane.getParent();
-            homePane.setCenter(foodPane);
+            Pane dishPane = FXMLLoader.load(getClass().getResource("/views/dish.fxml"));
+            BorderPane homePane = (BorderPane) updateDishPane.getParent();
+            homePane.setCenter(dishPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
-        }*/
+        }
     }
 
 }

@@ -24,12 +24,15 @@ public class Trip extends BaseModel {
     private TripPK id;
 
     @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Stop> stops = new ArrayList<>();
 
     @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Pullman> transports = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_trips_enrollments",
             joinColumns = {
@@ -41,6 +44,7 @@ public class Trip extends BaseModel {
     private Collection<Child> children = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "staff_trips_enrollments",
             joinColumns = {

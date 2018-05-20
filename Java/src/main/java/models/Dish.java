@@ -21,7 +21,7 @@ public class Dish extends BaseModel {
     private String name;
 
     @Column(name = "type", nullable = false)
-    private FoodType type;
+    private DishType type;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "provider_vat", nullable = false)
@@ -53,7 +53,7 @@ public class Dish extends BaseModel {
      * @param   name    name
      * @param   type    type
      */
-    public Dish(String name, FoodType type) {
+    public Dish(String name, DishType type) {
         this.name = name;
         this.type = type;
     }
@@ -111,12 +111,12 @@ public class Dish extends BaseModel {
     }
 
 
-    public FoodType getType() {
+    public DishType getType() {
         return type;
     }
 
 
-    public void setType(FoodType type) {
+    public void setType(DishType type) {
         this.type = type;
     }
 

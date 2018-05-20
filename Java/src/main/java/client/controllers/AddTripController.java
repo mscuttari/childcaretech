@@ -178,12 +178,7 @@ public class AddTripController implements Initializable {
         }
 
         lvStops.getItems().add(stop);
-        lvStops.getItems().setAll(lvStops.getItems().sorted(new Comparator<Stop>() {
-            @Override
-            public int compare(Stop o1, Stop o2) {
-                return o1.getNumber().compareTo(o2.getNumber());
-            }
-        }));
+        lvStops.getItems().setAll(lvStops.getItems().sorted((o1, o2) -> o1.getNumber().compareTo(o2.getNumber())));
 
         tfStopName.setText("");
         tfStopProvince.setText("");

@@ -134,12 +134,12 @@ public class SocketClient extends BaseClient implements ClientInterface {
 
 
     /** {@inheritDoc} */
-    /*@Override
-    public List<Food> getFood() {
-        Object result = sendData("get_food", this);
+    @Override
+    public List<Dish> getDishes() {
+        Object result = sendData("get_dishes", this);
         //noinspection unchecked
-        return result instanceof List ? (List<Food>)result : null;
-    }*/
+        return result instanceof List ? (List<Dish>)result : null;
+    }
 
 
 

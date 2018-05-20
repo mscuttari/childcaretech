@@ -96,9 +96,9 @@ public class SocketClientHandler implements Runnable {
                 getContacts(in, out);
                 break;
 
-           //case "get_food":
-             //   getFood(in, out);
-             //   break;
+           case "get_dishes":
+                getDishes(in, out);
+                break;
 
             case "get_ingredients":
                 getIngredients(in, out);
@@ -328,14 +328,14 @@ public class SocketClientHandler implements Runnable {
 
 
     /**
-     * Get food
+     * Get dishes
      *
      * @param   in      object input stream
      * @param   out     object output stream
      */
-   // private void getFood(ObjectInputStream in, ObjectOutputStream out) {
-    //    getAll(in, out, Food.class);
-    //}
+    private void getDishes(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Dish.class);
+    }
 
 
     /**

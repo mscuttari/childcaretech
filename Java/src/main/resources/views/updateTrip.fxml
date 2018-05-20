@@ -32,12 +32,12 @@
                                         <VBox alignment="CENTER" spacing="15.0">
                                             <children>
 
-                                                <TextField fx:id="tfTripName" layoutX="10.0" layoutY="276.0" promptText="Nome gita">
+                                                <TextField fx:id="tfTripName" disable="true" layoutX="10.0" layoutY="276.0" promptText="Nome gita">
                                                     <font>
                                                         <Font size="18.0" />
                                                     </font>
                                                 </TextField>
-                                                <DatePicker fx:id="dpTripDate" prefHeight="37.0" prefWidth="234.0" promptText="Data" style="-fx-font-size: 18;" />
+                                                <DatePicker fx:id="dpTripDate" disable="true" prefHeight="37.0" prefWidth="234.0" promptText="Data" style="-fx-font-size: 18;" />
                                             </children>
                                         </VBox>
                                     </children>
@@ -96,6 +96,11 @@
                                                         <Font size="18.0" />
                                                     </font>
                                                 </TextField>
+                                    <TextField fx:id="tfStopNumber" promptText="#">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
                                             </children>
                                         </VBox>
                                         <Pane HBox.hgrow="ALWAYS" />

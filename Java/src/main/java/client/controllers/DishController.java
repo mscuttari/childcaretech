@@ -15,49 +15,49 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class FoodController implements Initializable{
+public class DishController implements Initializable{
 
     // Debug
-    private static final String TAG = "FoodController";
+    private static final String TAG = "DishController";
 
-    @FXML private Pane foodPane;
-    @FXML private Button buttonAddFood;
-    @FXML private Button buttonShowFood;
+    @FXML private Pane dishPane;
+    @FXML private Button buttonAddDish;
+    @FXML private Button buttonShowDish;
     @FXML private ImageView goBackImage;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Add food button
-        buttonAddFood.setOnAction(event -> addFood());
+        // Add dish button
+        buttonAddDish.setOnAction(event -> addDish());
 
-        //Update food button
-        buttonShowFood.setOnAction(event -> showFood());
+        //Update dish button
+        buttonShowDish.setOnAction(event -> showDish());
 
         // go back button cursor
-        goBackImage.setOnMouseEntered(event -> foodPane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> foodPane.getScene().setCursor(Cursor.DEFAULT));
+        goBackImage.setOnMouseEntered(event -> dishPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> dishPane.getScene().setCursor(Cursor.DEFAULT));
 
         //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
     }
 
-    public void addFood() {
+    public void addDish() {
         try {
-            Pane addFoodPane = FXMLLoader.load(getClass().getResource("/views/addFood.fxml"));
-            BorderPane homePane = (BorderPane) foodPane.getParent();
-            homePane.setCenter(addFoodPane);
+            Pane addDishPane = FXMLLoader.load(getClass().getResource("/views/addDish.fxml"));
+            BorderPane homePane = (BorderPane) dishPane.getParent();
+            homePane.setCenter(addDishPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
     }
 
-    public void showFood() {
+    public void showDish() {
         try {
-            Pane showFoodPane = FXMLLoader.load(getClass().getResource("/views/showFood.fxml"));
-            BorderPane homePane = (BorderPane) foodPane.getParent();
-            homePane.setCenter(showFoodPane);
+            Pane showDishPane = FXMLLoader.load(getClass().getResource("/views/showDish.fxml"));
+            BorderPane homePane = (BorderPane) dishPane.getParent();
+            homePane.setCenter(showDishPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
@@ -66,7 +66,7 @@ public class FoodController implements Initializable{
     public void goBack() {
         try {
             Pane canteenPane = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
-            BorderPane homePane = (BorderPane) foodPane.getParent();
+            BorderPane homePane = (BorderPane) dishPane.getParent();
             homePane.setCenter(canteenPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());

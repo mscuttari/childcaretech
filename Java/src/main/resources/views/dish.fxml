@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="foodPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.FoodController">
+<AnchorPane fx:id="dishPane" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.DishController">
     <children>
         <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -29,7 +29,7 @@
                         </ImageView>
                         <VBox alignment="CENTER" spacing="15.0">
                             <children>
-                                <Button fx:id="buttonAddFood" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                                <Button fx:id="buttonAddDish" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
@@ -58,7 +58,7 @@
                                         </HBox>
                                     </graphic>
                                 </Button>
-                                <Button fx:id="buttonShowFood" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
+                                <Button fx:id="buttonShowDish" layoutX="10.0" layoutY="325.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0">
                                     <font>
                                         <Font size="24.0" />
                                     </font>

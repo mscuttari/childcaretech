@@ -91,11 +91,11 @@ public interface ClientInterface {
 
 
     /**
-     * Get food
+     * Get dish
      *
-     * @return  list of food (null in case of error)
+     * @return  list of dishes (null in case of error)
      */
-    //List<Food> getFood();
+    List<Dish> getDishes();
 
 
     /**

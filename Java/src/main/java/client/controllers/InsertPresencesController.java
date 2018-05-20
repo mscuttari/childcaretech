@@ -105,9 +105,9 @@ public class InsertPresencesController implements Initializable {
 
         tablePullman.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                //List<Child> children = (List<Child>) tableTrips.getSelectionModel().getSelectedItem().getChildrenEnrollments();
-                //ObservableList<GuiChild> childrenData = TableUtils.getGuiModelsList(children);
-                //tableChildren.setItems(childrenData);
+                List<Child> children = (List<Child>) tableTrips.getSelectionModel().getSelectedItem().getChildren();
+                ObservableList<GuiChild> childrenData = TableUtils.getGuiModelsList(children);
+                tableChildren.setItems(childrenData);
                 tableChildren.setEditable(true);
             }
         });
@@ -129,12 +129,12 @@ public class InsertPresencesController implements Initializable {
             return;
         }
 
-       // List<Child> assignedChildren = (List<Child>) tablePullman.getSelectionModel().getSelectedItem().getChildrenAssignments();
+        List<Child> assignedChildren = (List<Child>) tablePullman.getSelectionModel().getSelectedItem().getChildren();
 
         List<Child> wrongPullmanChildren = new ArrayList<>();
         List<Child> presentChildren = new ArrayList<>();
 
-        /*for(Child current : TableUtils.getSelectedItems(tableChildren)){
+        for(Child current : TableUtils.getSelectedItems(tableChildren)){
             if(assignedChildren.contains(current)){
                 presentChildren.add(current);
             }
@@ -147,12 +147,12 @@ public class InsertPresencesController implements Initializable {
         notPresentChildren.removeAll(presentChildren);
 
         if(wrongPullmanChildren.isEmpty() && notPresentChildren.isEmpty() ){
-            showErrorDialog("Tutti i bambini sono presenti e non cè nessun bambino di un altro pullman");
+            showErrorDialog("Tutti i bambini sono presenti e non c'è nessun bambino di un altro pullman");
         }
         else {
            showPresencesErrorDialog(notPresentChildren, wrongPullmanChildren);
            return;
-        }*/
+        }
     }
 
     /**

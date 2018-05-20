@@ -1,6 +1,6 @@
 package main.java.models;
 
-public enum FoodType {
+public enum DishType {
 
     PRIMO("Primo"),
     SECONDO("Secondo"),
@@ -9,7 +9,7 @@ public enum FoodType {
 
     private String name;
 
-    FoodType(String name) {
+    DishType(String name) {
         this.name = name;
     }
 

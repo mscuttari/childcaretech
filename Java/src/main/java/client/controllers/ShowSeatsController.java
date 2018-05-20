@@ -80,14 +80,14 @@ public class ShowSeatsController implements Initializable{
                 tablePullman.setItems(pullmanData);
             }
         });
-/*
+
         tablePullman.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                List<Child> children = (List<Child>) tablePullman.getSelectionModel().getSelectedItem().getChildrenAssignments();
+                List<Child> children = (List<Child>) tablePullman.getSelectionModel().getSelectedItem().getChildren();
                 ObservableList<Child> childrenData = FXCollections.observableArrayList(children);
                 tableChildren.setItems(childrenData);
             }
-        });*/
+        });
     }
 
     public void goBack() {
