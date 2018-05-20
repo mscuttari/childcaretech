@@ -51,53 +51,50 @@ public class UpdateDishController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-try {
-    // Dish type
-    cbDishType.getItems().addAll(DishType.values());
 
-    // Update button cursor
-    updateDishImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
-    updateDishImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
+        // Dish type
+        cbDishType.getItems().addAll(DishType.values());
 
-    // Update button click
-    updateDishImage.setOnMouseClicked(event -> saveDish());
+        // Update button cursor
+        updateDishImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
+        updateDishImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
 
-    // go back button cursor
-    goBackImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
-    goBackImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
+        // Update button click
+        updateDishImage.setOnMouseClicked(event -> saveDish());
 
-    //go back image
-    goBackImage.setOnMouseClicked(event -> goBack());
+        // go back button cursor
+        goBackImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
 
-    // Add Ingredient on enter key press
-    EventHandler<KeyEvent> keyPressEvent = event -> {
-        if (event.getCode() == KeyCode.ENTER)
-            addIngredient();
-    };
+        //go back image
+        goBackImage.setOnMouseClicked(event -> goBack());
 
-    tfAddIngredient.setOnKeyPressed(keyPressEvent);
+        // Add Ingredient on enter key press
+        EventHandler<KeyEvent> keyPressEvent = event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                addIngredient();
+        };
 
-    // Add ingredient button
-    buttonAddIngredient.setOnAction(event -> addIngredient());
+        tfAddIngredient.setOnKeyPressed(keyPressEvent);
 
-    // Remove ingredient button
-    buttonRemoveSelected.setOnAction(event -> removeSelectedIngredients());
+        // Add ingredient button
+        buttonAddIngredient.setOnAction(event -> addIngredient());
 
-    // Set multiple selection model
-    listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        // Remove ingredient button
+        buttonRemoveSelected.setOnAction(event -> removeSelectedIngredients());
 
-    //Data
-    tfDishName.setText(dish.getName());
-    cbDishType.getSelectionModel().select(dish.getType());
+        // Set multiple selection model
+        listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-    tfProviderName.setText(dish.getProvider().getName());
-    tfProviderVat.setText(dish.getProvider().getVat());
+        //Data
+        tfDishName.setText(dish.getName());
+        cbDishType.getSelectionModel().select(dish.getType());
 
-    listIngredients.getItems().setAll(dish.getIngredients());
-    listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-}catch (Exception e){
-    e.printStackTrace();
-}
+        tfProviderName.setText(dish.getProvider().getName());
+        tfProviderVat.setText(dish.getProvider().getVat());
+
+        listIngredients.getItems().setAll(dish.getIngredients());
+        listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void addIngredient() {
