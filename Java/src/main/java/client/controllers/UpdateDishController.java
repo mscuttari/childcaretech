@@ -51,50 +51,53 @@ public class UpdateDishController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+try {
+    // Dish type
+    cbDishType.getItems().addAll(DishType.values());
 
-        // Dish type
-        cbDishType.getItems().addAll(DishType.values());
+    // Update button cursor
+    updateDishImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
+    updateDishImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
 
-        // Update button cursor
-        updateDishImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
-        updateDishImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
+    // Update button click
+    updateDishImage.setOnMouseClicked(event -> saveDish());
 
-        // Update button click
-        updateDishImage.setOnMouseClicked(event -> saveDish());
+    // go back button cursor
+    goBackImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
+    goBackImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
 
-        // go back button cursor
-        goBackImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
+    //go back image
+    goBackImage.setOnMouseClicked(event -> goBack());
 
-        //go back image
-        goBackImage.setOnMouseClicked(event -> goBack());
+    // Add Ingredient on enter key press
+    EventHandler<KeyEvent> keyPressEvent = event -> {
+        if (event.getCode() == KeyCode.ENTER)
+            addIngredient();
+    };
 
-        // Add Ingredient on enter key press
-        EventHandler<KeyEvent> keyPressEvent = event -> {
-            if (event.getCode() == KeyCode.ENTER)
-                addIngredient();
-        };
+    tfAddIngredient.setOnKeyPressed(keyPressEvent);
 
-        tfAddIngredient.setOnKeyPressed(keyPressEvent);
+    // Add ingredient button
+    buttonAddIngredient.setOnAction(event -> addIngredient());
 
-        // Add ingredient button
-        buttonAddIngredient.setOnAction(event -> addIngredient());
+    // Remove ingredient button
+    buttonRemoveSelected.setOnAction(event -> removeSelectedIngredients());
 
-        // Remove ingredient button
-        buttonRemoveSelected.setOnAction(event -> removeSelectedIngredients());
+    // Set multiple selection model
+    listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        // Set multiple selection model
-        listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    //Data
+    tfDishName.setText(dish.getName());
+    cbDishType.getSelectionModel().select(dish.getType());
 
-        //Data
-        tfDishName.setText(dish.getName());
-        cbDishType.getSelectionModel().select(dish.getType());
+    tfProviderName.setText(dish.getProvider().getName());
+    tfProviderVat.setText(dish.getProvider().getVat());
 
-        tfProviderName.setText(dish.getProvider().getName());
-        tfProviderVat.setText(dish.getProvider().getVat());
-
-        listIngredients.getItems().setAll(dish.getIngredients());
-        listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    listIngredients.getItems().setAll(dish.getIngredients());
+    listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+}catch (Exception e){
+    e.printStackTrace();
+}
     }
 
     public void addIngredient() {
@@ -105,12 +108,10 @@ public class UpdateDishController implements Initializable{
             tfAddIngredient.setText("");
             labelError.setText("");
         }
-
     }
 
 
     public void removeSelectedIngredients() {
-
         if(!listIngredients.getSelectionModel().isEmpty()) {
             listIngredients.getItems().removeAll(listIngredients.getSelectionModel().getSelectedItems());
             listIngredients.getSelectionModel().clearSelection();
@@ -122,7 +123,6 @@ public class UpdateDishController implements Initializable{
         else{
             labelError.setText("Non ci sono ingredienti selezionati");
         }
-
     }
 
     /**
@@ -139,37 +139,14 @@ public class UpdateDishController implements Initializable{
         dish.setType(dishType);
 
         //Provider
-        List<Provider> allProviders = connectionManager.getClient().getProviders();
-        Provider provider = null;
         String providerName = tfProviderName.getText().trim();
         String providerVat = tfProviderVat.getText().trim();
-        for(Provider current : allProviders){
-            if(current.getVat().equals(providerVat)){
-                provider = current;
-            }
-        }
-        if(provider == null){ provider = new Provider(providerVat, providerName); }
+        Provider provider = new Provider(providerVat, providerName);
         dish.setProvider(provider);
 
-        boolean ingredientExists = false;
-        List<Ingredient> allIngredients = connectionManager.getClient().getIngredients();
-        List<Ingredient> ingredients = new ArrayList<>();
-        for (Ingredient listViewItem : listIngredients.getItems()) {
-            for(Ingredient databaseListItem : allIngredients){
-                if(Objects.equals(listViewItem.getName(), databaseListItem.getName())) {
-                    ingredients.add(databaseListItem);
-                    ingredientExists = true;
-                    break;
-                }
-            }
 
-            if (!ingredientExists) {
-                ingredients.add(listViewItem);
-            }
-            ingredientExists = false;
-        }
-
-        dish.setComposition(ingredients);
+        dish.getIngredients().clear();
+        dish.addIngredients(listIngredients.getItems());
 
         // Save dish
         connectionManager.getClient().update(dish);

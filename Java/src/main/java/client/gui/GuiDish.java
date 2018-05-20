@@ -5,12 +5,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import main.java.models.Dish;
-import main.java.models.FoodType;
+import main.java.models.DishType;
 
 public class GuiDish extends GuiBaseModel<Dish> {
 
     private StringProperty name;
-    private ObjectProperty<FoodType> type;
+    private ObjectProperty<DishType> type;
 
     public GuiDish(Dish model) {
         super(model);
@@ -23,7 +23,7 @@ public class GuiDish extends GuiBaseModel<Dish> {
         return name;
     }
 
-    public ObjectProperty<FoodType> typeProperty() {
+    public ObjectProperty<DishType> typeProperty() {
         return type;
     }
 

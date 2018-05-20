@@ -17,9 +17,6 @@ import main.java.models.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AddDishController implements Initializable{
@@ -91,12 +88,10 @@ public class AddDishController implements Initializable{
             tfAddIngredient.setText("");
             labelError.setText("");
         }
-
     }
 
 
     public void removeSelectedIngredients() {
-
         if(!listIngredients.getSelectionModel().isEmpty()) {
             listIngredients.getItems().removeAll(listIngredients.getSelectionModel().getSelectedItems());
             listIngredients.getSelectionModel().clearSelection();
@@ -108,7 +103,6 @@ public class AddDishController implements Initializable{
         else{
             labelError.setText("Non ci sono ingredienti selezionati");
         }
-
     }
 
     /**
