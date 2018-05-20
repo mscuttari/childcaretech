@@ -2,6 +2,8 @@ package main.java.models;
 
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiRegularMenu;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class AlternativeMenu extends Menu {
     private RegularMenu regularMenu;
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "alternative_menus_people",
             joinColumns = { @JoinColumn(name = "alternative_menu_name", referencedColumnName = "name") },

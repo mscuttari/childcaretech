@@ -57,24 +57,24 @@ public class ShowAlternativeMenuController implements Initializable{
         ObservableList<AlternativeMenu> alternativeMenusData = FXCollections.observableArrayList(alternativeMenus);
 
         columnAlternativeMenuName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        columnAlternativeMenuEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<AlternativeMenu, Object>() {
+        columnAlternativeMenuEdit.setCellFactory(param -> new MyButtonTableCell<>("Mostra dettagli", new Callback<AlternativeMenu, Object>() {
 
             @Override
             public Object call(AlternativeMenu param) {
-              /*  try {
+              try {
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updateAlternativeMenu.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showDetailsAlternativeMenu.fxml"));
 
-                    UpdateRegularMenuController updateMenuController = new UpdateRegularMenuController(param);
-                    loader.setController(updateMenuController);
+                    ShowDetailsAlternativeMenuController showDetailsAlternativeMenuController = new ShowDetailsAlternativeMenuController(param);
+                    loader.setController(showDetailsAlternativeMenuController);
 
                     Pane updateMenuPane = loader.load();
-                    BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
+                    BorderPane homePane = (BorderPane) showAlternativeMenuPane.getParent();
                     homePane.setCenter(updateMenuPane);
 
                 } catch (IOException e) {
                     LogUtils.e(TAG, e.getMessage());
-                }*/
+                }
 
                 return null;
             }
