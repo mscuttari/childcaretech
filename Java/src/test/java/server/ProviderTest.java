@@ -86,8 +86,9 @@ class ProviderTest extends BaseModelTest<Provider> {
      */
     @Test
     void nameValidity() {
-        // Valid data
         Provider provider = new Provider();
+
+        // Valid data
         assignValidData(provider);
         assertDoesNotThrow(provider::checkDataValidity);
 

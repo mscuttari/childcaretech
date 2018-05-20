@@ -92,9 +92,7 @@ public class Provider extends BaseModel {
 
 
     public void setVat(String vat) {
-        if (this.vat == null) {
-            this.vat = vat == null || vat.isEmpty() ? null : vat;
-        }
+        this.vat = vat == null || vat.isEmpty() ? null : vat;
     }
 
 

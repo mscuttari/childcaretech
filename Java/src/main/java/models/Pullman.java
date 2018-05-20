@@ -108,9 +108,7 @@ public class Pullman extends BaseModel {
 
 
     public void setTrip(Trip trip) {
-        if (this.id.getTrip() == null) {
-            this.id.setTrip(trip);
-        }
+        this.id.setTrip(trip);
     }
 
 
@@ -120,9 +118,7 @@ public class Pullman extends BaseModel {
 
 
     public void setNumberplate(String numberplate) {
-        if (this.id.getNumberplate() == null) {
-            this.id.setNumberplate(numberplate);
-        }
+        this.id.setNumberplate(numberplate);
     }
 
 

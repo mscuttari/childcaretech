@@ -1,11 +1,13 @@
 package test.java.server;
 
 import main.java.models.Child;
+import main.java.models.Contact;
 import main.java.models.Parent;
 import main.java.models.Pediatrist;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,15 +25,27 @@ class ChildTest extends PersonTest<Child> {
         super.assertModelsEquals(x, y);
 
         // Check parents
-        assertEquals(x.getParents().size(), y.getParents().size());
-        for (Parent parent : x.getParents()) {
-            assertTrue(y.getParents().contains(parent));
+        Collection<Parent> xParents = x.getParents();
+        Collection<Parent> yParents = y.getParents();
+
+        assertEquals(xParents.size(), yParents.size());
+
+        for (Parent parent : xParents) {
+            assertTrue(yParents.contains(parent));
         }
 
         // Check pediatrist
-        Pediatrist xP = x.getPediatrist();
-        Pediatrist yP = y.getPediatrist();
         assertTrue(x.getPediatrist().equals(y.getPediatrist()));
+
+        // Check contacts
+        Collection<Contact> xContacts = x.getContacts();
+        Collection<Contact> yContacts = y.getContacts();
+
+        assertEquals(xContacts.size(), yContacts.size());
+
+        for (Contact contact : xContacts) {
+            assertTrue(yContacts.contains(contact));
+        }
     }
 
 
@@ -41,11 +55,16 @@ class ChildTest extends PersonTest<Child> {
         super.assignValidData(obj);
 
         // Create two parents
-        obj.addParent(new Parent("BBBBBBBBBBBBBBBB", "BBB", "CCC", new Date(), "Test, A/1", "1111111111"));
-        obj.addParent(new Parent("CCCCCCCCCCCCCCCC", "DDD", "EEE", new Date(), "Test, A/2", "2222222222"));
+        obj.addParent(new Parent("BBBBBBBBBBBBBBBB", "BBB", "BBB", new Date(), "Test, B/1", "1111111111"));
+        obj.addParent(new Parent("CCCCCCCCCCCCCCCC", "CCC", "CCC", new Date(), "Test, C/1", "2222222222"));
 
         // Create pediatrist
-        obj.setPediatrist(new Pediatrist("DDDDDDDDDDDDDDDD", "FFF", "GGG", new Date(), "Test, A/3", "3333333333"));
+        obj.setPediatrist(new Pediatrist("DDDDDDDDDDDDDDDD", "DDD", "DDD", new Date(), "Test, D/1", "3333333333"));
+
+        // Create some contacts
+        obj.addContact(new Contact("EEEEEEEEEEEEEEEE", "EEE", "EEE", new Date(), "Test, E/1", "4444444444"));
+        obj.addContact(new Contact("FFFFFFFFFFFFFFFF", "FFF", "FFF", new Date(), "Test, F/1", "5555555555"));
+        obj.addContact(new Contact("GGGGGGGGGGGGGGGG", "GGG", "GGG", new Date(), "Test, G/1", "6666666666"));
     }
 
 
@@ -65,11 +84,11 @@ class ChildTest extends PersonTest<Child> {
         assertModelsEquals(child, createdChild);
 
         // Update
-        createdChild.setFirstName("HHH");
-        createdChild.setLastName("III");
+        createdChild.setFirstName("ZZZ");
+        createdChild.setLastName("ZZZ");
         createdChild.setBirthdate(new Date());
-        createdChild.setAddress("Test, A/4");
-        createdChild.setTelephone("4444444444");
+        createdChild.setAddress("Test, Z/1");
+        createdChild.setTelephone("9999999999");
 
         HibernateUtils.getInstance().update(child);
 
@@ -94,6 +113,12 @@ class ChildTest extends PersonTest<Child> {
         // Delete pediatrist
         HibernateUtils.getInstance().delete(child.getPediatrist());
         assertNull(getPersonByFiscalCode(child.getPediatrist().getFiscalCode()));
+
+        // Delete contacts
+        for (Contact contact : child.getContacts()) {
+            HibernateUtils.getInstance().delete(contact);
+            assertNull(getPersonByFiscalCode(contact.getFiscalCode()));
+        }
     }
 
 

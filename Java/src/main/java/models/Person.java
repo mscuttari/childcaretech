@@ -146,9 +146,7 @@ public abstract class Person extends BaseModel {
 
 
     public void setFiscalCode(String fiscalCode) {
-        if (this.fiscalCode == null) {
-            this.fiscalCode = fiscalCode == null || fiscalCode.isEmpty() ? null : fiscalCode;
-        }
+        this.fiscalCode = fiscalCode == null || fiscalCode.isEmpty() ? null : fiscalCode;
     }
 
 
