@@ -1,7 +1,6 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Tab;
@@ -16,7 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
@@ -25,31 +23,27 @@ import main.java.client.gui.GuiPediatrist;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.*;
 
-public class UpdatePersonController implements Initializable {
-
-    // Debug
-    private static final String TAG = "UpdatePersonController";
+public class UpdatePersonController extends AbstractController implements Initializable {
 
     private Person person;
 
-    @FXML private Pane updatePersonPane;
+    @FXML private Pane paneRoot;
     @FXML private ImageView imagePersonType;
     @FXML private ImageView updatePersonImage;
     @FXML private ImageView goBackImage;
 
     @FXML private TabPane tabPane;
 
-    @FXML TextField tfFiscalCode;
-    @FXML TextField tfFirstName;
-    @FXML TextField tfLastName;
-    @FXML DatePicker dpBirthdate;
-    @FXML TextField tfAddress;
-    @FXML TextField tfTelephone;
+    @FXML private TextField tfFiscalCode;
+    @FXML private TextField tfFirstName;
+    @FXML private TextField tfLastName;
+    @FXML private DatePicker dpBirthDate;
+    @FXML private TextField tfAddress;
+    @FXML private TextField tfTelephone;
 
     @FXML private Tab tabParents;
     @FXML private TableView<GuiParent> tableParents;
@@ -77,14 +71,12 @@ public class UpdatePersonController implements Initializable {
     @FXML private ListView<Ingredient> lvAllergies;
     @FXML private Button buttonAddAllergy;
     @FXML private Button buttonRemoveSelectedAllergies;
-    @FXML private Label labelErrorAllergies;
 
-    @FXML private Tab tabIntollerances;
-    @FXML private TextField txAddIntollerances;
-    @FXML private ListView<Ingredient> lvIntollerances;
-    @FXML private Button buttonAddIntollerances;
-    @FXML private Button buttonRemoveSelectedIntollerances;
-    @FXML private Label labelErrorIntollerances;
+    @FXML private Tab tabIntolerances;
+    @FXML private TextField txAddIntolerances;
+    @FXML private ListView<Ingredient> lvIntolerances;
+    @FXML private Button buttonAddIntolerances;
+    @FXML private Button buttonRemoveSelectedIntolerances;
 
     @FXML private Tab tabLoginData;
     @FXML private TextField tfUsername;
@@ -94,41 +86,26 @@ public class UpdatePersonController implements Initializable {
     @FXML private PasswordField tfPasswordConfirmation;
     @FXML private Label labelPassword;
 
-    public UpdatePersonController(Person person){
-        this.person = person;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // update button cursor
+        // Update button
         updatePersonImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         updatePersonImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
-
-        // update person image
         updatePersonImage.setOnMouseClicked(event -> updatePerson());
 
-        // go back button cursor
+
+        // Go back button
         goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
+
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        //Type tab
-        tfFiscalCode.setText(person.getFiscalCode());
-        tfFirstName.setText(person.getFirstName());
-        tfLastName.setText(person.getLastName());
-        tfAddress.setText(person.getAddress());
-        tfTelephone.setText(person.getTelephone());
-        if (person.getBirthdate() != null) {
-            dpBirthdate.setValue(new java.sql.Date(person.getBirthdate().getTime()).toLocalDate());
-        }
 
-        // Parents tab
+        // Parents
         List<Parent> parents = connectionManager.getClient().getParents();
         ObservableList<GuiParent> parentsData = TableUtils.getGuiModelsList(parents);
 
@@ -141,7 +118,8 @@ public class UpdatePersonController implements Initializable {
         tableParents.setEditable(true);
         tableParents.setItems(parentsData);
 
-        // Pediatrist tab
+
+        // Pediatrists
         List<Pediatrist> pediatrists = connectionManager.getClient().getPediatrists();
         ObservableList<GuiPediatrist> pediatristData = TableUtils.getGuiModelsList(pediatrists);
 
@@ -156,7 +134,7 @@ public class UpdatePersonController implements Initializable {
         tablePediatrist.setItems(pediatristData);
 
 
-        // Contacts tab
+        // Contacts
         List<Contact> contacts = connectionManager.getClient().getContacts();
         ObservableList<GuiContact> contactsData = TableUtils.getGuiModelsList(contacts);
 
@@ -169,11 +147,12 @@ public class UpdatePersonController implements Initializable {
         tableContacts.setEditable(true);
         tableContacts.setItems(contactsData);
 
-        // Allergies tab
-        lvAllergies.getItems().setAll(person.getAllergies());
+
+        // Allergies
         lvAllergies.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         buttonRemoveSelectedAllergies.setOnAction(event -> removeSelectedAllergies());
         buttonAddAllergy.setOnAction(event -> addAllergies());
+
 
         // Add allergy on enter key press
         txAddAllergy.setOnKeyPressed(event -> {
@@ -182,140 +161,105 @@ public class UpdatePersonController implements Initializable {
         });
 
 
-        // Intollerances tab
-        lvIntollerances.getItems().setAll(person.getIntolerances());
-        lvIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        buttonAddIntollerances.setOnAction(event -> addIntollerances());
-        buttonRemoveSelectedIntollerances.setOnAction(event -> removeSelectedIntollerances());
+        // Intolerances
+        lvIntolerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        buttonAddIntolerances.setOnAction(event -> addIntolerances());
+        buttonRemoveSelectedIntolerances.setOnAction(event -> removeSelectedIntolerances());
 
-        // Add intollerance on enter key press
-        txAddIntollerances.setOnKeyPressed(event -> {
+
+        // Add intolerance on enter key press
+        txAddIntolerances.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER)
-                addIntollerances();
+                addIntolerances();
         });
 
 
         // LoginData tab
 
         //Username confirmation
-        tfUsername.textProperty().addListener((obs, oldText, newText) -> {
-            usernameConfirmation();
-        });
-        tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> {
-            usernameConfirmation();
-        });
+        tfUsername.textProperty().addListener((obs, oldText, newText) -> usernameConfirmation());
+        tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> usernameConfirmation());
 
         //Password confirmation
-        tfPassword.textProperty().addListener((obs, oldText, newText) -> {
-            passwordConfirmation();
-        });
-        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> {
-            passwordConfirmation();
-        });
+        tfPassword.textProperty().addListener((obs, oldText, newText) -> passwordConfirmation());
+        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> passwordConfirmation());
 
         tabPane.getTabs().remove(1, tabPane.getTabs().size());
-
-        switch (PersonType.getPersonType(person)) {
-            case "Bambino":
-                imagePersonType.setImage(new Image("/images/baby.png"));
-                tabPane.getTabs().addAll(tabParents, tabPediatrist, tabAllergies, tabIntollerances, tabContacts);
-
-                for (GuiParent item : tableParents.getItems()) {
-                    if (((Child) person).getParents().contains(item.getModel()))
-                        item.setSelected(true);
-                }
-
-                for (GuiPediatrist item : tablePediatrist.getItems()) {
-                    if (((Child) person).getPediatrist().equals(item.getModel()))
-                        item.setSelected(true);
-                }
-
-                for (GuiContact item : tableContacts.getItems()) {
-                    if (((Child) person).getContacts().contains(item.getModel()))
-                        item.setSelected(true);
-                }
-                break;
-
-            case "Contatto":
-                imagePersonType.setImage(new Image("/images/grandparents.png"));
-                break;
-
-            case "Genitore":
-                imagePersonType.setImage(new Image("/images/family.png"));
-                break;
-
-            case "Pediatra":
-                imagePersonType.setImage(new Image("/images/doctor.png"));
-                tabPane.getTabs().addAll(tabAllergies, tabIntollerances);
-                break;
-
-            case "Staff":
-                imagePersonType.setImage(new Image("/images/secretary.png"));
-                tfUsername.setText(((Staff) person).getUsername());
-                tfUsernameConfirmation.setText(((Staff) person).getUsername());
-                tfPassword.setText(((Staff) person).getPassword());
-                tfPasswordConfirmation.setText(((Staff) person).getPassword());
-                tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabLoginData);
-                break;
-        }
-
     }
 
-    public void addAllergies() {
-        if(!txAddAllergy.getText().isEmpty()){
-            String allergyName = txAddAllergy.getText().toLowerCase().trim();
-            Ingredient ingredient = new Ingredient(allergyName);
+
+    /**
+     * Set the person that is going to be modified
+     *
+     * @param   person      person
+     */
+    public void setPerson(Person person) {
+        this.person = person;
+        loadData();
+    }
+
+
+    /**
+     * Add the specified ingredient to the allergies list
+     */
+    private void addAllergies() {
+        if (!txAddAllergy.getText().isEmpty()){
+            // Add the ingredient to the listview
+            String ingredientName = txAddAllergy.getText().toLowerCase().trim();
+            Ingredient ingredient = new Ingredient(ingredientName);
             lvAllergies.getItems().add(ingredient);
+
+            // Reset the input field
             txAddAllergy.setText("");
-            labelErrorAllergies.setText("");
         }
 
     }
 
 
-    public void removeSelectedAllergies() {
-
+    /**
+     * Remove the selected allergies from the list
+     */
+    private void removeSelectedAllergies() {
         if(!lvAllergies.getSelectionModel().isEmpty()) {
             lvAllergies.getItems().removeAll(lvAllergies.getSelectionModel().getSelectedItems());
             lvAllergies.getSelectionModel().clearSelection();
-            labelErrorAllergies.setText("");
-        }
-        else if(lvAllergies.getItems().isEmpty()){
-            labelErrorAllergies.setText("Non ci sono allergie nella lista");
-        }
-        else{
-            labelErrorAllergies.setText("Non ci sono allergie selezionate");
-        }
 
-    }
-
-    public void addIntollerances() {
-        if(!txAddIntollerances.getText().isEmpty()){
-            String intolleranceName = txAddIntollerances.getText().toLowerCase().trim();
-            Ingredient ingredient = new Ingredient(intolleranceName);
-            lvIntollerances.getItems().add(ingredient);
-            txAddIntollerances.setText("");
-            labelErrorIntollerances.setText("");
+        } else if(lvAllergies.getItems().isEmpty()){
+            showErrorDialog("Non ci sono allergie nella lista");
+        } else{
+            showErrorDialog("Non ci sono allergie selezionate");
         }
-
     }
 
 
-    public void removeSelectedIntollerances() {
-
-        if(!lvIntollerances.getSelectionModel().isEmpty()) {
-            lvIntollerances.getItems().removeAll(lvIntollerances.getSelectionModel().getSelectedItems());
-            lvIntollerances.getSelectionModel().clearSelection();
-            labelErrorIntollerances.setText("");
+    /**
+     * Add the specified ingredient to the intolerances list
+     */
+    private void addIntolerances() {
+        if (!txAddIntolerances.getText().isEmpty()){
+            String ingredientName = txAddIntolerances.getText().toLowerCase().trim();
+            Ingredient ingredient = new Ingredient(ingredientName);
+            lvIntolerances.getItems().add(ingredient);
+            txAddIntolerances.setText("");
         }
-        else if(lvIntollerances.getItems().isEmpty()){
-            labelErrorIntollerances.setText("Non ci sono intolleranze nella lista");
-        }
-        else{
-            labelErrorIntollerances.setText("Non ci sono intolleranze selezionate");
-        }
-
     }
+
+
+    /**
+     * Remove the selected intolerances from the list
+     */
+    private void removeSelectedIntolerances() {
+        if(!lvIntolerances.getSelectionModel().isEmpty()) {
+            lvIntolerances.getItems().removeAll(lvIntolerances.getSelectionModel().getSelectedItems());
+            lvIntolerances.getSelectionModel().clearSelection();
+
+        } else if(lvIntolerances.getItems().isEmpty()){
+            showErrorDialog("Non ci sono intolleranze nella lista");
+        } else{
+            showErrorDialog("Non ci sono intolleranze selezionate");
+        }
+    }
+
 
     public void usernameConfirmation(){
         if(tfUsername.getText().isEmpty()){
@@ -345,35 +289,124 @@ public class UpdatePersonController implements Initializable {
         }
     }
 
-    public void updatePerson() {
 
+    /**
+     * Load the person data into the corresponding fields
+     */
+    private void loadData() {
+        tfFiscalCode.setText(person.getFiscalCode());           // Fiscal code
+        tfFirstName.setText(person.getFirstName());             // First name
+        tfLastName.setText(person.getLastName());               // Last name
+        tfAddress.setText(person.getAddress());                 // Address
+        tfTelephone.setText(person.getTelephone());             // Telephone
+
+        // Birth date
+        dpBirthDate.setValue(new java.sql.Date(person.getBirthdate().getTime()).toLocalDate());
+
+        // Allergies
+        lvAllergies.getItems().setAll(person.getAllergies());
+
+        // Intolerances
+        lvIntolerances.getItems().setAll(person.getIntolerances());
+
+        // Differentiation based on person type
+        switch (PersonType.getPersonType(person)) {
+            case CHILD:
+                imagePersonType.setImage(new Image("/images/baby.png"));
+                tabPane.getTabs().addAll(tabParents, tabPediatrist, tabAllergies, tabIntolerances, tabContacts);
+
+                try {
+                    for (GuiParent item : tableParents.getItems()) {
+                        if (((Child) person).getParents().contains(item.getModel()))
+                            item.setSelected(true);
+                    }
+
+                    for (GuiPediatrist item : tablePediatrist.getItems()) {
+                        if (((Child) person).getPediatrist().equals(item.getModel()))
+                            item.setSelected(true);
+                    }
+
+                    for (GuiContact item : tableContacts.getItems()) {
+                        if (((Child) person).getContacts().contains(item.getModel()))
+                            item.setSelected(true);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
+            case CONTACT:
+                imagePersonType.setImage(new Image("/images/grandparents.png"));
+                break;
+
+            case PARENT:
+                imagePersonType.setImage(new Image("/images/family.png"));
+                break;
+
+            case PEDIATRIST:
+                imagePersonType.setImage(new Image("/images/doctor.png"));
+                tabPane.getTabs().addAll(tabAllergies, tabIntolerances);
+                break;
+
+            case STAFF:
+                imagePersonType.setImage(new Image("/images/secretary.png"));
+                tabPane.getTabs().addAll(tabAllergies, tabIntolerances, tabLoginData);
+
+                tfUsername.setText(((Staff) person).getUsername());
+                tfUsernameConfirmation.setText(((Staff) person).getUsername());
+                tfPassword.setText(((Staff) person).getPassword());
+                tfPasswordConfirmation.setText(((Staff) person).getPassword());
+                break;
+        }
+    }
+
+
+    /**
+     * Read the new data and send the update request to the server
+     */
+    private void updatePerson() {
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        switch (PersonType.getPersonType(person)) {
-            case "Bambino":
-                ((Child)person).getParents().clear();
-                ((Child)person).getParents().addAll(TableUtils.getSelectedItems(tableParents));
-                ((Child)person).getContacts().clear();
-                ((Child)person).getContacts().addAll(TableUtils.getSelectedItems(tableContacts));
-                ((Child)person).setPediatrist(TableUtils.getFirstSelectedItem(tablePediatrist));
-                break;
-            case "Staff":
-                ((Staff) person).setUsername(tfUsername.getText());
-                ((Staff) person).setPassword(tfPassword.getText());
-                break;
-        }
-
+        // Basic data
         person.setFirstName(tfFirstName.getText());
         person.setLastName(tfLastName.getText());
-        person.setBirthdate(Date.from(dpBirthdate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        person.setBirthdate(Date.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         person.setAddress(tfAddress.getText());
         person.setTelephone(tfTelephone.getText());
 
         person.getAllergies().clear();
         person.getIntolerances().clear();
         person.addAllergies(lvAllergies.getItems());
-        person.addIntollerances(lvIntollerances.getItems());
+        person.addIntolerances(lvIntolerances.getItems());
+
+        // Specific class data
+        switch (PersonType.getPersonType(person)) {
+            case CHILD:
+                ((Child)person).setParents(TableUtils.getSelectedItems(tableParents));      // Parents
+                ((Child)person).setContacts(TableUtils.getSelectedItems(tableContacts));    // Contacts
+
+                // Pediatrist
+                List<Pediatrist> selectedPediatrists = TableUtils.getSelectedItems(tablePediatrist);
+
+                if (selectedPediatrists.size() > 1) {
+                    showErrorDialog("E' possibile selezionare solo un pediatra");
+                    return;
+                }
+
+                if (selectedPediatrists.size() >= 1){
+                    ((Child)person).setPediatrist(selectedPediatrists.get(0));
+                }
+
+                break;
+
+            case STAFF:
+                ((Staff) person).setUsername(tfUsername.getText());
+                ((Staff) person).setPassword(tfPassword.getText());
+                break;
+        }
+
 
         // Check data
         try {
@@ -383,32 +416,25 @@ public class UpdatePersonController implements Initializable {
             return;
         }
 
+
         // Update person
-        connectionManager.getClient().update(person);
+        boolean updateResult = connectionManager.getClient().update(person);
+
+
+        // Go back to the people list
+        if (updateResult) {
+            goBack();
+        } else {
+            showErrorDialog("Salvataggio non riuscito");
+        }
     }
 
 
     /**
-     * Show error dialog
-     *
-     * @param   message     error message
+     * Go back to the main anagraphic page
      */
-    private static void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.showAndWait();
-    }
-
-
     public void goBack() {
-        try {
-            Pane showPersonPane = FXMLLoader.load(getClass().getResource("/views/showPerson.fxml"));
-            BorderPane homePane = (BorderPane) updatePersonPane.getParent();
-            homePane.setCenter(showPersonPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+        setCenterFXML((BorderPane)paneRoot.getParent(), "/views/showPerson.fxml");
     }
 
 }

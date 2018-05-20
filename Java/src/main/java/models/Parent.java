@@ -2,6 +2,8 @@ package main.java.models;
 
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiParent;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class Parent extends Person {
     private static final long serialVersionUID = -8335298083415447342L;
 
     @ManyToMany(mappedBy = "parents", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Child> children = new HashSet<>();
 
 

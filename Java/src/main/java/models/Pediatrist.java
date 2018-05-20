@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 @Entity(name = "Pediatrist")
 @Table(name = "pediatrists")
@@ -18,8 +19,10 @@ public class Pediatrist extends Person {
     @Transient
     private static final long serialVersionUID = -2598504963548813092L;
 
+
     @OneToMany(mappedBy = "pediatrist", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Collection<Child> children = new ArrayList<>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Child> children = new HashSet<>();
 
 
     /**
@@ -77,6 +80,13 @@ public class Pediatrist extends Person {
             addChild(child);
         }
     }
+
+
+    public void setChildren(Collection<Child> children) {
+        this.children.clear();
+        addChildren(children);
+    }
+
 
     @Override
     public String toString(){

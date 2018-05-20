@@ -8,10 +8,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "trips", uniqueConstraints = @UniqueConstraint(columnNames = {"date", "title"}))
@@ -25,11 +22,11 @@ public class Trip extends BaseModel {
 
     @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Stop> stops = new ArrayList<>();
+    private Collection<Stop> stops = new HashSet<>();
 
     @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Pullman> transports = new ArrayList<>();
+    private Collection<Pullman> transports = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -41,7 +38,7 @@ public class Trip extends BaseModel {
             },
             inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
     )
-    private Collection<Child> children = new ArrayList<>();
+    private Collection<Child> children = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -53,7 +50,7 @@ public class Trip extends BaseModel {
             },
             inverseJoinColumns = { @JoinColumn(name = "staff_fiscal_code", referencedColumnName = "fiscal_code") }
     )
-    private Collection<Staff> staff = new ArrayList<>();
+    private Collection<Staff> staff = new HashSet<>();
 
 
     /**

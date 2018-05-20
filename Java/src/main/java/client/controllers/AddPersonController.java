@@ -1,7 +1,6 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.ComboBox;
@@ -17,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
@@ -25,23 +23,18 @@ import main.java.client.gui.GuiParent;
 import main.java.client.gui.GuiPediatrist;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
-import org.junit.platform.commons.util.CollectionUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.*;
 
-public class AddPersonController implements Initializable {
-
-    // Debug
-    private static final String TAG = "AddPersonController";
+public class AddPersonController extends AbstractController implements Initializable {
 
     @FXML private Pane addPersonPane;
     @FXML private ComboBox<PersonType> cbPersonType;
     @FXML private ImageView imagePersonType;
     @FXML private ImageView addPersonImage;
-    @FXML private  ImageView goBackImage;
+    @FXML private ImageView goBackImage;
 
     @FXML private TabPane tabPane;
 
@@ -78,14 +71,12 @@ public class AddPersonController implements Initializable {
     @FXML private ListView<Ingredient> lvAllergies;
     @FXML private Button buttonAddAllergy;
     @FXML private Button buttonRemoveSelectedAllergies;
-    @FXML private Label labelErrorAllergies;
 
-    @FXML private Tab tabIntollerances;
-    @FXML private TextField txAddIntollerances;
-    @FXML private ListView<Ingredient> lvIntollerances;
-    @FXML private Button buttonAddIntollerances;
-    @FXML private Button buttonRemoveSelectedIntollerances;
-    @FXML private Label labelErrorIntollerances;
+    @FXML private Tab tabIntolerances;
+    @FXML private TextField txAddIntolerances;
+    @FXML private ListView<Ingredient> lvIntolerances;
+    @FXML private Button buttonAddIntolerances;
+    @FXML private Button buttonRemoveSelectedIntolerances;
 
     @FXML private Tab tabLoginData;
     @FXML private TextField tfUsername;
@@ -121,7 +112,7 @@ public class AddPersonController implements Initializable {
             switch (newValue) {
                 case CHILD:
                     imagePersonType.setImage(new Image("/images/baby.png"));
-                    tabPane.getTabs().addAll(tabParents, tabPediatrist, tabAllergies, tabIntollerances, tabContacts);
+                    tabPane.getTabs().addAll(tabParents, tabPediatrist, tabAllergies, tabIntolerances, tabContacts);
                     break;
 
                 case CONTACT:
@@ -134,12 +125,12 @@ public class AddPersonController implements Initializable {
 
                 case PEDIATRIST:
                     imagePersonType.setImage(new Image("/images/doctor.png"));
-                    tabPane.getTabs().addAll(tabAllergies, tabIntollerances);
+                    tabPane.getTabs().addAll(tabAllergies, tabIntolerances);
                     break;
 
                 case STAFF:
                     imagePersonType.setImage(new Image("/images/secretary.png"));
-                    tabPane.getTabs().addAll(tabAllergies, tabIntollerances, tabLoginData);
+                    tabPane.getTabs().addAll(tabAllergies, tabIntolerances, tabLoginData);
                     break;
             }
         });
@@ -207,31 +198,27 @@ public class AddPersonController implements Initializable {
         });
 
 
-        // Intollerances tab
-        lvIntollerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        buttonAddIntollerances.setOnAction(event -> addIntollerance());
-        buttonRemoveSelectedIntollerances.setOnAction(event -> removeSelectedIntollerances());
+        // Intolerances tab
+        lvIntolerances.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        buttonAddIntolerances.setOnAction(event -> addIntolerance());
+        buttonRemoveSelectedIntolerances.setOnAction(event -> removeSelectedIntolerances());
 
-        // Add intollerance on enter key press
-        txAddIntollerances.setOnKeyPressed(event -> {
+        // Add intolerance on enter key press
+        txAddIntolerances.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER)
-                addIntollerance();
+                addIntolerance();
         });
 
 
         // LoginData tab
 
         //Username confirmation
-        tfUsername.textProperty().addListener((obs, oldText, newText) -> {
-            usernameConfirmation();
-        });
-        tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> {
-            usernameConfirmation();
-        });
+        tfUsername.textProperty().addListener((obs, oldText, newText) -> usernameConfirmation());
+        tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> usernameConfirmation());
 
         //Password confirmation
-        tfPassword.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
-        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> { passwordConfirmation(); });
+        tfPassword.textProperty().addListener((obs, oldText, newText) -> passwordConfirmation());
+        tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> passwordConfirmation());
     }
 
 
@@ -264,35 +251,35 @@ public class AddPersonController implements Initializable {
 
 
     /**
-     * Add intollerance to the intollerances list
+     * Add intolerance to the intolerances list
      */
-    private void addIntollerance() {
-        if (!txAddIntollerances.getText().isEmpty()) {
-            String intolleranceName = txAddIntollerances.getText().toLowerCase().trim();
-            Ingredient ingredient = new Ingredient(intolleranceName);
-            lvIntollerances.getItems().add(ingredient);
-            txAddIntollerances.setText("");
+    private void addIntolerance() {
+        if (!txAddIntolerances.getText().isEmpty()) {
+            String intoleranceName = txAddIntolerances.getText().toLowerCase().trim();
+            Ingredient ingredient = new Ingredient(intoleranceName);
+            lvIntolerances.getItems().add(ingredient);
+            txAddIntolerances.setText("");
         }
 
     }
 
 
     /**
-     * Remove selected intollerances from the intollerances list
+     * Remove selected intolerances from the intolerances list
      */
-    private void removeSelectedIntollerances() {
-        List<Ingredient> selectedIntollerances = lvIntollerances.getSelectionModel().getSelectedItems();
+    private void removeSelectedIntolerances() {
+        List<Ingredient> selectedIntolerances = lvIntolerances.getSelectionModel().getSelectedItems();
 
-        if (selectedIntollerances.isEmpty()) {
+        if (selectedIntolerances.isEmpty()) {
             showErrorDialog("Nessuna intolleranza selezionata");
         } else {
-            lvIntollerances.getItems().removeAll(selectedIntollerances);
-            lvIntollerances.getSelectionModel().clearSelection();
+            lvIntolerances.getItems().removeAll(selectedIntolerances);
+            lvIntolerances.getSelectionModel().clearSelection();
         }
     }
 
 
-    public void usernameConfirmation() {
+    private void usernameConfirmation() {
         if (tfUsername.getText().isEmpty()) {
             labelUsername.setText(("Il campo USERNAME è vuoto"));
             labelUsername.setTextFill(Color.BLUE);
@@ -305,7 +292,7 @@ public class AddPersonController implements Initializable {
         }
     }
 
-    public void passwordConfirmation() {
+    private void passwordConfirmation() {
         if (tfPassword.getText().isEmpty()) {
             labelPassword.setText(("Il campo PASSWORD è vuoto"));
             labelPassword.setTextFill(Color.BLUE);
@@ -381,8 +368,7 @@ public class AddPersonController implements Initializable {
                 break;
         }
 
-        assert person != null;
-        person.addIntollerances(lvIntollerances.getItems());
+        person.addIntolerances(lvIntolerances.getItems());
         person.addAllergies(lvAllergies.getItems());
 
 
@@ -394,31 +380,21 @@ public class AddPersonController implements Initializable {
             return;
         }
 
+
         // Save person
         connectionManager.getClient().create(person);
+
+
+        // Go back to the menu
+        goBack();
     }
 
 
     /**
-     * Show error dialog
-     *
-     * @param   message     error message
+     * Go back to the main anagraphic page
      */
-    private static void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.showAndWait();
-    }
-
-    public void goBack() {
-        try {
-            Pane anagraphicPane = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
-            BorderPane homePane = (BorderPane) addPersonPane.getParent();
-            homePane.setCenter(anagraphicPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+    private void goBack() {
+        setCenterFXML((BorderPane)addPersonPane.getParent(), "/views/anagraphic.fxml");
     }
 
 }
