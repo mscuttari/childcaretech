@@ -115,9 +115,7 @@ public class Trip extends BaseModel {
 
 
     public void setDate(Date date) {
-        if (this.id.getDate() == null) {
-            this.id.setDate(date);
-        }
+        this.id.setDate(date);
     }
 
 
@@ -127,9 +125,7 @@ public class Trip extends BaseModel {
 
 
     public void setTitle(String title) {
-        if (this.id.getTitle() == null) {
-            this.id.setTitle(title);
-        }
+        this.id.setTitle(title);
     }
 
 

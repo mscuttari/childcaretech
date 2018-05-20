@@ -341,6 +341,8 @@ public class AddPersonController implements Initializable {
 
         switch (cbPersonType.getValue()) {
             case CHILD:
+                Child child = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
+                person = child;
 
                 // Pediatrist
                 List<Pediatrist> selectedPediatrists = TableUtils.getSelectedItems(tablePediatrist);
@@ -351,16 +353,14 @@ public class AddPersonController implements Initializable {
                 }
 
                 if (selectedPediatrists.size() >= 1){
-                    person = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
-                    //Pediatrist
-                    ((Child)person).setPediatrist(selectedPediatrists.get(0));
+                    child.setPediatrist(selectedPediatrists.get(0));
                 }
 
                 // Parents
-                ((Child)person).addParents(TableUtils.getSelectedItems(tableParents));
+                child.addParents(TableUtils.getSelectedItems(tableParents));
 
                 // Contacts
-                ((Child)person).addContacts(TableUtils.getSelectedItems(tableContacts));
+                child.addContacts(TableUtils.getSelectedItems(tableContacts));
 
                 break;
 
@@ -381,7 +381,7 @@ public class AddPersonController implements Initializable {
                 break;
         }
 
-
+        assert person != null;
         person.addIntollerances(lvIntollerances.getItems());
         person.addAllergies(lvAllergies.getItems());
 

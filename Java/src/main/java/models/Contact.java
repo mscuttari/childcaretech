@@ -6,10 +6,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Entity(name = "Contact")
 @Table(name = "contacts")
@@ -19,8 +16,8 @@ public class Contact extends Person {
     @Transient
     private static final long serialVersionUID = 7139409983483815073L;
 
-    @ManyToMany(mappedBy = "contacts")
-    private Collection<Child> children = new ArrayList<>();
+    @ManyToMany(mappedBy = "contacts", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<Child> children = new HashSet<>();
 
 
     /**

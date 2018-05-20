@@ -103,9 +103,7 @@ public class Stop extends BaseModel {
 
 
     public void setTrip(Trip trip) {
-        if (this.id.getTrip() == null) {
-            this.id.setTrip(trip);
-        }
+        this.id.setTrip(trip);
     }
 
 
@@ -115,9 +113,7 @@ public class Stop extends BaseModel {
 
 
     public void setPlaceName(String placeName) {
-        if (this.id.getPlaceName() == null) {
-            this.id.setPlaceName(placeName);
-        }
+        this.id.setPlaceName(placeName);
     }
 
 
@@ -127,9 +123,7 @@ public class Stop extends BaseModel {
 
 
     public void setProvince(String province) {
-        if (this.id.getProvince() == null) {
-            this.id.setProvince(province);
-        }
+        this.id.setProvince(province);
     }
 
 
@@ -139,9 +133,7 @@ public class Stop extends BaseModel {
 
 
     public void setNation(String nation) {
-        if (this.id.getNation() == null) {
-            this.id.setNation(nation);
-        }
+        this.id.setNation(nation);
     }
 
 
@@ -151,9 +143,7 @@ public class Stop extends BaseModel {
 
 
     public void setNumber(Integer number) {
-        if (this.id.getNumber() == null) {
-            this.id.setNumber(number);
-        }
+        this.id.setNumber(number);
     }
 
     @Override

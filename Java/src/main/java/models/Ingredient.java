@@ -89,9 +89,7 @@ public class Ingredient extends BaseModel {
 
 
     public void setName(String name) {
-        if (this.name == null) {
-            this.name = name == null || name.isEmpty() ? null : name;
-        }
+        this.name = name == null || name.isEmpty() ? null : name;
     }
 
 

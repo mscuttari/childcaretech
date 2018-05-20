@@ -3,18 +3,13 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiChild;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Entity(name = "Child")
 @Table(name = "children")
@@ -24,33 +19,31 @@ public class Child extends Person {
     @Transient
     private static final long serialVersionUID = 6653642585718262873L;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "pediatrist_fiscal_code", nullable = false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
+    @JoinColumn(name = "pediatrist_fiscal_code", referencedColumnName = "fiscal_code")
     private Pediatrist pediatrist;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_parents",
             joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
             inverseJoinColumns = { @JoinColumn(name = "parent_fiscal_code", referencedColumnName = "fiscal_code") }
     )
-    private Collection<Parent> parents = new ArrayList<>();
+    private Collection<Parent> parents = new HashSet<>();
 
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "children_contacts",
             joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
             inverseJoinColumns = { @JoinColumn(name = "contact_fiscal_code", referencedColumnName = "fiscal_code") }
     )
-    private Collection<Contact> contacts = new ArrayList<>();
+    private Collection<Contact> contacts = new HashSet<>();
 
     @ManyToMany(mappedBy = "children")
-    private Collection<Trip> tripsEnrollments = new ArrayList<>();
+    private Collection<Trip> tripsEnrollments = new HashSet<>();
 
     @ManyToMany(mappedBy = "children")
-    private Collection<Pullman> pullmansAssignments = new ArrayList<>();
+    private Collection<Pullman> pullmansAssignments = new HashSet<>();
 
 
     /**
@@ -86,11 +79,10 @@ public class Child extends Person {
         super.checkDataValidity();
 
         // Parents
-        if (parents == null || parents.size() == 0) throw new InvalidFieldException("Genitori mancanti");
         if (parents.size() > 2) throw new InvalidFieldException("Non è possibile specificare più di due genitori");
 
         // Pediatrist
-        //if (pediatrist == null) throw new InvalidFieldException("Pediatra mancante");
+        if (pediatrist == null) throw new InvalidFieldException("Pediatra mancante");
     }
 
 

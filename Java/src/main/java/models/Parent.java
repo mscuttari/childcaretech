@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 @Entity(name = "Parent")
 @Table(name = "parents")
@@ -17,7 +18,7 @@ public class Parent extends Person {
     private static final long serialVersionUID = -8335298083415447342L;
 
     @ManyToMany(mappedBy = "parents", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Collection<Child> children = new ArrayList<>();
+    private Collection<Child> children = new HashSet<>();
 
 
     /**
