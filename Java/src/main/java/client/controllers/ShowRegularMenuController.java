@@ -22,10 +22,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class ShowMenuController implements Initializable{
+public class ShowRegularMenuController implements Initializable{
 
     // Debug
-    private static final String TAG = "ShowMenuController";
+    private static final String TAG = "ShowRegularMenuController";
 
     @FXML private Pane showMenuPane;
     @FXML private ImageView goBackImage;
@@ -109,7 +109,7 @@ public class ShowMenuController implements Initializable{
             connectionManager.getClient().delete(param1);
 
             try {
-                Pane newPaneShowMenu = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
+                Pane newPaneShowMenu = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
                 BorderPane homePane = (BorderPane) showMenuPane.getParent();
                 homePane.setCenter(newPaneShowMenu);
             } catch (IOException e) {

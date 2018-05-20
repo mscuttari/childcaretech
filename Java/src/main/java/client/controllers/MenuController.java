@@ -20,19 +20,19 @@ public class MenuController implements Initializable{
     private static final String TAG = "MenuController";
 
     @FXML private Pane menuPane;
-    @FXML private Button buttonAddMenu;
-    @FXML private Button buttonShowMenu;
+    @FXML private Button buttonAddRegularMenu;
+    @FXML private Button buttonShowRegularMenu;
     @FXML private ImageView goBackImage;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Add menu button
-        buttonAddMenu.setOnAction(event -> addMenu());
+        // Add regular menu button
+        buttonAddRegularMenu.setOnAction(event -> addRegularMenu());
 
         //Show menu button
-        buttonShowMenu.setOnAction(event -> showMenu());
+        buttonShowRegularMenu.setOnAction(event -> showRegularMenu());
 
         // go back button cursor
         goBackImage.setOnMouseEntered(event -> menuPane.getScene().setCursor(Cursor.HAND));
@@ -42,21 +42,21 @@ public class MenuController implements Initializable{
         goBackImage.setOnMouseClicked(event -> goBack());
     }
 
-    public void addMenu() {
+    public void addRegularMenu() {
         try {
-            Pane addMenuPane = FXMLLoader.load(getClass().getResource("/views/addMenu.fxml"));
+            Pane addRegularMenuPane = FXMLLoader.load(getClass().getResource("/views/addRegularMenu.fxml"));
             BorderPane homePane = (BorderPane) menuPane.getParent();
-            homePane.setCenter(addMenuPane);
+            homePane.setCenter(addRegularMenuPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
     }
 
-    public void showMenu() {
+    public void showRegularMenu() {
         try {
-            Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
+            Pane showRegularMenuPane = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
             BorderPane homePane = (BorderPane) menuPane.getParent();
-            homePane.setCenter(showMenuPane);
+            homePane.setCenter(showRegularMenuPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }

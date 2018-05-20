@@ -15,6 +15,10 @@ public class RegularMenu extends Menu {
     @Transient
     private static final long serialVersionUID = 4801684474319217042L;
 
+    @Column(name = "day_of_the_week", nullable = false)
+    private DayOfTheWeek dayOfTheWeek;
+
+
     @OneToMany(mappedBy = "regularMenu")
     private Collection<AlternativeMenu> alternativeMenus = new ArrayList<>();
 
@@ -23,7 +27,7 @@ public class RegularMenu extends Menu {
      * Default constructor
      */
     public RegularMenu() {
-        this(null, null);
+        this(null, null, null);
     }
 
 
@@ -32,9 +36,12 @@ public class RegularMenu extends Menu {
      *
      * @param   name      name
      * @param   responsible       responsible
+     * @param   dayOfTheWeek        day of the week
      */
-    public RegularMenu(String name, Staff responsible) {
+    public RegularMenu(String name, Staff responsible, DayOfTheWeek dayOfTheWeek) {
+
         super(name, responsible);
+        this.dayOfTheWeek = dayOfTheWeek;
     }
 
 
@@ -50,6 +57,16 @@ public class RegularMenu extends Menu {
         if (!(obj instanceof RegularMenu)) return false;
 
         return super.equals(obj);
+    }
+
+
+    public DayOfTheWeek getDayOfTheWeek() {
+        return dayOfTheWeek;
+    }
+
+
+    public void setDayOfTheWeek(DayOfTheWeek dayOfTheWeek) {
+        this.dayOfTheWeek = dayOfTheWeek;
     }
 
 

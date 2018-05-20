@@ -2,6 +2,7 @@ package main.java.models;
 
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiDish;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -81,7 +82,7 @@ public class Dish extends BaseModel {
     /** {@inheritDoc} */
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
-        return null; //GuiFood.class;
+        return GuiDish.class;
     }
 
 

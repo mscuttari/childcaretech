@@ -17,69 +17,68 @@ import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
-import main.java.models.Menu;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class AddMenuController implements Initializable {
+public class AddRegularMenuController implements Initializable {
 
     // Debug
-    private static final String TAG = "AddMenuController";
+    private static final String TAG = "AddRegularMenuController";
 
-    //Create regular menù
-    RegularMenu menu = new RegularMenu();
-
-
-    @FXML private Pane addMenuPane;
+    @FXML private Pane addRegularMenuPane;
     @FXML private TextField tfMenuName;
+    @FXML private ComboBox<DayOfTheWeek> cbDayOfTheWeek;
     @FXML private ImageView addMenuImage;
     @FXML private ImageView goBackImage;
-/*
-    @FXML private TableView<GuiFood> tableFood;
-    @FXML private TableColumn<GuiFood, Boolean> columnFoodSelected;
-    @FXML private TableColumn<GuiFood, String> columnFoodName;
-    @FXML private TableColumn<GuiFood, String> columnFoodType;
+
+    @FXML private TableView<GuiDish> tableDish;
+    @FXML private TableColumn<GuiDish, Boolean> columnDishSelected;
+    @FXML private TableColumn<GuiDish, String> columnDishName;
+    @FXML private TableColumn<GuiDish, String> columnDishType;
 
     @FXML private TableView<GuiStaff> tableStaff;
     @FXML private TableColumn<GuiStaff, Boolean> columnStaffSelected;
     @FXML private TableColumn<GuiStaff, String> columnStaffFirstName;
     @FXML private TableColumn<GuiStaff, String> columnStaffLastName;
-    @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode; */
+    @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Day of the week
+        cbDayOfTheWeek.getItems().addAll(DayOfTheWeek.values());
+
         // Save button cursor
-        addMenuImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
-        addMenuImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
+        addMenuImage.setOnMouseEntered(event -> addRegularMenuPane.getScene().setCursor(Cursor.HAND));
+        addMenuImage.setOnMouseExited(event -> addRegularMenuPane.getScene().setCursor(Cursor.DEFAULT));
 
         // Save button click
         addMenuImage.setOnMouseClicked(event -> saveMenu());
 
         // go back button cursor
-        goBackImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
+        goBackImage.setOnMouseEntered(event -> addRegularMenuPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> addRegularMenuPane.getScene().setCursor(Cursor.DEFAULT));
 
         //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
-/*
-        //Food table
-        //List<Food> food = connectionManager.getClient().getFood();
-        //ObservableList<GuiFood> foodData = TableUtils.getGuiModelsList(food);
 
-        columnFoodSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnFoodSelected));
-        columnFoodSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
-        columnFoodName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        columnFoodType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        // Dish table
+        List<Dish> dishes = connectionManager.getClient().getDishes();
+        ObservableList<GuiDish> dishData = TableUtils.getGuiModelsList(dishes);
 
-        tableFood.setEditable(true);
-        //tableFood.setItems(foodData);
+        columnDishSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnDishSelected));
+        columnDishSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
+        columnDishName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnDishType.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        tableDish.setEditable(true);
+        tableDish.setItems(dishData);
 
         // Staff table
         List<Staff> staff = connectionManager.getClient().getStaff();
@@ -92,7 +91,7 @@ public class AddMenuController implements Initializable {
         columnStaffFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
 
         tableStaff.setEditable(true);
-        tableStaff.setItems(staffData);*/
+        tableStaff.setItems(staffData);
 
     }
 
@@ -106,10 +105,15 @@ public class AddMenuController implements Initializable {
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        // Data
-        menu.setName(tfMenuName.getText().trim());
-        //menu.setComposition(TableUtils.getSelectedItems(tableFood));
-        //menu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
+        //Data
+        String menuName = tfMenuName.getText().toLowerCase().trim();
+        Staff menuStaff = TableUtils.getFirstSelectedItem(tableStaff);
+        DayOfTheWeek dayOfTheWeek = cbDayOfTheWeek.getValue();
+
+        //Create regular menù
+        RegularMenu menu = new RegularMenu(menuName, menuStaff, dayOfTheWeek);
+
+        menu.addDishes(TableUtils.getSelectedItems(tableDish));
 
         // Check data
         try {
@@ -139,7 +143,7 @@ public class AddMenuController implements Initializable {
     public void goBack() {
         try {
             Pane menuPane = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
-            BorderPane homePane = (BorderPane) addMenuPane.getParent();
+            BorderPane homePane = (BorderPane) addRegularMenuPane.getParent();
             homePane.setCenter(menuPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());

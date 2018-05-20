@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="addMenuPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddMenuController">
+<AnchorPane fx:id="addRegularMenuPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.AddRegularMenuController">
    <children>
       <HBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -26,16 +26,17 @@
                         <Font size="18.0" />
                      </font>
                   </TextField>
+                  <ComboBox fx:id="cbDayOfTheWeek" prefHeight="35.0" prefWidth="232.0" />
                </children>
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </VBox>
-            <TableView fx:id="tableFood" layoutX="290.0" layoutY="10.0" prefWidth="300.0">
+            <TableView fx:id="tableDish" layoutX="290.0" layoutY="10.0" prefWidth="300.0">
                <columns>
-                  <TableColumn fx:id="columnFoodSelected" style="-fx-alignment: center" />
-                  <TableColumn fx:id="columnFoodName" style="-fx-alignment: center" text="Nome" />
-                  <TableColumn fx:id="columnFoodType" style="-fx-alignment: center" text="Tipo" />
+                  <TableColumn fx:id="columnDishSelected" style="-fx-alignment: center" />
+                  <TableColumn fx:id="columnDishName" style="-fx-alignment: center" text="Nome" />
+                  <TableColumn fx:id="columnDishType" style="-fx-alignment: center" text="Tipo" />
                </columns>
             </TableView>
             <TableView fx:id="tableStaff">

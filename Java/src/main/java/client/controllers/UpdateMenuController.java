@@ -147,7 +147,7 @@ public class UpdateMenuController { //implements Initializable {
 
     public void goBack() {
         try {
-            Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
+            Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
             //BorderPane homePane = (BorderPane) updateMenuPane.getParent();
             //homePane.setCenter(showMenuPane);
         } catch (IOException e) {
