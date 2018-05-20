@@ -120,20 +120,27 @@ public class ShowRegularMenuController implements Initializable{
 
             return null;
         }));
-        columnAlternativeMenuAdd.setCellFactory(param -> new MyButtonTableCell<>("Aggiungi menù alternativo", param1 -> {
+        columnAlternativeMenuAdd.setCellFactory(param -> new MyButtonTableCell<>("Aggiungi menù alternativo", new Callback<RegularMenu, Object>() {
 
-            //delete
-            connectionManager.getClient().delete(param1);
+            @Override
+            public Object call(RegularMenu param) {
+                try {
 
-            try {
-                Pane newPaneShowRegularMenu = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
-                BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
-                homePane.setCenter(newPaneShowRegularMenu);
-            } catch (IOException e) {
-                LogUtils.e(TAG, e.getMessage());
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/addAlternativeMenu.fxml"));
+
+                    AddAlternativeMenuController addAlternativeMenuController = new AddAlternativeMenuController(param);
+                    loader.setController(addAlternativeMenuController);
+
+                    Pane addAlternativeMenuPane = loader.load();
+                    BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
+                    homePane.setCenter(addAlternativeMenuPane);
+
+                } catch (IOException e) {
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
+                return null;
             }
-
-            return null;
         }));
         columnAlternativeMenuShow.setCellFactory(param -> new MyButtonTableCell<>("Mostra menù alternativi", param1 -> {
 
