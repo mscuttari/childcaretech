@@ -30,6 +30,7 @@ public abstract class Menu extends BaseModel {
     private Staff responsible;
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "menus_composition",
             joinColumns = { @JoinColumn(name = "menu_name", referencedColumnName = "name") },

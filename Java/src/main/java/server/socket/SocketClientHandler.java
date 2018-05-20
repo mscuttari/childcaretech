@@ -108,6 +108,10 @@ public class SocketClientHandler implements Runnable {
                 getMenus(in, out);
                 break;
 
+            case "get_regular_menus":
+                getRegularMenus(in, out);
+                break;
+
             case "get_parents":
                 getParents(in, out);
                 break;
@@ -357,6 +361,16 @@ public class SocketClientHandler implements Runnable {
      */
     private void getMenus(ObjectInputStream in, ObjectOutputStream out) {
         getAll(in, out, Menu.class);
+    }
+
+    /**
+     * Get regular menus
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getRegularMenus(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, RegularMenu.class);
     }
 
 

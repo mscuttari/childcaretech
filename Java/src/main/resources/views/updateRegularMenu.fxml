@@ -21,21 +21,22 @@
                                 <Insets bottom="20.0" />
                             </VBox.margin>
                         </ImageView>
-                        <TextField fx:id="tfMenuName" promptText="Nome">
+                        <TextField fx:id="tfMenuName" disable="true" promptText="Nome">
                             <font>
                                 <Font size="18.0" />
                             </font>
                         </TextField>
+                  <ComboBox fx:id="cbDayOfTheWeek" prefHeight="35.0" prefWidth="232.0" />
                     </children>
                     <HBox.margin>
                         <Insets left="10.0" />
                     </HBox.margin>
                 </VBox>
-                <TableView fx:id="tableFood" layoutX="290.0" layoutY="10.0" prefWidth="300.0">
+                <TableView fx:id="tableDish" layoutX="290.0" layoutY="10.0" prefWidth="300.0">
                     <columns>
-                        <TableColumn fx:id="columnFoodSelected" style="-fx-alignment: center" />
-                        <TableColumn fx:id="columnFoodName" style="-fx-alignment: center" text="Nome" />
-                        <TableColumn fx:id="columnFoodType" style="-fx-alignment: center" text="Tipo" />
+                        <TableColumn fx:id="columnDishSelected" style="-fx-alignment: center" />
+                        <TableColumn fx:id="columnDishName" style="-fx-alignment: center" text="Nome" />
+                        <TableColumn fx:id="columnDishType" style="-fx-alignment: center" text="Tipo" />
                     </columns>
                 </TableView>
                 <TableView fx:id="tableStaff">

@@ -7,9 +7,9 @@
 
 <AnchorPane fx:id="showRegularMenuPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowRegularMenuController">
     <children>
-        <TableView fx:id="tableMenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <TableView fx:id="tableRegularMenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columns>
-                <TableColumn fx:id="columnMenuName" style="-fx-alignment: center" text="Nome" />
+                <TableColumn fx:id="columnRegularMenuName" style="-fx-alignment: center" text="Nome" />
                 <TableColumn fx:id="columnRegularMenuEdit" style="-fx-alignment: center" />
                 <TableColumn fx:id="columnRegularMenuDelete" style="-fx-alignment: center" />
             <TableColumn fx:id="columnAlternativeMenuAdd" style="-fx-alignment: center" />

@@ -27,13 +27,15 @@ public class ShowRegularMenuController implements Initializable{
     // Debug
     private static final String TAG = "ShowRegularMenuController";
 
-    @FXML private Pane showMenuPane;
+    @FXML private Pane showRegularMenuPane;
     @FXML private ImageView goBackImage;
 
-    @FXML private TableView<Menu> tableMenu;
-    @FXML private TableColumn<Menu, String> columnMenuName;
-    @FXML private TableColumn<Menu, Void> columnMenuEdit;
-    @FXML private TableColumn<Menu, Void> columnMenuDelete;
+    @FXML private TableView<RegularMenu> tableRegularMenu;
+    @FXML private TableColumn<RegularMenu, String> columnRegularMenuName;
+    @FXML private TableColumn<RegularMenu, Void> columnRegularMenuEdit;
+    @FXML private TableColumn<RegularMenu, Void> columnRegularMenuDelete;
+    @FXML private TableColumn<RegularMenu, Void> columnAlternativeMenuAdd;
+    @FXML private TableColumn<RegularMenu, Void> columnAlternativeMenuShow;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -70,30 +72,30 @@ public class ShowRegularMenuController implements Initializable{
         */
 
         // go back button cursor
-        goBackImage.setOnMouseEntered(event -> showMenuPane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> showMenuPane.getScene().setCursor(Cursor.DEFAULT));
+        goBackImage.setOnMouseEntered(event -> showRegularMenuPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> showRegularMenuPane.getScene().setCursor(Cursor.DEFAULT));
 
         //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
 
         // Table
-        List<Menu> menu = connectionManager.getClient().getMenus();
-        ObservableList<Menu> menuData = FXCollections.observableArrayList(menu);
+        List<RegularMenu> regularMenus = connectionManager.getClient().getRegularMenus();
+        ObservableList<RegularMenu> regularMenusData = FXCollections.observableArrayList(regularMenus);
 
-        columnMenuName.setCellValueFactory(new PropertyValueFactory<>("name"));
-/*        columnMenuEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<Menu, Object>() {
+        columnRegularMenuName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnRegularMenuEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<RegularMenu, Object>() {
 
             @Override
-            public Object call(Menu param) {
+            public Object call(RegularMenu param) {
                 try {
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updateMenu.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updateRegularMenu.fxml"));
 
-                    UpdateMenuController updateMenuController = new UpdateMenuController(param);
+                    UpdateRegularMenuController updateMenuController = new UpdateRegularMenuController(param);
                     loader.setController(updateMenuController);
 
                     Pane updateMenuPane = loader.load();
-                    BorderPane homePane = (BorderPane) showMenuPane.getParent();
+                    BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
                     homePane.setCenter(updateMenuPane);
 
                 } catch (IOException e) {
@@ -103,15 +105,45 @@ public class ShowRegularMenuController implements Initializable{
                 return null;
             }
         }));
-        columnMenuDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
+        columnRegularMenuDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
 
             //delete
             connectionManager.getClient().delete(param1);
 
             try {
-                Pane newPaneShowMenu = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
-                BorderPane homePane = (BorderPane) showMenuPane.getParent();
-                homePane.setCenter(newPaneShowMenu);
+                Pane newPaneShowRegularMenu = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
+                BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
+                homePane.setCenter(newPaneShowRegularMenu);
+            } catch (IOException e) {
+                LogUtils.e(TAG, e.getMessage());
+            }
+
+            return null;
+        }));
+        columnAlternativeMenuAdd.setCellFactory(param -> new MyButtonTableCell<>("Aggiungi menù alternativo", param1 -> {
+
+            //delete
+            connectionManager.getClient().delete(param1);
+
+            try {
+                Pane newPaneShowRegularMenu = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
+                BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
+                homePane.setCenter(newPaneShowRegularMenu);
+            } catch (IOException e) {
+                LogUtils.e(TAG, e.getMessage());
+            }
+
+            return null;
+        }));
+        columnAlternativeMenuShow.setCellFactory(param -> new MyButtonTableCell<>("Mostra menù alternativi", param1 -> {
+
+            //delete
+            connectionManager.getClient().delete(param1);
+
+            try {
+                Pane newPaneShowRegularMenu = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
+                BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
+                homePane.setCenter(newPaneShowRegularMenu);
             } catch (IOException e) {
                 LogUtils.e(TAG, e.getMessage());
             }
@@ -119,14 +151,14 @@ public class ShowRegularMenuController implements Initializable{
             return null;
         }));
 
-        tableMenu.setEditable(true);
-        tableMenu.setItems(menuData);*/
+        tableRegularMenu.setEditable(true);
+        tableRegularMenu.setItems(regularMenusData);
     }
 
     public void goBack() {
         try {
             Pane menuPane = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
-            BorderPane homePane = (BorderPane) showMenuPane.getParent();
+            BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
             homePane.setCenter(menuPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());

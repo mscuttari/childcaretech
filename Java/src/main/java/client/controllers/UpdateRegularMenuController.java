@@ -23,22 +23,23 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class UpdateMenuController { //implements Initializable {
-/*
-    // Debug
-    private static final String TAG = "UpdateMenuController";
+public class UpdateRegularMenuController implements Initializable {
 
-    private Menu menu;
+    // Debug
+    private static final String TAG = "UpdateRegularMenuController";
+
+    private RegularMenu regularMenu;
 
     @FXML private Pane updateMenuPane;
     @FXML private TextField tfMenuName;
+    @FXML private ComboBox<DayOfTheWeek> cbDayOfTheWeek;
     @FXML private ImageView updateMenuImage;
     @FXML private ImageView goBackImage;
 
-    @FXML private TableView<GuiFood> tableFood;
-    @FXML private TableColumn<GuiFood, Boolean> columnFoodSelected;
-    @FXML private TableColumn<GuiFood, String> columnFoodName;
-    @FXML private TableColumn<GuiFood, String> columnFoodType;
+    @FXML private TableView<GuiDish> tableDish;
+    @FXML private TableColumn<GuiDish, Boolean> columnDishSelected;
+    @FXML private TableColumn<GuiDish, String> columnDishName;
+    @FXML private TableColumn<GuiDish, String> columnDishType;
 
     @FXML private TableView<GuiStaff> tableStaff;
     @FXML private TableColumn<GuiStaff, Boolean> columnStaffSelected;
@@ -47,13 +48,17 @@ public class UpdateMenuController { //implements Initializable {
     @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode;
 
 
-    public UpdateMenuController(Menu menu){
-        this.menu = menu;
+    public UpdateRegularMenuController(RegularMenu regularMenu){
+        this.regularMenu = regularMenu;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-/*
+
+        // Day of the week
+        cbDayOfTheWeek.getItems().addAll(DayOfTheWeek.values());
+        cbDayOfTheWeek.getSelectionModel().select(regularMenu.getDayOfTheWeek());
+
         // update menu button cursor
         updateMenuImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
         updateMenuImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
@@ -72,23 +77,22 @@ public class UpdateMenuController { //implements Initializable {
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         //Data tab
-        tfMenuName.setText(menu.getName());
+        tfMenuName.setText(regularMenu.getName());
 
-        //Food table
-        List<Food> food = connectionManager.getClient().getFood();
-        ObservableList<GuiFood> foodData = TableUtils.getGuiModelsList(food);
+        //Dish table
+        List<Dish> dishes = connectionManager.getClient().getDishes();
+        ObservableList<GuiDish> dishData = TableUtils.getGuiModelsList(dishes);
 
-        columnFoodSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnFoodSelected));
-        columnFoodSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
-        columnFoodName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        columnFoodType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        columnDishSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnDishSelected));
+        columnDishSelected.setCellValueFactory(param -> param.getValue().selectedProperty());
+        columnDishName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnDishType.setCellValueFactory(new PropertyValueFactory<>("type"));
 
-        tableFood.setEditable(true);
-        tableFood.setItems(foodData);
+        tableDish.setEditable(true);
+        tableDish.setItems(dishData);
 
-        List<Food> foodInTheMenu = (List<Food>) menu.getComposition();
-        for (GuiFood item : tableFood.getItems()) {
-            if (foodInTheMenu.contains(item.getModel()))
+        for (GuiDish item : tableDish.getItems()) {
+            if (regularMenu.getDishes().contains(item.getModel()))
                 item.setSelected(true);
         }
 
@@ -106,7 +110,7 @@ public class UpdateMenuController { //implements Initializable {
         tableStaff.setItems(staffData);
 
         for (GuiStaff item : tableStaff.getItems()) {
-            if (menu.getResponsible().equals(item.getModel()))
+            if (regularMenu.getResponsible().equals(item.getModel()))
                 item.setSelected(true);
         }
 
@@ -117,21 +121,22 @@ public class UpdateMenuController { //implements Initializable {
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        menu.setName(tfMenuName.getText().trim());
-        menu.setComposition(TableUtils.getSelectedItems(tableFood));
-        menu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
+        regularMenu.setDayOfTheWeek(cbDayOfTheWeek.getValue());
+        regularMenu.getDishes().clear();
+        regularMenu.addDishes(TableUtils.getSelectedItems(tableDish));
+        regularMenu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
 
         // Check data
         try {
-            menu.checkDataValidity();
+            regularMenu.checkDataValidity();
         } catch (InvalidFieldException e) {
             showErrorDialog(e.getMessage());
             return;
         }
 
         // Update menu
-        connectionManager.getClient().update(menu);
-    }*/
+        connectionManager.getClient().update(regularMenu);
+    }
 
     /**
      * Show error dialog
@@ -147,11 +152,11 @@ public class UpdateMenuController { //implements Initializable {
 
     public void goBack() {
         try {
-            Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
-            //BorderPane homePane = (BorderPane) updateMenuPane.getParent();
-            //homePane.setCenter(showMenuPane);
+            Pane showRegularMenuPane = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
+            BorderPane homePane = (BorderPane) updateMenuPane.getParent();
+            homePane.setCenter(showRegularMenuPane);
         } catch (IOException e) {
-            //LogUtils.e(TAG, e.getMessage());
+            LogUtils.e(TAG, e.getMessage());
         }
     }
 
