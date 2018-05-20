@@ -10,6 +10,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
@@ -35,7 +36,7 @@ public class Pullman extends BaseModel {
             },
             inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
     )
-    private Collection<Child> children = new ArrayList<>();
+    private Collection<Child> children = new HashSet<>();
 
 
     /**

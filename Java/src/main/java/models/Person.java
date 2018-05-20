@@ -215,6 +215,12 @@ public abstract class Person extends BaseModel {
     }
 
 
+    public void setAllergies(Collection<Ingredient> ingredients) {
+        this.allergies.clear();
+        addAllergies(ingredients);
+    }
+
+
     public Collection<Ingredient> getIntolerances() {
         return intolerances;
     }
@@ -225,8 +231,14 @@ public abstract class Person extends BaseModel {
     }
 
 
-    public void addIntollerances(Collection<Ingredient> ingredients) {
+    public void addIntolerances(Collection<Ingredient> ingredients) {
         intolerances.addAll(ingredients);
+    }
+
+
+    public void setIntolerances(Collection<Ingredient> intolerances) {
+        this.intolerances.clear();
+        addIntolerances(intolerances);
     }
 
 
@@ -244,9 +256,16 @@ public abstract class Person extends BaseModel {
         this.personalizedMenus.addAll(personalizedMenus);
     }
 
+
+    public void setPersonalizedMenus(Collection<AlternativeMenu> personalizedMenus) {
+        this.personalizedMenus.clear();
+        addPersonalizedMenus(personalizedMenus);
+    }
+
+
     @Override
     public String toString(){
-        return "(" + getFiscalCode() + ")" + getFirstName() + getLastName() ;
+        return "[" + getFiscalCode() + "] - " + getFirstName() + " " + getLastName() ;
     }
 
 }

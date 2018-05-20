@@ -3,6 +3,8 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiChild;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -19,11 +21,14 @@ public class Child extends Person {
     @Transient
     private static final long serialVersionUID = 6653642585718262873L;
 
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = "pediatrist_fiscal_code", referencedColumnName = "fiscal_code")
     private Pediatrist pediatrist;
 
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_parents",
             joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
@@ -31,7 +36,9 @@ public class Child extends Person {
     )
     private Collection<Parent> parents = new HashSet<>();
 
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_contacts",
             joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
@@ -39,10 +46,14 @@ public class Child extends Person {
     )
     private Collection<Contact> contacts = new HashSet<>();
 
-    @ManyToMany(mappedBy = "children")
-    private Collection<Trip> tripsEnrollments = new HashSet<>();
 
     @ManyToMany(mappedBy = "children")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Trip> tripsEnrollments = new HashSet<>();
+
+
+    @ManyToMany(mappedBy = "children")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Pullman> pullmansAssignments = new HashSet<>();
 
 
@@ -122,6 +133,12 @@ public class Child extends Person {
     }
 
 
+    public void setParents(Collection<Parent> parents) {
+        this.parents.clear();
+        addParents(parents);
+    }
+
+
     public Collection<Contact> getContacts() {
         return contacts;
     }
@@ -136,6 +153,12 @@ public class Child extends Person {
         for (Contact contact : contacts) {
             addContact(contact);
         }
+    }
+
+
+    public void setContacts(Collection<Contact> contacts) {
+        this.contacts.clear();
+        addContacts(contacts);
     }
 
 
@@ -164,6 +187,12 @@ public class Child extends Person {
     }
 
 
+    public void setTripsEnrollments(Collection<Trip> trips) {
+        this.tripsEnrollments.clear();
+        addTripEnrollments(trips);
+    }
+
+
     public Collection<Pullman> getPullmansAssignments() {
         return pullmansAssignments;
     }
@@ -178,9 +207,10 @@ public class Child extends Person {
         this.pullmansAssignments.addAll(pullmans);
     }
 
-    @Override
-    public String toString(){
-        return super.toString();
+
+    public void setPullmansAssignments(Collection<Pullman> pullmans) {
+        this.pullmansAssignments.clear();
+        addPullmansAssignments(pullmans);
     }
 
 }

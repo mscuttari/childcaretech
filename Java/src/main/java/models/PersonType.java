@@ -21,25 +21,26 @@ public enum PersonType {
 
 
     /**
-     * Get string representation of person type
+     * Get the person type
      *
-     * @param   person      person
+     * @param   person              person
      * @return  person type
+     * @throws  RuntimeException    if the person is of an unknown type
      */
-    public static String getPersonType(Person person) {
+    public static PersonType getPersonType(Person person) throws RuntimeException {
         if (person instanceof Child) {
-            return CHILD.toString();
+            return CHILD;
         } else if (person instanceof Contact) {
-            return CONTACT.toString();
+            return CONTACT;
         } else if (person instanceof Parent) {
-            return PARENT.toString();
+            return PARENT;
         } else if (person instanceof Pediatrist) {
-            return PEDIATRIST.toString();
+            return PEDIATRIST;
         } else if (person instanceof Staff) {
-            return STAFF.toString();
+            return STAFF;
         }
 
-        return null;
+        throw new RuntimeException("Invalid person type");
     }
 
 }

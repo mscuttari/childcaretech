@@ -67,19 +67,18 @@ public class ShowPersonController implements Initializable{
         columnPeopleFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPeopleLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPeopleFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
-        columnPeopleType.setCellValueFactory(param -> new SimpleStringProperty(PersonType.getPersonType(param.getValue())));
+        columnPeopleType.setCellValueFactory(param -> new SimpleStringProperty(PersonType.getPersonType(param.getValue()).toString()));
         columnPeopleEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<Person, Object>() {
 
             @Override
             public Object call(Person param) {
                 try {
-
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updatePerson.fxml"));
 
-                    UpdatePersonController updatePersonController = new UpdatePersonController(param);
-                    loader.setController(updatePersonController);
-
                     Pane updatePersonPane = loader.load();
+                    UpdatePersonController controller = loader.getController();
+                    controller.setPerson(param);
+
                     BorderPane homePane = (BorderPane) showPersonPane.getParent();
                     homePane.setCenter(updatePersonPane);
 
