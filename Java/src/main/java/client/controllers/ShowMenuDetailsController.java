@@ -12,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.LogUtils;
-import main.java.client.connection.ConnectionManager;
 import main.java.models.*;
 import main.java.models.Menu;
 
@@ -54,9 +53,6 @@ public class ShowMenuDetailsController implements Initializable {
 
         //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
-
-        // Connection
-        ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         //Data tab
         labelName.setText(menu.getName());
