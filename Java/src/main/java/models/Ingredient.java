@@ -4,6 +4,8 @@ import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiIngredient;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,12 +24,15 @@ public class Ingredient extends BaseModel {
     private String name;
 
     @ManyToMany(mappedBy = "ingredients")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Dish> dishes = new ArrayList<>();
 
     @ManyToMany(mappedBy = "allergies")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Person> allergicPeople = new ArrayList<>();
 
     @ManyToMany(mappedBy = "intolerances")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Person> intolerantPeople = new ArrayList<>();
 
 

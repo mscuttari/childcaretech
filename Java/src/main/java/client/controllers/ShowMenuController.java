@@ -31,6 +31,7 @@ public class ShowMenuController implements Initializable{
 
     @FXML private TableView<Menu> tableMenu;
     @FXML private TableColumn<Menu, String> columnMenuName;
+    @FXML private TableColumn<Menu, String> columnMenuDayOfTheWeek;
     @FXML private TableColumn<Menu, Void> columnMenuEdit;
     @FXML private TableColumn<Menu, Void> columnMenuShowDetails;
     @FXML private TableColumn<Menu, Void> columnMenuDelete;
@@ -54,6 +55,8 @@ public class ShowMenuController implements Initializable{
         ObservableList<Menu> menusData = FXCollections.observableArrayList(menus);
 
         columnMenuName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnMenuDayOfTheWeek.setCellValueFactory(new PropertyValueFactory<>("dayOfTheWeek"));
+
         columnMenuEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<Menu, Object>() {
 
             @Override
@@ -84,12 +87,12 @@ public class ShowMenuController implements Initializable{
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showMenuDetails.fxml"));
 
-                    //AddAlternativeMenuController addAlternativeMenuController = new AddAlternativeMenuController(param);
-                    //loader.setController(addAlternativeMenuController);
+                    ShowMenuDetailsController showMenuDetailsController = new ShowMenuDetailsController(param);
+                    loader.setController(showMenuDetailsController);
 
-                    Pane addAlternativeMenuPane = loader.load();
-                    //BorderPane homePane = (BorderPane) showRegularMenuPane.getParent();
-                    //homePane.setCenter(addAlternativeMenuPane);
+                    Pane showMenuDetailsPane = loader.load();
+                    BorderPane homePane = (BorderPane) showMenuPane.getParent();
+                    homePane.setCenter(showMenuDetailsPane);
 
                 } catch (IOException e) {
                     LogUtils.e(TAG, e.getMessage());

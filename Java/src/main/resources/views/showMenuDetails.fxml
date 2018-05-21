@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="showMenuDetailsPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab fx:id="detailsTab" text="Dettagli menù">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox alignment="CENTER" layoutX="91.0" layoutY="65.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <VBox alignment="CENTER_LEFT" spacing="20.0">
+                                 <children>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0">
+                                       <image>
+                                          <Image url="@../images/menu(addMenu).png" />
+                                       </image>
+                                    </ImageView>
+                                    <HBox spacing="15.0">
+                                       <children>
+                                          <Label text="Nome:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelName" layoutX="10.0" layoutY="10.0">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="182.0" spacing="15.0">
+                                       <children>
+                                          <Label text="Giorno:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelDay" layoutX="10.0" layoutY="10.0">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="204.0" spacing="15.0">
+                                       <children>
+                                          <Label text="Responsabile:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelStaff" layoutX="10.0" layoutY="10.0">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <TableView fx:id="tableDish" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                 <columns>
+                                    <TableColumn fx:id="columnDishName" prefWidth="121.0" style="-fx-alignment: center" text="Pietanza" />
+                                    <TableColumn fx:id="columnDishType" prefWidth="104.0" style="-fx-alignment: center" text="Tipo" />
+                                 </columns>
+                                 <HBox.margin>
+                                    <Insets top="30.0" />
+                                 </HBox.margin>
+                              </TableView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="peopleTab" text="Allergie/intolleranze">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox alignment="CENTER" layoutX="91.0" layoutY="65.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView fx:id="tablePeople" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                 <columns>
+                                    <TableColumn fx:id="columnPeopleFirstName" style="-fx-alignment: center" text="Nome" />
+                                    <TableColumn fx:id="columnPeopleLastName" style="-fx-alignment: center" text="Cognome" />
+                                    <TableColumn fx:id="columnPeopleFiscalCode" prefWidth="120.0" style="-fx-alignment: center" text="Codice fiscale" />
+                                 </columns>
+                              </TableView>
+                              <TextArea fx:id="textAreaIngredients" prefHeight="200.0" prefWidth="400.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
+         <image>
+            <Image url="@../images/goBack(red).png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

@@ -162,4 +162,9 @@ public class Dish extends BaseModel {
         this.menus.addAll(menus);
     }
 
+    @Override
+    public String toString(){
+        return name;
+    }
+
 }
