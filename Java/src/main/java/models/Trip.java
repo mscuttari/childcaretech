@@ -3,6 +3,7 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiTrip;
+import main.java.client.utils.TableUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -82,6 +83,12 @@ public class Trip extends BaseModel {
         // Title: [a-z] [A-Z] space
         if (id.getTitle() == null || id.getTitle().isEmpty()) throw new InvalidFieldException("Titolo mancante");
         if (!id.getTitle().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Titolo non valido");
+
+        // Check if the total number of seats is enough
+        Integer totalNumberOfSeats = getAvailableSeats();
+
+        if (totalNumberOfSeats < children.size() + staff.size())
+            throw new InvalidFieldException("Posti insufficienti");
     }
 
 
@@ -152,6 +159,18 @@ public class Trip extends BaseModel {
 
     public void addTransports(Collection<Pullman> transports) {
         this.transports.addAll(transports);
+    }
+
+
+    public Integer getAvailableSeats() {
+        // TODO: return null if some seats are not specified (example: train)
+        Integer totalNumberOfSeats = 0;
+
+        for (Pullman transport : transports){
+            totalNumberOfSeats += transport.getSeats();
+        }
+
+        return totalNumberOfSeats;
     }
 
 

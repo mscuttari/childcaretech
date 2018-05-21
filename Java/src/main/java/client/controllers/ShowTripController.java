@@ -1,6 +1,5 @@
 package main.java.client.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +13,9 @@ import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
+import main.java.client.gui.GuiTrip;
 import main.java.client.layout.MyButtonTableCell;
+import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ShowTripController implements Initializable{
+public class ShowTripController extends AbstractController implements Initializable {
 
     // Debug
     private static final String TAG = "ShowTripController";
@@ -31,20 +32,18 @@ public class ShowTripController implements Initializable{
     @FXML private Pane showTripPane;
     @FXML private ImageView goBackImage;
 
-    @FXML private TableView<Trip> tableTrip;
-    @FXML private TableColumn<Trip, String> columnTripTitle;
-    @FXML private TableColumn<Trip, Date> columnTripDate;
-    @FXML private TableColumn<Trip, Void> columnTripEdit;
-    @FXML private TableColumn<Trip, Void> columnTripDelete;
+    @FXML private TableView<GuiTrip> tableTrip;
+    @FXML private TableColumn<GuiTrip, String> columnTripTitle;
+    @FXML private TableColumn<GuiTrip, Date> columnTripDate;
+    @FXML private TableColumn<GuiTrip, Void> columnTripEdit;
+    @FXML private TableColumn<GuiTrip, Void> columnTripDelete;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // go back button cursor
+        // Back button
         goBackImage.setOnMouseEntered(event -> showTripPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showTripPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
@@ -52,23 +51,22 @@ public class ShowTripController implements Initializable{
 
         // Table
         List<Trip> trips = connectionManager.getClient().getTrips();
-        ObservableList<Trip> tripsData = FXCollections.observableArrayList(trips);
+        ObservableList<GuiTrip> tripsData = TableUtils.getGuiModelsList(trips);
 
         columnTripTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         columnTripDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        columnTripEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<Trip, Object>() {
 
+        columnTripEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<GuiTrip, Object>() {
             @Override
-            public Object call(Trip param) {
+            public Object call(GuiTrip param) {
                 try {
-
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updateTrip.fxml"));
 
-                    UpdateTripController updateTripController = new UpdateTripController(param);
-                    loader.setController(updateTripController);
-
                     Pane updateTripPane = loader.load();
-                    BorderPane homePane = (BorderPane) showTripPane.getParent();
+                    UpdateTripController controller = loader.getController();
+                    controller.setTrip(param.getModel());
+
+                    BorderPane homePane = (BorderPane)showTripPane.getParent();
                     homePane.setCenter(updateTripPane);
 
                 } catch (IOException e) {
@@ -78,19 +76,13 @@ public class ShowTripController implements Initializable{
                 return null;
             }
         }));
+
         columnTripDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
+            connectionManager.getClient().delete(param1.getModel());
+            List<Trip> newTrips = connectionManager.getClient().getTrips();
+            ObservableList<GuiTrip> newTripsData = TableUtils.getGuiModelsList(newTrips);
 
-            //delete
-            connectionManager.getClient().delete(param1);
-
-            try {
-                Pane newPaneShowTrip = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));
-                BorderPane homePane = (BorderPane) showTripPane.getParent();
-                homePane.setCenter(newPaneShowTrip);
-            } catch (IOException e) {
-                LogUtils.e(TAG, e.getMessage());
-            }
-
+            tableTrip.setItems(newTripsData);
             return null;
         }));
 
@@ -98,14 +90,12 @@ public class ShowTripController implements Initializable{
         tableTrip.setItems(tripsData);
     }
 
-    public void goBack() {
-        try {
-            Pane tripAdministrationPane = FXMLLoader.load(getClass().getResource("/views/tripAdministration.fxml"));
-            BorderPane homePane = (BorderPane) showTripPane.getParent();
-            homePane.setCenter(tripAdministrationPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Go back to the main trips page
+     */
+    private void goBack() {
+        setCenterFXML((BorderPane)showTripPane.getParent(), "/views/tripAdministration.fxml");
     }
 
 }

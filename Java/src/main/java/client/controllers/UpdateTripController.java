@@ -28,10 +28,7 @@ import java.net.URL;
 import java.time.ZoneId;
 import java.util.*;
 
-public class UpdateTripController implements Initializable {
-
-    // Debug
-    private static final String TAG = "UpdateTripController";
+public class UpdateTripController extends AbstractController implements Initializable {
 
     private Trip trip;
 
@@ -39,27 +36,21 @@ public class UpdateTripController implements Initializable {
     @FXML private ImageView updateTripImage;
     @FXML private ImageView goBackImage;
 
-    @FXML private TabPane tabPane;
-
-    @FXML private Tab tabData;
     @FXML private TextField tfTripName;
     @FXML private DatePicker dpTripDate;
 
-    @FXML private Tab tabChildren;
     @FXML private TableView<GuiChild> tableChildren;
     @FXML private TableColumn<GuiChild, Boolean> columnChildrenSelected;
     @FXML private TableColumn<GuiChild, String> columnChildrenFirstName;
     @FXML private TableColumn<GuiChild, String> columnChildrenLastName;
     @FXML private TableColumn<GuiChild, String> columnChildrenFiscalCode;
 
-    @FXML private Tab tabStaff;
     @FXML private TableView<GuiStaff> tableStaff;
     @FXML private TableColumn<GuiStaff, Boolean> columnStaffSelected;
     @FXML private TableColumn<GuiStaff, String> columnStaffFirstName;
     @FXML private TableColumn<GuiStaff, String> columnStaffLastName;
     @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode;
 
-    @FXML private Tab tabStops;
     @FXML private TextField tfStopName;
     @FXML private TextField tfStopProvince;
     @FXML private TextField tfStopNation;
@@ -67,45 +58,31 @@ public class UpdateTripController implements Initializable {
     @FXML private ListView<Stop> lvStops;
     @FXML private Button buttonAddStop;
     @FXML private Button buttonRemoveSelectedStops;
-    @FXML private Label labelErrorStops;
 
-    @FXML private Tab tabPullman;
     @FXML private TextField tfPullmanNumberplate;
     @FXML private TextField tfPullmanSeats;
     @FXML private ListView<Pullman> lvPullman;
     @FXML private Button buttonAddPullman;
     @FXML private Button buttonRemoveSelectedPullman;
-    @FXML private Label labelErrorPullman;
-
-    public UpdateTripController(Trip trip){
-        this.trip = trip;
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-try{
-        // update trip button cursor
+
+        // Update button
         updateTripImage.setOnMouseEntered(event -> updateTripPane.getScene().setCursor(Cursor.HAND));
         updateTripImage.setOnMouseExited(event -> updateTripPane.getScene().setCursor(Cursor.DEFAULT));
-
-        // update trip image
         updateTripImage.setOnMouseClicked(event -> updateTrip());
 
-        // go back button cursor
+
+        // Go back button
         goBackImage.setOnMouseEntered(event -> updateTripPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> updateTripPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
+
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        //Data tab
-        tfTripName.setText(trip.getTitle());
-        if (trip.getDate() != null) {
-            dpTripDate.setValue(new java.sql.Date(trip.getDate().getTime()).toLocalDate());
-        }
 
         // Children tab
         List<Child> children = connectionManager.getClient().getChildren();
@@ -120,10 +97,6 @@ try{
         tableChildren.setEditable(true);
         tableChildren.setItems(childrenData);
 
-        for (GuiChild item : tableChildren.getItems()) {
-            if (trip.getChildren().contains(item.getModel()))
-                item.setSelected(true);
-        }
 
         // Staff tab
         List<Staff> staff = connectionManager.getClient().getStaff();
@@ -138,16 +111,12 @@ try{
         tableStaff.setEditable(true);
         tableStaff.setItems(staffData);
 
-        for (GuiStaff item : tableStaff.getItems()) {
-            if (trip.getStaff().contains(item.getModel()))
-                item.setSelected(true);
-        }
 
         // Stops tab
-        lvStops.getItems().setAll(trip.getStops());
         lvStops.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         buttonRemoveSelectedStops.setOnAction(event -> removeSelectedStops());
         buttonAddStop.setOnAction(event -> addStop());
+
 
         // Add stop on enter key press
         EventHandler<KeyEvent> StopKeyPressEvent = event -> {
@@ -161,7 +130,6 @@ try{
 
 
         // Pullman tab
-        lvPullman.getItems().setAll(trip.getTransports());
         lvPullman.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         buttonRemoveSelectedPullman.setOnAction(event -> removeSelectedPullman());
         buttonAddPullman.setOnAction(event -> addPullman());
@@ -174,11 +142,19 @@ try{
 
         tfPullmanNumberplate.setOnKeyPressed(PullmanKeyPressEvent);
         tfPullmanSeats.setOnKeyPressed(PullmanKeyPressEvent);
-}catch (Exception e){
-    e.printStackTrace();
-}
-
     }
+
+
+    /**
+     * Set the trip that is going to be modified
+     *
+     * @param   trip    trip
+     */
+    public void setTrip(Trip trip) {
+        this.trip = trip;
+        loadData();
+    }
+
 
     /**
      * Add stop to the stops list
@@ -270,6 +246,38 @@ try{
         }
     }
 
+
+    /**
+     * Load the person data into the corresponding fields
+     */
+    private void loadData() {
+        // Title
+        tfTripName.setText(trip.getTitle());
+
+        // Date
+        dpTripDate.setValue(new java.sql.Date(trip.getDate().getTime()).toLocalDate());
+
+        // Children
+        for (GuiChild item : tableChildren.getItems()) {
+            if (trip.getChildren().contains(item.getModel()))
+                item.setSelected(true);
+        }
+
+        // Staff
+        for (GuiStaff item : tableStaff.getItems()) {
+            if (trip.getStaff().contains(item.getModel()))
+                item.setSelected(true);
+        }
+
+        // Stops
+        lvStops.getItems().setAll(trip.getStops());
+
+        // Transports
+        lvPullman.getItems().setAll(trip.getTransports());
+    }
+
+
+
     public void updateTrip() {
 
         // Connection
@@ -330,25 +338,10 @@ try{
 
 
     /**
-     * Show error dialog
-     *
-     * @param   message     error message
+     * Go back to the main trips page
      */
-    private static void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.showAndWait();
-    }
-
-    public void goBack() {
-        try {
-            Pane showTripPane = FXMLLoader.load(getClass().getResource("/views/showTrip.fxml"));
-            BorderPane homePane = (BorderPane) updateTripPane.getParent();
-            homePane.setCenter(showTripPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+    private void goBack() {
+        setCenterFXML((BorderPane)updateTripPane.getParent(), "/views/showTrip.fxml");
     }
 
 }

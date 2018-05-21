@@ -28,6 +28,11 @@ public abstract class GuiPerson<M extends Person> extends GuiBaseModel<M> {
         this.telephone = new SimpleStringProperty(model.getTelephone());
     }
 
+    @Override
+    public M getModel() {
+        return super.getModel();
+    }
+
     public StringProperty fiscalCodeProperty() {
         return fiscalCode;
     }

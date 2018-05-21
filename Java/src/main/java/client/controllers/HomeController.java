@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable{
+public class HomeController extends AbstractController implements Initializable {
 
     // Debug
     private static final String TAG = "HomeController";
@@ -30,60 +30,48 @@ public class HomeController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Left menu
+        buttonAnagraphic.setOnAction(event -> showAnagraphic());    // Anagraphic
+        buttonCanteen.setOnAction(event -> showCanteen());          // Canteen
+        buttonTrip.setOnAction(event -> showTrip());                // Trip
 
-        // Anagraphic button
-        buttonAnagraphic.setOnAction(event -> goToAnagraphic());
+        // Set initial panel
+        setCenterFXML(borderPane, "/views/anagraphic.fxml");
 
-        //Canteen button
-        buttonCanteen.setOnAction(event -> goToCanteen());
-
-        //Trip button
-        buttonTrip.setOnAction(event -> goToTrip());
-
-        //Set initial panel
-        try {
-            Pane anagraphicPane = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
-            borderPane.setCenter(anagraphicPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
-
-        //goToLogin Image
-        goToLoginImage.setOnMouseClicked(event -> goToLogin());
+        // Logout
+        goToLoginImage.setOnMouseClicked(event -> logout());
     }
 
-    public void goToAnagraphic(){
-        try {
-            Pane anagraphicPane = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
-            borderPane.setCenter(anagraphicPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
 
+    /**
+     * Show anagraphic page
+     */
+    private void showAnagraphic(){
+        setCenterFXML(borderPane, "/views/anagraphic.fxml");
     }
 
-    public void goToCanteen(){
-        try {
-            Pane canteenPane = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
-            borderPane.setCenter(canteenPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Show canteen page
+     */
+    private void showCanteen(){
+        setCenterFXML(borderPane, "/views/canteen.fxml");
+    }
+
+
+    /**
+     * Show trips page
+     */
+    private void showTrip(){
+        setCenterFXML(borderPane, "/views/trip.fxml");
 
     }
 
-    public void goToTrip(){
-        try {
-            Pane canteenPane = FXMLLoader.load(getClass().getResource("/views/trip.fxml"));
-            borderPane.setCenter(canteenPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
 
-    }
-
-    public void goToLogin(){
-
+    /**
+     * Logout
+     */
+    private void logout(){
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
 

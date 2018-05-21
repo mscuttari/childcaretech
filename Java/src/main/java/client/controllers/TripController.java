@@ -1,21 +1,15 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.LogUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TripController implements Initializable{
-
-    // Debug
-    private static final String TAG = "TripController";
+public class TripController extends AbstractController implements Initializable {
 
     @FXML private Pane tripPane;
     @FXML private Button buttonTripAdministration;
@@ -24,32 +18,24 @@ public class TripController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        // Add trip button
-        buttonTripAdministration.setOnAction(event -> tripAdministration());
-
-        //Update trip button
-        buttonSeatsAssignment.setOnAction(event -> seatsAssignment());
+        buttonTripAdministration.setOnAction(event -> tripAdministration());    // Add trip
+        buttonSeatsAssignment.setOnAction(event -> seatsAssignment());          // Update trip
     }
 
-    public void tripAdministration() {
-        try {
-            Pane tripAdministrationPane = FXMLLoader.load(getClass().getResource("/views/tripAdministration.fxml"));
-            BorderPane homePane = (BorderPane) tripPane.getParent();
-            homePane.setCenter(tripAdministrationPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Show trips administration page
+     */
+    private void tripAdministration() {
+        setCenterFXML((BorderPane)tripPane.getParent(), "/views/tripAdministration.fxml");
     }
 
-    public void seatsAssignment() {
-        try {
-            Pane seatsAssignmentPane = FXMLLoader.load(getClass().getResource("/views/seatsAssignment.fxml"));
-            BorderPane homePane = (BorderPane) tripPane.getParent();
-            homePane.setCenter(seatsAssignmentPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Show seats assignment page
+     */
+    private void seatsAssignment() {
+        setCenterFXML((BorderPane)tripPane.getParent(), "/views/seatsAssignment.fxml");
     }
 
 }

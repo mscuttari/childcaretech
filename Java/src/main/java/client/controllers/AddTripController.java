@@ -1,12 +1,9 @@
 package main.java.client.controllers;
 
-import javafx.collections.transformation.SortedList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.collections.ObservableList;
@@ -17,25 +14,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.*;
 
-public class AddTripController implements Initializable {
+public class AddTripController extends AbstractController implements Initializable {
 
-    // Debug
-    private static final String TAG = "AddTripController";
-
-    //Create trip
-    Trip trip = new Trip();
+    private Trip trip = new Trip();
 
     @FXML private Pane addTripPane;
     @FXML private ImageView addTripImage;
@@ -43,25 +34,21 @@ public class AddTripController implements Initializable {
 
     @FXML private TabPane tabPane;
 
-    @FXML private Tab tabData;
     @FXML private TextField tfTripName;
     @FXML private DatePicker dpTripDate;
 
-    @FXML private Tab tabChildren;
     @FXML private TableView<GuiChild> tableChildren;
     @FXML private TableColumn<GuiChild, Boolean> columnChildrenSelected;
     @FXML private TableColumn<GuiChild, String> columnChildrenFirstName;
     @FXML private TableColumn<GuiChild, String> columnChildrenLastName;
     @FXML private TableColumn<GuiChild, String> columnChildrenFiscalCode;
 
-    @FXML private Tab tabStaff;
     @FXML private TableView<GuiStaff> tableStaff;
     @FXML private TableColumn<GuiStaff, Boolean> columnStaffSelected;
     @FXML private TableColumn<GuiStaff, String> columnStaffFirstName;
     @FXML private TableColumn<GuiStaff, String> columnStaffLastName;
     @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode;
 
-    @FXML private Tab tabStops;
     @FXML private TextField tfStopName;
     @FXML private TextField tfStopProvince;
     @FXML private TextField tfStopNation;
@@ -69,36 +56,32 @@ public class AddTripController implements Initializable {
     @FXML private ListView<Stop> lvStops;
     @FXML private Button buttonAddStop;
     @FXML private Button buttonRemoveSelectedStops;
-    @FXML private Label labelErrorStops;
 
-    @FXML private Tab tabPullman;
     @FXML private TextField tfPullmanNumberplate;
     @FXML private TextField tfPullmanSeats;
     @FXML private ListView<Pullman> lvPullman;
     @FXML private Button buttonAddPullman;
     @FXML private Button buttonRemoveSelectedPullman;
-    @FXML private Label labelErrorPullman;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Save button cursor
+        // Save button
         addTripImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         addTripImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
-
-        // Save button click
         addTripImage.setOnMouseClicked(event -> saveTrip());
 
-        // go back button cursor
+
+        // Go back button
         goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
+
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
+
 
         // Children tab
         List<Child> children = connectionManager.getClient().getChildren();
@@ -113,6 +96,7 @@ public class AddTripController implements Initializable {
         tableChildren.setEditable(true);
         tableChildren.setItems(childrenData);
 
+
         // Staff tab
         List<Staff> staff = connectionManager.getClient().getStaff();
         ObservableList<GuiStaff> staffData = TableUtils.getGuiModelsList(staff);
@@ -126,10 +110,12 @@ public class AddTripController implements Initializable {
         tableStaff.setEditable(true);
         tableStaff.setItems(staffData);
 
+
         // Stops tab
         lvStops.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         buttonRemoveSelectedStops.setOnAction(event -> removeSelectedStops());
         buttonAddStop.setOnAction(event -> addStop());
+
 
         // Add stop on enter key press
         EventHandler<KeyEvent> StopKeyPressEvent = event -> {
@@ -147,6 +133,7 @@ public class AddTripController implements Initializable {
         buttonRemoveSelectedPullman.setOnAction(event -> removeSelectedPullman());
         buttonAddPullman.setOnAction(event -> addPullman());
 
+
         // Add pullman on enter key press
         EventHandler<KeyEvent> PullmanKeyPressEvent = event -> {
             if (event.getCode() == KeyCode.ENTER)
@@ -155,7 +142,6 @@ public class AddTripController implements Initializable {
 
         tfPullmanNumberplate.setOnKeyPressed(PullmanKeyPressEvent);
         tfPullmanSeats.setOnKeyPressed(PullmanKeyPressEvent);
-
     }
 
 
@@ -192,8 +178,10 @@ public class AddTripController implements Initializable {
      */
     private void removeSelectedStops() {
         Stop selectedItem = lvStops.getSelectionModel().getSelectedItem();
+
         if (selectedItem == null) {
             showErrorDialog("Nessuna fermata selezionata");
+
         } else {
             List<Stop> stopsList = new ArrayList<>(lvStops.getItems());
             for(Stop followingItem : stopsList){
@@ -236,6 +224,7 @@ public class AddTripController implements Initializable {
      */
     private void removeSelectedPullman() {
         Pullman selectedPullman = lvPullman.getSelectionModel().getSelectedItem();
+
         if (selectedPullman == null) {
             showErrorDialog("Nessun pullman selezionato");
         } else {
@@ -244,11 +233,11 @@ public class AddTripController implements Initializable {
         }
     }
 
+
     /**
      * Save trip in the database
      */
     private void saveTrip() {
-
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
@@ -258,25 +247,15 @@ public class AddTripController implements Initializable {
 
         trip.setTitle(title);
         trip.setDate(date);
-
+        trip.addTransports(lvPullman.getItems());
         trip.addChildren(TableUtils.getSelectedItems(tableChildren));
         trip.addStaff(TableUtils.getSelectedItems(tableStaff));
-
-        int totalNumberOfSeats = 0;
-        for(Pullman current : lvPullman.getItems()){
-            totalNumberOfSeats += current.getSeats();
-        }
-
-        if(totalNumberOfSeats < TableUtils.getSelectedItems(tableChildren).size()){
-            showErrorDialog("Posti insufficienti per tutti i bambini");
-            return;
-        }
-
-
+        
+        Integer totalNumberOfSeats = trip.getAvailableSeats();
         int i=0;
         int occupiedSeats = 0;
         double totalNumberOfChildren = TableUtils.getSelectedItems(tableChildren).size();
-        for(Pullman current : lvPullman.getItems()){
+        for (Pullman current : lvPullman.getItems()){
             List<Child> children = new ArrayList<>();
             occupiedSeats += current.getSeats();
             double occupiedSeatsPercentage = occupiedSeats/(double)totalNumberOfSeats;
@@ -302,27 +281,16 @@ public class AddTripController implements Initializable {
         // Save trip
         connectionManager.getClient().create(trip);
 
+        // Go back to the menu
+        goBack();
     }
+
 
     /**
-     * Show error dialog
-     *
-     * @param   message     error message
+     * Go back to the add / show trips page
      */
-    private static void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.showAndWait();
+    public void goBack() {
+        setCenterFXML((BorderPane)addTripPane.getParent(), "/views/tripAdministration.fxml");
     }
 
-    public void goBack() {
-        try {
-            Pane tripAdministrationPane = FXMLLoader.load(getClass().getResource("/views/tripAdministration.fxml"));
-            BorderPane homePane = (BorderPane) addTripPane.getParent();
-            homePane.setCenter(tripAdministrationPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
-    }
 }
