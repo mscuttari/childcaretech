@@ -171,13 +171,6 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
 
     /** {@inheritDoc} */
     @Override
-    public List<RegularMenu> getRegularMenus() {
-        return getAll(RegularMenu.class);
-    }
-
-
-    /** {@inheritDoc} */
-    @Override
     public List<Parent> getParents() {
         return getAll(Parent.class);
     }

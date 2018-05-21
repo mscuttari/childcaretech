@@ -162,15 +162,6 @@ public class SocketClient extends BaseClient implements ClientInterface {
 
     /** {@inheritDoc} */
     @Override
-    public List<RegularMenu> getRegularMenus() {
-        Object result = sendData("get_regular_menus", this);
-        //noinspection unchecked
-        return result instanceof List ? (List<RegularMenu>)result : null;
-    }
-
-
-    /** {@inheritDoc} */
-    @Override
     public List<Parent> getParents() {
         Object result = sendData("get_parents", this);
         //noinspection unchecked

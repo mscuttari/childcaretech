@@ -59,10 +59,6 @@ public abstract class Person extends BaseModel {
     private Collection<Ingredient> intolerances = new ArrayList<>();
 
 
-    @ManyToMany(mappedBy = "people")
-    private Collection<AlternativeMenu> personalizedMenus = new ArrayList<>();
-
-
     /**
      * Default constructor
      */
@@ -239,27 +235,6 @@ public abstract class Person extends BaseModel {
     public void setIntolerances(Collection<Ingredient> intolerances) {
         this.intolerances.clear();
         addIntolerances(intolerances);
-    }
-
-
-    public Collection<AlternativeMenu> getPersonalizedMenus() {
-        return personalizedMenus;
-    }
-
-
-    public void addPersonalizedMenu(AlternativeMenu menu) {
-        this.personalizedMenus.add(menu);
-    }
-
-
-    public void addPersonalizedMenus(Collection<AlternativeMenu> personalizedMenus) {
-        this.personalizedMenus.addAll(personalizedMenus);
-    }
-
-
-    public void setPersonalizedMenus(Collection<AlternativeMenu> personalizedMenus) {
-        this.personalizedMenus.clear();
-        addPersonalizedMenus(personalizedMenus);
     }
 
 

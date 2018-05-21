@@ -14,9 +14,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "menus")
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "type")
-public abstract class Menu extends BaseModel {
+public class Menu extends BaseModel {
 
     @Transient
     private static final long serialVersionUID = -8284040804525605098L;
@@ -24,6 +22,9 @@ public abstract class Menu extends BaseModel {
     @Id
     @Column(name = "name")
     private String name;
+
+    @Column(name = "day_of_the_week", nullable = false)
+    private DayOfTheWeek dayOfTheWeek;
 
     @ManyToOne
     @JoinColumn(name = "responsible_fiscal_code", referencedColumnName = "fiscal_code")
@@ -43,7 +44,7 @@ public abstract class Menu extends BaseModel {
      * Default constructor
      */
     public Menu() {
-        this(null, null);
+        this(null, null, null);
     }
 
 
@@ -52,10 +53,12 @@ public abstract class Menu extends BaseModel {
      *
      * @param   name            name
      * @param   responsible     responsible (staff person)
+     * @param   dayOfTheWeek        day of the week
      */
-    public Menu(String name, Staff responsible) {
+    public Menu(String name, Staff responsible, DayOfTheWeek dayOfTheWeek) {
         this.name = name;
         this.responsible = responsible;
+        this.dayOfTheWeek = dayOfTheWeek;
     }
 
 
@@ -103,6 +106,16 @@ public abstract class Menu extends BaseModel {
 
     public void setName(String name) {
         this.name = name == null || name.isEmpty() ? null : name;
+    }
+
+
+    public DayOfTheWeek getDayOfTheWeek() {
+        return dayOfTheWeek;
+    }
+
+
+    public void setDayOfTheWeek(DayOfTheWeek dayOfTheWeek) {
+        this.dayOfTheWeek = dayOfTheWeek;
     }
 
 

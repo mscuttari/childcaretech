@@ -23,17 +23,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class UpdateRegularMenuController implements Initializable {
+public class AddMenuController implements Initializable {
 
     // Debug
-    private static final String TAG = "UpdateRegularMenuController";
+    private static final String TAG = "AddMenuController";
 
-    private RegularMenu regularMenu;
-
-    @FXML private Pane updateMenuPane;
+    @FXML private Pane addMenuPane;
     @FXML private TextField tfMenuName;
     @FXML private ComboBox<DayOfTheWeek> cbDayOfTheWeek;
-    @FXML private ImageView updateMenuImage;
+    @FXML private ImageView addMenuImage;
     @FXML private ImageView goBackImage;
 
     @FXML private TableView<GuiDish> tableDish;
@@ -48,27 +46,22 @@ public class UpdateRegularMenuController implements Initializable {
     @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode;
 
 
-    public UpdateRegularMenuController(RegularMenu regularMenu){
-        this.regularMenu = regularMenu;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         // Day of the week
         cbDayOfTheWeek.getItems().addAll(DayOfTheWeek.values());
-        cbDayOfTheWeek.getSelectionModel().select(regularMenu.getDayOfTheWeek());
 
-        // update menu button cursor
-        updateMenuImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
-        updateMenuImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
+        // Save button cursor
+        addMenuImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
+        addMenuImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
 
-        // update menu image
-        updateMenuImage.setOnMouseClicked(event -> updateMenu());
+        // Save button click
+        addMenuImage.setOnMouseClicked(event -> saveMenu());
 
         // go back button cursor
-        goBackImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
+        goBackImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
 
         //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
@@ -76,10 +69,7 @@ public class UpdateRegularMenuController implements Initializable {
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        //Data tab
-        tfMenuName.setText(regularMenu.getName());
-
-        //Dish table
+        // Dish table
         List<Dish> dishes = connectionManager.getClient().getDishes();
         ObservableList<GuiDish> dishData = TableUtils.getGuiModelsList(dishes);
 
@@ -90,11 +80,6 @@ public class UpdateRegularMenuController implements Initializable {
 
         tableDish.setEditable(true);
         tableDish.setItems(dishData);
-
-        for (GuiDish item : tableDish.getItems()) {
-            if (regularMenu.getDishes().contains(item.getModel()))
-                item.setSelected(true);
-        }
 
         // Staff table
         List<Staff> staff = connectionManager.getClient().getStaff();
@@ -109,33 +94,39 @@ public class UpdateRegularMenuController implements Initializable {
         tableStaff.setEditable(true);
         tableStaff.setItems(staffData);
 
-        for (GuiStaff item : tableStaff.getItems()) {
-            if (regularMenu.getResponsible().equals(item.getModel()))
-                item.setSelected(true);
-        }
-
     }
 
-    public void updateMenu() {
+
+    /**
+     * Save menu in the database
+     */
+    private void saveMenu() {
+
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        regularMenu.setDayOfTheWeek(cbDayOfTheWeek.getValue());
-        regularMenu.getDishes().clear();
-        regularMenu.addDishes(TableUtils.getSelectedItems(tableDish));
-        regularMenu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
+        //Data
+        String menuName = tfMenuName.getText().toLowerCase().trim();
+        Staff menuStaff = TableUtils.getFirstSelectedItem(tableStaff);
+        DayOfTheWeek dayOfTheWeek = cbDayOfTheWeek.getValue();
+
+        //Create menù
+        Menu menu = new Menu(menuName, menuStaff, dayOfTheWeek);
+
+        menu.addDishes(TableUtils.getSelectedItems(tableDish));
 
         // Check data
         try {
-            regularMenu.checkDataValidity();
+            menu.checkDataValidity();
         } catch (InvalidFieldException e) {
             showErrorDialog(e.getMessage());
             return;
         }
 
-        // Update menu
-        connectionManager.getClient().update(regularMenu);
+        // Save menu
+        connectionManager.getClient().create(menu);
+
     }
 
     /**
@@ -152,12 +143,11 @@ public class UpdateRegularMenuController implements Initializable {
 
     public void goBack() {
         try {
-            Pane showRegularMenuPane = FXMLLoader.load(getClass().getResource("/views/showRegularMenu.fxml"));
-            BorderPane homePane = (BorderPane) updateMenuPane.getParent();
-            homePane.setCenter(showRegularMenuPane);
+            Pane menuPane = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
+            BorderPane homePane = (BorderPane) addMenuPane.getParent();
+            homePane.setCenter(menuPane);
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
     }
-
 }

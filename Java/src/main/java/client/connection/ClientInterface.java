@@ -113,13 +113,6 @@ public interface ClientInterface {
      */
     List<Menu> getMenus();
 
-    /**
-     * Get regular menus
-     *
-     * @return  list of regular menus (null in case of error)
-     */
-    List<RegularMenu> getRegularMenus();
-
 
     /**
      * Get parents
