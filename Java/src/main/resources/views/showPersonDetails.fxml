@@ -17,8 +17,51 @@
                      <children>
                         <VBox alignment="CENTER" layoutX="138.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <ImageView fx:id="imagePersonType" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
-                              <HBox spacing="150.0" VBox.vgrow="ALWAYS">
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <ImageView fx:id="imagePersonType" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                    </ImageView>
+                                    <VBox fx:id="vboxPersonalData" alignment="CENTER_LEFT" spacing="20.0">
+                                       <children>
+                                          <HBox spacing="15.0">
+                                             <children>
+                                                <Label text="username:">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="labelUsername" layoutX="10.0" layoutY="10.0">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
+                                             <children>
+                                                <Label text="password:">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="labelPassword" layoutX="10.0" layoutY="10.0">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" spacing="150.0">
                                  <children>
                                     <VBox alignment="CENTER_LEFT" spacing="20.0">
                                        <children>
@@ -108,7 +151,7 @@
                                           </HBox>
                                        </children>
                                        <HBox.margin>
-                                          <Insets left="30.0" />
+                                          <Insets />
                                        </HBox.margin>
                                     </VBox>
                                  </children>
@@ -123,10 +166,15 @@
               <content>
                 <AnchorPane>
                      <children>
-                        <VBox alignment="CENTER_LEFT" layoutX="115.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="CENTER" layoutX="115.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <HBox spacing="15.0">
+                              <HBox alignment="CENTER" spacing="15.0">
                                  <children>
+                                    <ImageView fitHeight="60.0" fitWidth="60.0">
+                                       <image>
+                                          <Image url="@../images/family.png" />
+                                       </image>
+                                    </ImageView>
                                     <Label text="Genitori:">
                                        <font>
                                           <Font size="18.0" />
@@ -139,11 +187,16 @@
                                     </Label>
                                  </children>
                                  <VBox.margin>
-                                    <Insets left="10.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </HBox>
-                              <HBox layoutX="10.0" layoutY="199.0" spacing="15.0">
+                              <HBox alignment="CENTER" spacing="15.0">
                                  <children>
+                                    <ImageView fitHeight="60.0" fitWidth="60.0">
+                                       <image>
+                                          <Image url="@../images/doctor.png" />
+                                       </image>
+                                    </ImageView>
                                     <Label text="Pediatra:">
                                        <font>
                                           <Font size="18.0" />
@@ -155,12 +208,17 @@
                                        </font>
                                     </Label>
                                  </children>
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
                               </HBox>
-                              <HBox layoutX="10.0" layoutY="210.0" spacing="15.0">
+                              <HBox alignment="CENTER" layoutX="10.0" layoutY="254.0" spacing="15.0">
                                  <children>
+                                    <ImageView fitHeight="60.0" fitWidth="60.0">
+                                       <image>
+                                          <Image url="@../images/grandparents.png" />
+                                       </image>
+                                    </ImageView>
                                     <Label text="Contatti:">
                                        <font>
                                           <Font size="18.0" />
@@ -172,9 +230,6 @@
                                        </font>
                                     </Label>
                                  </children>
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
                               </HBox>
                            </children>
                         </VBox>
@@ -186,29 +241,35 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <HBox alignment="CENTER" layoutX="67.0" layoutY="150.0" spacing="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox alignment="CENTER" layoutX="67.0" layoutY="150.0" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <VBox alignment="CENTER">
+                              <VBox alignment="CENTER" spacing="20.0">
                                  <children>
                                     <Label text="Allergie:">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                     </Label>
-                                    <TextArea fx:id="textAreaAllergies" prefHeight="300.0" prefWidth="350.0" />
+                                    <TextArea fx:id="textAreaAllergies" editable="false" prefHeight="250.0" prefWidth="350.0">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></TextArea>
                                  </children>
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
                               </VBox>
-                              <VBox alignment="CENTER">
+                              <VBox alignment="CENTER" spacing="20.0">
                                  <children>
                                     <Label text="Intolleranze:">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                     </Label>
-                                    <TextArea fx:id="textAreaIntolerances" prefHeight="300.0" prefWidth="350.0" />
+                                    <TextArea fx:id="textAreaIntolerances" editable="false" prefHeight="250.0" prefWidth="350.0">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></TextArea>
                                  </children>
                                  <HBox.margin>
                                     <Insets right="20.0" />

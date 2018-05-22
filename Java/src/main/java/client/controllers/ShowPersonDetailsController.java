@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import main.java.models.*;
 
 import java.net.URL;
@@ -31,6 +32,9 @@ public class ShowPersonDetailsController extends AbstractController implements I
     @FXML private Label labelBirthDate;
     @FXML private Label labelAddress;
     @FXML private Label labelTelephone;
+    @FXML private VBox vboxPersonalData;
+    @FXML private Label labelUsername;
+    @FXML private Label labelPassword;
 
     @FXML Tab tabRelations;
     @FXML private Label labelParents;
@@ -57,12 +61,12 @@ public class ShowPersonDetailsController extends AbstractController implements I
      * Load the person data into the corresponding fields
      */
     private void loadData() {
-        labelFiscalCode.setText(person.getFiscalCode());           // Fiscal code
-        labelFirstName.setText(person.getFirstName());             // First name
-        labelLastName.setText(person.getLastName());               // Last name
-        labelBirthDate.setText(person.getBirthdate().toString());  // Birth date
-        labelAddress.setText(person.getAddress());                 // Address
-        labelTelephone.setText(person.getTelephone());             // Telephone
+        labelFiscalCode.setText(person.getFiscalCode());                                            // Fiscal code
+        labelFirstName.setText(person.getFirstName());                                              // First name
+        labelLastName.setText(person.getLastName());                                                // Last name
+        labelBirthDate.setText(new java.sql.Date(person.getBirthdate().getTime()).toString());      // Birth date
+        labelAddress.setText(person.getAddress());                                                  // Address
+        labelTelephone.setText(person.getTelephone());                                              // Telephone
 
         // Allergies
         for(Ingredient current: person.getAllergies()){
@@ -76,6 +80,7 @@ public class ShowPersonDetailsController extends AbstractController implements I
         }
 
         tabPane.getTabs().removeAll(tabRelations, tabIngredients);
+        vboxPersonalData.setVisible(false);
 
         // Differentiation based on person type
         switch (PersonType.getPersonType(person)) {
@@ -112,6 +117,9 @@ public class ShowPersonDetailsController extends AbstractController implements I
 
             case STAFF:
                 imagePersonType.setImage(new Image("/images/secretary.png"));
+                labelUsername.setText(((Staff)person).getUsername());
+                labelPassword.setText(((Staff)person).getPassword());
+                vboxPersonalData.setVisible(true);
                 break;
         }
 
