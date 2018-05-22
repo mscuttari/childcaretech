@@ -6,7 +6,6 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -49,7 +48,6 @@ public class Pediatrist extends Person {
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiPediatrist.class;
@@ -66,7 +64,7 @@ public class Pediatrist extends Person {
 
 
     public Collection<Child> getChildren() {
-        return children;
+        return this.children;
     }
 
 
@@ -85,12 +83,6 @@ public class Pediatrist extends Person {
     public void setChildren(Collection<Child> children) {
         this.children.clear();
         addChildren(children);
-    }
-
-
-    @Override
-    public String toString(){
-        return super.toString();
     }
 
 }

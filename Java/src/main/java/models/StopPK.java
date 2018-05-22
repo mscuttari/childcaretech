@@ -10,6 +10,7 @@ public class StopPK implements Serializable {
     @Transient
     private static final long serialVersionUID = 1432021014402688581L;
 
+
     @ManyToOne
     @JoinColumns(value = {
             @JoinColumn(name = "trip_date", referencedColumnName = "date", nullable = false),
@@ -17,14 +18,15 @@ public class StopPK implements Serializable {
     })
     private Trip trip;
 
-    @Column(name = "place_name", nullable = false)
-    private String placeName;
 
-    @Column(name = "province", nullable = false)
-    private String province;
+    @ManyToOne
+    @JoinColumns(value = {
+            @JoinColumn(name = "place_name", referencedColumnName = "name", nullable = false),
+            @JoinColumn(name = "place_province", referencedColumnName = "province", nullable = false),
+            @JoinColumn(name = "place_nation", referencedColumnName = "nation", nullable = false)
+    })
+    private Place place;
 
-    @Column(name = "nation", nullable = false)
-    private String nation;
 
     @Column(name = "number", nullable = false)
     private Integer number;
@@ -34,7 +36,7 @@ public class StopPK implements Serializable {
      * Default constructor
      */
     public StopPK() {
-        this(null, null, null, null, null);
+        this(null, null, null);
     }
 
 
@@ -42,17 +44,13 @@ public class StopPK implements Serializable {
      * Constructor
      *
      * @param   trip        trip the stop belongs to
-     * @param   placeName   name of the place
-     * @param   province    province of the place
-     * @param   nation      nation of the place
+     * @param   place       stop place
      * @param   number      sequential number of the stop (in the context of the trip)
      */
-    public StopPK(Trip trip, String placeName, String province, String nation, Integer number) {
-        this.trip = trip;
-        this.placeName = placeName;
-        this.province = province;
-        this.nation = nation;
-        this.number = number;
+    public StopPK(Trip trip, Place place, Integer number) {
+        setTrip(trip);
+        setPlace(place);
+        setNumber(number);
     }
 
 
@@ -63,61 +61,39 @@ public class StopPK implements Serializable {
 
         StopPK that = (StopPK) o;
         return Objects.equals(getTrip(), that.getTrip()) &&
-                Objects.equals(getPlaceName(), that.getPlaceName()) &&
-                Objects.equals(getProvince(), that.getProvince()) &&
-                Objects.equals(getNation(), that.getNation()) &&
+                Objects.equals(getPlace(), that.getPlace()) &
                 Objects.equals(getNumber(), that.getNumber());
     }
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTrip(), getPlaceName());
+        return Objects.hash(getTrip(), getPlace(), getNumber());
     }
 
 
     public Trip getTrip() {
-        return trip;
+        return this.trip;
     }
 
 
     public void setTrip(Trip trip) {
-        this.trip = trip;
+        this.trip = trip == null ? new Trip() : trip;
     }
 
 
-    public String getPlaceName() {
-        return placeName;
+    public Place getPlace() {
+        return this.place;
     }
 
 
-    public void setPlaceName(String placeName) {
-        this.placeName = placeName == null || placeName.isEmpty() ? null : placeName;
-    }
-
-
-    public String getProvince() {
-        return province;
-    }
-
-
-    public void setProvince(String province) {
-        this.province = province == null || province.isEmpty() ? null : province;
-    }
-
-
-    public String getNation() {
-        return nation;
-    }
-
-
-    public void setNation(String nation) {
-        this.nation = nation == null || nation.isEmpty() ? null : nation;
+    public void setPlace(Place place) {
+        this.place = place == null ? new Place() : place;
     }
 
 
     public Integer getNumber() {
-        return number;
+        return this.number;
     }
 
 

@@ -3,7 +3,8 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiProvider;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,14 +18,18 @@ public class Provider extends BaseModel {
     @Transient
     private static final long serialVersionUID = -2813171935508565148L;
 
+
     @Id
     @Column(name = "vat")
     private String vat;
 
+
     @Column(name = "name", nullable = false)
     private String name;
 
+
     @OneToMany(mappedBy = "provider")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Dish> dishes = new ArrayList<>();
 
 
@@ -43,13 +48,12 @@ public class Provider extends BaseModel {
      * @param   name    name
      */
     public Provider(String vat, String name) {
-        this.vat = vat;
-        this.name = name;
+        setVat(vat);
+        setName(name);
     }
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // VAT: [a-z] [A-Z] [0-9] space
@@ -63,7 +67,6 @@ public class Provider extends BaseModel {
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiProvider.class;
@@ -76,7 +79,8 @@ public class Provider extends BaseModel {
         if (!(o instanceof Provider)) return false;
 
         Provider that = (Provider) o;
-        return Objects.equals(getVat(), that.getVat());
+        return Objects.equals(getVat(), that.getVat()) &&
+                Objects.equals(getName(), that.getName());
     }
 
 
@@ -87,7 +91,7 @@ public class Provider extends BaseModel {
 
 
     public String getVat() {
-        return vat;
+        return this.vat;
     }
 
 
@@ -97,7 +101,7 @@ public class Provider extends BaseModel {
 
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
 
@@ -107,7 +111,7 @@ public class Provider extends BaseModel {
 
 
     public Collection<Dish> getDishes() {
-        return dishes;
+        return this.dishes;
     }
 
 
@@ -120,9 +124,10 @@ public class Provider extends BaseModel {
         this.dishes.addAll(dishes);
     }
 
-    @Override
-    public String toString() {
-        return "[" + getVat() + "] - " + getName();
+
+    public void setDishes(Collection<Dish> dishes) {
+        this.dishes.clear();
+        addDishes(dishes);
     }
 
 }

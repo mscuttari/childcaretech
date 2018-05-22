@@ -13,8 +13,10 @@ class TripPK implements Serializable {
     @Transient
     private static final long serialVersionUID = -8704900303319763605L;
 
+
     @Column(name = "date", nullable = false)
     private Date date;
+
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -35,8 +37,8 @@ class TripPK implements Serializable {
      * @param   title   name of the trip
      */
     TripPK(Date date, String title) {
-        this.date = date;
-        this.title = title;
+        setDate(date);
+        setTitle(title);
     }
 
 
@@ -58,7 +60,7 @@ class TripPK implements Serializable {
 
 
     public Date getDate() {
-        return date;
+        return this.date;
     }
 
 
@@ -68,7 +70,7 @@ class TripPK implements Serializable {
 
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
 

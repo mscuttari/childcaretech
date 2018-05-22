@@ -3,7 +3,6 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiDish;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -19,16 +18,20 @@ public class Dish extends BaseModel {
     @Transient
     private static final long serialVersionUID = 4169234131175265564L;
 
+
     @Id
     @Column(name = "name")
     private String name;
 
+
     @Column(name = "type", nullable = false)
     private DishType type;
+
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "provider_vat", nullable = false)
     private Provider provider;
+
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -39,7 +42,9 @@ public class Dish extends BaseModel {
     )
     private Collection<Ingredient> ingredients = new ArrayList<>();
 
+
     @ManyToMany(mappedBy = "dishes", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Menu> menus = new ArrayList<>();
 
 
@@ -58,13 +63,12 @@ public class Dish extends BaseModel {
      * @param   type    type
      */
     public Dish(String name, DishType type) {
-        this.name = name;
-        this.type = type;
+        setName(name);
+        setType(type);
     }
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Name: [a-z] [A-Z] space
@@ -93,6 +97,7 @@ public class Dish extends BaseModel {
 
         Dish that = (Dish) o;
         return Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getType(), that.getType()) &&
                 Objects.equals(getType(), that.getType());
     }
 
@@ -104,7 +109,7 @@ public class Dish extends BaseModel {
 
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
 
@@ -114,7 +119,7 @@ public class Dish extends BaseModel {
 
 
     public DishType getType() {
-        return type;
+        return this.type;
     }
 
 
@@ -124,7 +129,7 @@ public class Dish extends BaseModel {
 
 
     public Provider getProvider() {
-        return provider;
+        return this.provider;
     }
 
 
@@ -134,12 +139,12 @@ public class Dish extends BaseModel {
 
 
     public Collection<Ingredient> getIngredients() {
-        return ingredients;
+        return this.ingredients;
     }
 
 
     public void addIngredient(Ingredient ingredient) {
-        ingredients.add(ingredient);
+        this.ingredients.add(ingredient);
     }
 
 
@@ -148,8 +153,14 @@ public class Dish extends BaseModel {
     }
 
 
+    public void setIngredients(Collection<Ingredient> ingredients) {
+        this.ingredients.clear();
+        addIngredients(ingredients);
+    }
+
+
     public Collection<Menu> getMenus() {
-        return menus;
+        return this.menus;
     }
 
 
@@ -160,11 +171,6 @@ public class Dish extends BaseModel {
 
     public void addToMenus(Collection<Menu> menus) {
         this.menus.addAll(menus);
-    }
-
-    @Override
-    public String toString(){
-        return name;
     }
 
 }

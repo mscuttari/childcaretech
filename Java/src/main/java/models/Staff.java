@@ -3,6 +3,8 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiStaff;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -22,16 +24,21 @@ public class Staff extends Person {
     @Transient
     private static final long serialVersionUID = -3026738919615064997L;
 
+
     @Column(name = "username")
     private String username;
+
 
     @Column(name = "password")
     private String password;
 
+
     @OneToMany(mappedBy = "responsible")
     private Collection<Menu> menus = new ArrayList<>();
 
+
     @ManyToMany(mappedBy = "staff")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Trip> trips = new ArrayList<>();
 
 
@@ -58,13 +65,12 @@ public class Staff extends Person {
     public Staff(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone, String username, String password) {
         super(fiscalCode, firstName, lastName, birthDate, address, telephone);
 
-        this.username = username;
-        this.password = password;
+        setUsername(username);
+        setPassword(password);
     }
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         super.checkDataValidity();
@@ -78,7 +84,6 @@ public class Staff extends Person {
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiStaff.class;
@@ -98,7 +103,7 @@ public class Staff extends Person {
 
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
 
@@ -108,7 +113,7 @@ public class Staff extends Person {
 
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
 
@@ -118,7 +123,7 @@ public class Staff extends Person {
 
 
     public Collection<Menu> getMenus() {
-        return menus;
+        return this.menus;
     }
 
 
@@ -132,8 +137,14 @@ public class Staff extends Person {
     }
 
 
-    public Collection<Trip> getTripsEnrollments() {
-        return trips;
+    public void setMenus(Collection<Menu> menus) {
+        this.menus.clear();
+        addMenus(menus);
+    }
+
+
+    public Collection<Trip> getTrips() {
+        return this.trips;
     }
 
 
@@ -146,9 +157,10 @@ public class Staff extends Person {
         this.trips.addAll(trips);
     }
 
-    @Override
-    public String toString(){
-        return super.toString();
+
+    public void setTrips(Collection<Trip> trips) {
+        this.trips.clear();
+        addTrips(trips);
     }
 
 }

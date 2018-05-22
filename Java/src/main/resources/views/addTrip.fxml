@@ -73,31 +73,32 @@
         <Tab text="Fermate">
             <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
                 <HBox>
-                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0"
-                          HBox.hgrow="ALWAYS">
-                        <TextField fx:id="tfStopName" promptText="Nome">
+                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="tfStopName" promptText="Nome località">
                             <font>
                                 <Font size="18.0"/>
                             </font>
                         </TextField>
-                        <TextField fx:id="tfStopProvince" layoutX="10.0" layoutY="192.0"
-                                   promptText="Provincia">
+
+                        <TextField fx:id="tfStopProvince" layoutX="10.0" layoutY="192.0" promptText="Provincia">
                             <font>
                                 <Font size="18.0"/>
                             </font>
                         </TextField>
-                        <TextField fx:id="tfStopNation" layoutX="10.0" layoutY="210.0"
-                                   promptText="Nazione">
+
+                        <TextField fx:id="tfStopNation" layoutX="10.0" layoutY="210.0" promptText="Nazione">
                             <font>
                                 <Font size="18.0"/>
                             </font>
                         </TextField>
+
                         <TextField fx:id="tfStopNumber" promptText="#">
                             <font>
                                 <Font size="18.0"/>
                             </font>
                         </TextField>
                     </VBox>
+
                     <Pane HBox.hgrow="ALWAYS"/>
                     <ListView fx:id="lvStops" HBox.hgrow="ALWAYS"/>
                 </HBox>

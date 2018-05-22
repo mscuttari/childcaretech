@@ -16,7 +16,9 @@ public class Contact extends Person {
     @Transient
     private static final long serialVersionUID = 7139409983483815073L;
 
+
     @ManyToMany(mappedBy = "contacts", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Child> children = new HashSet<>();
 
 
@@ -44,7 +46,6 @@ public class Contact extends Person {
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiContact.class;
@@ -60,14 +61,8 @@ public class Contact extends Person {
     }
 
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-
     public Collection<Child> getChildren() {
-        return children;
+        return this.children;
     }
 
 
@@ -80,9 +75,10 @@ public class Contact extends Person {
         this.children.addAll(children);
     }
 
-    @Override
-    public String toString(){
-        return super.toString();
+
+    public void setChildren(Collection<Child> children) {
+        this.children.clear();
+        addChildren(children);
     }
 
 }

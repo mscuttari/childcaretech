@@ -3,7 +3,6 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiIngredient;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -19,17 +18,21 @@ public class Ingredient extends BaseModel {
     @Transient
     private static final long serialVersionUID = 2539848520616597694L;
 
+
     @Id
     @Column(name = "name")
     private String name;
+
 
     @ManyToMany(mappedBy = "ingredients")
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Dish> dishes = new ArrayList<>();
 
+
     @ManyToMany(mappedBy = "allergies")
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Person> allergicPeople = new ArrayList<>();
+
 
     @ManyToMany(mappedBy = "intolerances")
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -55,17 +58,15 @@ public class Ingredient extends BaseModel {
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Name: [a-z] [A-Z] space
-        if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");
+        if (name == null) throw new InvalidFieldException("Nome mancante");
         if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
     }
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiIngredient.class;
@@ -89,7 +90,7 @@ public class Ingredient extends BaseModel {
 
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
 
@@ -99,7 +100,7 @@ public class Ingredient extends BaseModel {
 
 
     public Collection<Dish> getDishes() {
-        return dishes;
+        return this.dishes;
     }
 
 
@@ -109,12 +110,12 @@ public class Ingredient extends BaseModel {
 
 
     public void addToDishes(Collection<Dish> dishes) {
-        this.dishes = dishes;
+        this.dishes.addAll(dishes);
     }
 
 
     public Collection<Person> getAllergicPeople() {
-        return allergicPeople;
+        return this.allergicPeople;
     }
 
 
@@ -128,8 +129,14 @@ public class Ingredient extends BaseModel {
     }
 
 
+    public void setAllergicPeople(Collection<Person> people) {
+        this.allergicPeople.clear();
+        addAllergicPeople(people);
+    }
+
+
     public Collection<Person> getIntolerantPeople() {
-        return intolerantPeople;
+        return this.intolerantPeople;
     }
 
 
@@ -142,9 +149,10 @@ public class Ingredient extends BaseModel {
         this.intolerantPeople.addAll(people);
     }
 
-    @Override
-    public String toString(){
-        return getName();
+
+    public void setIntolerantPeople(Collection<Person> people) {
+        this.intolerantPeople.clear();
+        addIntolerantPeople(people);
     }
 
 }

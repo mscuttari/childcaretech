@@ -3,7 +3,6 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiMenu;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -19,16 +18,20 @@ public class Menu extends BaseModel {
     @Transient
     private static final long serialVersionUID = -8284040804525605098L;
 
+
     @Id
     @Column(name = "name")
     private String name;
 
+
     @Column(name = "day_of_the_week", nullable = false)
     private DayOfTheWeek dayOfTheWeek;
+
 
     @ManyToOne
     @JoinColumn(name = "responsible_fiscal_code", referencedColumnName = "fiscal_code")
     private Staff responsible;
+
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -51,32 +54,33 @@ public class Menu extends BaseModel {
     /**
      * Constructor
      *
-     * @param   name            name
-     * @param   responsible     responsible (staff person)
+     * @param   name                name
+     * @param   responsible         responsible (staff person)
      * @param   dayOfTheWeek        day of the week
      */
     public Menu(String name, Staff responsible, DayOfTheWeek dayOfTheWeek) {
-        this.name = name;
-        this.responsible = responsible;
-        this.dayOfTheWeek = dayOfTheWeek;
+        setName(name);
+        setResponsible(responsible);
+        setDayOfTheWeek(dayOfTheWeek);
     }
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Name: [a-z] [A-Z] space
-        if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");
+        if (name == null) throw new InvalidFieldException("Nome mancante");
         if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
         // Responsible
         if (responsible == null) throw new InvalidFieldException("Responsabile mancante");
+
+        // Day of the week
+        if (dayOfTheWeek == null) throw new InvalidFieldException("Giorno della settimana mancante");
     }
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiMenu.class;
@@ -100,7 +104,7 @@ public class Menu extends BaseModel {
 
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
 
@@ -110,37 +114,43 @@ public class Menu extends BaseModel {
 
 
     public DayOfTheWeek getDayOfTheWeek() {
-        return dayOfTheWeek;
+        return this.dayOfTheWeek;
     }
 
 
     public void setDayOfTheWeek(DayOfTheWeek dayOfTheWeek) {
-        this.dayOfTheWeek = dayOfTheWeek;
+        this.dayOfTheWeek = dayOfTheWeek == null ? DayOfTheWeek.MONDAY : dayOfTheWeek;
     }
 
 
     public Staff getResponsible() {
-        return responsible;
+        return this.responsible;
     }
 
 
     public void setResponsible(Staff responsible) {
-        this.responsible = responsible;
+        this.responsible = responsible == null ? new Staff() : responsible;
     }
 
 
     public Collection<Dish> getDishes() {
-        return dishes;
+        return this.dishes;
     }
 
 
     public void addDish(Dish dish) {
-        dishes.add(dish);
+        this.dishes.add(dish);
     }
 
 
     public void addDishes(Collection<Dish> dishes) {
         this.dishes.addAll(dishes);
+    }
+
+
+    public void setDishes(Collection<Dish> dishes) {
+        this.dishes.clear();
+        addDishes(dishes);
     }
 
 }

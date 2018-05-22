@@ -2,10 +2,8 @@ package main.java.models;
 
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
-import org.junit.jupiter.api.Assertions;
 
 import javax.persistence.Column;
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -13,19 +11,17 @@ import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public abstract class BaseModel implements Serializable {
 
     // Serialization
     private static final long serialVersionUID = 5852497063598077389L;
+
 
     /**
      * Check if fields contains valid data
      *
      * @throws  InvalidFieldException   if any of the fields is invalid
      */
-    @Transient
     public abstract void checkDataValidity() throws InvalidFieldException;
 
 
@@ -34,7 +30,6 @@ public abstract class BaseModel implements Serializable {
      *
      * @return  GUI model class
      */
-    @Transient
     public abstract Class<? extends GuiBaseModel> getGuiClass();
 
 

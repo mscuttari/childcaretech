@@ -27,6 +27,7 @@ import java.util.*;
 public class AddTripController extends AbstractController implements Initializable {
 
     private Trip trip = new Trip();
+    private int stopCounter = 1;
 
     @FXML private Pane addTripPane;
     @FXML private ImageView addTripImage;
@@ -53,7 +54,7 @@ public class AddTripController extends AbstractController implements Initializab
     @FXML private TextField tfStopProvince;
     @FXML private TextField tfStopNation;
     @FXML private TextField tfStopNumber;
-    @FXML private ListView<Stop> lvStops;
+    @FXML private ListView<GuiStop> lvStops;
     @FXML private Button buttonAddStop;
     @FXML private Button buttonRemoveSelectedStops;
 
@@ -116,16 +117,27 @@ public class AddTripController extends AbstractController implements Initializab
         buttonRemoveSelectedStops.setOnAction(event -> removeSelectedStops());
         buttonAddStop.setOnAction(event -> addStop());
 
+        // Force the number field to be numeric only
+        tfStopNumber.setTextFormatter(new TextFormatter<>(change -> {
+            String text = change.getText();
+
+            if (text.matches("[0-9]*"))
+                return change;
+
+            return null;
+        }));
+
 
         // Add stop on enter key press
-        EventHandler<KeyEvent> StopKeyPressEvent = event -> {
+        EventHandler<KeyEvent> stopKeyPressEvent = event -> {
             if (event.getCode() == KeyCode.ENTER)
                 addStop();
         };
 
-        tfStopName.setOnKeyPressed(StopKeyPressEvent);
-        tfStopProvince.setOnKeyPressed(StopKeyPressEvent);
-        tfStopNation.setOnKeyPressed(StopKeyPressEvent);
+        tfStopName.setOnKeyPressed(stopKeyPressEvent);
+        tfStopProvince.setOnKeyPressed(stopKeyPressEvent);
+        tfStopNation.setOnKeyPressed(stopKeyPressEvent);
+        tfStopNumber.setOnKeyPressed(stopKeyPressEvent);
 
 
         // Pullman tab
@@ -149,13 +161,21 @@ public class AddTripController extends AbstractController implements Initializab
      * Add stop to the stops list
      */
     private void addStop() {
-        String stopName = tfStopName.getText().trim();
-        String stopProvince = tfStopProvince.getText().trim();
-        String stopNation = tfStopNation.getText().trim();
-        Integer stopNumber = tfStopNumber.getText().isEmpty() ? null : Integer.valueOf(tfStopNumber.getText().trim());
-        Stop stop = new Stop(trip, stopName, stopProvince, stopNation, stopNumber);
+        // Get data
+        String placeName = tfStopName.getText().trim();
+        String placeProvince = tfStopProvince.getText().trim();
+        String placeNation = tfStopNation.getText().trim();
+        Integer stopNumber = tfStopNumber.getText().isEmpty() ? stopCounter : Integer.valueOf(tfStopNumber.getText().trim());
 
-        // Check data
+        // Limit the max stop number to the next available slot
+        if (stopNumber > stopCounter + 1)
+            stopNumber = stopCounter;
+
+        // Create stop
+        Place place = new Place(placeName, placeProvince, placeNation);
+        Stop stop = new Stop(trip, place, stopNumber);
+
+        // Check data validity
         try {
             stop.checkDataValidity();
         } catch (InvalidFieldException e) {
@@ -163,13 +183,39 @@ public class AddTripController extends AbstractController implements Initializab
             return;
         }
 
-        lvStops.getItems().add(stop);
-        lvStops.getItems().setAll(lvStops.getItems().sorted((o1, o2) -> o1.getNumber().compareTo(o2.getNumber())));
+        // Check if the number already exists
+        boolean numberAlreadyExists = false;
 
+        for (GuiStop guiStop : lvStops.getItems()) {
+            if (guiStop.getModel().getNumber().equals(stop.getNumber())) {
+                numberAlreadyExists = true;
+                break;
+            }
+        }
+
+        if (numberAlreadyExists) {
+            for (GuiStop guiStop : lvStops.getItems()) {
+                if (guiStop.getModel().getNumber() >= stop.getNumber())
+                    guiStop.numberProperty().setValue(guiStop.numberProperty().getValue() + 1);
+            }
+        }
+
+        // Add stop
+        GuiStop guiStop = new GuiStop(stop);
+        lvStops.getItems().add(guiStop);
+        lvStops.getItems().setAll(lvStops.getItems().sorted(Comparator.comparing(o -> o.getModel().getNumber())));
+
+        // Reset fields
         tfStopName.setText("");
         tfStopProvince.setText("");
         tfStopNation.setText("");
         tfStopNumber.setText("");
+
+        // Increment stop counter
+        stopCounter = getHighestStopNumber() + 1;
+
+        // Assign the focus to the place name textfield
+        tfStopName.requestFocus();
     }
 
 
@@ -177,25 +223,45 @@ public class AddTripController extends AbstractController implements Initializab
      * Remove the selected stop
      */
     private void removeSelectedStops() {
-        Stop selectedItem = lvStops.getSelectionModel().getSelectedItem();
+        GuiStop selectedItem = lvStops.getSelectionModel().getSelectedItem();
 
         if (selectedItem == null) {
             showErrorDialog("Nessuna fermata selezionata");
 
         } else {
-            List<Stop> stopsList = new ArrayList<>(lvStops.getItems());
-            for(Stop followingItem : stopsList){
-                if(selectedItem.getNumber()<followingItem.getNumber()){
-                    Stop newStop = new Stop(followingItem.getTrip(), followingItem.getPlaceName(),
-                            followingItem.getProvince(), followingItem.getNation(), followingItem.getNumber()-1);
-                    lvStops.getItems().remove(followingItem);
-                    lvStops.getItems().add(newStop);
-                }
-            }
             lvStops.getItems().remove(selectedItem);
             lvStops.getSelectionModel().clearSelection();
+
+            // Adjust stops numbers
+            List<GuiStop> guiStops = new ArrayList<>(lvStops.getItems());
+
+            for (GuiStop followingItem : guiStops) {
+                if (selectedItem.numberProperty().getValue() < followingItem.numberProperty().getValue()) {
+                    followingItem.numberProperty().setValue(followingItem.numberProperty().getValue() - 1);
+                }
+            }
+
+            stopCounter = getHighestStopNumber() + 1;
         }
     }
+
+
+    /**
+     * Get the highest stop number in the ListView
+     *
+     * @return  stop number
+     */
+    private int getHighestStopNumber() {
+        int highestStopNumber = 1;
+
+        for (GuiStop guiStop1 : lvStops.getItems()) {
+            if (guiStop1.numberProperty().getValue() > highestStopNumber)
+                highestStopNumber = guiStop1.numberProperty().getValue();
+        }
+
+        return highestStopNumber;
+    }
+
 
     /**
      * Add pullman to the pullman list
@@ -247,9 +313,9 @@ public class AddTripController extends AbstractController implements Initializab
 
         trip.setTitle(title);
         trip.setDate(date);
-        trip.addTransports(lvPullman.getItems());
-        trip.addChildren(TableUtils.getSelectedItems(tableChildren));
-        trip.addStaff(TableUtils.getSelectedItems(tableStaff));
+        trip.setTransports(lvPullman.getItems());
+        trip.setChildren(TableUtils.getSelectedItems(tableChildren));
+        trip.setStaff(TableUtils.getSelectedItems(tableStaff));
 
         Integer totalNumberOfSeats = trip.getAvailableSeats();
         int i=0;
@@ -273,7 +339,12 @@ public class AddTripController extends AbstractController implements Initializab
             return;
         }
 
-        List<Stop> stops = new ArrayList<>(lvStops.getItems());
+        List<GuiStop> guiStops = new ArrayList<>(lvStops.getItems());
+        List<Stop> stops = new ArrayList<>();
+
+        for (GuiStop guiStop : guiStops)
+            stops.add(guiStop.getModel());
+
         trip.setStops(stops);
 
         trip.addTransports(lvPullman.getItems());

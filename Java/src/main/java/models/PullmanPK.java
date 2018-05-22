@@ -10,12 +10,14 @@ public class PullmanPK implements Serializable {
     @Transient
     private static final long serialVersionUID = -3587751118264728128L;
 
+
     @ManyToOne
     @JoinColumns(value = {
             @JoinColumn(name = "trip_date", referencedColumnName = "date", nullable = false),
             @JoinColumn(name = "trip_title", referencedColumnName = "title", nullable = false)
     })
     private Trip trip;
+
 
     @Column(name = "numberplate", nullable = false)
     private String numberplate;
@@ -36,8 +38,8 @@ public class PullmanPK implements Serializable {
      * @param   numberplate     numberplate
      */
     public PullmanPK(Trip trip, String numberplate) {
-        this.trip = trip;
-        this.numberplate = numberplate;
+        setTrip(trip);
+        setNumberplate(numberplate);
     }
 
 
@@ -59,17 +61,17 @@ public class PullmanPK implements Serializable {
 
 
     public Trip getTrip() {
-        return trip;
+        return this.trip;
     }
 
 
     public void setTrip(Trip trip) {
-        this.trip = trip;
+        this.trip = trip == null ? new Trip() : trip;
     }
 
 
     public String getNumberplate() {
-        return numberplate;
+        return this.numberplate;
     }
 
 

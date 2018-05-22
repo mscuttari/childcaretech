@@ -3,12 +3,10 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiPullman;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,11 +18,14 @@ public class Pullman extends BaseModel {
     @Transient
     private static final long serialVersionUID = 1788156831943646482L;
 
+
     @EmbeddedId
     private PullmanPK id;
 
+
     @Column(name = "seats", nullable = false)
     private Integer seats;
+
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -57,19 +58,18 @@ public class Pullman extends BaseModel {
      */
     public Pullman(Trip trip, String numberplate, Integer seats) {
         this.id = new PullmanPK(trip, numberplate);
-        this.seats = seats;
+        setSeats(seats);
     }
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Trip
         if (id.getTrip() == null) throw new InvalidFieldException("Gita mancante");
 
         // Type: [a-z] [A-Z] [0-9]
-        if (id.getNumberplate() == null || id.getNumberplate().isEmpty()) throw new InvalidFieldException("Targa mancante");
+        if (id.getNumberplate() == null) throw new InvalidFieldException("Targa mancante");
         if (!id.getNumberplate().matches("^[a-zA-Z\\d]+$")) throw new InvalidFieldException("Targa non valida");
 
         // Seats: > 0
@@ -79,7 +79,6 @@ public class Pullman extends BaseModel {
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiPullman.class;
@@ -99,12 +98,12 @@ public class Pullman extends BaseModel {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getNumberplate());
+        return Objects.hash(getTrip(), getNumberplate());
     }
 
 
     public Trip getTrip() {
-        return id.getTrip();
+        return this.id.getTrip();
     }
 
 
@@ -114,7 +113,7 @@ public class Pullman extends BaseModel {
 
 
     public String getNumberplate() {
-        return id.getNumberplate();
+        return this.id.getNumberplate();
     }
 
 
@@ -124,7 +123,7 @@ public class Pullman extends BaseModel {
 
 
     public Integer getSeats() {
-        return seats;
+        return this.seats;
     }
 
 
@@ -134,7 +133,7 @@ public class Pullman extends BaseModel {
 
 
     public Collection<Child> getChildren() {
-        return children;
+        return this.children;
     }
 
 
@@ -147,9 +146,10 @@ public class Pullman extends BaseModel {
         this.children.addAll(children);
     }
 
-    @Override
-    public String toString(){
-        return getNumberplate();
+
+    public void setChildren(Collection<Child> children) {
+        this.children.clear();
+        addChildren(children);
     }
 
 }

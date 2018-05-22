@@ -6,7 +6,6 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -18,6 +17,7 @@ public class Parent extends Person {
 
     @Transient
     private static final long serialVersionUID = -8335298083415447342L;
+
 
     @ManyToMany(mappedBy = "parents", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -48,7 +48,6 @@ public class Parent extends Person {
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiParent.class;
@@ -71,7 +70,7 @@ public class Parent extends Person {
 
 
     public Collection<Child> getChildren() {
-        return children;
+        return this.children;
     }
 
 
@@ -86,9 +85,10 @@ public class Parent extends Person {
         }
     }
 
-    @Override
-    public String toString(){
-        return super.toString();
+
+    public void setChildren(Collection<Child> children) {
+        this.children.clear();
+        addChildren(children);
     }
 
 }

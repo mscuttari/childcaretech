@@ -3,8 +3,6 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiTrip;
-import main.java.client.utils.TableUtils;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -18,16 +16,20 @@ public class Trip extends BaseModel {
     @Transient
     private static final long serialVersionUID = 9041385768903721723L;
 
+
     @EmbeddedId
     private TripPK id;
+
 
     @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Stop> stops = new HashSet<>();
 
+
     @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Pullman> transports = new HashSet<>();
+
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -40,6 +42,7 @@ public class Trip extends BaseModel {
             inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
     )
     private Collection<Child> children = new HashSet<>();
+
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -74,14 +77,13 @@ public class Trip extends BaseModel {
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Date
         if (id.getDate() == null) throw new InvalidFieldException("Data mancante");
 
         // Title: [a-z] [A-Z] space
-        if (id.getTitle() == null || id.getTitle().isEmpty()) throw new InvalidFieldException("Titolo mancante");
+        if (id.getTitle() == null) throw new InvalidFieldException("Titolo mancante");
         if (!id.getTitle().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Titolo non valido");
 
         // Check if the total number of seats is enough
@@ -93,7 +95,6 @@ public class Trip extends BaseModel {
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiTrip.class;
@@ -118,7 +119,7 @@ public class Trip extends BaseModel {
 
 
     public Date getDate() {
-        return id.getDate();
+        return this.id.getDate();
     }
 
 
@@ -128,7 +129,7 @@ public class Trip extends BaseModel {
 
 
     public String getTitle() {
-        return id.getTitle();
+        return this.id.getTitle();
     }
 
 
@@ -138,7 +139,7 @@ public class Trip extends BaseModel {
 
 
     public Collection<Stop> getStops() {
-        return stops;
+        return this.stops;
     }
 
 
@@ -148,7 +149,7 @@ public class Trip extends BaseModel {
 
 
     public Collection<Pullman> getTransports() {
-        return transports;
+        return this.transports;
     }
 
 
@@ -159,6 +160,12 @@ public class Trip extends BaseModel {
 
     public void addTransports(Collection<Pullman> transports) {
         this.transports.addAll(transports);
+    }
+
+
+    public void setTransports(Collection<Pullman> transports) {
+        this.transports.clear();
+        addTransports(transports);
     }
 
 
@@ -175,7 +182,7 @@ public class Trip extends BaseModel {
 
 
     public Collection<Child> getChildren() {
-        return children;
+        return this.children;
     }
 
 
@@ -189,8 +196,14 @@ public class Trip extends BaseModel {
     }
 
 
+    public void setChildren(Collection<Child> children) {
+        this.children.clear();
+        addChildren(children);
+    }
+
+
     public Collection<Staff> getStaff() {
-        return staff;
+        return this.staff;
     }
 
 
@@ -201,6 +214,12 @@ public class Trip extends BaseModel {
 
     public void addStaff(Collection<Staff> staff) {
         this.staff.addAll(staff);
+    }
+
+
+    public void setStaff(Collection<Staff> staff) {
+        this.staff.clear();
+        addStaff(staff);
     }
 
 }

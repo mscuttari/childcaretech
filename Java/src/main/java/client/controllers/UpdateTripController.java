@@ -160,11 +160,13 @@ public class UpdateTripController extends AbstractController implements Initiali
      * Add stop to the stops list
      */
     private void addStop() {
-        String stopName = tfStopName.getText().trim();
-        String stopProvince = tfStopProvince.getText().trim();
-        String stopNation = tfStopNation.getText().trim();
+        String placeName = tfStopName.getText().trim();
+        String placeProvince = tfStopProvince.getText().trim();
+        String placeNation = tfStopNation.getText().trim();
         Integer stopNumber = tfStopNumber.getText().isEmpty() ? null : Integer.valueOf(tfStopNumber.getText().trim());
-        Stop stop = new Stop(trip, stopName, stopProvince, stopNation, stopNumber);
+
+        Place place = new Place(placeName, placeProvince, placeNation);
+        Stop stop = new Stop(trip, place, stopNumber);
 
         // Check data
         try {
@@ -198,6 +200,8 @@ public class UpdateTripController extends AbstractController implements Initiali
             showErrorDialog("Nessuna fermata selezionata");
         } else {
             List<Stop> stopsList = new ArrayList<>(lvStops.getItems());
+
+            /*
             for(Stop followingItem : stopsList){
                 if(selectedItem.getNumber()<followingItem.getNumber()){
                     Stop newStop = new Stop(followingItem.getTrip(), followingItem.getPlaceName(),
@@ -208,6 +212,7 @@ public class UpdateTripController extends AbstractController implements Initiali
             }
             lvStops.getItems().remove(selectedItem);
             lvStops.getSelectionModel().clearSelection();
+            */
         }
     }
 

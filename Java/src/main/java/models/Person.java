@@ -1,11 +1,9 @@
 package main.java.models;
 
 import main.java.client.InvalidFieldException;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.naming.OperationNotSupportedException;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.ArrayList;
@@ -21,24 +19,31 @@ public abstract class Person extends BaseModel {
     @Transient
     private static final long serialVersionUID = -5315181403037638727L;
 
+
     @Id
     @Column(name = "fiscal_code", nullable = false)
     private String fiscalCode;
 
+
     @Column(name = "first_name", nullable = false)
     private String firstName;
+
 
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+
     @Column(name = "birthdate")
     private Date birthDate;
+
 
     @Column(name = "address")
     private String address;
 
+
     @Column(name = "telephone")
     private String telephone;
+
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -48,6 +53,7 @@ public abstract class Person extends BaseModel {
             inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
     )
     private Collection<Ingredient> allergies = new ArrayList<>();
+
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -78,30 +84,29 @@ public abstract class Person extends BaseModel {
      * @param   telephone       telephone
      */
     public Person(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone) {
-        this.fiscalCode = fiscalCode;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-        this.address = address;
-        this.telephone = telephone;
+        setFiscalCode(fiscalCode);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setBirthdate(birthDate);
+        setAddress(address);
+        setTelephone(telephone);
     }
 
 
     /** {@inheritDoc} */
-    @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Fiscal code: [A-Z] [0-9] 16 chars length
-        if (fiscalCode == null || fiscalCode.isEmpty()) throw new InvalidFieldException("Codice fiscale mancante");
+        if (fiscalCode == null) throw new InvalidFieldException("Codice fiscale mancante");
         if (fiscalCode.length() != 16) throw new InvalidFieldException("Codice fiscale non valido");
         if (!fiscalCode.matches("^[A-Z\\d]+$")) throw new InvalidFieldException("Codice fiscale non valido");
 
         // First name: [a-z] [A-Z] space
-        if (firstName == null || firstName.isEmpty()) throw new InvalidFieldException("Nome mancante");
+        if (firstName == null) throw new InvalidFieldException("Nome mancante");
         if (!firstName.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
         // Last name: [a-z] [A-Z] space
-        if (lastName == null || lastName.isEmpty()) throw new InvalidFieldException("Cognome mancante");
+        if (lastName == null) throw new InvalidFieldException("Cognome mancante");
         if (!lastName.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Cognome non valido");
 
         // Date
@@ -137,7 +142,7 @@ public abstract class Person extends BaseModel {
 
 
     public String getFiscalCode() {
-        return fiscalCode;
+        return this.fiscalCode;
     }
 
 
@@ -147,7 +152,7 @@ public abstract class Person extends BaseModel {
 
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
 
@@ -157,7 +162,7 @@ public abstract class Person extends BaseModel {
 
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
 
@@ -167,7 +172,7 @@ public abstract class Person extends BaseModel {
 
 
     public Date getBirthdate() {
-        return birthDate;
+        return this.birthDate;
     }
 
 
@@ -177,7 +182,7 @@ public abstract class Person extends BaseModel {
 
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
 
@@ -187,7 +192,7 @@ public abstract class Person extends BaseModel {
 
 
     public String getTelephone() {
-        return telephone;
+        return this.telephone;
     }
 
 
@@ -197,7 +202,7 @@ public abstract class Person extends BaseModel {
 
 
     public Collection<Ingredient> getAllergies() {
-        return allergies;
+        return this.allergies;
     }
 
 
@@ -218,7 +223,7 @@ public abstract class Person extends BaseModel {
 
 
     public Collection<Ingredient> getIntolerances() {
-        return intolerances;
+        return this.intolerances;
     }
 
 
@@ -235,12 +240,6 @@ public abstract class Person extends BaseModel {
     public void setIntolerances(Collection<Ingredient> intolerances) {
         this.intolerances.clear();
         addIntolerances(intolerances);
-    }
-
-
-    @Override
-    public String toString(){
-        return "[" + getFiscalCode() + "] - " + getFirstName() + " " + getLastName() ;
     }
 
 }

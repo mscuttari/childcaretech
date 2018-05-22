@@ -79,12 +79,11 @@ public class Child extends Person {
     public Child(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone, Pediatrist pediatrist) {
         super(fiscalCode, firstName, lastName, birthDate, address, telephone);
 
-        this.pediatrist = pediatrist;
+        setPediatrist(pediatrist);
     }
 
 
     /** {@inheritDoc */
-    @Transient
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         super.checkDataValidity();
@@ -98,7 +97,6 @@ public class Child extends Person {
 
 
     /** {@inheritDoc */
-    @Transient
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiChild.class;
@@ -117,7 +115,7 @@ public class Child extends Person {
 
 
     public Collection<Parent> getParents() {
-        return parents;
+        return this.parents;
     }
 
 
@@ -140,7 +138,7 @@ public class Child extends Person {
 
 
     public Collection<Contact> getContacts() {
-        return contacts;
+        return this.contacts;
     }
 
 
@@ -168,12 +166,12 @@ public class Child extends Person {
 
 
     public void setPediatrist(Pediatrist pediatrist) {
-        this.pediatrist = pediatrist;
+        this.pediatrist = pediatrist == null ? new Pediatrist() : pediatrist;
     }
 
 
     public Collection<Trip> getTripsEnrollments() {
-        return tripsEnrollments;
+        return this.tripsEnrollments;
     }
 
 
@@ -194,7 +192,7 @@ public class Child extends Person {
 
 
     public Collection<Pullman> getPullmansAssignments() {
-        return pullmansAssignments;
+        return this.pullmansAssignments;
     }
 
 
