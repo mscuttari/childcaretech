@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
@@ -95,7 +96,7 @@
                                     <TableColumn fx:id="columnPeopleFiscalCode" prefWidth="120.0" style="-fx-alignment: center" text="Codice fiscale" />
                                  </columns>
                               </TableView>
-                              <TextArea fx:id="textAreaIngredients" prefHeight="200.0" prefWidth="400.0" />
+                              <TextArea fx:id="textAreaIngredients" editable="false" prefHeight="200.0" prefWidth="400.0" />
                            </children>
                         </HBox>
                      </children>

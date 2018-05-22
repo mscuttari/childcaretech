@@ -12,6 +12,7 @@
               <TableColumn fx:id="columnDishName" style="-fx-alignment: center" text="Pietanza" />
               <TableColumn fx:id="columnDishType" style="-fx-alignment: center" text="Tipo" />
               <TableColumn fx:id="columnDishEdit" style="-fx-alignment: center" />
+              <TableColumn fx:id="columnDishShowDetails" style="-fx-alignment: center" />
             <TableColumn fx:id="columnDishDelete" style="-fx-alignment: center" />
           </columns>
       </TableView>

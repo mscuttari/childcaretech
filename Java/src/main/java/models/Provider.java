@@ -120,4 +120,9 @@ public class Provider extends BaseModel {
         this.dishes.addAll(dishes);
     }
 
+    @Override
+    public String toString() {
+        return "[" + getVat() + "] - " + getName();
+    }
+
 }

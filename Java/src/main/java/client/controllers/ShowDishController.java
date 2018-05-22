@@ -34,6 +34,7 @@ public class ShowDishController implements Initializable{
     @FXML private TableColumn<Dish, String> columnDishName;
     @FXML private TableColumn<Dish, String> columnDishType;
     @FXML private TableColumn<Dish, Void> columnDishEdit;
+    @FXML private TableColumn<Dish, Void> columnDishShowDetails;
     @FXML private TableColumn<Dish, Void> columnDishDelete;
 
     @Override
@@ -71,6 +72,28 @@ public class ShowDishController implements Initializable{
                     Pane updateDishPane = loader.load();
                     BorderPane homePane = (BorderPane) showDishPane.getParent();
                     homePane.setCenter(updateDishPane);
+
+                } catch (IOException e) {
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
+                return null;
+            }
+        }));
+
+        columnDishShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", new Callback<Dish, Object>() {
+
+            @Override
+            public Object call(Dish param) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showDishDetails.fxml"));
+
+                    Pane showDishDetailsPane = loader.load();
+                    ShowDishDetailsController controller = loader.getController();
+                    controller.setDish(param);
+
+                    BorderPane homePane = (BorderPane)showDishPane.getParent();
+                    homePane.setCenter(showDishDetailsPane);
 
                 } catch (IOException e) {
                     LogUtils.e(TAG, e.getMessage());
