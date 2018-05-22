@@ -36,6 +36,7 @@ public class ShowTripController extends AbstractController implements Initializa
     @FXML private TableColumn<GuiTrip, String> columnTripTitle;
     @FXML private TableColumn<GuiTrip, Date> columnTripDate;
     @FXML private TableColumn<GuiTrip, Void> columnTripEdit;
+    @FXML private TableColumn<GuiTrip, Void> columnTripShowDetails;
     @FXML private TableColumn<GuiTrip, Void> columnTripDelete;
 
     @Override
@@ -68,6 +69,27 @@ public class ShowTripController extends AbstractController implements Initializa
 
                     BorderPane homePane = (BorderPane)showTripPane.getParent();
                     homePane.setCenter(updateTripPane);
+
+                } catch (IOException e) {
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
+                return null;
+            }
+        }));
+
+        columnTripShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", new Callback<GuiTrip, Object>() {
+            @Override
+            public Object call(GuiTrip param) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showTripDetails.fxml"));
+
+                    Pane showTripDetailsPane = loader.load();
+                    ShowTripDetailsController controller = loader.getController();
+                    controller.setTrip(param.getModel());
+
+                    BorderPane homePane = (BorderPane)showTripPane.getParent();
+                    homePane.setCenter(showTripDetailsPane);
 
                 } catch (IOException e) {
                     LogUtils.e(TAG, e.getMessage());

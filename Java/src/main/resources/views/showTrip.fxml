@@ -12,6 +12,7 @@
               <TableColumn fx:id="columnTripTitle" style="-fx-alignment: center" text="Nome" />
               <TableColumn fx:id="columnTripDate" style="-fx-alignment: center" text="Data" />
               <TableColumn fx:id="columnTripEdit" style="-fx-alignment: center" />
+              <TableColumn fx:id="columnTripShowDetails" style="-fx-alignment: center" />
             <TableColumn fx:id="columnTripDelete" style="-fx-alignment: center" />
           </columns>
       </TableView>

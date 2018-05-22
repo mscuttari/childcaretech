@@ -250,7 +250,7 @@ public class AddTripController extends AbstractController implements Initializab
         trip.addTransports(lvPullman.getItems());
         trip.addChildren(TableUtils.getSelectedItems(tableChildren));
         trip.addStaff(TableUtils.getSelectedItems(tableStaff));
-        
+
         Integer totalNumberOfSeats = trip.getAvailableSeats();
         int i=0;
         int occupiedSeats = 0;
