@@ -14,6 +14,7 @@
             <TableColumn fx:id="columnPeopleFiscalCode" style="-fx-alignment: center" text="Codice fiscale" />
             <TableColumn fx:id="columnPeopleType" style="-fx-alignment: center" text="Tipo" />
             <TableColumn fx:id="columnPeopleEdit" style="-fx-alignment: center" />
+            <TableColumn fx:id="columnPeopleShowDetails" style="-fx-alignment: center" />
             <TableColumn fx:id="columnPeopleDelete" style="-fx-alignment: center" />
          </columns>
       </TableView>
