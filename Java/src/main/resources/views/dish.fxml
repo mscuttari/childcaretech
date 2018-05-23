@@ -12,7 +12,7 @@
     <children>
         <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label text="Pietanze" textFill="ORANGE">
+                <Label text="Piatti" textFill="ORANGE">
                     <padding>
                         <Insets bottom="15.0" />
                     </padding>
@@ -49,7 +49,7 @@
                                                         <Image url="@../images/plus(orange).png" />
                                                     </image>
                                                 </ImageView>
-                                                <Label text="Aggiungi pietanza" textFill="ORANGE">
+                                                <Label text="Aggiungi piatto" textFill="ORANGE">
                                                     <font>
                                                         <Font size="18.0" />
                                                     </font>
@@ -70,7 +70,7 @@
                                                         <Image url="@../images/minus(orange).png" />
                                                     </image>
                                                 </ImageView>
-                                                <Label text="Visualizza pietanza" textFill="ORANGE">
+                                                <Label text="Visualizza piatti" textFill="ORANGE">
                                                     <font>
                                                         <Font size="18.0" />
                                                     </font>

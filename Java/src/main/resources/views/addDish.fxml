@@ -13,12 +13,12 @@
          <children>
             <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="Pietanza:">
+                  <Label text="Piatto:">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="tfDishName" promptText="Nome pietanza">
+                  <TextField fx:id="tfDishName" promptText="Nome Piatto">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></TextField>

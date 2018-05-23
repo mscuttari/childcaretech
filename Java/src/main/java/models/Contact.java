@@ -85,4 +85,8 @@ public class Contact extends Person {
         addChildren(children);
     }
 
+    @Override
+    public String toString(){
+        return super.toString();
+    }
 }

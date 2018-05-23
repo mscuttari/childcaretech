@@ -9,7 +9,7 @@
    <children>
       <TableView fx:id="tableDish" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <columns>
-              <TableColumn fx:id="columnDishName" style="-fx-alignment: center" text="Pietanza" />
+              <TableColumn fx:id="columnDishName" style="-fx-alignment: center" text="Piatto" />
               <TableColumn fx:id="columnDishType" style="-fx-alignment: center" text="Tipo" />
               <TableColumn fx:id="columnDishEdit" style="-fx-alignment: center" />
               <TableColumn fx:id="columnDishShowDetails" style="-fx-alignment: center" />

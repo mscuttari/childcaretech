@@ -163,4 +163,9 @@ public class Staff extends Person {
         addTrips(trips);
     }
 
+    @Override
+    public String toString(){
+        return super.toString();
+    }
+
 }

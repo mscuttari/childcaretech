@@ -53,9 +53,6 @@
                           <font>
                             <Font size="18.0" />
                           </font>
-                                       <padding>
-                                          <Insets right="26.0" />
-                                       </padding>
                         </Label>
                       </children>
                     </HBox>
@@ -73,7 +70,7 @@
                             <Image url="@../images/pizza.png" />
                           </image>
                         </ImageView>
-                        <Label text="Pietanze" textFill="#fd8469">
+                        <Label text="Piatti" textFill="#fd8469">
                           <font>
                             <Font size="18.0" />
                           </font>

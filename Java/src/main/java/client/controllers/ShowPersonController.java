@@ -112,7 +112,12 @@ public class ShowPersonController extends AbstractController implements Initiali
 
         columnPeopleDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
             connectionManager.getClient().delete(param1.getModel());
-            List<Person> newPeople = connectionManager.getClient().getPeople();
+            List<Person> newPeople = new ArrayList<>();
+            newPeople.addAll(connectionManager.getClient().getChildren());
+            newPeople.addAll(connectionManager.getClient().getStaff());
+            newPeople.addAll(connectionManager.getClient().getContacts());
+            newPeople.addAll(connectionManager.getClient().getParents());
+            newPeople.addAll(connectionManager.getClient().getPediatrists());
             @SuppressWarnings("unchecked") ObservableList<GuiPerson> newPeopleData = TableUtils.getGuiModelsList(newPeople);
 
             tablePeople.setItems(newPeopleData);
