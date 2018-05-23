@@ -18,7 +18,7 @@ public class Trip extends BaseModel {
 
 
     @EmbeddedId
-    private TripPK id;
+    private TripPK id = new TripPK();
 
 
     @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -69,10 +69,11 @@ public class Trip extends BaseModel {
      * Constructor
      *
      * @param   date    date the trip has been scheduled for
-     * @param   title   name of the trip
+     * @param   title   title of the trip
      */
     public Trip(Date date, String title) {
-        id = new TripPK(date, title);
+        setDate(date);
+        setTitle(title);
     }
 
 
@@ -80,16 +81,16 @@ public class Trip extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Date
-        if (id.getDate() == null) throw new InvalidFieldException("Data mancante");
+        if (getDate() == null) throw new InvalidFieldException("Data mancante");
 
         // Title: [a-z] [A-Z] space
-        if (id.getTitle() == null) throw new InvalidFieldException("Titolo mancante");
-        if (!id.getTitle().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Titolo non valido");
+        if (getTitle() == null) throw new InvalidFieldException("Titolo mancante");
+        if (!getTitle().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Titolo non valido");
 
         // Check if the total number of seats is enough
         Integer totalNumberOfSeats = getAvailableSeats();
 
-        if (totalNumberOfSeats < children.size() + staff.size())
+        if (totalNumberOfSeats < getChildren().size() + getStaff().size())
             throw new InvalidFieldException("Posti insufficienti");
     }
 
@@ -98,6 +99,28 @@ public class Trip extends BaseModel {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiTrip.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return true;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+        // Children
+        for (Child child : getChildren()) {
+            child.removeTripEnrollment(this);
+        }
+
+        // Staff
+        for (Staff staff : getStaff()) {
+            staff.removeTrip(this);
+        }
     }
 
 
@@ -134,7 +157,7 @@ public class Trip extends BaseModel {
 
 
     public void setTitle(String title) {
-        this.id.setTitle(title);
+        this.id.setTitle(trimString(title));
     }
 
 

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "people")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -45,7 +47,7 @@ public abstract class Person extends BaseModel {
     private String telephone;
 
 
-    @ManyToMany()
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "allergies",
             joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
@@ -55,7 +57,7 @@ public abstract class Person extends BaseModel {
     private Collection<Ingredient> allergies = new ArrayList<>();
 
 
-    @ManyToMany()
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "intolerances",
             joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
@@ -97,26 +99,40 @@ public abstract class Person extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Fiscal code: [A-Z] [0-9] 16 chars length
-        if (fiscalCode == null) throw new InvalidFieldException("Codice fiscale mancante");
-        if (fiscalCode.length() != 16) throw new InvalidFieldException("Codice fiscale non valido");
-        if (!fiscalCode.matches("^[A-Z\\d]+$")) throw new InvalidFieldException("Codice fiscale non valido");
+        if (getFiscalCode() == null) throw new InvalidFieldException("Codice fiscale mancante");
+        if (getFiscalCode().length() != 16) throw new InvalidFieldException("Codice fiscale non valido");
+        if (!getFiscalCode().matches("^[A-Z\\d]+$")) throw new InvalidFieldException("Codice fiscale non valido");
 
         // First name: [a-z] [A-Z] space
-        if (firstName == null) throw new InvalidFieldException("Nome mancante");
-        if (!firstName.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getFirstName() == null) throw new InvalidFieldException("Nome mancante");
+        if (!getFirstName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
         // Last name: [a-z] [A-Z] space
-        if (lastName == null) throw new InvalidFieldException("Cognome mancante");
-        if (!lastName.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Cognome non valido");
+        if (getLastName() == null) throw new InvalidFieldException("Cognome mancante");
+        if (!getLastName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Cognome non valido");
 
         // Date
-        if (birthDate == null) throw new InvalidFieldException("Data di nascita mancante");
+        if (getBirthdate() == null) throw new InvalidFieldException("Data di nascita mancante");
 
         // Address: [a-z] [A-Z] [0-9] space . , ; \ / °
-        if (address != null && !address.matches("^$|^[a-zA-Z\\d\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
+        if (getAddress() != null && !getAddress().matches("^$|^[a-zA-Z\\d\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
 
         // Telephone: [0-9] space +
-        if (telephone != null && !telephone.matches("^$|^[\\d\\040+]+$")) throw new InvalidFieldException("Telefono non valido");
+        if (getTelephone() != null && !getTelephone().matches("^$|^[\\d\\040+]+$")) throw new InvalidFieldException("Telefono non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return true;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+
     }
 
 
@@ -147,7 +163,7 @@ public abstract class Person extends BaseModel {
 
 
     public void setFiscalCode(String fiscalCode) {
-        this.fiscalCode = fiscalCode == null || fiscalCode.isEmpty() ? null : fiscalCode;
+        this.fiscalCode = trimString(fiscalCode);
     }
 
 
@@ -157,7 +173,7 @@ public abstract class Person extends BaseModel {
 
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName == null || firstName.isEmpty() ? null : firstName;
+        this.firstName = trimString(firstName);
     }
 
 
@@ -167,7 +183,7 @@ public abstract class Person extends BaseModel {
 
 
     public void setLastName(String lastName) {
-        this.lastName = lastName == null || lastName.isEmpty() ? null : lastName;
+        this.lastName = trimString(lastName);
     }
 
 
@@ -187,7 +203,7 @@ public abstract class Person extends BaseModel {
 
 
     public void setAddress(String address) {
-        this.address = address == null || address.isEmpty() ? null : address;
+        this.address = trimString(address);
     }
 
 
@@ -197,7 +213,7 @@ public abstract class Person extends BaseModel {
 
 
     public void setTelephone(String telephone) {
-        this.telephone = telephone == null || telephone.isEmpty() ? null : telephone;
+        this.telephone = trimString(telephone);
     }
 
 

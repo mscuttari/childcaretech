@@ -1,5 +1,6 @@
 package main.java.models;
 
+import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiParent;
 import org.hibernate.annotations.LazyCollection;
@@ -51,8 +52,30 @@ public class Parent extends Person {
 
     /** {@inheritDoc} */
     @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        super.checkDataValidity();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiParent.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return super.isDeletable() &
+                getChildren().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+        super.preDelete();
     }
 
 
@@ -89,14 +112,14 @@ public class Parent extends Person {
     }
 
 
+    public void removeChild(Child child) {
+        this.children.remove(child);
+    }
+
+
     public void setChildren(Collection<Child> children) {
         this.children.clear();
         addChildren(children);
-    }
-
-    @Override
-    public String toString(){
-        return super.toString();
     }
 
 }

@@ -57,12 +57,12 @@ public class Provider extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // VAT: [a-z] [A-Z] [0-9] space
-        if (vat == null || vat.isEmpty()) throw new InvalidFieldException("Partita IVA mancante");
-        if (!vat.matches("^[a-zA-Z\\d\\040]+$")) throw new InvalidFieldException("Partita IVA non valida");
+        if (getVat() == null || getVat().isEmpty()) throw new InvalidFieldException("Partita IVA mancante");
+        if (!getVat().matches("^[a-zA-Z\\d\\040]+$")) throw new InvalidFieldException("Partita IVA non valida");
 
         // Name: [a-z] [A-Z] space
-        if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");
-        if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getName() == null || getName().isEmpty()) throw new InvalidFieldException("Nome mancante");
+        if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
     }
 
 
@@ -70,6 +70,20 @@ public class Provider extends BaseModel {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiProvider.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return getDishes().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+
     }
 
 
@@ -96,7 +110,7 @@ public class Provider extends BaseModel {
 
 
     public void setVat(String vat) {
-        this.vat = vat == null || vat.isEmpty() ? null : vat;
+        this.vat = trimString(vat);
     }
 
 
@@ -106,7 +120,7 @@ public class Provider extends BaseModel {
 
 
     public void setName(String name) {
-        this.name = name == null || name.isEmpty() ? null : name;
+        this.name = trimString(name);
     }
 
 
@@ -122,6 +136,11 @@ public class Provider extends BaseModel {
 
     public void addDishes(Collection<Dish> dishes) {
         this.dishes.addAll(dishes);
+    }
+
+
+    public void removeDish(Dish dish) {
+        this.dishes.remove(dish);
     }
 
 

@@ -76,7 +76,7 @@ public class PullmanPK implements Serializable {
 
 
     public void setNumberplate(String numberplate) {
-        this.numberplate = numberplate == null || numberplate.isEmpty() ? null : numberplate;
+        this.numberplate = numberplate;
     }
 
 }

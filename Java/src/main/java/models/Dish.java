@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "dishes")
 public class Dish extends BaseModel {
@@ -28,22 +30,22 @@ public class Dish extends BaseModel {
     private DishType type;
 
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(cascade = {PERSIST, MERGE})
     @JoinColumn(name = "provider_vat", nullable = false)
     private Provider provider;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "dishes_composition",
             joinColumns = { @JoinColumn(name = "dish_name", referencedColumnName = "name") },
             inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Ingredient> ingredients = new ArrayList<>();
 
 
-    @ManyToMany(mappedBy = "dishes", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "dishes", cascade = {PERSIST, MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Menu> menus = new ArrayList<>();
 
@@ -72,14 +74,14 @@ public class Dish extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Name: [a-z] [A-Z] space
-        if (name == null || name.isEmpty()) throw new InvalidFieldException("Nome mancante");
-        if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getName() == null) throw new InvalidFieldException("Nome mancante");
+        if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
         // Dish type
-        if (type == null) throw new InvalidFieldException("Tipologia mancante");
+        if (getType() == null) throw new InvalidFieldException("Tipologia mancante");
 
         // Provider
-        if (provider == null) throw new InvalidFieldException("Fornitore mancante");
+        if (getProvider() == null) throw new InvalidFieldException("Fornitore mancante");
     }
 
 
@@ -87,6 +89,26 @@ public class Dish extends BaseModel {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiDish.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return menus.isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+        // Provider
+        getProvider().removeDish(this);
+
+        // Ingredients
+        for (Ingredient ingredient : getIngredients()) {
+            ingredient.removeFromDish(this);
+        }
     }
 
 
@@ -114,7 +136,7 @@ public class Dish extends BaseModel {
 
 
     public void setName(String name) {
-        this.name = name == null || name.isEmpty() ? null : name;
+        this.name = trimString(name);
     }
 
 
@@ -171,6 +193,11 @@ public class Dish extends BaseModel {
 
     public void addToMenus(Collection<Menu> menus) {
         this.menus.addAll(menus);
+    }
+
+
+    public void removeFromMenu(Menu menu) {
+        this.menus.remove(menu);
     }
 
 }

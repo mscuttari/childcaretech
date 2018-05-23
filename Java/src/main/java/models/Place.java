@@ -20,7 +20,7 @@ public class Place extends BaseModel implements Serializable {
 
 
     @EmbeddedId
-    private PlacePK id;
+    private PlacePK id = new PlacePK();
 
 
     @OneToMany(mappedBy = "id.place", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -44,7 +44,9 @@ public class Place extends BaseModel implements Serializable {
      * @param   nation      nation
      */
     public Place(String name, String province, String nation) {
-        this.id = new PlacePK(name, province, nation);
+        setName(name);
+        setProvince(province);
+        setNation(nation);
     }
 
 
@@ -52,16 +54,16 @@ public class Place extends BaseModel implements Serializable {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Place name: [a-z] [A-Z] space
-        if (id.getName() == null) throw new InvalidFieldException("Nome mancante");
-        if (!id.getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getName() == null) throw new InvalidFieldException("Nome mancante");
+        if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
         // Province: [a-z] [A-Z] space
-        if (id.getProvince() == null) throw new InvalidFieldException("Provincia mancante");
-        if (!id.getProvince().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Provincia non valida");
+        if (getProvince() == null) throw new InvalidFieldException("Provincia mancante");
+        if (!getProvince().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Provincia non valida");
 
         // Nation: [a-z] [A-Z] space
-        if (id.getNation() == null) throw new InvalidFieldException("Stato mancante");
-        if (!id.getNation().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Stato non valido");
+        if (getNation() == null) throw new InvalidFieldException("Stato mancante");
+        if (!getNation().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Stato non valido");
     }
 
 
@@ -72,13 +74,27 @@ public class Place extends BaseModel implements Serializable {
     }
 
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return getStops().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+
+    }
+
+
     public String getName() {
         return this.id.getName();
     }
 
 
     public void setName(String name) {
-        this.id.setName(name);
+        this.id.setName(trimString(name));
     }
 
 
@@ -88,7 +104,7 @@ public class Place extends BaseModel implements Serializable {
 
 
     public void setProvince(String province) {
-        this.id.setProvince(province);
+        this.id.setProvince(trimString(province));
     }
 
 
@@ -98,7 +114,7 @@ public class Place extends BaseModel implements Serializable {
 
 
     public void setNation(String nation) {
-        this.id.setNation(nation);
+        this.id.setNation(trimString(nation));
     }
 
 

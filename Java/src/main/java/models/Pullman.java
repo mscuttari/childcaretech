@@ -20,7 +20,7 @@ public class Pullman extends BaseModel {
 
 
     @EmbeddedId
-    private PullmanPK id;
+    private PullmanPK id = new PullmanPK();
 
 
     @Column(name = "seats", nullable = false)
@@ -57,7 +57,8 @@ public class Pullman extends BaseModel {
      * @param   seats           max seats available
      */
     public Pullman(Trip trip, String numberplate, Integer seats) {
-        this.id = new PullmanPK(trip, numberplate);
+        setTrip(trip);
+        setNumberplate(numberplate);
         setSeats(seats);
     }
 
@@ -66,15 +67,15 @@ public class Pullman extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Trip
-        if (id.getTrip() == null) throw new InvalidFieldException("Gita mancante");
+        if (getTrip() == null) throw new InvalidFieldException("Gita mancante");
 
         // Type: [a-z] [A-Z] [0-9]
-        if (id.getNumberplate() == null) throw new InvalidFieldException("Targa mancante");
-        if (!id.getNumberplate().matches("^[a-zA-Z\\d]+$")) throw new InvalidFieldException("Targa non valida");
+        if (getNumberplate() == null) throw new InvalidFieldException("Targa mancante");
+        if (!getNumberplate().matches("^[a-zA-Z\\d]+$")) throw new InvalidFieldException("Targa non valida");
 
         // Seats: > 0
-        if (seats == null) throw new InvalidFieldException("Numero di posti mancante");
-        if (seats <= 0) throw new InvalidFieldException("Numero di posti non valido");
+        if (getSeats() == null) throw new InvalidFieldException("Numero di posti mancante");
+        if (getSeats() <= 0) throw new InvalidFieldException("Numero di posti non valido");
     }
 
 
@@ -82,6 +83,23 @@ public class Pullman extends BaseModel {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiPullman.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return true;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+        // Children
+        for (Child child : getChildren()) {
+            child.removePullmanAssignment(this);
+        }
     }
 
 
@@ -118,7 +136,7 @@ public class Pullman extends BaseModel {
 
 
     public void setNumberplate(String numberplate) {
-        this.id.setNumberplate(numberplate);
+        this.id.setNumberplate(trimString(numberplate));
     }
 
 

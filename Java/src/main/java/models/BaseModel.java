@@ -34,6 +34,20 @@ public abstract class BaseModel implements Serializable {
 
 
     /**
+     * Check if the entity can be deleted
+     *
+     * @return  true if the entity can be deleted
+     */
+    public abstract boolean isDeletable();
+
+
+    /**
+     * Remove associations from parent entities
+     */
+    public abstract void preDelete();
+
+
+    /**
      * Get string representation of the object
      *
      * @return      String      textual data
@@ -64,6 +78,17 @@ public abstract class BaseModel implements Serializable {
             result.insert(0, this.getClass().getSimpleName() + ": ");
             return result.toString();
         }
+    }
+
+
+    /**
+     * Trim string
+     *
+     * @param   str     string to be trimmed
+     * @return  trimmed string (or null if the string is empty)
+     */
+    protected String trimString(String str) {
+        return str == null || str.trim().isEmpty() ? null : str.trim();
     }
 
 

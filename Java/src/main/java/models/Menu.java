@@ -34,12 +34,12 @@ public class Menu extends BaseModel {
 
 
     @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "menus_composition",
             joinColumns = { @JoinColumn(name = "menu_name", referencedColumnName = "name") },
             inverseJoinColumns = { @JoinColumn(name = "dish_name", referencedColumnName = "name") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Dish> dishes = new ArrayList<>();
 
 
@@ -69,14 +69,14 @@ public class Menu extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Name: [a-z] [A-Z] space
-        if (name == null) throw new InvalidFieldException("Nome mancante");
-        if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getName() == null) throw new InvalidFieldException("Nome mancante");
+        if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
         // Responsible
-        if (responsible == null) throw new InvalidFieldException("Responsabile mancante");
+        if (getResponsible() == null) throw new InvalidFieldException("Responsabile mancante");
 
         // Day of the week
-        if (dayOfTheWeek == null) throw new InvalidFieldException("Giorno della settimana mancante");
+        if (getDayOfTheWeek() == null) throw new InvalidFieldException("Giorno della settimana mancante");
     }
 
 
@@ -84,6 +84,26 @@ public class Menu extends BaseModel {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiMenu.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return true;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+        // Staff
+        getResponsible().removeMenu(this);
+
+        // Dishes
+        for (Dish dish : getDishes()) {
+            dish.removeFromMenu(this);
+        }
     }
 
 
@@ -109,7 +129,7 @@ public class Menu extends BaseModel {
 
 
     public void setName(String name) {
-        this.name = name == null || name.isEmpty() ? null : name;
+        this.name = trimString(name);
     }
 
 

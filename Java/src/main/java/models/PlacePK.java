@@ -71,7 +71,7 @@ public class PlacePK implements Serializable {
 
 
     public void setName(String name) {
-        this.name = name == null || name.isEmpty() ? null : name;
+        this.name = name;
     }
 
 
@@ -81,7 +81,7 @@ public class PlacePK implements Serializable {
 
 
     public void setProvince(String province) {
-        this.province = province == null || province.isEmpty() ? null : province;
+        this.province = province;
     }
 
 
@@ -91,7 +91,7 @@ public class PlacePK implements Serializable {
 
 
     public void setNation(String nation) {
-        this.nation = nation == null || nation.isEmpty() ? null : nation;
+        this.nation = nation;
     }
 
 }

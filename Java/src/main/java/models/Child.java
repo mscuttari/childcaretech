@@ -5,8 +5,6 @@ import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiChild;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -93,10 +91,10 @@ public class Child extends Person {
         super.checkDataValidity();
 
         // Parents
-        if (parents.size() > 2) throw new InvalidFieldException("Non è possibile specificare più di due genitori");
+        if (getParents().size() > 2) throw new InvalidFieldException("Non è possibile specificare più di due genitori");
 
         // Pediatrist
-        if (pediatrist.getFiscalCode() == null) throw new InvalidFieldException("Pediatra mancante");
+        if (getPediatrist().getFiscalCode() == null) throw new InvalidFieldException("Pediatra mancante");
     }
 
 
@@ -104,6 +102,33 @@ public class Child extends Person {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiChild.class;
+    }
+
+
+    /** {@inheritDoc */
+    @Override
+    public boolean isDeletable() {
+        return super.isDeletable();
+    }
+
+
+    /** {@inheritDoc */
+    @Override
+    public void preDelete() {
+        super.preDelete();
+
+        // Pediatrist
+        getPediatrist().removeChild(this);
+
+        // Parents
+        for (Parent parent : getParents()) {
+            parent.removeChild(this);
+        }
+
+        // Contacts
+        for (Contact contact : getContacts()) {
+            contact.removeChild(this);
+        }
     }
 
 
@@ -189,6 +214,11 @@ public class Child extends Person {
     }
 
 
+    public void removeTripEnrollment(Trip trip) {
+        this.tripsEnrollments.remove(trip);
+    }
+
+
     public void setTripsEnrollments(Collection<Trip> trips) {
         this.tripsEnrollments.clear();
         addTripEnrollments(trips);
@@ -210,6 +240,11 @@ public class Child extends Person {
     }
 
 
+    public void removePullmanAssignment(Pullman pullman) {
+        this.pullmansAssignments.remove(pullman);
+    }
+
+
     public void setPullmansAssignments(Collection<Pullman> pullmans) {
         this.pullmansAssignments.clear();
         addPullmansAssignments(pullmans);
@@ -219,4 +254,5 @@ public class Child extends Person {
     public String toString(){
         return super.toString();
     }
+
 }

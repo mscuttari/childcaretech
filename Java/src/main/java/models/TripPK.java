@@ -75,7 +75,7 @@ class TripPK implements Serializable {
 
 
     public void setTitle(String title) {
-        this.title = title == null || title.isEmpty() ? null : title;
+        this.title = title;
     }
 
 }

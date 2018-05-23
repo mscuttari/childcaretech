@@ -34,6 +34,7 @@ public class Staff extends Person {
 
 
     @OneToMany(mappedBy = "responsible")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Menu> menus = new ArrayList<>();
 
 
@@ -76,10 +77,10 @@ public class Staff extends Person {
         super.checkDataValidity();
         
         // Username
-        if (username == null || username.isEmpty()) throw new InvalidFieldException("Username mancante");
+        if (getUsername() == null) throw new InvalidFieldException("Username mancante");
 
         // Password
-        if (password == null || password.isEmpty()) throw new InvalidFieldException("Password mancante");
+        if (getPassword() == null) throw new InvalidFieldException("Password mancante");
     }
 
 
@@ -87,6 +88,22 @@ public class Staff extends Person {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiStaff.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return super.isDeletable() &&
+                getMenus().isEmpty() &&
+                getTrips().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+        super.preDelete();
     }
 
 
@@ -108,7 +125,7 @@ public class Staff extends Person {
 
 
     public void setUsername(String username) {
-        this.username = username == null || username.isEmpty() ? null : username;
+        this.username = trimString(username);
     }
 
 
@@ -118,7 +135,7 @@ public class Staff extends Person {
 
 
     public void setPassword(String password) {
-        this.password = password == null || password.isEmpty() ? null : password;
+        this.password = trimString(password);
     }
 
 
@@ -134,6 +151,11 @@ public class Staff extends Person {
 
     public void addMenus(Collection<Menu> menus) {
         this.menus.addAll(menus);
+    }
+
+
+    public void removeMenu(Menu menu) {
+        this.menus.remove(menu);
     }
 
 
@@ -155,6 +177,11 @@ public class Staff extends Person {
 
     public void addTrips(Collection<Trip> trips) {
         this.trips.addAll(trips);
+    }
+
+
+    public void removeTrip(Trip trip) {
+        this.trips.remove(trip);
     }
 
 

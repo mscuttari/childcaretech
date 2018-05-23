@@ -61,8 +61,8 @@ public class Ingredient extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Name: [a-z] [A-Z] space
-        if (name == null) throw new InvalidFieldException("Nome mancante");
-        if (!name.matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getName() == null) throw new InvalidFieldException("Nome mancante");
+        if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
     }
 
 
@@ -70,6 +70,22 @@ public class Ingredient extends BaseModel {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiIngredient.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return getDishes().isEmpty() &&
+                getAllergicPeople().isEmpty() &&
+                getIntolerantPeople().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+
     }
 
 
@@ -95,7 +111,7 @@ public class Ingredient extends BaseModel {
 
 
     public void setName(String name) {
-        this.name = name == null || name.isEmpty() ? null : name;
+        this.name = trimString(name);
     }
 
 
@@ -111,6 +127,11 @@ public class Ingredient extends BaseModel {
 
     public void addToDishes(Collection<Dish> dishes) {
         this.dishes.addAll(dishes);
+    }
+
+
+    public void removeFromDish(Dish dish) {
+        this.dishes.remove(dish);
     }
 
 

@@ -16,7 +16,7 @@ public class Stop extends BaseModel {
 
 
     @EmbeddedId
-    private StopPK id;
+    private StopPK id = new StopPK();
 
 
     /**
@@ -35,7 +35,9 @@ public class Stop extends BaseModel {
      * @param   number      sequential number of the stop (in the context of the trip)
      */
     public Stop(Trip trip, Place place, Integer number) {
-        this.id = new StopPK(trip, place, number);
+        setTrip(trip);
+        setPlace(place);
+        setNumber(number);
     }
 
 
@@ -43,15 +45,15 @@ public class Stop extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Trip
-        if (id.getTrip() == null) throw new InvalidFieldException("Gita mancante");
+        if (getTrip() == null) throw new InvalidFieldException("Gita mancante");
 
         // Place
-        if (id.getPlace() == null) throw new InvalidFieldException("Località mancante");
-        id.getPlace().checkDataValidity();
+        if (getPlace() == null) throw new InvalidFieldException("Località mancante");
+        getPlace().checkDataValidity();
 
         // Number: > 0
-        if (id.getNumber() == null) throw new InvalidFieldException("Numero della tappa mancante");
-        if (id.getNumber() <= 0) throw new InvalidFieldException("Numero della tappa non valido");
+        if (getNumber() == null) throw new InvalidFieldException("Numero della tappa mancante");
+        if (getNumber() <= 0) throw new InvalidFieldException("Numero della tappa non valido");
     }
 
 
@@ -59,6 +61,20 @@ public class Stop extends BaseModel {
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiStop.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return true;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+
     }
 
 

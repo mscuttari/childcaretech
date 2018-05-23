@@ -54,6 +54,21 @@ public class Contact extends Person {
     }
 
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return super.isDeletable() &&
+                getChildren().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+        super.preDelete();
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -80,13 +95,14 @@ public class Contact extends Person {
     }
 
 
+    public void removeChild(Child child) {
+        this.children.remove(child);
+    }
+
+
     public void setChildren(Collection<Child> children) {
         this.children.clear();
         addChildren(children);
     }
 
-    @Override
-    public String toString(){
-        return super.toString();
-    }
 }

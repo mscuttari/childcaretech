@@ -220,8 +220,12 @@ public class HibernateUtils {
     public final synchronized boolean delete(BaseModel obj) {
         EntityManager em = emf.createEntityManager();
 
+        if (!obj.isDeletable())
+            return false;
+
         try {
             em.getTransaction().begin();
+            obj.preDelete();
             em.remove(em.contains(obj) ? obj : em.merge(obj));
             em.getTransaction().commit();
             //flushAndClear(em);
