@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity(name = "Parent")
 @Table(name = "parents")
 @DiscriminatorValue("parent")
@@ -19,7 +21,7 @@ public class Parent extends Person {
     private static final long serialVersionUID = -8335298083415447342L;
 
 
-    @ManyToMany(mappedBy = "parents", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "parents", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Child> children = new HashSet<>();
 
@@ -76,6 +78,7 @@ public class Parent extends Person {
 
     public void addChild(Child child) {
         this.children.add(child);
+        child.addParent(this);
     }
 
 

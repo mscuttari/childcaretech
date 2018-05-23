@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity(name = "Pediatrist")
 @Table(name = "pediatrists")
 @DiscriminatorValue("pediatrist")
@@ -19,7 +21,7 @@ public class Pediatrist extends Person {
     private static final long serialVersionUID = -2598504963548813092L;
 
 
-    @OneToMany(mappedBy = "pediatrist", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "pediatrist", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Child> children = new HashSet<>();
 
@@ -70,6 +72,7 @@ public class Pediatrist extends Person {
 
     public void addChild(Child child) {
         children.add(child);
+        child.setPediatrist(this);
     }
 
 
@@ -80,8 +83,24 @@ public class Pediatrist extends Person {
     }
 
 
+    public void removeChild(Child child) {
+        if (this.children.contains(child)) {
+            this.children.remove(child);
+            child.setPediatrist(null);
+        }
+    }
+
+
+    public void removeChildren(Collection<Child> children) {
+        for (Child child : children) {
+            if (this.children.contains(child))
+                this.children.remove(child);
+        }
+    }
+
+
     public void setChildren(Collection<Child> children) {
-        this.children.clear();
+        removeChildren(getChildren());
         addChildren(children);
     }
 

@@ -11,6 +11,9 @@ import java.util.List;
 
 public class SocketClient extends BaseClient implements ClientInterface {
 
+    // Serialization
+    private static final long serialVersionUID = 1189998355806574518L;
+
     // Debug
     private transient static final String TAG = "SocketClient";
 

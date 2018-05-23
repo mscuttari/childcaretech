@@ -8,6 +8,8 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.*;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity(name = "Contact")
 @Table(name = "contacts")
 @DiscriminatorValue("contact")
@@ -17,7 +19,7 @@ public class Contact extends Person {
     private static final long serialVersionUID = 7139409983483815073L;
 
 
-    @ManyToMany(mappedBy = "contacts", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "contacts", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Child> children = new HashSet<>();
 
@@ -68,11 +70,13 @@ public class Contact extends Person {
 
     public void addChild(Child child) {
         this.children.add(child);
+        child.addContact(this);
     }
 
 
     public void addChildren(Collection<Child> children) {
-        this.children.addAll(children);
+        for (Child child : children)
+            addChild(child);
     }
 
 

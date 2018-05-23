@@ -32,7 +32,6 @@ public class Trip extends BaseModel {
 
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_trips_enrollments",
             joinColumns = {
@@ -41,11 +40,11 @@ public class Trip extends BaseModel {
             },
             inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Child> children = new HashSet<>();
 
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "staff_trips_enrollments",
             joinColumns = {
@@ -54,6 +53,7 @@ public class Trip extends BaseModel {
             },
             inverseJoinColumns = { @JoinColumn(name = "staff_fiscal_code", referencedColumnName = "fiscal_code") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Staff> staff = new HashSet<>();
 
 

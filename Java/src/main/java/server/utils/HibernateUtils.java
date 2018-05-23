@@ -167,7 +167,6 @@ public class HibernateUtils {
 
         try {
             em.getTransaction().begin();
-            //em.persist(obj);
             em.persist(em.contains(obj) ? obj : em.merge(obj));
             em.getTransaction().commit();
             //flushAndClear(em);
@@ -223,7 +222,6 @@ public class HibernateUtils {
 
         try {
             em.getTransaction().begin();
-            //em.remove(obj);
             em.remove(em.contains(obj) ? obj : em.merge(obj));
             em.getTransaction().commit();
             //flushAndClear(em);

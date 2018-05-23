@@ -1,5 +1,6 @@
 package main.java.client.connection;
 
+import main.java.LogUtils;
 import main.java.client.connection.rmi.RmiClient;
 import main.java.client.connection.socket.SocketClient;
 
@@ -63,6 +64,7 @@ public final class ConnectionManager {
                 break;
 
             case RMI:
+                LogUtils.e("ConnectionManager", "Creating RMI client");
                 client = new RmiClient(rmiHost);
                 break;
         }

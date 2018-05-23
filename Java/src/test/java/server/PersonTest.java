@@ -42,7 +42,7 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
     void assignValidData(M obj) {
         obj.setFiscalCode("AAAAAAAAAAAAAAAA");
         obj.setFirstName("AAA");
-        obj.setLastName("BBB");
+        obj.setLastName("AAA");
         obj.setBirthdate(new Date());
         obj.setAddress("Test, A/1");
         obj.setTelephone("+39 111 1111111");

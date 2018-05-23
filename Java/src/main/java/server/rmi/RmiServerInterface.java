@@ -2,7 +2,6 @@ package main.java.server.rmi;
 
 import main.java.client.connection.rmi.RmiClientInterface;
 import main.java.models.BaseModel;
-import main.java.models.Person;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

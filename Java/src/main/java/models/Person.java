@@ -45,23 +45,23 @@ public abstract class Person extends BaseModel {
     private String telephone;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany()
     @JoinTable(
             name = "allergies",
             joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
             inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Ingredient> allergies = new ArrayList<>();
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany()
     @JoinTable(
             name = "intolerances",
             joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
             inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Ingredient> intolerances = new ArrayList<>();
 
 

@@ -5,6 +5,8 @@ import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiChild;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import javax.persistence.Transient;
 
 import javax.persistence.*;
 import java.util.*;
+
+import static javax.persistence.CascadeType.*;
 
 @Entity(name = "Child")
 @Table(name = "children")
@@ -22,37 +26,37 @@ public class Child extends Person {
     private static final long serialVersionUID = 6653642585718262873L;
 
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
+    @ManyToOne(cascade = {PERSIST, MERGE})
     @JoinColumn(name = "pediatrist_fiscal_code", referencedColumnName = "fiscal_code")
     private Pediatrist pediatrist;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "children_parents",
             joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
             inverseJoinColumns = { @JoinColumn(name = "parent_fiscal_code", referencedColumnName = "fiscal_code") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Parent> parents = new HashSet<>();
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "children_contacts",
             joinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") },
             inverseJoinColumns = { @JoinColumn(name = "contact_fiscal_code", referencedColumnName = "fiscal_code") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Contact> contacts = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "children")
+    @ManyToMany(mappedBy = "children", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Trip> tripsEnrollments = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "children")
+    @ManyToMany(mappedBy = "children", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Pullman> pullmansAssignments = new HashSet<>();
 

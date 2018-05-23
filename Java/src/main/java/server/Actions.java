@@ -1,5 +1,6 @@
 package main.java.server;
 
+import main.java.LogUtils;
 import main.java.models.BaseModel;
 import main.java.models.Person;
 import main.java.models.Staff;

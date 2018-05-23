@@ -12,6 +12,9 @@ import java.util.List;
 
 public class RmiClient extends BaseClient implements ClientInterface, RmiClientInterface {
 
+    // Serialization
+    private static final long serialVersionUID = 3095705285093912198L;
+
     // Debug
     private static final String TAG = "RmiClient";
 
@@ -62,6 +65,8 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
     public boolean login(String username, String password) {
         setUsername(username);
         setPassword(password);
+
+        LogUtils.e(TAG, "RMIClient log 1");
 
         try {
             return server.login(this);

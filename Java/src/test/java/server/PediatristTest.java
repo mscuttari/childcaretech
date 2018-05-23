@@ -1,20 +1,48 @@
 package test.java.server;
 
+import main.java.models.Child;
 import main.java.models.Pediatrist;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static test.java.utils.TestUtils.assertDateEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PediatristTest extends PersonTest<Pediatrist> {
 
     PediatristTest() {
         super(Pediatrist.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    void assertModelsEquals(Pediatrist x, Pediatrist y) {
+        super.assertModelsEquals(x, y);
+
+        // Check children
+        Collection<Child> xChildren = x.getChildren();
+        Collection<Child> yChildren = y.getChildren();
+
+        assertEquals(xChildren.size(), yChildren.size());
+
+        for (Child child : xChildren) {
+            assertTrue(yChildren.contains(child));
+        }
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    void assignValidData(Pediatrist obj) {
+        super.assignValidData(obj);
+
+        // Create children
+        obj.addChild(new Child("BBBBBBBBBBBBBBBB", "BBB", "BBB", new Date(), "Test, B/1", "1111111111", null));
+        obj.addChild(new Child("CCCCCCCCCCCCCCCC", "CCC", "CCC", new Date(), "Test, C/1", "2222222222", null));
+        obj.addChild(new Child("DDDDDDDDDDDDDDDD", "DDD", "DDD", new Date(), "Test, D/1", "3333333333", null));
     }
 
 
@@ -35,7 +63,7 @@ class PediatristTest extends PersonTest<Pediatrist> {
 
         // Update
         pediatrist.setFirstName("BBB");
-        pediatrist.setLastName("CCC");
+        pediatrist.setLastName("BBB");
         pediatrist.setBirthdate(new Date());
         pediatrist.setAddress("Test, A/2");
         pediatrist.setTelephone("2222222222");

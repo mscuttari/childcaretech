@@ -28,7 +28,6 @@ public class Pullman extends BaseModel {
 
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "children_pullmans_assignments",
             joinColumns = {
@@ -38,6 +37,7 @@ public class Pullman extends BaseModel {
             },
             inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Child> children = new HashSet<>();
 
 
