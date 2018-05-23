@@ -120,11 +120,12 @@
                 </HBox>
             </VBox>
         </Tab>
-        <Tab text="Pullman">
+        <Tab text="Trasporti">
             <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
                 <HBox>
                     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0"
                           HBox.hgrow="ALWAYS">
+                        <ComboBox fx:id="cbTransportType" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                         <TextField fx:id="tfPullmanNumberplate" layoutX="10.0" layoutY="192.0"
                                    promptText="Targa">
                             <font>
@@ -139,7 +140,10 @@
                         </TextField>
                     </VBox>
                     <Pane HBox.hgrow="ALWAYS"/>
-                    <ListView fx:id="lvPullman" HBox.hgrow="ALWAYS"/>
+                    <VBox alignment="CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
+                        <ComboBox fx:id="cbStop" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <ListView fx:id="lvPullman" HBox.hgrow="ALWAYS"/>
+                    </VBox>
                 </HBox>
                 <HBox alignment="CENTER">
                     <VBox.margin>

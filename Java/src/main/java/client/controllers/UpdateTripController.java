@@ -253,7 +253,7 @@ public class UpdateTripController extends AbstractController implements Initiali
 
 
     /**
-     * Load the person data into the corresponding fields
+     * Load the trip data into the corresponding fields
      */
     private void loadData() {
         // Title

@@ -242,4 +242,9 @@ public abstract class Person extends BaseModel {
         addIntolerances(intolerances);
     }
 
+    @Override
+    public String toString(){
+        return "[" + getFiscalCode() + "] - " + getFirstName() + " " + getLastName() ;
+    }
+
 }

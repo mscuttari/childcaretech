@@ -92,7 +92,7 @@ public class Child extends Person {
         if (parents.size() > 2) throw new InvalidFieldException("Non è possibile specificare più di due genitori");
 
         // Pediatrist
-        if (pediatrist == null) throw new InvalidFieldException("Pediatra mancante");
+        if (pediatrist.getFiscalCode() == null) throw new InvalidFieldException("Pediatra mancante");
     }
 
 
@@ -211,4 +211,8 @@ public class Child extends Person {
         addPullmansAssignments(pullmans);
     }
 
+    @Override
+    public String toString(){
+        return super.toString();
+    }
 }
