@@ -385,6 +385,12 @@ public class AddPersonController extends AbstractController implements Initializ
         // Save person
         connectionManager.getClient().create(person);
 
+        // Insert information
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, person.toString() +
+                "è stato correttamente inserito", ButtonType.OK);
+        alert.setTitle("Conferma inserimento");
+        alert.setHeaderText(null);
+        alert.showAndWait();
 
         // Go back to the menu
         goBack();
