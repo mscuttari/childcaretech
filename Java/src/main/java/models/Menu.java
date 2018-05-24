@@ -173,4 +173,7 @@ public class Menu extends BaseModel {
         addDishes(dishes);
     }
 
+    @Override
+    public String toString(){ return "[" + getDayOfTheWeek() + "] - " + getName() ; }
+
 }

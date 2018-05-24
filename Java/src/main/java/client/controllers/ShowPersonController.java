@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ShowPersonController extends AbstractController implements Initializable {
@@ -110,16 +111,16 @@ public class ShowPersonController extends AbstractController implements Initiali
         }));
 
         columnPeopleDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
-            connectionManager.getClient().delete(param1.getModel());
-            List<Person> newPeople = new ArrayList<>();
-            newPeople.addAll(connectionManager.getClient().getChildren());
-            newPeople.addAll(connectionManager.getClient().getStaff());
-            newPeople.addAll(connectionManager.getClient().getContacts());
-            newPeople.addAll(connectionManager.getClient().getParents());
-            newPeople.addAll(connectionManager.getClient().getPediatrists());
-            @SuppressWarnings("unchecked") ObservableList<GuiPerson> newPeopleData = TableUtils.getGuiModelsList(newPeople);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi davvero eliminare la persona?\n" +
+                    "(la procedura è irreversibile)", ButtonType.NO, ButtonType.YES);
+            alert.setTitle("Conferma operazione");
+            alert.setHeaderText(null);
 
-            tablePeople.setItems(newPeopleData);
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get() == ButtonType.YES) {
+                deleteData(connectionManager, param1);
+            }
+
             return null;
         }));
 
@@ -127,6 +128,22 @@ public class ShowPersonController extends AbstractController implements Initiali
         tablePeople.setItems(peopleData);
     }
 
+
+    /**
+     * Delete data and update table data
+     */
+    private void deleteData(ConnectionManager connectionManager, GuiPerson param) {
+        connectionManager.getClient().delete(param.getModel());
+        List<Person> newPeople = new ArrayList<>();
+        newPeople.addAll(connectionManager.getClient().getChildren());
+        newPeople.addAll(connectionManager.getClient().getStaff());
+        newPeople.addAll(connectionManager.getClient().getContacts());
+        newPeople.addAll(connectionManager.getClient().getParents());
+        newPeople.addAll(connectionManager.getClient().getPediatrists());
+        @SuppressWarnings("unchecked") ObservableList<GuiPerson> newPeopleData = TableUtils.getGuiModelsList(newPeople);
+
+        tablePeople.setItems(newPeopleData);
+    }
 
     /**
      * Go back to the main anagraphic page
