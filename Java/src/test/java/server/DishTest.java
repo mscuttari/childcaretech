@@ -1,10 +1,7 @@
 package test.java.server;
 
 import main.java.client.InvalidFieldException;
-import main.java.models.Dish;
-import main.java.models.DishType;
-import main.java.models.Ingredient;
-import main.java.models.Provider;
+import main.java.models.*;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
@@ -14,24 +11,49 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import java.util.Collection;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static test.java.server.IngredientTest.getIngredientByName;
 
 class DishTest extends BaseModelTest<Dish> {
 
     /** {@inheritDoc} */
     @Override
     void assertModelsEquals(Dish x, Dish y) {
+        // Check basic data
         assertEquals(x.getName(), y.getName());
         assertEquals(x.getType(), y.getType());
+
+        // Check provider
+        assertEquals(x.getProvider(), y.getProvider());
+
+        // Check ingredients
+        Collection<Ingredient> xIngredients = x.getIngredients();
+        Collection<Ingredient> yIngredients = y.getIngredients();
+
+        assertEquals(xIngredients.size(), yIngredients.size());
+
+        for (Ingredient ingredient : xIngredients) {
+            assertTrue(yIngredients.contains(ingredient));
+        }
     }
 
 
     /** {@inheritDoc} */
     @Override
     void assignValidData(Dish obj) {
+        // Basic data
         obj.setName("AAA");
         obj.setType(DishType.PRIMO);
+
+        // Provider
         obj.setProvider(new Provider("AAAAAAAAAA", "AAA"));
+
+        // Add ingredients
+        obj.addIngredient(new Ingredient("AAA"));
+        obj.addIngredient(new Ingredient("BBB"));
+        obj.addIngredient(new Ingredient("CCC"));
     }
 
 
@@ -71,6 +93,12 @@ class DishTest extends BaseModelTest<Dish> {
         Provider provider = dish.getProvider();
         HibernateUtils.getInstance().delete(provider);
         assertNull(getDishByName(provider.getName()));
+
+        // Delete ingredients
+        for (Ingredient ingredient : dish.getIngredients()) {
+            HibernateUtils.getInstance().delete(ingredient);
+            assertNull(getIngredientByName(ingredient.getName()));
+        }
     }
 
 
