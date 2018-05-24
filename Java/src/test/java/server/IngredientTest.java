@@ -78,7 +78,7 @@ class IngredientTest extends BaseModelTest<Ingredient> {
      * @param   name        name
      * @return  ingredient (null if not found)
      */
-    private static Ingredient getIngredientByName(String name) {
+    public static Ingredient getIngredientByName(String name) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 
