@@ -20,6 +20,9 @@ public class Trip extends BaseModel {
     @EmbeddedId
     private TripPK id = new TripPK();
 
+    @Column(name = "seats_assignment_type", nullable = false)
+    private SeatsAssignmentType seatsAssignmentType;
+
 
     @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -87,11 +90,13 @@ public class Trip extends BaseModel {
         if (getTitle() == null) throw new InvalidFieldException("Titolo mancante");
         if (!getTitle().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Titolo non valido");
 
-        // Check if the total number of seats is enough
-        Integer totalNumberOfSeats = getAvailableSeats();
+        if(getSeatsAssignmentType() != SeatsAssignmentType.UNNECESSARY){
+            // Check if the total number of seats is enough
+            Integer totalNumberOfSeats = getAvailableSeats();
 
-        if (totalNumberOfSeats < getChildren().size() + getStaff().size())
-            throw new InvalidFieldException("Posti insufficienti");
+            if (totalNumberOfSeats < getChildren().size() + getStaff().size())
+                throw new InvalidFieldException("Posti insufficienti");
+        }
     }
 
 
@@ -137,7 +142,7 @@ public class Trip extends BaseModel {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDate(), getTitle());
+        return Objects.hash(getTitle());
     }
 
 
@@ -158,6 +163,16 @@ public class Trip extends BaseModel {
 
     public void setTitle(String title) {
         this.id.setTitle(trimString(title));
+    }
+
+
+    public SeatsAssignmentType getSeatsAssignmentType() {
+        return this.seatsAssignmentType;
+    }
+
+
+    public void setSeatsAssignmentType(SeatsAssignmentType seatsAssignmentType) {
+        this.seatsAssignmentType = seatsAssignmentType;
     }
 
 

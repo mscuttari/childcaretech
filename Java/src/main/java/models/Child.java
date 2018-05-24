@@ -151,6 +151,11 @@ public class Child extends Person {
                 super.equals(obj);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFiscalCode());
+    }
+
     /*
     public Long getChildId() {
         return childId;

@@ -116,7 +116,7 @@ public class Pullman extends BaseModel {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTrip(), getNumberplate());
+        return Objects.hash(getNumberplate());
     }
 
 

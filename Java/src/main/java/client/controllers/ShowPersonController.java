@@ -111,14 +111,19 @@ public class ShowPersonController extends AbstractController implements Initiali
         }));
 
         columnPeopleDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi davvero eliminare la persona?\n" +
-                    "(la procedura è irreversibile)", ButtonType.NO, ButtonType.YES);
-            alert.setTitle("Conferma operazione");
-            alert.setHeaderText(null);
+            if (param1.getModel().isDeletable()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi davvero eliminare la persona?\n" +
+                        "(la procedura è irreversibile)", ButtonType.NO, ButtonType.YES);
+                alert.setTitle("Conferma operazione");
+                alert.setHeaderText(null);
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if(result.get() == ButtonType.YES) {
-                deleteData(connectionManager, param1);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.YES) {
+                    deleteData(connectionManager, param1);
+                }
+            } else {
+                showErrorDialog("Questa persona non può essere eliminata");
             }
 
             return null;
