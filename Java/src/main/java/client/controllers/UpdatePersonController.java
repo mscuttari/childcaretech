@@ -378,14 +378,14 @@ public class UpdatePersonController extends AbstractController implements Initia
 
         person.getAllergies().clear();
         person.getIntolerances().clear();
-        person.addAllergies(lvAllergies.getItems());
-        person.addIntolerances(lvIntolerances.getItems());
 
         // Specific class data
         switch (PersonType.getPersonType(person)) {
             case CHILD:
                 ((Child)person).setParents(TableUtils.getSelectedItems(tableParents));      // Parents
                 ((Child)person).setContacts(TableUtils.getSelectedItems(tableContacts));    // Contacts
+                person.addAllergies(lvAllergies.getItems());                                // Allergies
+                person.addIntolerances(lvIntolerances.getItems());                          // Intolerances
 
                 // Pediatrist
                 List<Pediatrist> selectedPediatrists = TableUtils.getSelectedItems(tablePediatrist);
@@ -404,6 +404,8 @@ public class UpdatePersonController extends AbstractController implements Initia
             case STAFF:
                 ((Staff) person).setUsername(tfUsername.getText());
                 ((Staff) person).setPassword(tfPassword.getText());
+                person.addAllergies(lvAllergies.getItems());
+                person.addIntolerances(lvIntolerances.getItems());
                 break;
         }
 

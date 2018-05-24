@@ -125,7 +125,6 @@ public class AddPersonController extends AbstractController implements Initializ
 
                 case PEDIATRIST:
                     imagePersonType.setImage(new Image("/images/doctor.png"));
-                    tabPane.getTabs().addAll(tabAllergies, tabIntolerances);
                     break;
 
                 case STAFF:
@@ -329,6 +328,9 @@ public class AddPersonController extends AbstractController implements Initializ
         switch (cbPersonType.getValue()) {
             case CHILD:
                 Child child = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
+                child.addIntolerances(lvIntolerances.getItems());
+                child.addAllergies(lvAllergies.getItems());
+
                 person = child;
 
                 // Pediatrist
@@ -365,12 +367,11 @@ public class AddPersonController extends AbstractController implements Initializ
 
             case STAFF:
                 person = new Staff(fiscalCode, firstName, lastName, birthDate, address, telephone, username, password);
+                person.addIntolerances(lvIntolerances.getItems());
+                person.addAllergies(lvAllergies.getItems());
+
                 break;
         }
-
-        person.addIntolerances(lvIntolerances.getItems());
-        person.addAllergies(lvAllergies.getItems());
-
 
         // Check data
         try {
