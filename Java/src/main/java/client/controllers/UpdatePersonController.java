@@ -425,6 +425,12 @@ public class UpdatePersonController extends AbstractController implements Initia
 
         // Go back to the people list
         if (updateResult) {
+            // Update information
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "I dati di " +
+                    person.toString() + " sono stati correttamente aggiornati", ButtonType.OK);
+            alert.setTitle("Conferma aggiornamento");
+            alert.setHeaderText(null);
+            alert.showAndWait();
             goBack();
         } else {
             showErrorDialog("Salvataggio non riuscito");

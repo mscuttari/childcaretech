@@ -387,7 +387,7 @@ public class AddPersonController extends AbstractController implements Initializ
 
         // Insert information
         Alert alert = new Alert(Alert.AlertType.INFORMATION, person.toString() +
-                "è stato correttamente inserito", ButtonType.OK);
+                " è stato correttamente inserito", ButtonType.OK);
         alert.setTitle("Conferma inserimento");
         alert.setHeaderText(null);
         alert.showAndWait();
