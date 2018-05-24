@@ -3,6 +3,7 @@ package main.java.models;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiChild;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -22,6 +23,14 @@ public class Child extends Person {
 
     @Transient
     private static final long serialVersionUID = 6653642585718262873L;
+
+    /*
+    @GenericGenerator(name = "native_generator", strategy = "native")
+    @GeneratedValue(generator = "native_generator")
+    @Column(name = "child_id")
+    private Long childId;
+    */
+
 
 
     @ManyToOne(cascade = {PERSIST, MERGE})
@@ -142,6 +151,11 @@ public class Child extends Person {
                 super.equals(obj);
     }
 
+    /*
+    public Long getChildId() {
+        return childId;
+    }
+    */
 
     public Collection<Parent> getParents() {
         return this.parents;
