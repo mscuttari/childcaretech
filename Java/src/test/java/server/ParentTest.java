@@ -22,16 +22,6 @@ class ParentTest extends PersonTest<Parent> {
     @Override
     void assertModelsEquals(Parent x, Parent y) {
         super.assertModelsEquals(x, y);
-
-        // Check children
-        Collection<Child> xChildren = x.getChildren();
-        Collection<Child> yChildren = y.getChildren();
-
-        assertEquals(xChildren.size(), yChildren.size());
-
-        for (Child child : xChildren) {
-            assertTrue(yChildren.contains(child));
-        }
     }
 
 
@@ -39,12 +29,6 @@ class ParentTest extends PersonTest<Parent> {
     @Override
     void assignValidData(Parent obj) {
         super.assignValidData(obj);
-
-        // Create children
-        Pediatrist pediatrist = new Pediatrist("BBBBBBBBBBBBBBBB", "BBB", "BBB", new Date(), "Test, B/1", "2222222222");
-        obj.addChild(new Child("CCCCCCCCCCCCCCCC", "CCC", "CCC", new Date(), "Test, C/1", "3333333333", pediatrist));
-        obj.addChild(new Child("DDDDDDDDDDDDDDDD", "DDD", "DDD", new Date(), "Test, D/1", "4444444444", pediatrist));
-        obj.addChild(new Child("EEEEEEEEEEEEEEEE", "EEE", "EEE", new Date(), "Test, E/1", "5555555555", pediatrist));
     }
 
 
@@ -83,11 +67,6 @@ class ParentTest extends PersonTest<Parent> {
         // Check delete
         Parent deletedParent = getPersonByFiscalCode(parent.getFiscalCode());
         assertNull(deletedParent);
-
-        // Delete the pediatrist used for the children
-        Pediatrist pediatrist = parent.getChildren().iterator().next().getPediatrist();
-        HibernateUtils.getInstance().delete(pediatrist);
-        assertNull(getPersonByFiscalCode(pediatrist.getFiscalCode()));
     }
 
 

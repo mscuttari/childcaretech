@@ -62,9 +62,9 @@ class ChildTest extends PersonTest<Child> {
         obj.setPediatrist(new Pediatrist("DDDDDDDDDDDDDDDD", "DDD", "DDD", new Date(), "Test, D/1", "3333333333"));
 
         // Create some contacts
-        //obj.addContact(new Contact("EEEEEEEEEEEEEEEE", "EEE", "EEE", new Date(), "Test, E/1", "4444444444"));
-        //obj.addContact(new Contact("FFFFFFFFFFFFFFFF", "FFF", "FFF", new Date(), "Test, F/1", "5555555555"));
-        //obj.addContact(new Contact("GGGGGGGGGGGGGGGG", "GGG", "GGG", new Date(), "Test, G/1", "6666666666"));
+        obj.addContact(new Contact("EEEEEEEEEEEEEEEE", "EEE", "EEE", new Date(), "Test, E/1", "4444444444"));
+        obj.addContact(new Contact("FFFFFFFFFFFFFFFF", "FFF", "FFF", new Date(), "Test, F/1", "5555555555"));
+        obj.addContact(new Contact("GGGGGGGGGGGGGGGG", "GGG", "GGG", new Date(), "Test, G/1", "6666666666"));
     }
 
 

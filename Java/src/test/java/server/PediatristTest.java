@@ -21,16 +21,6 @@ class PediatristTest extends PersonTest<Pediatrist> {
     @Override
     void assertModelsEquals(Pediatrist x, Pediatrist y) {
         super.assertModelsEquals(x, y);
-
-        // Check children
-        Collection<Child> xChildren = x.getChildren();
-        Collection<Child> yChildren = y.getChildren();
-
-        assertEquals(xChildren.size(), yChildren.size());
-
-        for (Child child : xChildren) {
-            assertTrue(yChildren.contains(child));
-        }
     }
 
 
@@ -38,11 +28,6 @@ class PediatristTest extends PersonTest<Pediatrist> {
     @Override
     void assignValidData(Pediatrist obj) {
         super.assignValidData(obj);
-
-        // Create children
-        obj.addChild(new Child("BBBBBBBBBBBBBBBB", "BBB", "BBB", new Date(), "Test, B/1", "1111111111", null));
-        obj.addChild(new Child("CCCCCCCCCCCCCCCC", "CCC", "CCC", new Date(), "Test, C/1", "2222222222", null));
-        obj.addChild(new Child("DDDDDDDDDDDDDDDD", "DDD", "DDD", new Date(), "Test, D/1", "3333333333", null));
     }
 
 

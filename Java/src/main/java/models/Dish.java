@@ -81,7 +81,7 @@ public class Dish extends BaseModel {
         if (getType() == null) throw new InvalidFieldException("Tipologia mancante");
 
         // Provider
-        if (getProvider() == null) throw new InvalidFieldException("Fornitore mancante");
+        if (getProvider().getName() == null) throw new InvalidFieldException("Fornitore mancante");
     }
 
 
@@ -156,7 +156,7 @@ public class Dish extends BaseModel {
 
 
     public void setProvider(Provider provider) {
-        this.provider = provider;
+        this.provider = provider == null ? new Provider() : provider;
     }
 
 

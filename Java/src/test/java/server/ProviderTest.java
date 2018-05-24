@@ -27,7 +27,7 @@ class ProviderTest extends BaseModelTest<Provider> {
     @Override
     void assignValidData(Provider obj) {
         obj.setVat("AAAAAAAAAAAAAAAA");
-        obj.setName("BBB");
+        obj.setName("AAA");
     }
 
 
@@ -47,7 +47,7 @@ class ProviderTest extends BaseModelTest<Provider> {
         assertModelsEquals(provider, createdProvider);
 
         // Update
-        provider.setName("CCC");
+        provider.setName("BBB");
 
         HibernateUtils.getInstance().update(provider);
 
@@ -70,8 +70,9 @@ class ProviderTest extends BaseModelTest<Provider> {
      */
     @Test
     void vatValidity() {
-        // Valid data
         Provider provider = new Provider();
+
+        // Valid data
         assignValidData(provider);
         assertDoesNotThrow(provider::checkDataValidity);
 
