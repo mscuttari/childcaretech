@@ -202,4 +202,9 @@ public class Dish extends BaseModel {
         this.menus.remove(menu);
     }
 
+    @Override
+    public String toString(){
+        return "[" + getType() + "] - " + getName() ;
+    }
+
 }

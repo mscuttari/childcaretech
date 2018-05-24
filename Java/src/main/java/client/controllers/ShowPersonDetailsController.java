@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import main.java.models.*;
 
 import java.net.URL;
@@ -25,6 +26,8 @@ public class ShowPersonDetailsController extends AbstractController implements I
     @FXML private ImageView goBackImage;
 
     @FXML private ImageView imagePersonType;
+    @FXML private VBox vboxChildCode;
+    @FXML private Label labelChildCode;
     @FXML private Label labelFiscalCode;
     @FXML private Label labelFirstName;
     @FXML private Label labelLastName;
@@ -76,11 +79,13 @@ public class ShowPersonDetailsController extends AbstractController implements I
         }
 
         tabPane.getTabs().removeAll(tabRelations, tabIngredients);
+        vboxChildCode.setVisible(false);
 
         // Differentiation based on person type
         switch (PersonType.getPersonType(person)) {
             case CHILD:
                 imagePersonType.setImage(new Image("/images/baby.png"));
+                vboxChildCode.setVisible(true);
 
                 // Parents
                 for (Parent current : ((Child) person).getParents()) {
@@ -112,6 +117,7 @@ public class ShowPersonDetailsController extends AbstractController implements I
 
             case STAFF:
                 imagePersonType.setImage(new Image("/images/secretary.png"));
+                tabPane.getTabs().add(tabIngredients);
                 break;
         }
 
