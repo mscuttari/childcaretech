@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "menus")
 public class Menu extends BaseModel {
@@ -28,12 +30,12 @@ public class Menu extends BaseModel {
     private DayOfTheWeek dayOfTheWeek;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = {PERSIST, MERGE})
     @JoinColumn(name = "responsible_fiscal_code", referencedColumnName = "fiscal_code")
     private Staff responsible;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "menus_composition",
             joinColumns = { @JoinColumn(name = "menu_name", referencedColumnName = "name") },
@@ -72,11 +74,11 @@ public class Menu extends BaseModel {
         if (getName() == null) throw new InvalidFieldException("Nome mancante");
         if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
 
-        // Responsible
-        if (getResponsible() == null) throw new InvalidFieldException("Responsabile mancante");
-
         // Day of the week
         if (getDayOfTheWeek() == null) throw new InvalidFieldException("Giorno della settimana mancante");
+
+        // Responsible
+        if (getResponsible().getFiscalCode() == null) throw new InvalidFieldException("Responsabile mancante");
     }
 
 
@@ -139,7 +141,7 @@ public class Menu extends BaseModel {
 
 
     public void setDayOfTheWeek(DayOfTheWeek dayOfTheWeek) {
-        this.dayOfTheWeek = dayOfTheWeek == null ? DayOfTheWeek.MONDAY : dayOfTheWeek;
+        this.dayOfTheWeek = dayOfTheWeek;
     }
 
 

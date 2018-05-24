@@ -54,19 +54,21 @@ public class Dish extends BaseModel {
      * Default constructor
      */
     public Dish() {
-        this(null, null);
+        this(null, null, null);
     }
 
 
     /**
      * Constructor
      *
-     * @param   name    name
-     * @param   type    type
+     * @param   name        name
+     * @param   type        type
+     * @param   provider    provider
      */
-    public Dish(String name, DishType type) {
+    public Dish(String name, DishType type, Provider provider) {
         setName(name);
         setType(type);
+        setProvider(provider);
     }
 
 

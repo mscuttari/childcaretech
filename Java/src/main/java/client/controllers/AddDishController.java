@@ -117,7 +117,7 @@ public class AddDishController implements Initializable{
         String dishName = tfDishName.getText().trim();
         DishType dishType = cbDishType.getSelectionModel().getSelectedItem();
 
-        Dish dish = new Dish(dishName, dishType);
+        Dish dish = new Dish(dishName, dishType, null);
 
         //Provider
         String providerName = tfProviderName.getText().trim();
