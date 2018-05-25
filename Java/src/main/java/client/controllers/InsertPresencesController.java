@@ -96,10 +96,18 @@ public class InsertPresencesController implements Initializable {
         columnChildrenLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
         tableTrips.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
+            tablePullman.setVisible(true);
+            if (newSelection != null && newSelection.getSeatsAssignmentType() != SeatsAssignmentType.UNNECESSARY) {
                 List<Pullman> pullman = (List<Pullman>) tableTrips.getSelectionModel().getSelectedItem().getTransports();
                 ObservableList<Pullman> pullmanData = FXCollections.observableArrayList(pullman);
                 tablePullman.setItems(pullmanData);
+            }
+            else if (newSelection.getSeatsAssignmentType() == SeatsAssignmentType.UNNECESSARY){
+                tablePullman.setVisible(false);
+                List<Child> children = (List<Child>) tableTrips.getSelectionModel().getSelectedItem().getChildren();
+                ObservableList<GuiChild> childrenData = TableUtils.getGuiModelsList(children);
+                tableChildren.setItems(childrenData);
+                tableChildren.setEditable(true);
             }
         });
 
@@ -121,11 +129,27 @@ public class InsertPresencesController implements Initializable {
         if (tableTrips.getSelectionModel().getSelectedItem() == null){
             showErrorDialog("Nessuna gita è selezionata");
             return;
-        } else if (tablePullman.getSelectionModel().getSelectedItem() == null) {
-            showErrorDialog("Nessun pullman è selezionato");
-            return;
         } else if (TableUtils.getSelectedItems(tableChildren).isEmpty()) {
             showErrorDialog("Nessun bambino è selezionato");
+            return;
+        }
+
+        switch (tableTrips.getSelectionModel().getSelectedItem().getSeatsAssignmentType()){
+            case UNNECESSARY:
+                List<Child> notPresentChildren = new ArrayList<>(tableTrips.getSelectionModel().getSelectedItem().getChildren());
+                notPresentChildren.removeAll(TableUtils.getSelectedItems(tableChildren));
+                if(notPresentChildren.isEmpty() ){
+                    showErrorDialog("Tutti i bambini sono presenti");
+                }
+                else {
+                    showPresencesErrorDialog(notPresentChildren, null, tableTrips.getSelectionModel().getSelectedItem().getSeatsAssignmentType());
+                    return;
+                }
+                return;
+        }
+
+        if (tablePullman.getSelectionModel().getSelectedItem() == null) {
+            showErrorDialog("Nessun pullman è selezionato");
             return;
         }
 
@@ -150,7 +174,7 @@ public class InsertPresencesController implements Initializable {
             showErrorDialog("Tutti i bambini sono presenti e non c'è nessun bambino di un altro pullman");
         }
         else {
-           showPresencesErrorDialog(notPresentChildren, wrongPullmanChildren);
+           showPresencesErrorDialog(notPresentChildren, wrongPullmanChildren, tableTrips.getSelectionModel().getSelectedItem().getSeatsAssignmentType());
            return;
         }
     }
@@ -169,16 +193,18 @@ public class InsertPresencesController implements Initializable {
     }
 
 
-    private static void showPresencesErrorDialog(List<Child> notPresentChildren, List<Child> wrongPullmanChildren) {
+    private static void showPresencesErrorDialog(List<Child> notPresentChildren, List<Child> wrongPullmanChildren, SeatsAssignmentType seatsAssignmentType) {
 
         List<String> strings = new LinkedList<>();
         strings.add("I bambini non presenti alla tappa sono:");
         for(Child current: notPresentChildren){
             strings.add(current.toString());
         }
-        strings.add("\nI bambini che hanno sbagliato pullman sono:");
-        for(Child current : wrongPullmanChildren){
-            strings.add(current.toString());
+        if(seatsAssignmentType != SeatsAssignmentType.UNNECESSARY){
+            strings.add("\nI bambini che hanno sbagliato pullman sono:");
+            for(Child current : wrongPullmanChildren){
+                strings.add(current.toString());
+            }
         }
         String message = String.join("\n", strings);
         Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
