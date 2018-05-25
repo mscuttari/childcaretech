@@ -475,6 +475,13 @@ public class AddTripController extends AbstractController implements Initializab
                     showErrorDialog("Non tutti i bambini sono stati assegnati ad un pullman");
                     return;
                 }
+                List<Child> childrenUnsubscribed = new ArrayList<>(childrenInPullman);
+                childrenInPullman.removeAll(trip.getChildren());
+                if(!childrenInPullman.isEmpty()){
+                    for(Pullman current : trip.getTransports()){
+                        current.getChildren().removeAll(childrenUnsubscribed);
+                    }
+                }
                 break;
 
             case UNNECESSARY:
