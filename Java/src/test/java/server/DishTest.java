@@ -122,6 +122,23 @@ class DishTest extends BaseModelTest<Dish> {
 
 
     /**
+     * Test the type validity check
+     */
+    @Test
+    void typeValidity() {
+        Dish dish = new Dish();
+
+        // Valid data
+        assignValidData(dish);
+        assertDoesNotThrow(dish::checkDataValidity);
+
+        // Invalid data
+        dish.setType(null);
+        assertThrows(InvalidFieldException.class, dish::checkDataValidity);
+    }
+
+
+    /**
      * Test the provider validity check
      */
     @Test
@@ -144,7 +161,7 @@ class DishTest extends BaseModelTest<Dish> {
      * @param   name        name
      * @return  dish (null if not found)
      */
-    private static Dish getDishByName(String name) {
+    public static Dish getDishByName(String name) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 

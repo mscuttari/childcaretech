@@ -107,7 +107,7 @@ class ProviderTest extends BaseModelTest<Provider> {
      * @param   vat     VAT number
      * @return  provider (null if not found)
      */
-    private static Provider getProviderByVat(String vat) {
+    public static Provider getProviderByVat(String vat) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 
