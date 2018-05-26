@@ -12,13 +12,48 @@ import java.net.URL;
 public abstract class AbstractController {
 
     /**
+     * Show information dialog
+     *
+     * @param   message     message
+     */
+    protected static void showInformationDialog(String message) {
+        showInformationDialog("Informazioni", message);
+    }
+
+
+    /**
+     * Show information dialog
+     *
+     * @param   title       title
+     * @param   message     message
+     */
+    protected static void showInformationDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
+
+    /**
      * Show error dialog
      *
-     * @param   message     error message
+     * @param   message     message
      */
     protected static void showErrorDialog(String message) {
+        showErrorDialog("Errore", message);
+    }
+
+
+    /**
+     * Show error dialog
+     *
+     * @param   title       title
+     * @param   message     message
+     */
+    protected static void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        alert.setTitle("Errore");
+        alert.setTitle(title);
         alert.setHeaderText(null);
         alert.showAndWait();
     }

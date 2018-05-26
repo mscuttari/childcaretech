@@ -19,6 +19,23 @@ public class TableUtils {
 
 
     /**
+     * Convert GUI models to models
+     *
+     * @param   data    GUI models list
+     * @return  models list
+     */
+    public static <M extends BaseModel, T extends GuiBaseModel<M>> ObservableList<M> getModelsList(List<T> data) {
+        ObservableList<M> result = FXCollections.observableArrayList();
+
+        for (T item : data) {
+            result.add(item.getModel());
+        }
+
+        return result;
+    }
+
+
+    /**
      * Convert models to GUI models
      *
      * @param   data    models list
