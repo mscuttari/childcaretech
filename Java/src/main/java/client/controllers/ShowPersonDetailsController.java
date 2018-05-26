@@ -87,6 +87,9 @@ public class ShowPersonDetailsController extends AbstractController implements I
                 imagePersonType.setImage(new Image("/images/baby.png"));
                 vboxChildCode.setVisible(true);
 
+                // Child id
+                labelChildCode.setText(String.valueOf(((Child) person).getId()));
+
                 // Parents
                 for (Parent current : ((Child) person).getParents()) {
                     labelParents.setText(labelParents.getText() + current.toString() + "\n");
