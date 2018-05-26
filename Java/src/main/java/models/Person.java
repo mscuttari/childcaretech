@@ -108,30 +108,30 @@ public abstract class Person extends BaseModel {
         if (!getFiscalCode().matches("^[A-Z\\d]+$"))
             throwFieldError("Codice fiscale non valido");
 
-        // First name: [a-z] [A-Z] space
+        // First name: [a-z] [A-Z] à è é ì ò ù ' " space
         if (getFirstName() == null)
             throwFieldError("Nome mancante");
 
-        if (!getFirstName().matches("^[a-zA-Z\\040]+$"))
+        if (!getFirstName().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
             throwFieldError("Nome non valido");
 
-        // Last name: [a-z] [A-Z] space
+        // Last name: [a-z] [A-Z] à è é ì ò ù ' " space
         if (getLastName() == null)
             throwFieldError("Cognome mancante");
 
-        if (!getLastName().matches("^[a-zA-Z\\040]+$"))
+        if (!getLastName().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
             throwFieldError("Cognome non valido");
 
         // Date
         if (getBirthdate() == null)
             throwFieldError("Data di nascita mancante");
 
-        // Address: [a-z] [A-Z] [0-9] space . , ; \ / °
-        if (getAddress() != null && !getAddress().matches("^$|^[a-zA-Z\\d\\040.,;°\\\\\\/]+$"))
+        // Address: [a-z] [A-Z] [0-9] à è é ì ò ù ' " space . , ; \ / °
+        if (getAddress() != null && !getAddress().matches("^$|^[a-zA-Zàèéìòù'\"\\d\\040.,;°\\\\\\/]+$"))
             throwFieldError("Indirizzo non valido");
 
-        // Telephone: [0-9] space +
-        if (getTelephone() != null && !getTelephone().matches("^$|^[\\d\\040+]+$"))
+        // Telephone: [0-9] space + - / \
+        if (getTelephone() != null && !getTelephone().matches("^$|^[\\d\\040+-\\/\\\\]+$"))
             throwFieldError("Telefono non valido");
     }
 

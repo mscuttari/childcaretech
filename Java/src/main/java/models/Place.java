@@ -56,25 +56,25 @@ public class Place extends BaseModel implements Serializable {
     /** {@inheritDoc} */
     @Override
     public void checkDataValidity() throws InvalidFieldException {
-        // Place name: [a-z] [A-Z] space
+        // Place name: [a-z] [A-Z] à è é ì ò ù ' " space
         if (getName() == null)
             throwFieldError("Nome mancante");
 
-        if (!getName().matches("^[a-zA-Z\\040]+$"))
+        if (!getName().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
             throwFieldError("Nome non valido");
 
-        // Province: [a-z] [A-Z] space
+        // Province: [a-z] [A-Z] à è é ì ò ù ' " space
         if (getProvince() == null)
             throwFieldError("Provincia mancante");
 
-        if (!getProvince().matches("^[a-zA-Z\\040]+$"))
+        if (!getProvince().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
             throwFieldError("Provincia non valida");
 
-        // Nation: [a-z] [A-Z] space
+        // Nation: [a-z] [A-Z] à è é ì ò ù ' " space
         if (getNation() == null)
             throwFieldError("Nazione mancante");
 
-        if (!getNation().matches("^[a-zA-Z\\040]+$"))
+        if (!getNation().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
             throwFieldError("Nazione non valida");
     }
 

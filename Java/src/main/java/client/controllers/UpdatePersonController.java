@@ -261,12 +261,14 @@ public class UpdatePersonController extends AbstractController implements Initia
     }
 
 
-    public void usernameConfirmation(){
-        if(tfUsername.getText().isEmpty()){
+    /**
+     * Username confirm check
+     */
+    private void usernameConfirmation(){
+        if (tfUsername.getText().isEmpty()){
             labelUsername.setText(("Il campo USERNAME è vuoto"));
             labelUsername.setTextFill(Color.BLUE);
-        }
-        else if (tfUsername.getText().equals(tfUsernameConfirmation.getText())) {
+        } else if (tfUsername.getText().equals(tfUsernameConfirmation.getText())) {
             labelUsername.setText("Il campo USERNAME è confermato");
             labelUsername.setTextFill(Color.GREEN);
         } else {
@@ -275,12 +277,15 @@ public class UpdatePersonController extends AbstractController implements Initia
         }
     }
 
-    public void passwordConfirmation(){
-        if(tfPassword.getText().isEmpty()){
+
+    /**
+     * Password confirm check
+     */
+    private void passwordConfirmation(){
+        if (tfPassword.getText().isEmpty()){
             labelPassword.setText(("Il campo PASSWORD è vuoto"));
             labelPassword.setTextFill(Color.BLUE);
-        }
-        else if (tfPassword.getText().equals(tfPasswordConfirmation.getText())) {
+        } else if (tfPassword.getText().equals(tfPasswordConfirmation.getText())) {
             labelPassword.setText("Il campo PASSWORD è confermato");
             labelPassword.setTextFill(Color.GREEN);
         } else {
@@ -425,12 +430,10 @@ public class UpdatePersonController extends AbstractController implements Initia
 
         // Go back to the people list
         if (updateResult) {
-            // Update information
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "I dati di " +
-                    person.toString() + " sono stati correttamente aggiornati", ButtonType.OK);
-            alert.setTitle("Conferma aggiornamento");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+            // Information dialog
+            showInformationDialog("I dati sono stati aggiornati");
+
+            // Go back to the people list page
             goBack();
         } else {
             showErrorDialog("Salvataggio non riuscito");

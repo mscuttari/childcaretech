@@ -70,8 +70,6 @@ public class Stop extends BaseModel {
         if (getTrip() == null)
             throwFieldError("Gita mancante");
 
-        getTrip().checkDataValidity();
-
         // Place
         if (getPlace() == null)
             throwFieldError("Località mancante");

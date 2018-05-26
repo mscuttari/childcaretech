@@ -77,9 +77,6 @@ public class SocketClient extends BaseClient implements ClientInterface {
         setUsername(username);
         setPassword(password);
 
-        List<Child> children = getChildren();
-        LogUtils.e(TAG, "Children: " + children);
-
         Object result = sendData("login", this);
         return result instanceof Boolean && (boolean)result;
     }

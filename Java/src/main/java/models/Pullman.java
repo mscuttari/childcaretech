@@ -81,11 +81,11 @@ public class Pullman extends BaseModel {
         if (getTrip() == null)
             throwFieldError("Gita mancante");
 
-        // Type: [a-z] [A-Z] [0-9]
+        // Type: [a-z] [A-Z] à è é ì ò ù ' " [0-9]
         if (getId() == null)
             throwFieldError("Numero identificativo mancante");
 
-        if (!getId().matches("^[a-zA-Z\\d]+$"))
+        if (!getId().matches("^[a-zA-Zàèéìòù'\"\\d\\040]+$"))
             throwFieldError("Numero identificativo non valido");
 
         // Seats: > 0

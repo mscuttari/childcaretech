@@ -284,6 +284,9 @@ public class AddPersonController extends AbstractController implements Initializ
     }
 
 
+    /**
+     * Username confirmation check
+     */
     private void usernameConfirmation() {
         if (tfUsername.getText().isEmpty()) {
             labelUsername.setText(("Il campo USERNAME è vuoto"));
@@ -297,6 +300,10 @@ public class AddPersonController extends AbstractController implements Initializ
         }
     }
 
+
+    /**
+     * Password confirmation check
+     */
     private void passwordConfirmation() {
         if (tfPassword.getText().isEmpty()) {
             labelPassword.setText(("Il campo PASSWORD è vuoto"));

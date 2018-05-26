@@ -64,11 +64,11 @@ public class Provider extends BaseModel {
         if (!getVat().matches("^[a-zA-Z\\d\\040]+$"))
             throwFieldError("Partita IVA non valida");
 
-        // Name: [a-z] [A-Z] space
+        // Name: [a-z] [A-Z] à è é ì ò ù ' " space
         if (getName() == null)
             throwFieldError("Nome mancante");
 
-        if (!getName().matches("^[a-zA-Z\\040]+$"))
+        if (!getName().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
             throwFieldError("Nome non valido");
     }
 
