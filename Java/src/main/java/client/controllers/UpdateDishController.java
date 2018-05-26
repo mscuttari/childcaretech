@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class UpdateDishController implements Initializable{
+public class UpdateDishController extends AbstractController implements Initializable {
 
     // Debug
     private static final String TAG = "UpdateDishController";
@@ -166,14 +166,11 @@ public class UpdateDishController implements Initializable{
         connectionManager.getClient().update(dish);
     }
 
+    /**
+     * Go back to the dish page
+     */
     public void goBack() {
-        try {
-            Pane dishPane = FXMLLoader.load(getClass().getResource("/views/dish.fxml"));
-            BorderPane homePane = (BorderPane) updateDishPane.getParent();
-            homePane.setCenter(dishPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+        setCenterFXML((BorderPane)updateDishPane.getParent(), "/views/showDish.fxml");
     }
 
 }

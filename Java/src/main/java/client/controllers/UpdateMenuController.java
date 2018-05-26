@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class UpdateMenuController implements Initializable {
+public class UpdateMenuController extends AbstractController implements Initializable {
 
     // Debug
     private static final String TAG = "UpdateMenuController";
@@ -152,25 +152,10 @@ public class UpdateMenuController implements Initializable {
     }
 
     /**
-     * Show error dialog
-     *
-     * @param   message     error message
+     * Go back to the main anagraphic page
      */
-    private static void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.showAndWait();
-    }
-
     public void goBack() {
-        try {
-            Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
-            BorderPane homePane = (BorderPane) updateMenuPane.getParent();
-            homePane.setCenter(showMenuPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+        setCenterFXML((BorderPane)updateMenuPane.getParent(), "/views/showMenu.fxml");
     }
 
 }
