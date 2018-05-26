@@ -8,7 +8,7 @@ import main.java.models.DayOfTheWeek;
 import main.java.models.Menu;
 import main.java.models.Staff;
 
-public class GuiMenu<M extends Menu> extends GuiBaseModel<M> {
+public class GuiMenu extends GuiBaseModel<Menu> {
 
     private StringProperty name;
     private ObjectProperty<DayOfTheWeek> dayOfTheWeek;
@@ -20,7 +20,7 @@ public class GuiMenu<M extends Menu> extends GuiBaseModel<M> {
      *
      * @param   model   menu model
      */
-    public GuiMenu(M model) {
+    public GuiMenu(Menu model) {
         super(model);
 
         this.name = new SimpleStringProperty(model.getName());

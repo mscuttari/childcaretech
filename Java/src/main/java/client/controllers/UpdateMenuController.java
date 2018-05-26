@@ -47,17 +47,11 @@ public class UpdateMenuController implements Initializable {
     @FXML private TableColumn<GuiStaff, String> columnStaffLastName;
     @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode;
 
-
-    public UpdateMenuController(Menu menu){
-        this.menu = menu;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         // Day of the week
         cbDayOfTheWeek.getItems().addAll(DayOfTheWeek.values());
-        cbDayOfTheWeek.getSelectionModel().select(menu.getDayOfTheWeek());
 
         // update menu button cursor
         updateMenuImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
@@ -76,9 +70,6 @@ public class UpdateMenuController implements Initializable {
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        //Data tab
-        tfMenuName.setText(menu.getName());
-
         //Dish table
         List<Dish> dishes = connectionManager.getClient().getDishes();
         ObservableList<GuiDish> dishData = TableUtils.getGuiModelsList(dishes);
@@ -90,11 +81,6 @@ public class UpdateMenuController implements Initializable {
 
         tableDish.setEditable(true);
         tableDish.setItems(dishData);
-
-        for (GuiDish item : tableDish.getItems()) {
-            if (menu.getDishes().contains(item.getModel()))
-                item.setSelected(true);
-        }
 
         // Staff table
         List<Staff> staff = connectionManager.getClient().getStaff();
@@ -108,12 +94,39 @@ public class UpdateMenuController implements Initializable {
 
         tableStaff.setEditable(true);
         tableStaff.setItems(staffData);
+    }
 
+    /**
+     * Set the menù that is going to be modified
+     *
+     * @param   menu    menu
+     */
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+        loadData();
+    }
+
+    /**
+     * Load the menu data into the corresponding fields
+     */
+    private void loadData() {
+        // Name
+        tfMenuName.setText(menu.getName());
+
+        // Day of the week
+        cbDayOfTheWeek.getSelectionModel().select(menu.getDayOfTheWeek());
+
+        // Dishes
+        for (GuiDish item : tableDish.getItems()) {
+            if (menu.getDishes().contains(item.getModel()))
+                item.setSelected(true);
+        }
+
+        // Staff
         for (GuiStaff item : tableStaff.getItems()) {
             if (menu.getResponsible().equals(item.getModel()))
                 item.setSelected(true);
         }
-
     }
 
     public void updateMenu() {
