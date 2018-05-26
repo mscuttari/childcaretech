@@ -62,7 +62,7 @@ public class ShowTripDetailsController extends AbstractController implements Ini
         }
 
         // Pullman
-        for (Pullman current : trip.getTransports()) {
+        for (Pullman current : trip.getPullmans()) {
             labelPullman.setText(labelPullman.getText() + current.toString() + "\n");
         }
 

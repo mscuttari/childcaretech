@@ -2,7 +2,6 @@ package main.java.client.controllers;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Tab;
@@ -17,16 +16,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
-import java.io.IOException;
 import java.net.URL;
-import java.time.ZoneId;
 import java.util.*;
 
 public class UpdateTripController extends AbstractController implements Initializable {
@@ -393,7 +389,7 @@ public class UpdateTripController extends AbstractController implements Initiali
         }
 
         // Transports
-        lvPullman.getItems().setAll(trip.getTransports());
+        lvPullman.getItems().setAll(trip.getPullmans());
 
         // Seats assignment type
         cbSeatsAssignment.setValue(trip.getSeatsAssignmentType());
@@ -469,8 +465,8 @@ public class UpdateTripController extends AbstractController implements Initiali
         trip.getChildren().clear();
         trip.addChildren(TableUtils.getSelectedItems(tableChildren));
         trip.getStops().clear();
-        trip.getTransports().clear();
-        trip.addTransports(lvPullman.getItems());
+        trip.getPullmans().clear();
+        trip.addPullmans(lvPullman.getItems());
 
         // Check data
         try {
@@ -508,7 +504,7 @@ public class UpdateTripController extends AbstractController implements Initiali
             case MANUAL:
                 tableSAPullman.getSelectionModel().getSelectedItem().getModel().setChildren(TableUtils.getSelectedItems(tableSAChildren));
                 Set<Child> childrenInPullman = new HashSet<>();
-                for(Pullman currentPullman : trip.getTransports()){
+                for(Pullman currentPullman : trip.getPullmans()){
                     for(Child currentChild : currentPullman.getChildren()){
                         if(!childrenInPullman.add(currentChild)){
                             showErrorDialog("Il bambino "+currentChild+" è stato aggiunto a più pullman, "+
@@ -536,7 +532,7 @@ public class UpdateTripController extends AbstractController implements Initiali
 
         trip.setStops(stops);
 
-        trip.addTransports(lvPullman.getItems());
+        trip.addPullmans(lvPullman.getItems());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();

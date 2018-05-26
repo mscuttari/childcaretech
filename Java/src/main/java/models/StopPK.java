@@ -13,20 +13,10 @@ public class StopPK implements Serializable {
     private static final long serialVersionUID = 1432021014402688581L;
 
 
-    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
-    @JoinColumns(value = {
-            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
-            @JoinColumn(name = "trip_title", referencedColumnName = "title")
-    })
+    @ManyToOne
     private Trip trip;
 
-
-    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
-    @JoinColumns(value = {
-            @JoinColumn(name = "place_name", referencedColumnName = "name"),
-            @JoinColumn(name = "place_province", referencedColumnName = "province"),
-            @JoinColumn(name = "place_nation", referencedColumnName = "nation")
-    })
+    @ManyToOne
     private Place place;
 
 

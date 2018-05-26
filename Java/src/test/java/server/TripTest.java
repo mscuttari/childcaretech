@@ -1,8 +1,7 @@
 package test.java.server;
 
 import main.java.client.InvalidFieldException;
-import main.java.models.SeatsAssignmentType;
-import main.java.models.Trip;
+import main.java.models.*;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Collection;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,17 +23,51 @@ class TripTest extends BaseModelTest<Trip> {
     /** {@inheritDoc} */
     @Override
     void assertModelsEquals(Trip x, Trip y) {
+        // Check basic data
         assertDateEquals(x.getDate(), y.getDate());
         assertEquals(x.getTitle(), y.getTitle());
+
+        // Check stops
+        Collection<Stop> xStops = x.getStops();
+        Collection<Stop> yStops = y.getStops();
+
+        assertEquals(xStops.size(), yStops.size());
+
+        for (Stop stop : xStops) {
+            assertTrue(yStops.contains(stop));
+        }
+
+        // Check pullmans
+        Collection<Pullman> xPullmans = x.getPullmans();
+        Collection<Pullman> yPullmans = y.getPullmans();
+
+        assertEquals(xPullmans.size(), yPullmans.size());
+
+        for (Pullman pullman : xPullmans) {
+            assertTrue(yPullmans.contains(pullman));
+        }
     }
 
 
     /** {@inheritDoc} */
     @Override
     void assignValidData(Trip obj) {
+        // Basic data
         obj.setDate(new Date());
         obj.setTitle("AAA");
         obj.setSeatsAssignmentType(SeatsAssignmentType.AUTOMATIC);
+
+        // Add stops
+        obj.addStop(new Stop(obj, new Place("Milano", "MI", "Italia"), 1));
+        obj.addStop(new Stop(obj, new Place("Firenze", "FI", "Italia"), 2));
+        obj.addStop(new Stop(obj, new Place("Roma", "RM", "Italia"), 3));
+        obj.addStop(new Stop(obj, new Place("Napoli", "NA", "Italia"), 4));
+        obj.addStop(new Stop(obj, new Place("Bari", "BA", "Italia"), 5));
+
+        // Add pullmans
+        obj.addPullman(new Pullman(obj, "AAA", 10));
+        obj.addPullman(new Pullman(obj, "BBB", 10));
+        obj.addPullman(new Pullman(obj, "CCC", 10));
     }
 
 
@@ -58,6 +92,21 @@ class TripTest extends BaseModelTest<Trip> {
         // Check delete
         Trip deletedTrip = getTrip(trip.getDate(), trip.getTitle());
         assertNull(deletedTrip);
+
+        // Check pullmans delete
+        for (Pullman pullman : trip.getPullmans()) {
+            assertNull(PullmanTest.getPullman(pullman.getTrip(), pullman.getId()));
+        }
+
+        // Delete places
+        for (Stop stop : trip.getStops()) {
+            HibernateUtils.getInstance().delete(stop.getPlace());
+        }
+
+        for (Stop stop : trip.getStops()) {
+            Place place = stop.getPlace();
+            assertNull(PlaceTest.getPlace(place.getName(), place.getProvince(), place.getNation()));
+        }
     }
 
 

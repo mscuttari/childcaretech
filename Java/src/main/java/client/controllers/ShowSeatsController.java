@@ -75,7 +75,7 @@ public class ShowSeatsController implements Initializable{
 
         tableTrips.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                List<Pullman> pullman = (List<Pullman>) tableTrips.getSelectionModel().getSelectedItem().getTransports();
+                List<Pullman> pullman = (List<Pullman>) tableTrips.getSelectionModel().getSelectedItem().getPullmans();
                 ObservableList<Pullman> pullmanData = FXCollections.observableArrayList(pullman);
                 tablePullman.setItems(pullmanData);
             }

@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "pullmans")
 public class Pullman extends BaseModel {
@@ -21,6 +23,15 @@ public class Pullman extends BaseModel {
 
     @EmbeddedId
     private PullmanPK id = new PullmanPK();
+
+
+    @MapsId(value = "trip")
+    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
+    @JoinColumns(value = {
+            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
+            @JoinColumn(name = "trip_title", referencedColumnName = "title")
+    })
+    private Trip trip;
 
 
     @Column(name = "seats", nullable = false)
@@ -135,11 +146,12 @@ public class Pullman extends BaseModel {
 
 
     public Trip getTrip() {
-        return this.id.getTrip();
+        return this.trip;
     }
 
 
     public void setTrip(Trip trip) {
+        this.trip = trip;
         this.id.setTrip(trip);
     }
 

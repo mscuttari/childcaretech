@@ -58,17 +58,22 @@ class StopTest extends BaseModelTest<Stop> {
         assertNotNull(createdStop);
         assertModelsEquals(stop, createdStop);
 
+        // Delete
+        HibernateUtils.getInstance().delete(stop);
+
+        // Check delete
+        Stop deletedStop = getStop(stop.getTrip(), stop.getPlace(), stop.getNumber());
+        assertNull(deletedStop);
+
         // Delete trip
         Trip trip = stop.getTrip();
         HibernateUtils.getInstance().delete(trip);
         assertNull(TripTest.getTrip(trip.getDate(), trip.getTitle()));
 
         // Delete place
-        HibernateUtils.getInstance().delete(stop);
-
-        // Check delete
-        Stop deletedStop = getStop(stop.getTrip(), stop.getPlace(), stop.getNumber());
-        assertNull(deletedStop);
+        Place place = stop.getPlace();
+        HibernateUtils.getInstance().delete(place);
+        assertNull(PlaceTest.getPlace(place.getName(), place.getProvince(), place.getNation()));
     }
 
 

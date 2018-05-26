@@ -150,7 +150,7 @@ class MenuTest extends BaseModelTest<Menu> {
      * @param   name        name
      * @return  menu (null if not found)
      */
-    private static Menu getMenu(String name) {
+    public static Menu getMenu(String name) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 

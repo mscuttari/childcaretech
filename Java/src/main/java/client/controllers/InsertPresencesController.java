@@ -98,7 +98,7 @@ public class InsertPresencesController implements Initializable {
         tableTrips.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             tablePullman.setVisible(true);
             if (newSelection != null && newSelection.getSeatsAssignmentType() != SeatsAssignmentType.UNNECESSARY) {
-                List<Pullman> pullman = (List<Pullman>) tableTrips.getSelectionModel().getSelectedItem().getTransports();
+                List<Pullman> pullman = (List<Pullman>) tableTrips.getSelectionModel().getSelectedItem().getPullmans();
                 ObservableList<Pullman> pullmanData = FXCollections.observableArrayList(pullman);
                 tablePullman.setItems(pullmanData);
             }

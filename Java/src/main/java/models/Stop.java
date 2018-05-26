@@ -22,6 +22,25 @@ public class Stop extends BaseModel {
     private StopPK id = new StopPK();
 
 
+    @MapsId(value = "trip")
+    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
+    @JoinColumns(value = {
+            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
+            @JoinColumn(name = "trip_title", referencedColumnName = "title")
+    })
+    private Trip trip;
+
+
+    @MapsId(value = "place")
+    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
+    @JoinColumns(value = {
+            @JoinColumn(name = "place_name", referencedColumnName = "name"),
+            @JoinColumn(name = "place_province", referencedColumnName = "province"),
+            @JoinColumn(name = "place_nation", referencedColumnName = "nation")
+    })
+    private Place place;
+
+
     /**
      * Default constructor
      */
@@ -120,21 +139,23 @@ public class Stop extends BaseModel {
 
 
     public Trip getTrip() {
-        return this.id.getTrip();
+        return this.trip;
     }
 
 
     public void setTrip(Trip trip) {
+        this.trip = trip;
         this.id.setTrip(trip);
     }
 
 
     public Place getPlace() {
-        return this.id.getPlace();
+        return this.place;
     }
 
 
     public void setPlace(Place place) {
+        this.place = place;
         this.id.setPlace(place);
     }
 

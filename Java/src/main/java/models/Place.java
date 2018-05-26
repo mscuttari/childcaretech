@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 
 import static javax.persistence.CascadeType.*;
 
@@ -104,6 +105,25 @@ public class Place extends BaseModel implements Serializable {
     public void preDelete() {
 
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Place)) return false;
+
+        Place that = (Place) o;
+        return Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getProvince(), that.getProvince()) &&
+                Objects.equals(getNation(), that.getNation());
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getProvince(), getNation());
+    }
+
 
 
     public String getName() {

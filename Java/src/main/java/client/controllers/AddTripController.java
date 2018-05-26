@@ -17,7 +17,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
-import main.java.client.connection.ConnectionType;
 import main.java.client.gui.*;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
@@ -420,7 +419,7 @@ public class AddTripController extends AbstractController implements Initializab
         trip.setTitle(title);
         trip.setDate(date);
         trip.setSeatsAssignmentType(cbSeatsAssignment.getValue());
-        trip.setTransports(lvPullman.getItems());
+        trip.setPullmans(lvPullman.getItems());
         trip.setChildren(TableUtils.getSelectedItems(tableChildren));
         trip.setStaff(TableUtils.getSelectedItems(tableStaff));
 
@@ -462,7 +461,7 @@ public class AddTripController extends AbstractController implements Initializab
             case MANUAL:
                 tableSAPullman.getSelectionModel().getSelectedItem().getModel().setChildren(TableUtils.getSelectedItems(tableSAChildren));
                 Set<Child> childrenInPullman = new HashSet<>();
-                for(Pullman currentPullman : trip.getTransports()){
+                for(Pullman currentPullman : trip.getPullmans()){
                     for(Child currentChild : currentPullman.getChildren()){
                         if(!childrenInPullman.add(currentChild)){
                             showErrorDialog("Il bambino "+currentChild+" è stato aggiunto a più pullman, "+
@@ -478,7 +477,7 @@ public class AddTripController extends AbstractController implements Initializab
                 List<Child> childrenUnsubscribed = new ArrayList<>(childrenInPullman);
                 childrenInPullman.removeAll(trip.getChildren());
                 if(!childrenInPullman.isEmpty()){
-                    for(Pullman current : trip.getTransports()){
+                    for(Pullman current : trip.getPullmans()){
                         current.getChildren().removeAll(childrenUnsubscribed);
                     }
                 }
@@ -497,7 +496,7 @@ public class AddTripController extends AbstractController implements Initializab
 
         trip.setStops(stops);
 
-        trip.addTransports(lvPullman.getItems());
+        trip.addPullmans(lvPullman.getItems());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();

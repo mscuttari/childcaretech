@@ -34,7 +34,7 @@ public class Trip extends BaseModel {
 
     @OneToMany(mappedBy = "id.trip", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Pullman> transports = new HashSet<>();
+    private Collection<Pullman> pullmans = new HashSet<>();
 
 
     @ManyToMany(cascade = {PERSIST, MERGE})
@@ -200,38 +200,48 @@ public class Trip extends BaseModel {
     }
 
 
+    public void addStop(Stop stop) {
+        this.stops.add(stop);
+    }
+
+
+    public void addStops(Collection<Stop> stops) {
+        this.stops.addAll(stops);
+    }
+
+
     public void setStops(Collection<Stop> stops) {
-        this.stops = stops;
+        this.stops.clear();
+        addStops(stops);
     }
 
 
-    public Collection<Pullman> getTransports() {
-        return this.transports;
+    public Collection<Pullman> getPullmans() {
+        return this.pullmans;
     }
 
 
-    public void addTransport(Pullman transport) {
-        this.transports.add(transport);
+    public void addPullman(Pullman pullman) {
+        this.pullmans.add(pullman);
     }
 
 
-    public void addTransports(Collection<Pullman> transports) {
-        this.transports.addAll(transports);
+    public void addPullmans(Collection<Pullman> pullmans) {
+        this.pullmans.addAll(pullmans);
     }
 
 
-    public void setTransports(Collection<Pullman> transports) {
-        this.transports.clear();
-        addTransports(transports);
+    public void setPullmans(Collection<Pullman> pullmans) {
+        this.pullmans.clear();
+        addPullmans(pullmans);
     }
 
 
     public Integer getAvailableSeats() {
-        // TODO: return null if some seats are not specified (example: train)
         Integer totalNumberOfSeats = 0;
 
-        for (Pullman transport : transports){
-            totalNumberOfSeats += transport.getSeats();
+        for (Pullman pullman : pullmans){
+            totalNumberOfSeats += pullman.getSeats();
         }
 
         return totalNumberOfSeats;

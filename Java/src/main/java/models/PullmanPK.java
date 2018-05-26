@@ -13,11 +13,7 @@ public class PullmanPK implements Serializable {
     private static final long serialVersionUID = -3587751118264728128L;
 
 
-    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
-    @JoinColumns(value = {
-            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
-            @JoinColumn(name = "trip_title", referencedColumnName = "title")
-    })
+    @ManyToOne
     private Trip trip;
 
 
