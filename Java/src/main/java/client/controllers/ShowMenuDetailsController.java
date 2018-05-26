@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class ShowMenuDetailsController implements Initializable {
+public class ShowMenuDetailsController extends AbstractController implements Initializable {
 
     // Debug
     private static final String TAG = "ShowMenuDetailsController";
@@ -42,37 +42,39 @@ public class ShowMenuDetailsController implements Initializable {
     @FXML private TableColumn<Person, String> columnPeopleFiscalCode;
     @FXML private TextArea textAreaIngredients;
 
-    public ShowMenuDetailsController(Menu menu){ this.menu = menu; }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // go back button cursor
+        // go back button
         goBackImage.setOnMouseEntered(event -> showMenuDetailsPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showMenuDetailsPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
 
-        //Data tab
-        labelName.setText(menu.getName());
-        labelDay.setText(menu.getDayOfTheWeek().toString());
-        labelStaff.setText(menu.getResponsible().toString());
 
-        //Dish table
-        ObservableList<Dish> dishesData = FXCollections.observableArrayList(menu.getDishes());
-
+        // Table dishes
         columnDishName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnDishType.setCellValueFactory(new PropertyValueFactory<>("type"));
 
-        tableDish.setEditable(false);
-        tableDish.setItems(dishesData);
-
-        //People table
+        // Table people
         columnPeopleFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPeopleLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPeopleFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
+    }
 
+    /**
+     * Load the menu data into the corresponding fields
+     */
+    private void loadData() {
+        labelName.setText(menu.getName());                          // Name
+        labelDay.setText(menu.getDayOfTheWeek().toString());        // Day of the week
+        labelStaff.setText(menu.getResponsible().toString());       // Responsible
+
+        //Dishes
+        ObservableList<Dish> dishesData = FXCollections.observableArrayList(menu.getDishes());
+        tableDish.setEditable(false);
+        tableDish.setItems(dishesData);
+
+        // People
         Set<Person> people = new HashSet<>();
         Set<Ingredient> ingredients = new HashSet<>();
         for(Dish currentMenu : menu.getDishes()){
@@ -113,16 +115,24 @@ public class ShowMenuDetailsController implements Initializable {
                 }
             }
         });
+
     }
 
+    /**
+     * Set the menu that is going to be shown
+     *
+     * @param   menu      menu
+     */
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+        loadData();
+    }
+
+    /**
+     * Go back to the main anagraphic page
+     */
     public void goBack() {
-        try {
-            Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
-            BorderPane homePane = (BorderPane) showMenuDetailsPane.getParent();
-            homePane.setCenter(showMenuPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+        setCenterFXML((BorderPane)showMenuDetailsPane.getParent(), "/views/showMenu.fxml");
     }
 
 }
