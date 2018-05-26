@@ -502,7 +502,10 @@ public class AddTripController extends AbstractController implements Initializab
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         // Save trip
-        connectionManager.getClient().create(trip);
+        if(!connectionManager.getClient().create(trip)) {
+            showErrorDialog("Non è stato possibile inserire la gita");
+            return;
+        }
 
         // Go back to the menu
         goBack();

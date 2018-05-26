@@ -500,6 +500,7 @@ public class UpdateTripController extends AbstractController implements Initiali
                     current.addChildren(children);
                     i = (int)(occupiedSeatsPercentage*totalNumberOfChildren);
                 }
+                break;
 
             case MANUAL:
                 tableSAPullman.getSelectionModel().getSelectedItem().getModel().setChildren(TableUtils.getSelectedItems(tableSAChildren));

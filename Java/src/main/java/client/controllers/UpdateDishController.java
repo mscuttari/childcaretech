@@ -47,8 +47,6 @@ public class UpdateDishController implements Initializable{
     @FXML private ImageView updateDishImage;
     @FXML private ImageView goBackImage;
 
-    public UpdateDishController(Dish dish){ this.dish = dish; }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -85,14 +83,33 @@ public class UpdateDishController implements Initializable{
 
         // Set multiple selection model
         listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
 
-        //Data
+    /**
+     * Set the dish that is going to be modified
+     *
+     * @param   dish    dish
+     */
+    public void setDish(Dish dish) {
+        this.dish = dish;
+        loadData();
+    }
+
+    /**
+     * Load the dish data into the corresponding fields
+     */
+    private void loadData() {
+        //Name
         tfDishName.setText(dish.getName());
+
+        //Type
         cbDishType.getSelectionModel().select(dish.getType());
 
+        //Provider
         tfProviderName.setText(dish.getProvider().getName());
         tfProviderVat.setText(dish.getProvider().getVat());
 
+        //Ingredients
         listIngredients.getItems().setAll(dish.getIngredients());
         listIngredients.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }

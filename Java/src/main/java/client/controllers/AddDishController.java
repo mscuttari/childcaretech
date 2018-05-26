@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddDishController implements Initializable{
+public class AddDishController extends AbstractController implements Initializable {
 
     // Debug
     private static final String TAG = "AddDishController";
@@ -128,17 +128,28 @@ public class AddDishController implements Initializable{
         dish.addIngredients(listIngredients.getItems());
 
         // Save dish
-        connectionManager.getClient().create(dish);
+        if(!connectionManager.getClient().create(dish)) {
+            showErrorDialog("Non è stato possibile inserire il piatto");
+            return;
+        }
+
+        // Insert information
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, dish.toString() +
+                " è stato correttamente inserito", ButtonType.OK);
+        alert.setTitle("Conferma inserimento");
+        alert.setHeaderText(null);
+        alert.showAndWait();
+
+        // Go back to the menu
+        goBack();
     }
 
-    public void goBack() {
-        try {
-            Pane dishPane = FXMLLoader.load(getClass().getResource("/views/dish.fxml"));
-            BorderPane homePane = (BorderPane) addDishPane.getParent();
-            homePane.setCenter(dishPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Go back to the dish page
+     */
+    private void goBack() {
+        setCenterFXML((BorderPane)addDishPane.getParent(), "/views/dish.fxml");
     }
 
 }

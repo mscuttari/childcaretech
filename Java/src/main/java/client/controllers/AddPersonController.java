@@ -383,7 +383,10 @@ public class AddPersonController extends AbstractController implements Initializ
 
 
         // Save person
-        connectionManager.getClient().create(person);
+        if(!connectionManager.getClient().create(person)) {
+            showErrorDialog("Non è stato possibile inserire la persona");
+            return;
+        }
 
         // Insert information
         Alert alert = new Alert(Alert.AlertType.INFORMATION, person.toString() +

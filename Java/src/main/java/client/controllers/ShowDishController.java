@@ -14,15 +14,18 @@ import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import main.java.LogUtils;
 import main.java.client.connection.ConnectionManager;
+import main.java.client.gui.GuiDish;
 import main.java.client.layout.MyButtonTableCell;
+import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ShowDishController implements Initializable{
+public class ShowDishController extends AbstractController implements Initializable {
 
     // Debug
     private static final String TAG = "ShowDishController";
@@ -30,21 +33,19 @@ public class ShowDishController implements Initializable{
     @FXML private Pane showDishPane;
     @FXML private ImageView goBackImage;
 
-    @FXML private TableView<Dish> tableDish;
-    @FXML private TableColumn<Dish, String> columnDishName;
-    @FXML private TableColumn<Dish, String> columnDishType;
-    @FXML private TableColumn<Dish, Void> columnDishEdit;
-    @FXML private TableColumn<Dish, Void> columnDishShowDetails;
-    @FXML private TableColumn<Dish, Void> columnDishDelete;
+    @FXML private TableView<GuiDish> tableDish;
+    @FXML private TableColumn<GuiDish, String> columnDishName;
+    @FXML private TableColumn<GuiDish, String> columnDishType;
+    @FXML private TableColumn<GuiDish, Void> columnDishEdit;
+    @FXML private TableColumn<GuiDish, Void> columnDishShowDetails;
+    @FXML private TableColumn<GuiDish, Void> columnDishDelete;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // go back button cursor
+        // go back button
         goBackImage.setOnMouseEntered(event -> showDishPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showDishPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
 
 
@@ -53,24 +54,23 @@ public class ShowDishController implements Initializable{
 
         // Table
         List<Dish> dishes = connectionManager.getClient().getDishes();
-        ObservableList<Dish> dishesData = FXCollections.observableArrayList(dishes);
+        @SuppressWarnings("unchecked") ObservableList<GuiDish> dishesData = TableUtils.getGuiModelsList(dishes);
 
         columnDishName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnDishType.setCellValueFactory(new PropertyValueFactory<>("type"));
 
-        columnDishEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<Dish, Object>() {
+        columnDishEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<GuiDish, Object>() {
 
             @Override
-            public Object call(Dish param) {
+            public Object call(GuiDish param) {
                 try {
-
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updateDish.fxml"));
 
-                    UpdateDishController updateDishController = new UpdateDishController(param);
-                    loader.setController(updateDishController);
-
                     Pane updateDishPane = loader.load();
-                    BorderPane homePane = (BorderPane) showDishPane.getParent();
+                    UpdateDishController controller = loader.getController();
+                    controller.setDish(param.getModel());
+
+                    BorderPane homePane = (BorderPane)showDishPane.getParent();
                     homePane.setCenter(updateDishPane);
 
                 } catch (IOException e) {
@@ -81,16 +81,16 @@ public class ShowDishController implements Initializable{
             }
         }));
 
-        columnDishShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", new Callback<Dish, Object>() {
+        columnDishShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", new Callback<GuiDish, Object>() {
 
             @Override
-            public Object call(Dish param) {
+            public Object call(GuiDish param) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showDishDetails.fxml"));
 
                     Pane showDishDetailsPane = loader.load();
                     ShowDishDetailsController controller = loader.getController();
-                    controller.setDish(param);
+                    controller.setDish(param.getModel());
 
                     BorderPane homePane = (BorderPane)showDishPane.getParent();
                     homePane.setCenter(showDishDetailsPane);
@@ -104,33 +104,45 @@ public class ShowDishController implements Initializable{
         }));
 
         columnDishDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
+            if (param1.getModel().isDeletable()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi davvero eliminare il piatto?\n" +
+                    "(la procedura è irreversibile)", ButtonType.NO, ButtonType.YES);
+            alert.setTitle("Conferma operazione");
+            alert.setHeaderText(null);
 
-            //delete
-            connectionManager.getClient().delete(param1);
 
-            try {
-                Pane newPaneShowDish = FXMLLoader.load(getClass().getResource("/views/showDish.fxml"));
-                BorderPane homePane = (BorderPane) showDishPane.getParent();
-                homePane.setCenter(newPaneShowDish);
-            } catch (IOException e) {
-                LogUtils.e(TAG, e.getMessage());
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.YES) {
+                deleteData(connectionManager, param1);
             }
+        } else {
+            showErrorDialog("Questo piatto non può essere eliminato");
+        }
 
-            return null;
-        }));
+        return null;
+    }));
 
         tableDish.setEditable(true);
         tableDish.setItems(dishesData);
     }
 
-    public void goBack() {
-        try {
-            Pane dishPane = FXMLLoader.load(getClass().getResource("/views/dish.fxml"));
-            BorderPane homePane = (BorderPane) showDishPane.getParent();
-            homePane.setCenter(dishPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+    /**
+     * Delete data and update table data
+     */
+    private void deleteData(ConnectionManager connectionManager, GuiDish param) {
+        connectionManager.getClient().delete(param.getModel());
+        List<Dish> newDishes = connectionManager.getClient().getDishes();
+        @SuppressWarnings("unchecked") ObservableList<GuiDish> newDishesData = TableUtils.getGuiModelsList(newDishes);
+
+        tableDish.setItems(newDishesData);
+    }
+
+    /**
+     * Go back to the dish page
+     */
+    private void goBack() {
+        setCenterFXML((BorderPane)showDishPane.getParent(), "/views/dish.fxml");
     }
 
 }
+

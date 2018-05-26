@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class AddMenuController implements Initializable {
+public class AddMenuController extends AbstractController implements Initializable {
 
     // Debug
     private static final String TAG = "AddMenuController";
@@ -125,29 +125,27 @@ public class AddMenuController implements Initializable {
         }
 
         // Save menu
-        connectionManager.getClient().create(menu);
+        if(!connectionManager.getClient().create(menu)) {
+            showErrorDialog("Non è stato possibile inserire il menù");
+            return;
+        }
 
+        // Insert information
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, menu.toString() +
+                " è stato correttamente inserito", ButtonType.OK);
+        alert.setTitle("Conferma inserimento");
+        alert.setHeaderText(null);
+        alert.showAndWait();
+
+        // Go back to the menu
+        goBack();
     }
 
     /**
-     * Show error dialog
-     *
-     * @param   message     error message
+     * Go back to the menu page
      */
-    private static void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.showAndWait();
+    private void goBack() {
+        setCenterFXML((BorderPane)addMenuPane.getParent(), "/views/menu.fxml");
     }
 
-    public void goBack() {
-        try {
-            Pane menuPane = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
-            BorderPane homePane = (BorderPane) addMenuPane.getParent();
-            homePane.setCenter(menuPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
-    }
 }
