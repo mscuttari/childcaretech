@@ -36,7 +36,7 @@ class TripPK implements Serializable {
      * @param   date    date the trip has been scheduled for
      * @param   title   name of the trip
      */
-    TripPK(Date date, String title) {
+    public TripPK(Date date, String title) {
         setDate(date);
         setTitle(title);
     }

@@ -59,6 +59,13 @@ public class Parent extends Person {
 
     /** {@inheritDoc} */
     @Override
+    public String getModelName() {
+        return "Genitore";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiParent.class;
     }

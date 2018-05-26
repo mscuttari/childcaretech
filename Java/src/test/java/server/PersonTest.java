@@ -188,24 +188,4 @@ abstract class PersonTest<M extends Person> extends BaseModelTest<M> {
         assertThrows(InvalidFieldException.class, person::checkDataValidity);
     }
 
-
-    /**
-     * Get person by fiscal code
-     *
-     * @param   fiscalCode      fiscal code
-     * @return  person (null if not found)
-     */
-    M getPersonByFiscalCode(String fiscalCode) {
-        HibernateUtils hibernateUtils = HibernateUtils.getInstance();
-        EntityManager em = hibernateUtils.getEntityManager();
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<M> cq = cb.createQuery(modelClass);
-        Root<M> root = cq.from(modelClass);
-        cq.where(cb.equal(root.get("fiscalCode"), fiscalCode));
-        TypedQuery<M> q = em.createQuery(cq);
-
-        return HibernateUtils.getSingleResult(q);
-    }
-
 }

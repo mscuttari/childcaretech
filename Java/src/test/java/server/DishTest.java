@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static test.java.server.IngredientTest.getIngredientByName;
 
 class DishTest extends BaseModelTest<Dish> {
 
@@ -66,7 +65,7 @@ class DishTest extends BaseModelTest<Dish> {
 
         // Create
         HibernateUtils.getInstance().create(dish);
-        Dish createdContact = getDishByName(dish.getName());
+        Dish createdContact = getDish(dish.getName());
 
         // Check creation
         assertNotNull(createdContact);
@@ -78,7 +77,7 @@ class DishTest extends BaseModelTest<Dish> {
         HibernateUtils.getInstance().update(dish);
 
         // Check update
-        Dish updatedDish = getDishByName(dish.getName());
+        Dish updatedDish = getDish(dish.getName());
         assertNotNull(updatedDish);
         assertModelsEquals(dish, updatedDish);
 
@@ -86,18 +85,18 @@ class DishTest extends BaseModelTest<Dish> {
         HibernateUtils.getInstance().delete(dish);
 
         // Check delete
-        Dish deletedDish = getDishByName(dish.getName());
+        Dish deletedDish = getDish(dish.getName());
         assertNull(deletedDish);
 
         // Delete provider
         Provider provider = dish.getProvider();
         HibernateUtils.getInstance().delete(provider);
-        assertNull(getDishByName(provider.getName()));
+        assertNull(getDish(provider.getName()));
 
         // Delete ingredients
         for (Ingredient ingredient : dish.getIngredients()) {
             HibernateUtils.getInstance().delete(ingredient);
-            assertNull(getIngredientByName(ingredient.getName()));
+            assertNull(IngredientTest.getIngredient(ingredient.getName()));
         }
     }
 
@@ -161,7 +160,7 @@ class DishTest extends BaseModelTest<Dish> {
      * @param   name        name
      * @return  dish (null if not found)
      */
-    public static Dish getDishByName(String name) {
+    public static Dish getDish(String name) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 

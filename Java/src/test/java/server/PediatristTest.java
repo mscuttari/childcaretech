@@ -1,11 +1,14 @@
 package test.java.server;
 
-import main.java.models.Child;
 import main.java.models.Pediatrist;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,7 +43,7 @@ class PediatristTest extends PersonTest<Pediatrist> {
 
         // Create
         HibernateUtils.getInstance().create(pediatrist);
-        Pediatrist createdPediatrist = getPersonByFiscalCode(pediatrist.getFiscalCode());
+        Pediatrist createdPediatrist = getPediatrist(pediatrist.getFiscalCode());
 
         // Check creation
         assertNotNull(createdPediatrist);
@@ -56,7 +59,7 @@ class PediatristTest extends PersonTest<Pediatrist> {
         HibernateUtils.getInstance().update(pediatrist);
 
         // Check update
-        Pediatrist updatedPediatrist = getPersonByFiscalCode(pediatrist.getFiscalCode());
+        Pediatrist updatedPediatrist = getPediatrist(pediatrist.getFiscalCode());
         assertNotNull(updatedPediatrist);
         assertModelsEquals(pediatrist, updatedPediatrist);
 
@@ -64,7 +67,7 @@ class PediatristTest extends PersonTest<Pediatrist> {
         HibernateUtils.getInstance().delete(pediatrist);
 
         // Check delete
-        Pediatrist deletedPediatrist = getPersonByFiscalCode(pediatrist.getFiscalCode());
+        Pediatrist deletedPediatrist = getPediatrist(pediatrist.getFiscalCode());
         assertNull(deletedPediatrist);
     }
 
@@ -114,6 +117,26 @@ class PediatristTest extends PersonTest<Pediatrist> {
     @Override
     void telephoneValidity() {
         super.telephoneValidity(new Pediatrist());
+    }
+
+
+    /**
+     * Get pediatrist by fiscal code
+     *
+     * @param   fiscalCode      fiscal code
+     * @return  pediatrist (null if not found)
+     */
+    public static Pediatrist getPediatrist(String fiscalCode) {
+        HibernateUtils hibernateUtils = HibernateUtils.getInstance();
+        EntityManager em = hibernateUtils.getEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Pediatrist> cq = cb.createQuery(Pediatrist.class);
+        Root<Pediatrist> root = cq.from(Pediatrist.class);
+        cq.where(cb.equal(root.get("fiscalCode"), fiscalCode));
+        TypedQuery<Pediatrist> q = em.createQuery(cq);
+
+        return HibernateUtils.getSingleResult(q);
     }
 
 }

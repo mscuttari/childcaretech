@@ -9,6 +9,8 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.*;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "trips", uniqueConstraints = @UniqueConstraint(columnNames = {"date", "title"}))
 public class Trip extends BaseModel {
@@ -20,21 +22,22 @@ public class Trip extends BaseModel {
     @EmbeddedId
     private TripPK id = new TripPK();
 
+
     @Column(name = "seats_assignment_type", nullable = false)
     private SeatsAssignmentType seatsAssignmentType;
 
 
-    @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.trip", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Stop> stops = new HashSet<>();
 
 
-    @OneToMany(mappedBy = "id.trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.trip", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Pullman> transports = new HashSet<>();
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "children_trips_enrollments",
             joinColumns = {
@@ -47,7 +50,7 @@ public class Trip extends BaseModel {
     private Collection<Child> children = new HashSet<>();
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "staff_trips_enrollments",
             joinColumns = {
@@ -64,7 +67,7 @@ public class Trip extends BaseModel {
      * Default constructor
      */
     public Trip() {
-        this(null, null);
+        this(null, null, null);
     }
 
 
@@ -74,9 +77,10 @@ public class Trip extends BaseModel {
      * @param   date    date the trip has been scheduled for
      * @param   title   title of the trip
      */
-    public Trip(Date date, String title) {
+    public Trip(Date date, String title, SeatsAssignmentType seatsAssignmentType) {
         setDate(date);
         setTitle(title);
+        setSeatsAssignmentType(seatsAssignmentType);
     }
 
 
@@ -84,19 +88,34 @@ public class Trip extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Date
-        if (getDate() == null) throw new InvalidFieldException("Data mancante");
+        if (getDate() == null)
+            throwFieldError("Data mancante");
 
         // Title: [a-z] [A-Z] space
-        if (getTitle() == null) throw new InvalidFieldException("Titolo mancante");
-        if (!getTitle().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Titolo non valido");
+        if (getTitle() == null)
+            throwFieldError("Titolo mancante");
 
-        if(getSeatsAssignmentType() != SeatsAssignmentType.UNNECESSARY){
-            // Check if the total number of seats is enough
+        if (!getTitle().matches("^[a-zA-Z\\040]+$"))
+            throwFieldError("Titolo non valido");
+
+        // Seats assignment type
+        if (getSeatsAssignmentType() == null)
+            throwFieldError("Metodo di assegnamento posti mancante");
+
+        // Check if the total number of seats is enough
+        if (getSeatsAssignmentType() != SeatsAssignmentType.UNNECESSARY){
             Integer totalNumberOfSeats = getAvailableSeats();
 
             if (totalNumberOfSeats < getChildren().size() + getStaff().size())
-                throw new InvalidFieldException("Posti insufficienti");
+                throwFieldError("Posti insufficienti");
         }
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Gita";
     }
 
 

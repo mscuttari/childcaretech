@@ -38,7 +38,7 @@ class IngredientTest extends BaseModelTest<Ingredient> {
 
         // Create
         HibernateUtils.getInstance().create(ingredient);
-        Ingredient createdIngredient = getIngredientByName(ingredient.getName());
+        Ingredient createdIngredient = getIngredient(ingredient.getName());
 
         // Check creation
         assertNotNull(createdIngredient);
@@ -48,7 +48,7 @@ class IngredientTest extends BaseModelTest<Ingredient> {
         HibernateUtils.getInstance().delete(ingredient);
 
         // Check delete
-        Ingredient deletedIngredient = getIngredientByName(ingredient.getName());
+        Ingredient deletedIngredient = getIngredient(ingredient.getName());
         assertNull(deletedIngredient);
     }
 
@@ -75,10 +75,10 @@ class IngredientTest extends BaseModelTest<Ingredient> {
     /**
      * Get ingredient by name
      *
-     * @param   name        name
+     * @param   name        ingredient name
      * @return  ingredient (null if not found)
      */
-    public static Ingredient getIngredientByName(String name) {
+    public static Ingredient getIngredient(String name) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 

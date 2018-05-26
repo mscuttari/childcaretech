@@ -33,7 +33,7 @@ public class Pullman extends BaseModel {
             joinColumns = {
                     @JoinColumn(name = "trip_date", referencedColumnName = "trip_date"),
                     @JoinColumn(name = "trip_title", referencedColumnName = "trip_title"),
-                    @JoinColumn(name = "pullman_numberplate", referencedColumnName = "numberplate")
+                    @JoinColumn(name = "pullman_id", referencedColumnName = "id")
             },
             inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
     )
@@ -52,13 +52,13 @@ public class Pullman extends BaseModel {
     /**
      * Constructor
      *
-     * @param   trip            trip the pullman is used for
-     * @param   numberplate     numberplate
-     * @param   seats           max seats available
+     * @param   trip        trip the pullman is used for
+     * @param   id          identification number
+     * @param   seats       max seats available
      */
-    public Pullman(Trip trip, String numberplate, Integer seats) {
+    public Pullman(Trip trip, String id, Integer seats) {
         setTrip(trip);
-        setNumberplate(numberplate);
+        setId(id);
         setSeats(seats);
     }
 
@@ -67,15 +67,29 @@ public class Pullman extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Trip
-        if (getTrip() == null) throw new InvalidFieldException("Gita mancante");
+        if (getTrip() == null)
+            throwFieldError("Gita mancante");
 
         // Type: [a-z] [A-Z] [0-9]
-        if (getNumberplate() == null) throw new InvalidFieldException("Targa mancante");
-        if (!getNumberplate().matches("^[a-zA-Z\\d]+$")) throw new InvalidFieldException("Targa non valida");
+        if (getId() == null)
+            throwFieldError("Numero identificativo mancante");
+
+        if (!getId().matches("^[a-zA-Z\\d]+$"))
+            throwFieldError("Numero identificativo non valido");
 
         // Seats: > 0
-        if (getSeats() == null) throw new InvalidFieldException("Numero di posti mancante");
-        if (getSeats() <= 0) throw new InvalidFieldException("Numero di posti non valido");
+        if (getSeats() == null)
+            throwFieldError("Numero di posti mancante");
+
+        if (getSeats() <= 0)
+            throwFieldError("Numero di posti non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Pullman";
     }
 
 
@@ -110,13 +124,13 @@ public class Pullman extends BaseModel {
 
         Pullman that = (Pullman) o;
         return Objects.equals(getTrip(), that.getTrip()) &&
-                Objects.equals(getNumberplate(), that.getNumberplate());
+                Objects.equals(getId(), that.getId());
     }
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(getNumberplate());
+        return Objects.hash(getId());
     }
 
 
@@ -130,13 +144,13 @@ public class Pullman extends BaseModel {
     }
 
 
-    public String getNumberplate() {
-        return this.id.getNumberplate();
+    public String getId() {
+        return this.id.getId();
     }
 
 
-    public void setNumberplate(String numberplate) {
-        this.id.setNumberplate(trimString(numberplate));
+    public void setId(String id) {
+        this.id.setId(trimString(id));
     }
 
 

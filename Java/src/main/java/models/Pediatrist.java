@@ -59,6 +59,13 @@ public class Pediatrist extends Person {
 
     /** {@inheritDoc} */
     @Override
+    public String getModelName() {
+        return "Pediatra";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiPediatrist.class;
     }

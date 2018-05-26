@@ -1,5 +1,6 @@
 package main.java.models;
 
+import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiContact;
 import org.hibernate.annotations.LazyCollection;
@@ -44,6 +45,20 @@ public class Contact extends Person {
      */
     public Contact(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone) {
         super(fiscalCode, firstName, lastName, birthDate, address, telephone);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        super.checkDataValidity();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Contatto";
     }
 
 

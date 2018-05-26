@@ -7,6 +7,11 @@ import main.java.models.Pediatrist;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.Date;
 
@@ -77,7 +82,7 @@ class ChildTest extends PersonTest<Child> {
 
         // Create child
         HibernateUtils.getInstance().create(child);
-        Child createdChild = getPersonByFiscalCode(child.getFiscalCode());
+        Child createdChild = getChild(child.getFiscalCode());
 
         // Check creation
         assertNotNull(createdChild);
@@ -93,7 +98,7 @@ class ChildTest extends PersonTest<Child> {
         HibernateUtils.getInstance().update(child);
 
         // Check update
-        Child updatedChild = getPersonByFiscalCode(child.getFiscalCode());
+        Child updatedChild = getChild(child.getFiscalCode());
         assertNotNull(updatedChild);
         assertModelsEquals(child, updatedChild);
 
@@ -101,23 +106,23 @@ class ChildTest extends PersonTest<Child> {
         HibernateUtils.getInstance().delete(child);
 
         // Check delete
-        Child deletedChild = getPersonByFiscalCode(child.getFiscalCode());
+        Child deletedChild = getChild(child.getFiscalCode());
         assertNull(deletedChild);
 
         // Delete parents
         for (Parent parent : child.getParents()) {
             HibernateUtils.getInstance().delete(parent);
-            assertNull(getPersonByFiscalCode(parent.getFiscalCode()));
+            assertNull(getChild(parent.getFiscalCode()));
         }
 
         // Delete pediatrist
         HibernateUtils.getInstance().delete(child.getPediatrist());
-        assertNull(getPersonByFiscalCode(child.getPediatrist().getFiscalCode()));
+        assertNull(getChild(child.getPediatrist().getFiscalCode()));
 
         // Delete contacts
         for (Contact contact : child.getContacts()) {
             HibernateUtils.getInstance().delete(contact);
-            assertNull(getPersonByFiscalCode(contact.getFiscalCode()));
+            assertNull(getChild(contact.getFiscalCode()));
         }
     }
 
@@ -167,6 +172,26 @@ class ChildTest extends PersonTest<Child> {
     @Override
     void telephoneValidity() {
         super.telephoneValidity(new Child());
+    }
+
+
+    /**
+     * Get child by fiscal code
+     *
+     * @param   fiscalCode      fiscal code
+     * @return  child (null if not found)
+     */
+    public static Child getChild(String fiscalCode) {
+        HibernateUtils hibernateUtils = HibernateUtils.getInstance();
+        EntityManager em = hibernateUtils.getEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Child> cq = cb.createQuery(Child.class);
+        Root<Child> root = cq.from(Child.class);
+        cq.where(cb.equal(root.get("fiscalCode"), fiscalCode));
+        TypedQuery<Child> q = em.createQuery(cq);
+
+        return HibernateUtils.getSingleResult(q);
     }
 
 }

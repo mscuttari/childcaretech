@@ -2,12 +2,18 @@ package main.java.client;
 
 public class InvalidFieldException extends Exception {
 
-    public InvalidFieldException() {
-        this(null);
+    private static final long serialVersionUID = -8444016514132008405L;
+
+    private String modelName;
+
+    public InvalidFieldException(String modelName, String message){
+        super(message);
+
+        this.modelName = modelName;
     }
 
-    public InvalidFieldException(String message){
-        super(message);
+    public String getModelName() {
+        return this.modelName;
     }
 
 }

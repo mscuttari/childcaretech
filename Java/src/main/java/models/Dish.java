@@ -76,14 +76,26 @@ public class Dish extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Name: [a-z] [A-Z] space
-        if (getName() == null) throw new InvalidFieldException("Nome mancante");
-        if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getName() == null)
+            throwFieldError("Nome mancante");
 
-        // Dish type
-        if (getType() == null) throw new InvalidFieldException("Tipologia mancante");
+        if (!getName().matches("^[a-zA-Z\\040]+$"))
+            throwFieldError("Nome non valido");
+
+        // Type
+        if (getType() == null)
+            throwFieldError("Tipologia mancante");
 
         // Provider
-        if (getProvider().getName() == null) throw new InvalidFieldException("Fornitore mancante");
+        if (getProvider() == null)
+            throwFieldError("Fornitore mancante");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Pietanza";
     }
 
 
@@ -105,7 +117,8 @@ public class Dish extends BaseModel {
     @Override
     public void preDelete() {
         // Provider
-        getProvider().removeDish(this);
+        if (getProvider() != null)
+            getProvider().removeDish(this);
 
         // Ingredients
         for (Ingredient ingredient : getIngredients()) {
@@ -158,7 +171,7 @@ public class Dish extends BaseModel {
 
 
     public void setProvider(Provider provider) {
-        this.provider = provider == null ? new Provider() : provider;
+        this.provider = provider;
     }
 
 
@@ -200,11 +213,6 @@ public class Dish extends BaseModel {
 
     public void removeFromMenu(Menu menu) {
         this.menus.remove(menu);
-    }
-
-    @Override
-    public String toString(){
-        return "[" + getType() + "] - " + getName() ;
     }
 
 }

@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "places")
 public class Place extends BaseModel implements Serializable {
@@ -23,7 +25,7 @@ public class Place extends BaseModel implements Serializable {
     private PlacePK id = new PlacePK();
 
 
-    @OneToMany(mappedBy = "id.place", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "id.place", cascade = {PERSIST, MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Stop> stops = new HashSet<>();
 
@@ -54,16 +56,32 @@ public class Place extends BaseModel implements Serializable {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Place name: [a-z] [A-Z] space
-        if (getName() == null) throw new InvalidFieldException("Nome mancante");
-        if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getName() == null)
+            throwFieldError("Nome mancante");
+
+        if (!getName().matches("^[a-zA-Z\\040]+$"))
+            throwFieldError("Nome non valido");
 
         // Province: [a-z] [A-Z] space
-        if (getProvince() == null) throw new InvalidFieldException("Provincia mancante");
-        if (!getProvince().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Provincia non valida");
+        if (getProvince() == null)
+            throwFieldError("Provincia mancante");
+
+        if (!getProvince().matches("^[a-zA-Z\\040]+$"))
+            throwFieldError("Provincia non valida");
 
         // Nation: [a-z] [A-Z] space
-        if (getNation() == null) throw new InvalidFieldException("Stato mancante");
-        if (!getNation().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Stato non valido");
+        if (getNation() == null)
+            throwFieldError("Nazione mancante");
+
+        if (!getNation().matches("^[a-zA-Z\\040]+$"))
+            throwFieldError("Nazione non valida");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Località";
     }
 
 

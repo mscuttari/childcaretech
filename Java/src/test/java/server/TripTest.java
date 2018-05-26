@@ -1,6 +1,7 @@
 package test.java.server;
 
 import main.java.client.InvalidFieldException;
+import main.java.models.SeatsAssignmentType;
 import main.java.models.Trip;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,7 @@ class TripTest extends BaseModelTest<Trip> {
     void assignValidData(Trip obj) {
         obj.setDate(new Date());
         obj.setTitle("AAA");
+        obj.setSeatsAssignmentType(SeatsAssignmentType.AUTOMATIC);
     }
 
 
@@ -44,7 +46,7 @@ class TripTest extends BaseModelTest<Trip> {
 
         // Create
         HibernateUtils.getInstance().create(trip);
-        Trip createdTrip = getTripByDateAndTitle(trip.getDate(), trip.getTitle());
+        Trip createdTrip = getTrip(trip.getDate(), trip.getTitle());
 
         // Check creation
         assertNotNull(createdTrip);
@@ -54,7 +56,7 @@ class TripTest extends BaseModelTest<Trip> {
         HibernateUtils.getInstance().delete(trip);
 
         // Check delete
-        Trip deletedTrip = getTripByDateAndTitle(trip.getDate(), trip.getTitle());
+        Trip deletedTrip = getTrip(trip.getDate(), trip.getTitle());
         assertNull(deletedTrip);
     }
 
@@ -101,14 +103,17 @@ class TripTest extends BaseModelTest<Trip> {
      *
      * @return  trip (null if not found)
      */
-    private static Trip getTripByDateAndTitle(Date date, String title) {
+    public static Trip getTrip(Date date, String title) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Trip> cq = cb.createQuery(Trip.class);
         Root<Trip> root = cq.from(Trip.class);
-        cq.where(cb.equal(root.get("id").get("date"), date), cb.equal(root.get("id").get("title"), title));
+
+        cq.where(cb.equal(root.get("id").get("date"), date))
+                .where(cb.equal(root.get("id").get("title"), title));
+
         TypedQuery<Trip> q = em.createQuery(cq);
 
         return HibernateUtils.getSingleResult(q);

@@ -1,12 +1,14 @@
 package test.java.server;
 
-import main.java.models.Child;
 import main.java.models.Contact;
-import main.java.models.Pediatrist;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,7 +43,7 @@ class ContactTest extends PersonTest<Contact> {
 
         // Create
         HibernateUtils.getInstance().create(contact);
-        Contact createdContact = getPersonByFiscalCode(contact.getFiscalCode());
+        Contact createdContact = getContact(contact.getFiscalCode());
 
         // Check creation
         assertNotNull(createdContact);
@@ -57,7 +59,7 @@ class ContactTest extends PersonTest<Contact> {
         HibernateUtils.getInstance().update(contact);
 
         // Check update
-        Contact updatedContact = getPersonByFiscalCode(contact.getFiscalCode());
+        Contact updatedContact = getContact(contact.getFiscalCode());
         assertNotNull(updatedContact);
         assertModelsEquals(contact, updatedContact);
 
@@ -65,7 +67,7 @@ class ContactTest extends PersonTest<Contact> {
         HibernateUtils.getInstance().delete(contact);
 
         // Check delete
-        Contact deletedContact = getPersonByFiscalCode(contact.getFiscalCode());
+        Contact deletedContact = getContact(contact.getFiscalCode());
         assertNull(deletedContact);
     }
 
@@ -115,6 +117,26 @@ class ContactTest extends PersonTest<Contact> {
     @Override
     void telephoneValidity() {
         super.telephoneValidity(new Contact());
+    }
+
+
+    /**
+     * Get contact by fiscal code
+     *
+     * @param   fiscalCode      fiscal code
+     * @return  contact (null if not found)
+     */
+    public static Contact getContact(String fiscalCode) {
+        HibernateUtils hibernateUtils = HibernateUtils.getInstance();
+        EntityManager em = hibernateUtils.getEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Contact> cq = cb.createQuery(Contact.class);
+        Root<Contact> root = cq.from(Contact.class);
+        cq.where(cb.equal(root.get("fiscalCode"), fiscalCode));
+        TypedQuery<Contact> q = em.createQuery(cq);
+
+        return HibernateUtils.getSingleResult(q);
     }
 
 }

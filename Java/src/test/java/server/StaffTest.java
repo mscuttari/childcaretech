@@ -5,12 +5,14 @@ import main.java.models.Staff;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static test.java.utils.TestUtils.assertDateEquals;
 
 class StaffTest extends PersonTest<Staff> {
 
@@ -48,7 +50,7 @@ class StaffTest extends PersonTest<Staff> {
 
         // Create
         HibernateUtils.getInstance().create(staff);
-        Staff createdStaff = getPersonByFiscalCode(staff.getFiscalCode());
+        Staff createdStaff = getStaff(staff.getFiscalCode());
 
         // Check creation
         assertNotNull(createdStaff);
@@ -64,7 +66,7 @@ class StaffTest extends PersonTest<Staff> {
         HibernateUtils.getInstance().update(staff);
 
         // Check update
-        Staff updatedStaff = getPersonByFiscalCode(staff.getFiscalCode());
+        Staff updatedStaff = getStaff(staff.getFiscalCode());
         assertNotNull(updatedStaff);
         assertModelsEquals(staff, updatedStaff);
 
@@ -72,7 +74,7 @@ class StaffTest extends PersonTest<Staff> {
         HibernateUtils.getInstance().delete(staff);
 
         // Check delete
-        Staff deletedStaff = getPersonByFiscalCode(staff.getFiscalCode());
+        Staff deletedStaff = getStaff(staff.getFiscalCode());
         assertNull(deletedStaff);
     }
 
@@ -156,6 +158,26 @@ class StaffTest extends PersonTest<Staff> {
         // Invalid data
         staff.setPassword(null);
         assertThrows(InvalidFieldException.class, staff::checkDataValidity);
+    }
+
+
+    /**
+     * Get staff by fiscal code
+     *
+     * @param   fiscalCode      fiscal code
+     * @return  staff (null if not found)
+     */
+    public static Staff getStaff(String fiscalCode) {
+        HibernateUtils hibernateUtils = HibernateUtils.getInstance();
+        EntityManager em = hibernateUtils.getEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Staff> cq = cb.createQuery(Staff.class);
+        Root<Staff> root = cq.from(Staff.class);
+        cq.where(cb.equal(root.get("fiscalCode"), fiscalCode));
+        TypedQuery<Staff> q = em.createQuery(cq);
+
+        return HibernateUtils.getSingleResult(q);
     }
 
 }

@@ -1,12 +1,14 @@
 package test.java.server;
 
-import main.java.models.Child;
 import main.java.models.Parent;
-import main.java.models.Pediatrist;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,7 +43,7 @@ class ParentTest extends PersonTest<Parent> {
 
         // Create
         HibernateUtils.getInstance().create(parent);
-        Parent createdParent = getPersonByFiscalCode(parent.getFiscalCode());
+        Parent createdParent = getParent(parent.getFiscalCode());
 
         // Check creation
         assertNotNull(createdParent);
@@ -57,7 +59,7 @@ class ParentTest extends PersonTest<Parent> {
         HibernateUtils.getInstance().update(parent);
 
         // Check update
-        Parent updatedParent = getPersonByFiscalCode(parent.getFiscalCode());
+        Parent updatedParent = getParent(parent.getFiscalCode());
         assertNotNull(updatedParent);
         assertModelsEquals(parent, updatedParent);
 
@@ -65,7 +67,7 @@ class ParentTest extends PersonTest<Parent> {
         HibernateUtils.getInstance().delete(parent);
 
         // Check delete
-        Parent deletedParent = getPersonByFiscalCode(parent.getFiscalCode());
+        Parent deletedParent = getParent(parent.getFiscalCode());
         assertNull(deletedParent);
     }
 
@@ -115,6 +117,26 @@ class ParentTest extends PersonTest<Parent> {
     @Override
     void telephoneValidity() {
         super.telephoneValidity(new Parent());
+    }
+
+
+    /**
+     * Get parent by fiscal code
+     *
+     * @param   fiscalCode      fiscal code
+     * @return  parent (null if not found)
+     */
+    public static Parent getParent(String fiscalCode) {
+        HibernateUtils hibernateUtils = HibernateUtils.getInstance();
+        EntityManager em = hibernateUtils.getEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Parent> cq = cb.createQuery(Parent.class);
+        Root<Parent> root = cq.from(Parent.class);
+        cq.where(cb.equal(root.get("fiscalCode"), fiscalCode));
+        TypedQuery<Parent> q = em.createQuery(cq);
+
+        return HibernateUtils.getSingleResult(q);
     }
 
 }

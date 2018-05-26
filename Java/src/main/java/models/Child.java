@@ -24,13 +24,11 @@ public class Child extends Person {
     @Transient
     private static final long serialVersionUID = 6653642585718262873L;
 
-    /*
+
     @GenericGenerator(name = "native_generator", strategy = "native")
     @GeneratedValue(generator = "native_generator")
     @Column(name = "child_id")
-    private Long childId;
-    */
-
+    private Long id;
 
 
     @ManyToOne(cascade = {PERSIST, MERGE})
@@ -100,10 +98,19 @@ public class Child extends Person {
         super.checkDataValidity();
 
         // Parents
-        if (getParents().size() > 2) throw new InvalidFieldException("Non è possibile specificare più di due genitori");
+        if (getParents().size() > 2)
+            throwFieldError("Non è possibile specificare più di due genitori");
 
         // Pediatrist
-        if (getPediatrist().getFiscalCode() == null) throw new InvalidFieldException("Pediatra mancante");
+        if (getPediatrist() == null)
+            throwFieldError("Pediatra mancante");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Bambino";
     }
 
 
@@ -127,7 +134,8 @@ public class Child extends Person {
         super.preDelete();
 
         // Pediatrist
-        getPediatrist().removeChild(this);
+        if (getPediatrist() != null)
+            getPediatrist().removeChild(this);
 
         // Parents
         for (Parent parent : getParents()) {
@@ -156,11 +164,11 @@ public class Child extends Person {
         return Objects.hash(getFiscalCode());
     }
 
-    /*
-    public Long getChildId() {
-        return childId;
+
+    public Long getId() {
+        return this.id;
     }
-    */
+
 
     public Collection<Parent> getParents() {
         return this.parents;
@@ -214,7 +222,7 @@ public class Child extends Person {
 
 
     public void setPediatrist(Pediatrist pediatrist) {
-        this.pediatrist = pediatrist == null ? new Pediatrist() : pediatrist;
+        this.pediatrist = pediatrist;
     }
 
 

@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+import static javax.persistence.CascadeType.*;
+
 @Embeddable
 public class StopPK implements Serializable {
 
@@ -11,19 +13,19 @@ public class StopPK implements Serializable {
     private static final long serialVersionUID = 1432021014402688581L;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
     @JoinColumns(value = {
-            @JoinColumn(name = "trip_date", referencedColumnName = "date", nullable = false),
-            @JoinColumn(name = "trip_title", referencedColumnName = "title", nullable = false)
+            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
+            @JoinColumn(name = "trip_title", referencedColumnName = "title")
     })
     private Trip trip;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
     @JoinColumns(value = {
-            @JoinColumn(name = "place_name", referencedColumnName = "name", nullable = false),
-            @JoinColumn(name = "place_province", referencedColumnName = "province", nullable = false),
-            @JoinColumn(name = "place_nation", referencedColumnName = "nation", nullable = false)
+            @JoinColumn(name = "place_name", referencedColumnName = "name"),
+            @JoinColumn(name = "place_province", referencedColumnName = "province"),
+            @JoinColumn(name = "place_nation", referencedColumnName = "nation")
     })
     private Place place;
 
@@ -78,7 +80,7 @@ public class StopPK implements Serializable {
 
 
     public void setTrip(Trip trip) {
-        this.trip = trip == null ? new Trip() : trip;
+        this.trip = trip;
     }
 
 
@@ -88,7 +90,7 @@ public class StopPK implements Serializable {
 
 
     public void setPlace(Place place) {
-        this.place = place == null ? new Place() : place;
+        this.place = place;
     }
 
 

@@ -57,12 +57,25 @@ public class Provider extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // VAT: [a-z] [A-Z] [0-9] space
-        if (getVat() == null || getVat().isEmpty()) throw new InvalidFieldException("Partita IVA mancante");
-        if (!getVat().matches("^[a-zA-Z\\d\\040]+$")) throw new InvalidFieldException("Partita IVA non valida");
+        if (getVat() == null)
+            throwFieldError("Partita IVA mancante");
+
+        if (!getVat().matches("^[a-zA-Z\\d\\040]+$"))
+            throwFieldError("Partita IVA non valida");
 
         // Name: [a-z] [A-Z] space
-        if (getName() == null || getName().isEmpty()) throw new InvalidFieldException("Nome mancante");
-        if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getName() == null)
+            throwFieldError("Nome mancante");
+
+        if (!getName().matches("^[a-zA-Z\\040]+$"))
+            throwFieldError("Nome non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Fornitore";
     }
 
 

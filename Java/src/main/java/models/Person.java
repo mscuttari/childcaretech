@@ -99,26 +99,40 @@ public abstract class Person extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Fiscal code: [A-Z] [0-9] 16 chars length
-        if (getFiscalCode() == null) throw new InvalidFieldException("Codice fiscale mancante");
-        if (getFiscalCode().length() != 16) throw new InvalidFieldException("Codice fiscale non valido");
-        if (!getFiscalCode().matches("^[A-Z\\d]+$")) throw new InvalidFieldException("Codice fiscale non valido");
+        if (getFiscalCode() == null)
+            throwFieldError("Codice fiscale mancante");
+
+        if (getFiscalCode().length() != 16)
+            throwFieldError("Codice fiscale di lunghezza non valida");
+
+        if (!getFiscalCode().matches("^[A-Z\\d]+$"))
+            throwFieldError("Codice fiscale non valido");
 
         // First name: [a-z] [A-Z] space
-        if (getFirstName() == null) throw new InvalidFieldException("Nome mancante");
-        if (!getFirstName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getFirstName() == null)
+            throwFieldError("Nome mancante");
+
+        if (!getFirstName().matches("^[a-zA-Z\\040]+$"))
+            throwFieldError("Nome non valido");
 
         // Last name: [a-z] [A-Z] space
-        if (getLastName() == null) throw new InvalidFieldException("Cognome mancante");
-        if (!getLastName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Cognome non valido");
+        if (getLastName() == null)
+            throwFieldError("Cognome mancante");
+
+        if (!getLastName().matches("^[a-zA-Z\\040]+$"))
+            throwFieldError("Cognome non valido");
 
         // Date
-        if (getBirthdate() == null) throw new InvalidFieldException("Data di nascita mancante");
+        if (getBirthdate() == null)
+            throwFieldError("Data di nascita mancante");
 
         // Address: [a-z] [A-Z] [0-9] space . , ; \ / °
-        if (getAddress() != null && !getAddress().matches("^$|^[a-zA-Z\\d\\040.,;°\\\\\\/]+$")) throw new InvalidFieldException("Indirizzo non valido");
+        if (getAddress() != null && !getAddress().matches("^$|^[a-zA-Z\\d\\040.,;°\\\\\\/]+$"))
+            throwFieldError("Indirizzo non valido");
 
         // Telephone: [0-9] space +
-        if (getTelephone() != null && !getTelephone().matches("^$|^[\\d\\040+]+$")) throw new InvalidFieldException("Telefono non valido");
+        if (getTelephone() != null && !getTelephone().matches("^$|^[\\d\\040+]+$"))
+            throwFieldError("Telefono non valido");
     }
 
 

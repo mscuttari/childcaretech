@@ -34,6 +34,12 @@ public class GuiDish extends GuiBaseModel<Dish> {
     }
 
 
+    @Override
+    public String toString() {
+        return "[" + typeProperty().getValue() + "] - " + nameProperty().getValue() ;
+    }
+
+
     public StringProperty nameProperty() {
         return name;
     }

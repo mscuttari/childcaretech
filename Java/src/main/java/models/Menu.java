@@ -71,14 +71,26 @@ public class Menu extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Name: [a-z] [A-Z] space
-        if (getName() == null) throw new InvalidFieldException("Nome mancante");
-        if (!getName().matches("^[a-zA-Z\\040]+$")) throw new InvalidFieldException("Nome non valido");
+        if (getName() == null)
+            throwFieldError("Nome mancante");
+
+        if (!getName().matches("^[a-zA-Z\\040]+$"))
+            throwFieldError("Nome non valido");
 
         // Day of the week
-        if (getDayOfTheWeek() == null) throw new InvalidFieldException("Giorno della settimana mancante");
+        if (getDayOfTheWeek() == null)
+            throwFieldError("Giorno della settimana mancante");
 
         // Responsible
-        if (getResponsible().getFiscalCode() == null) throw new InvalidFieldException("Responsabile mancante");
+        if (getResponsible() == null)
+            throwFieldError("Responsabile mancante");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Menù";
     }
 
 
@@ -100,7 +112,8 @@ public class Menu extends BaseModel {
     @Override
     public void preDelete() {
         // Staff
-        getResponsible().removeMenu(this);
+        if (getResponsible() != null)
+            getResponsible().removeMenu(this);
 
         // Dishes
         for (Dish dish : getDishes()) {
@@ -151,7 +164,7 @@ public class Menu extends BaseModel {
 
 
     public void setResponsible(Staff responsible) {
-        this.responsible = responsible == null ? new Staff() : responsible;
+        this.responsible = responsible;
     }
 
 

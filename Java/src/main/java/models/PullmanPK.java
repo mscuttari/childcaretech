@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+import static javax.persistence.CascadeType.*;
+
 @Embeddable
 public class PullmanPK implements Serializable {
 
@@ -11,16 +13,16 @@ public class PullmanPK implements Serializable {
     private static final long serialVersionUID = -3587751118264728128L;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
     @JoinColumns(value = {
-            @JoinColumn(name = "trip_date", referencedColumnName = "date", nullable = false),
-            @JoinColumn(name = "trip_title", referencedColumnName = "title", nullable = false)
+            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
+            @JoinColumn(name = "trip_title", referencedColumnName = "title")
     })
     private Trip trip;
 
 
-    @Column(name = "numberplate", nullable = false)
-    private String numberplate;
+    @Column(name = "id", nullable = false)
+    private String id;
 
 
     /**
@@ -39,7 +41,7 @@ public class PullmanPK implements Serializable {
      */
     public PullmanPK(Trip trip, String numberplate) {
         setTrip(trip);
-        setNumberplate(numberplate);
+        setId(numberplate);
     }
 
 
@@ -50,13 +52,13 @@ public class PullmanPK implements Serializable {
 
         PullmanPK that = (PullmanPK) o;
         return Objects.equals(getTrip(), that.getTrip()) &&
-                Objects.equals(getNumberplate(), that.getNumberplate());
+                Objects.equals(getId(), that.getId());
     }
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTrip(), getNumberplate());
+        return Objects.hash(getTrip(), getId());
     }
 
 
@@ -66,17 +68,17 @@ public class PullmanPK implements Serializable {
 
 
     public void setTrip(Trip trip) {
-        this.trip = trip == null ? new Trip() : trip;
+        this.trip = trip;
     }
 
 
-    public String getNumberplate() {
-        return this.numberplate;
+    public String getId() {
+        return this.id;
     }
 
 
-    public void setNumberplate(String numberplate) {
-        this.numberplate = numberplate;
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

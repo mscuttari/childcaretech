@@ -40,7 +40,7 @@ class ProviderTest extends BaseModelTest<Provider> {
 
         // Create
         HibernateUtils.getInstance().create(provider);
-        Provider createdProvider = getProviderByVat(provider.getVat());
+        Provider createdProvider = getProvider(provider.getVat());
 
         // Check creation
         assertNotNull(createdProvider);
@@ -52,7 +52,7 @@ class ProviderTest extends BaseModelTest<Provider> {
         HibernateUtils.getInstance().update(provider);
 
         // Check update
-        Provider updatedProvider = getProviderByVat(provider.getVat());
+        Provider updatedProvider = getProvider(provider.getVat());
         assertNotNull(updatedProvider);
         assertModelsEquals(provider, updatedProvider);
 
@@ -60,7 +60,7 @@ class ProviderTest extends BaseModelTest<Provider> {
         HibernateUtils.getInstance().delete(provider);
 
         // Check delete
-        Provider deletedProvider = getProviderByVat(provider.getVat());
+        Provider deletedProvider = getProvider(provider.getVat());
         assertNull(deletedProvider);
     }
 
@@ -107,7 +107,7 @@ class ProviderTest extends BaseModelTest<Provider> {
      * @param   vat     VAT number
      * @return  provider (null if not found)
      */
-    public static Provider getProviderByVat(String vat) {
+    public static Provider getProvider(String vat) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 

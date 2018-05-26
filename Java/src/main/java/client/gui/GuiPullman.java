@@ -8,7 +8,7 @@ import main.java.models.Pullman;
 
 public class GuiPullman extends GuiBaseModel<Pullman> {
 
-    private StringProperty numberplate;
+    private StringProperty id;
     private IntegerProperty seats;
 
 
@@ -20,15 +20,16 @@ public class GuiPullman extends GuiBaseModel<Pullman> {
     public GuiPullman(Pullman model) {
         super(model);
 
-        this.numberplate = new SimpleStringProperty(model.getNumberplate());
-        this.numberplate.addListener((observable, oldValue, newValue) -> getModel().setNumberplate(newValue));
+        this.id = new SimpleStringProperty(model.getId());
+        this.id.addListener((observable, oldValue, newValue) -> getModel().setId(newValue));
         this.seats = new SimpleIntegerProperty(model.getSeats());
     }
 
 
-    public StringProperty numberplateProperty() {
-        return numberplate;
+    public StringProperty idProperty() {
+        return id;
     }
+
 
     public IntegerProperty seatsProperty() {
         return seats;

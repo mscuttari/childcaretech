@@ -77,10 +77,19 @@ public class Staff extends Person {
         super.checkDataValidity();
         
         // Username
-        if (getUsername() == null) throw new InvalidFieldException("Username mancante");
+        if (getUsername() == null)
+            throwFieldError("Username mancante");
 
         // Password
-        if (getPassword() == null) throw new InvalidFieldException("Password mancante");
+        if (getPassword() == null)
+            throwFieldError("Password mancante");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Staff";
     }
 
 

@@ -14,8 +14,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static test.java.server.DishTest.getDishByName;
-import static test.java.server.ProviderTest.getProviderByVat;
 
 class MenuTest extends BaseModelTest<Menu> {
 
@@ -69,7 +67,7 @@ class MenuTest extends BaseModelTest<Menu> {
 
         // Create
         HibernateUtils.getInstance().create(menu);
-        Menu createdMenu = getMenuByName(menu.getName());
+        Menu createdMenu = getMenu(menu.getName());
 
         // Check creation
         assertNotNull(createdMenu);
@@ -81,7 +79,7 @@ class MenuTest extends BaseModelTest<Menu> {
         HibernateUtils.getInstance().update(menu);
 
         // Check update
-        Menu updatedMenu = getMenuByName(menu.getName());
+        Menu updatedMenu = getMenu(menu.getName());
         assertNotNull(updatedMenu);
         assertModelsEquals(menu, updatedMenu);
 
@@ -89,23 +87,23 @@ class MenuTest extends BaseModelTest<Menu> {
         HibernateUtils.getInstance().delete(menu);
 
         // Check delete
-        Menu deletedMenu = getMenuByName(menu.getName());
+        Menu deletedMenu = getMenu(menu.getName());
         assertNull(deletedMenu);
 
         // Delete responsible
         Staff responsible = menu.getResponsible();
         HibernateUtils.getInstance().delete(responsible);
-        assertNull(getStaffByFiscalCode(responsible.getFiscalCode()));
+        assertNull(StaffTest.getStaff(responsible.getFiscalCode()));
 
         // Delete dishes
         for (Dish dish : menu.getDishes()) {
             HibernateUtils.getInstance().delete(dish);
-            assertNull(getDishByName(dish.getName()));
+            assertNull(DishTest.getDish(dish.getName()));
         }
 
         for (Dish dish : menu.getDishes()) {
             HibernateUtils.getInstance().delete(dish.getProvider());
-            assertNull(getProviderByVat(dish.getProvider().getVat()));
+            assertNull(ProviderTest.getProvider(dish.getProvider().getVat()));
         }
     }
 
@@ -152,7 +150,7 @@ class MenuTest extends BaseModelTest<Menu> {
      * @param   name        name
      * @return  menu (null if not found)
      */
-    private static Menu getMenuByName(String name) {
+    private static Menu getMenu(String name) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 
@@ -161,26 +159,6 @@ class MenuTest extends BaseModelTest<Menu> {
         Root<Menu> root = cq.from(Menu.class);
         cq.where(cb.equal(root.get("name"), name));
         TypedQuery<Menu> q = em.createQuery(cq);
-
-        return HibernateUtils.getSingleResult(q);
-    }
-
-
-    /**
-     * Get staff by fiscal code
-     *
-     * @param   fiscalCode      fiscal code
-     * @return  staff (null if not found)
-     */
-    private static Staff getStaffByFiscalCode(String fiscalCode) {
-        HibernateUtils hibernateUtils = HibernateUtils.getInstance();
-        EntityManager em = hibernateUtils.getEntityManager();
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Staff> cq = cb.createQuery(Staff.class);
-        Root<Staff> root = cq.from(Staff.class);
-        cq.where(cb.equal(root.get("fiscalCode"), fiscalCode));
-        TypedQuery<Staff> q = em.createQuery(cq);
 
         return HibernateUtils.getSingleResult(q);
     }

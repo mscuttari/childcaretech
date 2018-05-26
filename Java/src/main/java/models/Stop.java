@@ -7,6 +7,9 @@ import main.java.client.gui.GuiStop;
 import javax.persistence.*;
 import java.util.Objects;
 
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+
 @Entity
 @Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_date", "trip_title", "place_name", "place_province", "place_nation", "number"}))
 public class Stop extends BaseModel {
@@ -45,15 +48,30 @@ public class Stop extends BaseModel {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Trip
-        if (getTrip() == null) throw new InvalidFieldException("Gita mancante");
+        if (getTrip() == null)
+            throwFieldError("Gita mancante");
+
+        getTrip().checkDataValidity();
 
         // Place
-        if (getPlace() == null) throw new InvalidFieldException("Località mancante");
+        if (getPlace() == null)
+            throwFieldError("Località mancante");
+
         getPlace().checkDataValidity();
 
         // Number: > 0
-        if (getNumber() == null) throw new InvalidFieldException("Numero della tappa mancante");
-        if (getNumber() <= 0) throw new InvalidFieldException("Numero della tappa non valido");
+        if (getNumber() == null)
+            throwFieldError("Numero della tappa mancante");
+
+        if (getNumber() <= 0)
+            throwFieldError("Numero della tappa non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Tappa";
     }
 
 
