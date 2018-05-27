@@ -156,7 +156,7 @@
                                           <Insets bottom="50.0" />
                                        </VBox.margin>
                                     </ComboBox>
-                                    <TextField fx:id="tfPullmanNumberplate" layoutX="10.0" layoutY="192.0" promptText="Targa">
+                                    <TextField fx:id="tfPullmanId" layoutX="10.0" layoutY="192.0" promptText="Identificativo">
                                        <font>
                                           <Font size="18.0" />
                                        </font>

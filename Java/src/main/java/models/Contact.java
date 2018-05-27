@@ -92,6 +92,11 @@ public class Contact extends Person {
         return super.equals(obj);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFiscalCode());
+    }
+
 
     public Collection<Child> getChildren() {
         return this.children;

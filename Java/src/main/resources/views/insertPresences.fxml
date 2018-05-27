@@ -19,7 +19,7 @@
                 </TableView>
                 <TableView fx:id="tablePullman">
                     <columns>
-                        <TableColumn fx:id="columnPullmanNumberplate" prefWidth="112.0" text="Targa Pullman" />
+                        <TableColumn fx:id="columnPullmanId" prefWidth="112.0" text="Targa Pullman" />
                     </columns>
                 </TableView>
                 <TableView fx:id="tableChildren">

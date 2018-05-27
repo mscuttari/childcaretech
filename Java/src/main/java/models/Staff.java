@@ -127,6 +127,12 @@ public class Staff extends Person {
     }
 
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFiscalCode());
+    }
+
+
     public String getUsername() {
         return this.username;
     }

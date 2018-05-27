@@ -19,7 +19,7 @@
             </TableView>
             <TableView fx:id="tablePullman" prefWidth="150.0" HBox.hgrow="ALWAYS">
                <columns>
-                  <TableColumn fx:id="columnPullmanNumberplate" minWidth="-1.0" prefWidth="150.0" text="Targa" />
+                  <TableColumn fx:id="columnPullmanId" minWidth="-1.0" prefWidth="150.0" text="Targa" />
                </columns>
             </TableView>
             <TableView fx:id="tableChildren" prefWidth="450.0" HBox.hgrow="ALWAYS">

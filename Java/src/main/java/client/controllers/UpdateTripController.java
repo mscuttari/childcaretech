@@ -59,7 +59,7 @@ public class UpdateTripController extends AbstractController implements Initiali
     @FXML private Button buttonAddStop;
     @FXML private Button buttonRemoveSelectedStops;
 
-    @FXML private TextField tfPullmanNumberplate;
+    @FXML private TextField tfPullmanId;
     @FXML private TextField tfPullmanSeats;
     @FXML private ComboBox<SeatsAssignmentType> cbSeatsAssignment;
     @FXML private ListView<Pullman> lvPullman;
@@ -163,7 +163,7 @@ public class UpdateTripController extends AbstractController implements Initiali
                 addPullman();
         };
 
-        tfPullmanNumberplate.setOnKeyPressed(PullmanKeyPressEvent);
+        tfPullmanId.setOnKeyPressed(PullmanKeyPressEvent);
         tfPullmanSeats.setOnKeyPressed(PullmanKeyPressEvent);
 
         // Seats assignment type
@@ -172,7 +172,7 @@ public class UpdateTripController extends AbstractController implements Initiali
         cbSeatsAssignment.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue == newValue) return;
             tabPane.getTabs().remove(tabSeatsAssignment);
-            tfPullmanNumberplate.setDisable(false);
+            tfPullmanId.setDisable(false);
             tfPullmanSeats.setDisable(false);
             lvPullman.setDisable(false);
             buttonAddPullman.setDisable(false);
@@ -193,7 +193,7 @@ public class UpdateTripController extends AbstractController implements Initiali
                 case UNNECESSARY:
                     tripImageView.setImage(new Image("/images/save-data.png"));
                     tripImageView.setOnMouseClicked(event -> updateTrip());
-                    tfPullmanNumberplate.setDisable(true);
+                    tfPullmanId.setDisable(true);
                     tfPullmanSeats.setDisable(true);
                     lvPullman.setDisable(true);
                     buttonAddPullman.setDisable(true);
@@ -328,9 +328,9 @@ public class UpdateTripController extends AbstractController implements Initiali
      * Add pullman to the pullman list
      */
     private void addPullman() {
-        String pullmanNumberplate = tfPullmanNumberplate.getText().trim();
+        String pullmanId = tfPullmanId.getText().trim();
         Integer pullmanSeats = tfPullmanSeats.getText().isEmpty() ? null : Integer.valueOf(tfPullmanSeats.getText().trim());
-        Pullman pullman = new Pullman(trip, pullmanNumberplate, pullmanSeats);
+        Pullman pullman = new Pullman(trip, pullmanId, pullmanSeats);
 
         // Check data
         try {
@@ -341,7 +341,7 @@ public class UpdateTripController extends AbstractController implements Initiali
         }
 
         lvPullman.getItems().add(pullman);
-        tfPullmanNumberplate.setText("");
+        tfPullmanId.setText("");
         tfPullmanSeats.setText("");
     }
 
@@ -413,7 +413,7 @@ public class UpdateTripController extends AbstractController implements Initiali
         List<Pullman> pullman = new ArrayList<>(lvPullman.getItems());
         @SuppressWarnings("unchecked") ObservableList<GuiPullman> pullmanData = TableUtils.getGuiModelsList(pullman);
 
-        columnSAPullmanCode.setCellValueFactory(new PropertyValueFactory<>("numberplate"));
+        columnSAPullmanCode.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnSAPullmanSeats.setCellValueFactory(new PropertyValueFactory<>("seats"));
         tableSAPullman.setEditable(true);
         tableSAPullman.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

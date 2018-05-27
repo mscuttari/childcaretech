@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 
 import static javax.persistence.CascadeType.*;
 
@@ -92,6 +93,12 @@ public class Pediatrist extends Person {
         if (!(obj instanceof Pediatrist)) return false;
 
         return super.equals(obj);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFiscalCode());
     }
 
 
