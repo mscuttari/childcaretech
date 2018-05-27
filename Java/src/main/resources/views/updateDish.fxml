@@ -1,97 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="updateDishPane" maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="@../bootstrap3.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.UpdateDishController">
-    <children>
-        <HBox alignment="CENTER" layoutX="21.0" layoutY="14.0" spacing="30.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-                <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
-                    <children>
-                        <Label text="Piatto:">
-                            <font>
-                                <Font size="24.0" />
-                            </font>
-                        </Label>
-                        <TextField fx:id="tfDishName" disable="true" promptText="Nome Piatto">
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin></TextField>
-                        <ComboBox fx:id="cbDishType" prefWidth="169.0">
-                            <VBox.margin>
-                                <Insets bottom="40.0" />
-                            </VBox.margin>
-                        </ComboBox>
-                        <Label text="Fornitore:">
-                            <font>
-                                <Font size="24.0" />
-                            </font>
-                        </Label>
-                        <TextField fx:id="tfProviderName" promptText="Nome fornitore" />
-                        <TextField fx:id="tfProviderVat" promptText="Partita IVA">
-                            <VBox.margin>
-                                <Insets bottom="40.0" />
-                            </VBox.margin></TextField>
-                    </children>
-                    <HBox.margin>
-                        <Insets left="10.0" />
-                    </HBox.margin>
-                </VBox>
-                <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
-                    <children>
-                        <Label text="Elenco ingredienti:">
-                            <font>
-                                <Font size="24.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets top="-10.0" />
-                            </VBox.margin>
-                        </Label>
-                        <ListView fx:id="listIngredients" prefHeight="300.0" prefWidth="400.0" />
-                        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="346.0" spacing="10.0">
-                            <children>
-                                <TextField fx:id="tfAddIngredient" promptText="Inserisci ingrediente" HBox.hgrow="ALWAYS" />
-                                <Button fx:id="buttonAddIngredient" mnemonicParsing="false" text="Aggiungi ingrediente" HBox.hgrow="ALWAYS" />
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="20.0">
-                            <children>
-                                <Button fx:id="buttonRemoveSelected" mnemonicParsing="false" style="-fx-border-color: red;" text="Elimina selezionati">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </Button>
-                                <Label fx:id="labelError" textFill="RED" underline="true">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin>
-                        </HBox>
-                    </children>
-                    <HBox.margin>
-                        <Insets right="10.0" />
-                    </HBox.margin>
-                </VBox>
-            </children>
-        </HBox>
-        <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
-            <image>
-                <Image url="@../images/goBack(red).png" />
-            </image>
-        </ImageView>
-        <ImageView fx:id="updateDishImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="30.0">
-            <image>
-                <Image url="@../images/update-data.png" />
-            </image>
-        </ImageView>
-    </children>
+<AnchorPane
+        xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+        fx:id="updateDishPane"
+        fx:controller="main.java.client.controllers.UpdateDishController"
+        stylesheets="@../bootstrap3.css">
+
+    <HBox alignment="CENTER"
+          spacing="30.0"
+          style="-fx-padding: 30 30 30"
+          AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <VBox alignment="TOP_CENTER" spacing="40.0">
+            <!-- Dish -->
+            <VBox alignment="TOP_CENTER" spacing="10">
+                <Label text="Piatto">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+
+                <TextField fx:id="tfDishName" promptText="Nome Piatto" />
+
+                <ComboBox fx:id="cbDishType" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+            </VBox>
+
+            <!-- Provider -->
+            <VBox alignment="TOP_CENTER" spacing="10">
+                <Label text="Fornitore">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+
+                <TextField fx:id="tfProviderName" promptText="Nome fornitore"/>
+                <TextField fx:id="tfProviderVat" promptText="Partita IVA" />
+            </VBox>
+        </VBox>
+
+        <!-- Ingredients -->
+        <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+            <Label text="Ingredienti">
+                <font>
+                    <Font size="24.0"/>
+                </font>
+            </Label>
+
+            <ListView fx:id="listIngredients" />
+
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="346.0" spacing="10.0">
+                <TextField fx:id="tfAddIngredient" promptText="Inserisci ingrediente" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="buttonAddIngredient" mnemonicParsing="false" text="Aggiungi ingrediente" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+                <Button fx:id="buttonRemoveSelected" text="Elimina selezionati" mnemonicParsing="false" style="-fx-border-color: red;" />
+            </HBox>
+        </VBox>
+    </HBox>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0"
+               AnchorPane.leftAnchor="30.0">
+        <Image url="@../images/goBack(red).png"/>
+    </ImageView>
+
+    <!-- Update button -->
+    <ImageView fx:id="updateDishImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0"
+               AnchorPane.rightAnchor="30.0">
+        <Image url="@../images/update-data.png"/>
+    </ImageView>
+
 </AnchorPane>
