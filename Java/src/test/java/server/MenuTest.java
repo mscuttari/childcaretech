@@ -122,8 +122,6 @@ class MenuTest extends BaseModelTest<Menu> {
         // Invalid data
         menu.setName(null);
         assertThrows(InvalidFieldException.class, menu::checkDataValidity);
-        menu.setName("123");
-        assertThrows(InvalidFieldException.class, menu::checkDataValidity);
     }
 
 

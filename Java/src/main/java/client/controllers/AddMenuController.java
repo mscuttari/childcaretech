@@ -93,7 +93,7 @@ public class AddMenuController extends AbstractController implements Initializab
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         // Data
-        String menuName = tfMenuName.getText().toLowerCase().trim();
+        String menuName = tfMenuName.getText().trim();
         Staff menuStaff = TableUtils.getFirstSelectedItem(tableStaff);
         DayOfTheWeek dayOfTheWeek = cbDayOfTheWeek.getValue();
 

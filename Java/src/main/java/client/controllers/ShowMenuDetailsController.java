@@ -21,9 +21,6 @@ import java.util.*;
 
 public class ShowMenuDetailsController extends AbstractController implements Initializable {
 
-    // Debug
-    private static final String TAG = "ShowMenuDetailsController";
-
     private Menu menu;
 
     @FXML private Pane showMenuDetailsPane;
