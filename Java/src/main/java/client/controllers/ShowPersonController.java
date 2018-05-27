@@ -69,27 +69,6 @@ public class ShowPersonController extends AbstractController implements Initiali
         columnPeopleFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
         columnPeopleType.setCellValueFactory(param -> new SimpleStringProperty(PersonType.getPersonType(param.getValue().getModel()).toString()));
 
-        columnPeopleEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<GuiPerson, Object>() {
-            @Override
-            public Object call(GuiPerson param) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updatePerson.fxml"));
-
-                    Pane updatePersonPane = loader.load();
-                    UpdatePersonController controller = loader.getController();
-                    controller.setPerson(param.getModel());
-
-                    BorderPane homePane = (BorderPane) showPersonPane.getParent();
-                    homePane.setCenter(updatePersonPane);
-
-                } catch (IOException e) {
-                    LogUtils.e(TAG, e.getMessage());
-                }
-
-                return null;
-            }
-        }));
-
         columnPeopleShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", new Callback<GuiPerson, Object>() {
             @Override
             public Object call(GuiPerson param) {
@@ -102,6 +81,27 @@ public class ShowPersonController extends AbstractController implements Initiali
 
                     BorderPane homePane = (BorderPane) showPersonPane.getParent();
                     homePane.setCenter(showPersonDetailsPane);
+
+                } catch (IOException e) {
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
+                return null;
+            }
+        }));
+
+        columnPeopleEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<GuiPerson, Object>() {
+            @Override
+            public Object call(GuiPerson param) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updatePerson.fxml"));
+
+                    Pane updatePersonPane = loader.load();
+                    UpdatePersonController controller = loader.getController();
+                    controller.setPerson(param.getModel());
+
+                    BorderPane homePane = (BorderPane) showPersonPane.getParent();
+                    homePane.setCenter(updatePersonPane);
 
                 } catch (IOException e) {
                     LogUtils.e(TAG, e.getMessage());

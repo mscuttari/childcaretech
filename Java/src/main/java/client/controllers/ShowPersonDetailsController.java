@@ -7,8 +7,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import main.java.client.gui.GuiIngredient;
+import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
 import java.net.URL;
@@ -23,13 +26,15 @@ public class ShowPersonDetailsController extends AbstractController implements I
     @FXML private ImageView goBackImage;
 
     @FXML private ImageView imagePersonType;
-    @FXML private VBox vboxChildCode;
+    @FXML private HBox boxChildCode;
     @FXML private Label labelChildCode;
     @FXML private Label labelFiscalCode;
     @FXML private Label labelFirstName;
     @FXML private Label labelLastName;
     @FXML private Label labelBirthDate;
+    @FXML private HBox boxAddress;
     @FXML private Label labelAddress;
+    @FXML private HBox boxTelephone;
     @FXML private Label labelTelephone;
 
     @FXML Tab tabRelations;
@@ -38,8 +43,8 @@ public class ShowPersonDetailsController extends AbstractController implements I
     @FXML private Label labelPediatrist;
 
     @FXML Tab tabIngredients;
-    @FXML private TextArea textAreaAllergies;
-    @FXML private TextArea textAreaIntolerances;
+    @FXML private ListView<GuiIngredient> lvAllergies;
+    @FXML private ListView<GuiIngredient> lvIntolerances;
 
 
     @Override
@@ -59,28 +64,29 @@ public class ShowPersonDetailsController extends AbstractController implements I
         labelFirstName.setText(person.getFirstName());                                              // First name
         labelLastName.setText(person.getLastName());                                                // Last name
         labelBirthDate.setText(new java.sql.Date(person.getBirthdate().getTime()).toString());      // Birth date
-        labelAddress.setText(person.getAddress());                                                  // Address
-        labelTelephone.setText(person.getTelephone());                                              // Telephone
+
+        // Address
+        boxAddress.setVisible(person.getAddress() != null);
+        labelAddress.setText(person.getAddress());
+
+        // Telephone
+        boxTelephone.setVisible(person.getTelephone() != null);
+        labelTelephone.setText(person.getTelephone());
 
         // Allergies
-        for(Ingredient current: person.getAllergies()){
-            textAreaAllergies.appendText(current.toString());
-            textAreaAllergies.appendText("\n");
-        }
+        lvAllergies.setItems(TableUtils.getGuiModelsList(person.getAllergies()));
 
         // Intolerances
-        for(Ingredient current: person.getIntolerances()){
-            textAreaIntolerances.appendText(current.toString() + "\n");
-        }
+        lvIntolerances.setItems(TableUtils.getGuiModelsList(person.getIntolerances()));
 
         tabPane.getTabs().removeAll(tabRelations, tabIngredients);
-        vboxChildCode.setVisible(false);
+        boxChildCode.setVisible(false);
 
         // Differentiation based on person type
         switch (PersonType.getPersonType(person)) {
             case CHILD:
                 imagePersonType.setImage(new Image("/images/baby.png"));
-                vboxChildCode.setVisible(true);
+                boxChildCode.setVisible(true);
 
                 // Child id
                 labelChildCode.setText(String.valueOf(((Child) person).getId()));

@@ -24,3 +24,7 @@
     -fx-border-color: transparent;
     -fx-effect: none;
 }
+
+.scroll-pane > .viewport {
+    -fx-background-color: white;
+}

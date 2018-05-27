@@ -28,38 +28,13 @@
                         <ComboBox fx:id="cbPersonType"/>
                     </VBox>
 
-                    <VBox alignment="CENTER" spacing="15.0">
-                        <TextField fx:id="tfFiscalCode" promptText="Codice Fiscale">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </TextField>
-
-                        <TextField fx:id="tfFirstName" layoutX="10.0" layoutY="276.0" promptText="Nome">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </TextField>
-
-                        <TextField fx:id="tfLastName" layoutX="10.0" layoutY="299.0" promptText="Cognome">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </TextField>
-
-                        <DatePicker fx:id="dpBirthDate" prefHeight="37.0" prefWidth="234.0" promptText="Data di nascita" style="-fx-font-size: 18;"/>
-
-                        <TextField fx:id="tfAddress" layoutX="10.0" layoutY="352.0" promptText="Indirizzo">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </TextField>
-
-                        <TextField fx:id="tfTelephone" layoutX="10.0" layoutY="395.0" promptText="Telefono">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </TextField>
+                    <VBox alignment="CENTER" spacing="15.0" style="-fx-font-size: 18">
+                        <TextField fx:id="tfFiscalCode" promptText="Codice Fiscale" />
+                        <TextField fx:id="tfFirstName" layoutX="10.0" layoutY="276.0" promptText="Nome" />
+                        <TextField fx:id="tfLastName" layoutX="10.0" layoutY="299.0" promptText="Cognome" />
+                        <DatePicker fx:id="dpBirthDate" prefHeight="37.0" prefWidth="234.0" promptText="Data di nascita" />
+                        <TextField fx:id="tfAddress" layoutX="10.0" layoutY="352.0" promptText="Indirizzo" />
+                        <TextField fx:id="tfTelephone" layoutX="10.0" layoutY="395.0" promptText="Telefono" />
                     </VBox>
                 </HBox>
             </AnchorPane>
@@ -152,45 +127,13 @@
                         <Image url="@../images/login.png"/>
                     </ImageView>
 
-                    <VBox alignment="CENTER" prefWidth="400.0" spacing="10.0">
-                        <TextField fx:id="tfUsername" promptText="Username">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </TextField>
-
-                        <TextField fx:id="tfUsernameConfirmation" layoutX="10.0" layoutY="225.0" promptText="Conferma username">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </TextField>
-
-                        <Label fx:id="labelUsername">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </Label>
-
-                        <PasswordField fx:id="tfPassword" promptText="Password">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                            <VBox.margin>
-                                <Insets top="40.0"/>
-                            </VBox.margin>
-                        </PasswordField>
-
-                        <PasswordField fx:id="tfPasswordConfirmation" promptText="Conferma password">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </PasswordField>
-
-                        <Label fx:id="labelPassword">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </Label>
+                    <VBox alignment="CENTER" prefWidth="400.0" spacing="10.0" style="-fx-font-size: 18">
+                        <TextField fx:id="tfUsername" promptText="Username" />
+                        <TextField fx:id="tfUsernameConfirmation" layoutX="10.0" layoutY="225.0" promptText="Conferma username" />
+                        <Label fx:id="labelUsername" />
+                        <PasswordField fx:id="tfPassword" promptText="Password" />
+                        <PasswordField fx:id="tfPasswordConfirmation" promptText="Conferma password" />
+                        <Label fx:id="labelPassword" />
                     </VBox>
                 </HBox>
             </AnchorPane>

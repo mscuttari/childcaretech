@@ -9,6 +9,7 @@ import main.java.models.BaseModel;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class TableUtils {
@@ -24,7 +25,7 @@ public class TableUtils {
      * @param   data    GUI models list
      * @return  models list
      */
-    public static <M extends BaseModel, T extends GuiBaseModel<M>> ObservableList<M> getModelsList(List<T> data) {
+    public static <M extends BaseModel, T extends GuiBaseModel<M>> ObservableList<M> getModelsList(Collection<T> data) {
         ObservableList<M> result = FXCollections.observableArrayList();
 
         for (T item : data) {
@@ -41,7 +42,7 @@ public class TableUtils {
      * @param   data    models list
      * @return  GUI models list
      */
-    public static <M extends BaseModel, T extends GuiBaseModel<M>> ObservableList<T> getGuiModelsList(List<M> data) {
+    public static <M extends BaseModel, T extends GuiBaseModel<M>> ObservableList<T> getGuiModelsList(Collection<M> data) {
         ObservableList<T> result = FXCollections.observableArrayList();
 
         for (M item : data) {
