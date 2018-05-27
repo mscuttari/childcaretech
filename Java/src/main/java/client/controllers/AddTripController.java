@@ -364,7 +364,7 @@ public class AddTripController extends AbstractController implements Initializab
      */
     private void showSeatsAssignmentTab() {
 
-        //if (!preSaveTrip()) { return; }
+        if (!preSaveTrip()) { return; }
 
         // Disable all tabs except the seats assignment one
         for(Tab current : tabPane.getTabs()){
