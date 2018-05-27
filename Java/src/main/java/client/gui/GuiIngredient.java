@@ -24,7 +24,7 @@ public class GuiIngredient extends GuiBaseModel<Ingredient> {
 
     @Override
     public String toString() {
-        return nameProperty().toString();
+        return nameProperty().getValue();
     }
 
 

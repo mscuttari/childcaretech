@@ -10,7 +10,7 @@
 
     <TableView fx:id="tablePeople"
                maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-               AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
             <TableColumn fx:id="columnPeopleFirstName" style="-fx-alignment: center" text="Nome"/>
             <TableColumn fx:id="columnPeopleLastName" style="-fx-alignment: center" text="Cognome"/>
@@ -22,8 +22,9 @@
         </columns>
     </TableView>
 
-    <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0"
-               AnchorPane.leftAnchor="30.0">
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
         <Image url="@../images/goBack(blue).png"/>
     </ImageView>
 </AnchorPane>

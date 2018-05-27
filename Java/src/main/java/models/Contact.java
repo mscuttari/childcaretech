@@ -98,6 +98,19 @@ public class Contact extends Person {
     }
 
 
+    @Override
+    public String toString() {
+        String result = "";
+
+        result += getFirstName() + " " + getLastName();
+
+        if (getTelephone() != null)
+            result += " - Tel: " + getTelephone();
+
+        return result;
+    }
+
+
     public Collection<Child> getChildren() {
         return this.children;
     }
@@ -123,11 +136,6 @@ public class Contact extends Person {
     public void setChildren(Collection<Child> children) {
         this.children.clear();
         addChildren(children);
-    }
-
-    @Override
-    public String toString(){
-        return super.toString();
     }
 
 }

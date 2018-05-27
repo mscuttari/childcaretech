@@ -102,6 +102,19 @@ public class Pediatrist extends Person {
     }
 
 
+    @Override
+    public String toString() {
+        String result = "";
+
+        result += getFirstName() + " " + getLastName();
+
+        if (getTelephone() != null)
+            result += " - Tel: " + getTelephone();
+
+        return result;
+    }
+
+
     public Collection<Child> getChildren() {
         return this.children;
     }

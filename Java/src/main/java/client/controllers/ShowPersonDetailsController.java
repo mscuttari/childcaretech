@@ -9,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import main.java.client.gui.GuiIngredient;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
@@ -60,6 +59,8 @@ public class ShowPersonDetailsController extends AbstractController implements I
      * Load the person data into the corresponding fields
      */
     private void loadData() {
+        String separator;
+
         labelFiscalCode.setText(person.getFiscalCode());                                            // Fiscal code
         labelFirstName.setText(person.getFirstName());                                              // First name
         labelLastName.setText(person.getLastName());                                                // Last name
@@ -92,16 +93,28 @@ public class ShowPersonDetailsController extends AbstractController implements I
                 labelChildCode.setText(String.valueOf(((Child) person).getId()));
 
                 // Parents
-                for (Parent current : ((Child) person).getParents()) {
-                    labelParents.setText(labelParents.getText() + current.toString() + "\n");
+                if (!((Child) person).getParents().isEmpty()) {
+                    separator = "";
+                    for (Parent current : ((Child) person).getParents()) {
+                        labelParents.setText(labelParents.getText() + separator + current);
+                        separator = "\n";
+                    }
+                } else {
+                    labelParents.setText("-");
                 }
 
                 // Pediatrist
                 labelPediatrist.setText(((Child) person).getPediatrist().toString());
 
                 // Contacts
-                for (Contact current : ((Child) person).getContacts()) {
-                    labelContacts.setText(labelContacts.getText() + current.toString() + "\n");
+                if (!((Child) person).getContacts().isEmpty()) {
+                    separator = "";
+                    for (Contact current : ((Child) person).getContacts()) {
+                        labelContacts.setText(labelContacts.getText() + separator + current.toString());
+                        separator = "\n";
+                    }
+                } else {
+                    labelContacts.setText("-");
                 }
 
                 tabPane.getTabs().addAll(tabRelations, tabIngredients);

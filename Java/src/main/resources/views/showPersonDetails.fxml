@@ -91,12 +91,13 @@
             <AnchorPane>
                 <!--suppress JavaFxUnresolvedStyleClassReference -->
                 <ScrollPane fitToWidth="true"
+                            fitToHeight="true"
                             styleClass="edge-to-edge"
                             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
                     <VBox alignment="CENTER"
                           spacing="20"
-                          style="-fx-padding: 0 200 0; -fx-font-size: 18">
+                          style="-fx-padding: 0 100 0; -fx-font-size: 18">
 
                         <!-- Parents -->
                         <HBox spacing="15">
@@ -163,6 +164,6 @@
    <ImageView fx:id="goBackImage"
               fitHeight="60.0" fitWidth="60.0"
               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
-      <Image url="@../images/goBack(blue).png"/>
+       <Image url="@../images/goBack(blue).png"/>
    </ImageView>
 </AnchorPane>
