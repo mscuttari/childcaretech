@@ -118,6 +118,12 @@ public class Provider extends BaseModel {
     }
 
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+
     public String getVat() {
         return this.vat;
     }

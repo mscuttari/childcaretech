@@ -11,8 +11,7 @@
             stylesheets="@../ChildCareTech.css">
 
     <TabPane fx:id="tabPane"
-             minHeight="500.0" minWidth="800.0"
-             AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+             AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <Tab text="Dati">
             <AnchorPane>
@@ -146,13 +145,13 @@
                       AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
                     <!-- Allergies -->
-                    <VBox alignment="CENTER" spacing="20.0" HBox.hgrow="ALWAYS">
+                    <VBox alignment="CENTER" spacing="20.0" HBox.hgrow="ALWAYS" style="-fx-padding: 20 0 0 0">
                         <Label text="Allergie" style="-fx-font-size: 24" />
                         <ListView fx:id="lvAllergies" HBox.hgrow="ALWAYS" style="-fx-font-size: 18" />
                     </VBox>
 
                     <!-- Intolerances -->
-                    <VBox alignment="CENTER" spacing="20.0" HBox.hgrow="ALWAYS">
+                    <VBox alignment="CENTER" spacing="20.0" HBox.hgrow="ALWAYS" style="-fx-padding: 20 0 0 0">
                         <Label text="Intolleranze" style="-fx-font-size: 24" />
                         <ListView fx:id="lvIntolerances" HBox.hgrow="ALWAYS" style="-fx-font-size: 18" />
                     </VBox>
