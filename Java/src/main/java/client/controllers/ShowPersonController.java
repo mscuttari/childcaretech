@@ -69,7 +69,7 @@ public class ShowPersonController extends AbstractController implements Initiali
         columnPeopleFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
         columnPeopleType.setCellValueFactory(param -> new SimpleStringProperty(PersonType.getPersonType(param.getValue().getModel()).toString()));
 
-        columnPeopleShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", new Callback<GuiPerson, Object>() {
+        Callback<GuiPerson, Object> showDetailsCallback = new Callback<GuiPerson, Object>() {
             @Override
             public Object call(GuiPerson param) {
                 try {
@@ -88,7 +88,20 @@ public class ShowPersonController extends AbstractController implements Initiali
 
                 return null;
             }
-        }));
+        };
+
+        // Open details page on row double click
+        tablePeople.setRowFactory( tv -> {
+            TableRow<GuiPerson> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    showDetailsCallback.call(row.getItem());
+                }
+            });
+            return row ;
+        });
+
+        columnPeopleShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", showDetailsCallback));
 
         columnPeopleEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<GuiPerson, Object>() {
             @Override

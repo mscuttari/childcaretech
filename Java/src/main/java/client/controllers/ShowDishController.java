@@ -59,6 +59,40 @@ public class ShowDishController extends AbstractController implements Initializa
         columnDishName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnDishType.setCellValueFactory(new PropertyValueFactory<>("type"));
 
+        Callback<GuiDish, Object> showDetailsCallback = new Callback<GuiDish, Object>() {
+            @Override
+            public Object call(GuiDish param) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showDishDetails.fxml"));
+
+                    Pane showDishDetailsPane = loader.load();
+                    ShowDishDetailsController controller = loader.getController();
+                    controller.setDish(param.getModel());
+
+                    BorderPane homePane = (BorderPane)showDishPane.getParent();
+                    homePane.setCenter(showDishDetailsPane);
+
+                } catch (IOException e) {
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
+                return null;
+            }
+        };
+
+        // Open details page on row double click
+        tableDish.setRowFactory( tv -> {
+            TableRow<GuiDish> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    showDetailsCallback.call(row.getItem());
+                }
+            });
+            return row ;
+        });
+
+        columnDishShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", showDetailsCallback));
+
         columnDishEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<GuiDish, Object>() {
 
             @Override
@@ -72,28 +106,6 @@ public class ShowDishController extends AbstractController implements Initializa
 
                     BorderPane homePane = (BorderPane)showDishPane.getParent();
                     homePane.setCenter(updateDishPane);
-
-                } catch (IOException e) {
-                    LogUtils.e(TAG, e.getMessage());
-                }
-
-                return null;
-            }
-        }));
-
-        columnDishShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", new Callback<GuiDish, Object>() {
-
-            @Override
-            public Object call(GuiDish param) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showDishDetails.fxml"));
-
-                    Pane showDishDetailsPane = loader.load();
-                    ShowDishDetailsController controller = loader.getController();
-                    controller.setDish(param.getModel());
-
-                    BorderPane homePane = (BorderPane)showDishPane.getParent();
-                    homePane.setCenter(showDishDetailsPane);
 
                 } catch (IOException e) {
                     LogUtils.e(TAG, e.getMessage());

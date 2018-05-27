@@ -1,6 +1,5 @@
 package main.java.client.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,6 +57,39 @@ public class ShowMenuController extends AbstractController implements Initializa
         columnMenuName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnMenuDayOfTheWeek.setCellValueFactory(new PropertyValueFactory<>("dayOfTheWeek"));
 
+        Callback<GuiMenu, Object> showDetailsCallback = new Callback<GuiMenu, Object>() {
+            @Override
+            public Object call(GuiMenu param) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showMenuDetails.fxml"));
+
+                    Pane showMenuDetailsPane = loader.load();
+                    ShowMenuDetailsController controller = loader.getController();
+                    controller.setMenu(param.getModel());
+
+                    BorderPane homePane = (BorderPane)showMenuPane.getParent();
+                    homePane.setCenter(showMenuDetailsPane);
+
+                } catch (IOException e) {
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
+                return null;
+            }
+        };
+
+        // Open details page on row double click
+        tableMenu.setRowFactory( tv -> {
+            TableRow<GuiMenu> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    showDetailsCallback.call(row.getItem());
+                }
+            });
+            return row ;
+        });
+
+        columnMenuShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", showDetailsCallback));
 
         columnMenuEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<GuiMenu, Object>() {
 
@@ -80,27 +112,7 @@ public class ShowMenuController extends AbstractController implements Initializa
                 return null;
             }
         }));
-        columnMenuShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", new Callback<GuiMenu, Object>() {
 
-            @Override
-            public Object call(GuiMenu param) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showMenuDetails.fxml"));
-
-                    Pane showMenuDetailsPane = loader.load();
-                    ShowMenuDetailsController controller = loader.getController();
-                    controller.setMenu(param.getModel());
-
-                    BorderPane homePane = (BorderPane)showMenuPane.getParent();
-                    homePane.setCenter(showMenuDetailsPane);
-
-                } catch (IOException e) {
-                    LogUtils.e(TAG, e.getMessage());
-                }
-
-                return null;
-            }
-        }));
         columnMenuDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
             if (param1.getModel().isDeletable()) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi davvero eliminare il menù?\n" +
@@ -124,6 +136,7 @@ public class ShowMenuController extends AbstractController implements Initializa
         tableMenu.setItems(menusData);
     }
 
+
     /**
      * Delete data and update table data
      */
@@ -134,6 +147,7 @@ public class ShowMenuController extends AbstractController implements Initializa
 
         tableMenu.setItems(newMenusData);
     }
+
 
     /**
      * Go back to the dish page
