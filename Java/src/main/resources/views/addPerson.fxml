@@ -42,10 +42,10 @@
         <Tab fx:id="tabParents" text="Genitori">
             <TableView fx:id="tableParents">
                 <columns>
-                    <TableColumn fx:id="columnParentsSelected" maxWidth="200" style="-fx-alignment: center"/>
-                    <TableColumn fx:id="columnParentsFirstName" maxWidth="200" style="-fx-alignment: center" text="Nome"/>
-                    <TableColumn fx:id="columnParentsLastName" maxWidth="200" style="-fx-alignment: center" text="Cognome"/>
-                    <TableColumn fx:id="columnParentsFiscalCode" maxWidth="200" style="-fx-alignment: center" text="Codice fiscale"/>
+                    <TableColumn fx:id="columnParentsSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnParentsFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnParentsLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnParentsFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
                 </columns>
             </TableView>
         </Tab>
@@ -53,10 +53,10 @@
         <Tab fx:id="tabPediatrist" text="Pediatra">
             <TableView fx:id="tablePediatrist">
                 <columns>
-                    <TableColumn fx:id="columnPediatristSelected" maxWidth="200" style="-fx-alignment: center"/>
-                    <TableColumn fx:id="columnPediatristFirstName" maxWidth="200" style="-fx-alignment: center" text="Nome"/>
-                    <TableColumn fx:id="columnPediatristLastName" maxWidth="200" style="-fx-alignment: center" text="Cognome"/>
-                    <TableColumn fx:id="columnPediatristFiscalCode" maxWidth="200" style="-fx-alignment: center" text="Codice fiscale"/>
+                    <TableColumn fx:id="columnPediatristSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnPediatristFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnPediatristLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnPediatristFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
                 </columns>
             </TableView>
         </Tab>
@@ -115,10 +115,10 @@
         <Tab fx:id="tabContacts" text="Contatti">
             <TableView fx:id="tableContacts">
                 <columns>
-                    <TableColumn fx:id="columnContactsSelected" maxWidth="200" style="-fx-alignment: center"/>
-                    <TableColumn fx:id="columnContactsFirstName" maxWidth="200" style="-fx-alignment: center" text="Nome"/>
-                    <TableColumn fx:id="columnContactsLastName" maxWidth="200" style="-fx-alignment: center" text="Cognome"/>
-                    <TableColumn fx:id="columnContactsFiscalCode" maxWidth="200" style="-fx-alignment: center" text="Codice fiscale"/>
+                    <TableColumn fx:id="columnContactsSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnContactsFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnContactsLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnContactsFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
                 </columns>
             </TableView>
         </Tab>
