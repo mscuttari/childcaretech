@@ -130,6 +130,12 @@ public class Staff extends Person {
     }
 
 
+    @Override
+    public String toString() {
+        return getFirstName() + " " + getLastName();
+    }
+
+
     public String getUsername() {
         return this.username;
     }
@@ -199,11 +205,6 @@ public class Staff extends Person {
     public void setTrips(Collection<Trip> trips) {
         this.trips.clear();
         addTrips(trips);
-    }
-
-    @Override
-    public String toString(){
-        return super.toString();
     }
 
 }

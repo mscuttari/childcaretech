@@ -13,6 +13,7 @@
     <TabPane fx:id="tabPane"
              AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
+        <!-- Basic data -->
         <Tab text="Dati">
             <AnchorPane>
                 <!--suppress JavaFxUnresolvedStyleClassReference -->
@@ -86,6 +87,7 @@
             </AnchorPane>
         </Tab>
 
+        <!-- Parents, contacts and pediatrist -->
         <Tab fx:id="tabRelations" text="Relazioni">
             <AnchorPane>
                 <!--suppress JavaFxUnresolvedStyleClassReference -->
@@ -138,6 +140,7 @@
             </AnchorPane>
         </Tab>
 
+        <!-- Allergies and intolerances -->
         <Tab fx:id="tabIngredients" text="Allergie / intolleranze">
             <AnchorPane>
                 <HBox alignment="CENTER" spacing="50.0"

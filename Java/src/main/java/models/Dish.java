@@ -145,6 +145,12 @@ public class Dish extends BaseModel {
     }
 
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+
     public String getName() {
         return this.name;
     }
