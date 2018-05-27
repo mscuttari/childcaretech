@@ -17,7 +17,7 @@
           style="-fx-padding: 30 30 30"
           AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-        <VBox alignment="TOP_CENTER" spacing="40.0" HBox.hgrow="ALWAYS">
+        <VBox alignment="TOP_CENTER" spacing="40.0">
             <!-- Dish -->
             <VBox alignment="TOP_CENTER" spacing="10">
                 <Label text="Piatto">

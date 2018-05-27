@@ -18,10 +18,7 @@ import main.java.models.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class UpdateDishController extends AbstractController implements Initializable {
 
@@ -160,7 +157,7 @@ public class UpdateDishController extends AbstractController implements Initiali
 
 
         dish.getIngredients().clear();
-        dish.addIngredients(listIngredients.getItems());
+        dish.addIngredients(new HashSet<>(listIngredients.getItems()));
 
         // Save dish
         connectionManager.getClient().update(dish);
