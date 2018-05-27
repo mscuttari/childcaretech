@@ -112,7 +112,13 @@ public class ShowPersonController extends AbstractController implements Initiali
         }));
 
         columnPeopleDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
-            if (param1.getModel().isDeletable()) {
+            if (param1.getModel() instanceof Staff) {
+
+                if (((Staff) param1.getModel()).getUsername().equals(ConnectionManager.getInstance().getClient().getUsername())) {
+                    showErrorDialog("Non è possibile eliminare sè stessi");
+                }
+
+            } else if (param1.getModel().isDeletable()) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                         "Vuoi davvero eliminare la persona?\n" +
                         "(la procedura è irreversibile)",
@@ -126,6 +132,7 @@ public class ShowPersonController extends AbstractController implements Initiali
                 if (result.get() == ButtonType.YES) {
                     deleteData(connectionManager, param1);
                 }
+
             } else {
                 showErrorDialog("Questa persona non può essere eliminata");
             }
