@@ -392,10 +392,10 @@ public class UpdatePersonController extends AbstractController implements Initia
                 ((Child)person).setContacts(TableUtils.getSelectedItems(tableContacts));    // Contacts
 
                 // Allergies
-                person.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
+                person.setAllergies(new HashSet<>(TableUtils.getModelsList(lvAllergies.getItems())));
 
                 // Intolerances
-                person.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
+                person.setIntolerances(new HashSet<>(TableUtils.getModelsList(lvIntolerances.getItems())));
 
                 // Pediatrist
                 List<Pediatrist> selectedPediatrists = TableUtils.getSelectedItems(tablePediatrist);
@@ -414,8 +414,8 @@ public class UpdatePersonController extends AbstractController implements Initia
             case STAFF:
                 ((Staff) person).setUsername(tfUsername.getText());
                 ((Staff) person).setPassword(tfPassword.getText());
-                person.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
-                person.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
+                person.setAllergies(new HashSet<>(TableUtils.getModelsList(lvAllergies.getItems())));
+                person.setIntolerances(new HashSet<>(TableUtils.getModelsList(lvIntolerances.getItems())));
                 break;
         }
 

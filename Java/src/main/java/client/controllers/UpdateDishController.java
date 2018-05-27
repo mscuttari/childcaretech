@@ -16,6 +16,7 @@ import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class UpdateDishController extends AbstractController implements Initializable {
@@ -152,7 +153,7 @@ public class UpdateDishController extends AbstractController implements Initiali
         dish.setProvider(provider);
 
         // Ingredients
-        dish.setIngredients(TableUtils.getModelsList(listIngredients.getItems()));
+        dish.setIngredients(new HashSet<>(TableUtils.getModelsList(listIngredients.getItems())));
 
         // Save dish
         connectionManager.getClient().update(dish);
