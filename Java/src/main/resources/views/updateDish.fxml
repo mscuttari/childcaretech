@@ -25,8 +25,7 @@
                     </font>
                 </Label>
 
-                <TextField fx:id="tfDishName" promptText="Nome Piatto" />
-
+                <TextField fx:id="tfDishName" disable="true" promptText="Nome Piatto" />
                 <ComboBox fx:id="cbDishType" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
             </VBox>
 
@@ -65,14 +64,16 @@
     </HBox>
 
     <!-- Go back button -->
-    <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0"
-               AnchorPane.leftAnchor="30.0">
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
         <Image url="@../images/goBack(red).png"/>
     </ImageView>
 
     <!-- Update button -->
-    <ImageView fx:id="updateDishImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0"
-               AnchorPane.rightAnchor="30.0">
+    <ImageView fx:id="updateDishImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.rightAnchor="15">
         <Image url="@../images/update-data.png"/>
     </ImageView>
 
