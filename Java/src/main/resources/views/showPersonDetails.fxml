@@ -36,49 +36,49 @@
 
                         <!-- Child code -->
                         <HBox fx:id="boxChildCode">
-                            <Label text="Codice bambino:" />
+                            <Label text="Codice bambino:" style="-fx-font-weight: bold" />
                             <Region HBox.hgrow="ALWAYS" />
                             <Label fx:id="labelChildCode" />
                         </HBox>
 
                         <!-- Fiscal code -->
                         <HBox>
-                            <Label text="Codice fiscale:" />
+                            <Label text="Codice fiscale:"  style="-fx-font-weight: bold" />
                             <Region HBox.hgrow="ALWAYS" />
                             <Label fx:id="labelFiscalCode" />
                         </HBox>
 
                         <!-- First name -->
                         <HBox>
-                            <Label text="Nome:" />
+                            <Label text="Nome:" style="-fx-font-weight: bold" />
                             <Region HBox.hgrow="ALWAYS" />
                             <Label fx:id="labelFirstName" />
                         </HBox>
 
                         <!-- Last name -->
                         <HBox>
-                            <Label text="Cognome:" />
+                            <Label text="Cognome:" style="-fx-font-weight: bold" />
                             <Region HBox.hgrow="ALWAYS" />
                             <Label fx:id="labelLastName" />
                         </HBox>
 
                         <!-- Birth date -->
                         <HBox>
-                            <Label text="Data di nascita:" />
+                            <Label text="Data di nascita:" style="-fx-font-weight: bold" />
                             <Region HBox.hgrow="ALWAYS" />
                             <Label fx:id="labelBirthDate" />
                         </HBox>
 
                         <!-- Address -->
                         <HBox fx:id="boxAddress">
-                            <Label text="Indirizzo:" />
+                            <Label text="Indirizzo:" style="-fx-font-weight: bold" />
                             <Region HBox.hgrow="ALWAYS" />
                             <Label fx:id="labelAddress" />
                         </HBox>
 
                         <!-- Telephone -->
                         <HBox fx:id="boxTelephone">
-                            <Label text="Telefono:" />
+                            <Label text="Telefono:" style="-fx-font-weight: bold" />
                             <Region HBox.hgrow="ALWAYS" />
                             <Label fx:id="labelTelephone" />
                         </HBox>
@@ -95,9 +95,9 @@
                             styleClass="edge-to-edge"
                             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-                    <VBox alignment="CENTER"
+                    <VBox alignment="CENTER_LEFT"
                           spacing="20"
-                          style="-fx-padding: 0 100 0; -fx-font-size: 18">
+                          style="-fx-padding: 0 0 0 50; -fx-font-size: 18">
 
                         <!-- Parents -->
                         <HBox spacing="15">
@@ -106,7 +106,7 @@
                             </ImageView>
 
                             <VBox>
-                                <Label text="Genitori:" />
+                                <Label text="Genitori:" style="-fx-font-weight: bold" />
                                 <Label fx:id="labelParents" />
                             </VBox>
                         </HBox>
@@ -118,7 +118,7 @@
                             </ImageView>
 
                             <VBox>
-                                <Label text="Contatti:" />
+                                <Label text="Contatti:" style="-fx-font-weight: bold" />
                                 <Label fx:id="labelContacts" />
                             </VBox>
                         </HBox>
@@ -130,7 +130,7 @@
                             </ImageView>
 
                             <VBox>
-                                <Label text="Pediatra:" />
+                                <Label text="Pediatra:" style="-fx-font-weight: bold" />
                                 <Label fx:id="labelPediatrist" />
                             </VBox>
                         </HBox>
@@ -166,4 +166,5 @@
               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
        <Image url="@../images/goBack(blue).png"/>
    </ImageView>
+
 </AnchorPane>
