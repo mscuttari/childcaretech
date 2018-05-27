@@ -137,7 +137,7 @@ public class ShowDishController extends AbstractController implements Initializa
         tableDish.setItems(dishesData);
     }
 
-    
+
     /**
      * Delete data and update table data
      */

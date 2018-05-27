@@ -27,6 +27,26 @@ class TripTest extends BaseModelTest<Trip> {
         assertDateEquals(x.getDate(), y.getDate());
         assertEquals(x.getTitle(), y.getTitle());
 
+        // Check children
+        Collection<Child> xChildren = x.getChildren();
+        Collection<Child> yChildren = y.getChildren();
+
+        assertEquals(xChildren.size(), yChildren.size());
+
+        for (Child child : xChildren) {
+            assertTrue(yChildren.contains(child));
+        }
+
+        // Check staff
+        Collection<Staff> xStaff = x.getStaff();
+        Collection<Staff> yStaff = y.getStaff();
+
+        assertEquals(xStaff.size(), yStaff.size());
+
+        for (Staff staff : xStaff) {
+            assertTrue(yStaff.contains(staff));
+        }
+
         // Check stops
         Collection<Stop> xStops = x.getStops();
         Collection<Stop> yStops = y.getStops();
@@ -56,6 +76,17 @@ class TripTest extends BaseModelTest<Trip> {
         obj.setDate(new Date());
         obj.setTitle("AAA");
         obj.setSeatsAssignmentType(SeatsAssignmentType.AUTOMATIC);
+
+        // Add children
+        Pediatrist pediatrist = new Pediatrist("AAAAAAAAAAAAAAAA", "AAA", "AAA", new Date(), "Test, A/1", "1111111111");
+        obj.addChild(new Child("BBBBBBBBBBBBBBBB", "BBB", "BBB", new Date(), "Test, B/2", "2222222222", pediatrist));
+        obj.addChild(new Child("CCCCCCCCCCCCCCCC", "CCC", "CCC", new Date(), "Test, C/3", "3333333333", pediatrist));
+        obj.addChild(new Child("DDDDDDDDDDDDDDDD", "DDD", "DDD", new Date(), "Test, D/4", "4444444444", pediatrist));
+        obj.addChild(new Child("EEEEEEEEEEEEEEEE", "EEE", "EEE", new Date(), "Test, E/5", "5555555555", pediatrist));
+        obj.addChild(new Child("FFFFFFFFFFFFFFFF", "FFF", "FFF", new Date(), "Test, F/6", "6666666666", pediatrist));
+
+        // Add staff
+        obj.addStaff(new Staff("GGGGGGGGGGGGGGGG", "GGG", "GGG", new Date(), "Test, G/7", "7777777777", "user", "user"));
 
         // Add stops
         obj.addStop(new Stop(obj, new Place("Milano", "MI", "Italia"), 1));
@@ -106,6 +137,24 @@ class TripTest extends BaseModelTest<Trip> {
         for (Stop stop : trip.getStops()) {
             Place place = stop.getPlace();
             assertNull(PlaceTest.getPlace(place.getName(), place.getProvince(), place.getNation()));
+        }
+
+        // Delete children
+        for (Child child : trip.getChildren()) {
+            HibernateUtils.getInstance().delete(child);
+            assertNull(ChildTest.getChild(child.getFiscalCode()));
+        }
+
+        // Delete pediatrist
+        /*
+        Pediatrist pediatrist = trip.getChildren().iterator().next().getPediatrist();
+        HibernateUtils.getInstance().delete(pediatrist);
+        assertNull(PediatristTest.getPediatrist(pediatrist.getFiscalCode()));
+*/
+        // Delete staff
+        for (Staff staff : trip.getStaff()) {
+            HibernateUtils.getInstance().delete(staff);
+            assertNull(StaffTest.getStaff(staff.getFiscalCode()));
         }
     }
 
@@ -160,8 +209,7 @@ class TripTest extends BaseModelTest<Trip> {
         CriteriaQuery<Trip> cq = cb.createQuery(Trip.class);
         Root<Trip> root = cq.from(Trip.class);
 
-        cq.where(cb.equal(root.get("id").get("date"), date))
-                .where(cb.equal(root.get("id").get("title"), title));
+        cq.where(cb.equal(root.get("title"), title));
 
         TypedQuery<Trip> q = em.createQuery(cq);
 

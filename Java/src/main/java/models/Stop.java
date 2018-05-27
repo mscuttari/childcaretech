@@ -11,7 +11,7 @@ import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 
 @Entity
-@Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_date", "trip_title", "place_name", "place_province", "place_nation", "number"}))
+@Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_title", "place_name", "place_province", "place_nation", "number"}))
 public class Stop extends BaseModel {
 
     @Transient
@@ -25,7 +25,6 @@ public class Stop extends BaseModel {
     @MapsId(value = "trip")
     @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
     @JoinColumns(value = {
-            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
             @JoinColumn(name = "trip_title", referencedColumnName = "title")
     })
     private Trip trip;

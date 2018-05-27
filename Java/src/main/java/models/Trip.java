@@ -1,5 +1,6 @@
 package main.java.models;
 
+import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiTrip;
@@ -19,8 +20,13 @@ public class Trip extends BaseModel {
     private static final long serialVersionUID = 9041385768903721723L;
 
 
-    @EmbeddedId
-    private TripPK id = new TripPK();
+    @Id
+    @Column(name = "title", nullable = false)
+    private String title;
+
+
+    @Column(name = "date", nullable = false)
+    private Date date;
 
 
     @Column(name = "seats_assignment_type", nullable = false)
@@ -40,10 +46,7 @@ public class Trip extends BaseModel {
     @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "children_trips_enrollments",
-            joinColumns = {
-                    @JoinColumn(name = "trip_date", referencedColumnName = "date"),
-                    @JoinColumn(name = "trip_title", referencedColumnName = "title")
-            },
+            joinColumns = { @JoinColumn(name = "trip_title", referencedColumnName = "title") },
             inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
     )
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -53,10 +56,7 @@ public class Trip extends BaseModel {
     @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "staff_trips_enrollments",
-            joinColumns = {
-                    @JoinColumn(name = "trip_date", referencedColumnName = "date"),
-                    @JoinColumn(name = "trip_title", referencedColumnName = "title")
-            },
+            joinColumns = {@JoinColumn(name = "trip_title", referencedColumnName = "title") },
             inverseJoinColumns = { @JoinColumn(name = "staff_fiscal_code", referencedColumnName = "fiscal_code") }
     )
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -136,14 +136,21 @@ public class Trip extends BaseModel {
     /** {@inheritDoc} */
     @Override
     public void preDelete() {
-        // Children
+        // Children enrollments
         for (Child child : getChildren()) {
             child.removeTripEnrollment(this);
         }
 
-        // Staff
+        // Staff enrollments
         for (Staff staff : getStaff()) {
             staff.removeTrip(this);
+        }
+
+        // Children seats assignments
+        for (Pullman pullman : getPullmans()) {
+            for (Child child : pullman.getChildren()) {
+                child.removePullmanAssignment(pullman);
+            }
         }
     }
 
@@ -166,22 +173,22 @@ public class Trip extends BaseModel {
 
 
     public Date getDate() {
-        return this.id.getDate();
+        return this.date;
     }
 
 
     public void setDate(Date date) {
-        this.id.setDate(date);
+        this.date = date;
     }
 
 
     public String getTitle() {
-        return this.id.getTitle();
+        return this.title;
     }
 
 
     public void setTitle(String title) {
-        this.id.setTitle(trimString(title));
+        this.title = trimString(title);
     }
 
 
@@ -231,6 +238,11 @@ public class Trip extends BaseModel {
     }
 
 
+    public void removePullman(Pullman pullman) {
+        this.pullmans.remove(pullman);
+    }
+
+
     public void setPullmans(Collection<Pullman> pullmans) {
         this.pullmans.clear();
         addPullmans(pullmans);
@@ -263,6 +275,11 @@ public class Trip extends BaseModel {
     }
 
 
+    public void removeChild(Child child) {
+        this.children.remove(child);
+    }
+
+
     public void setChildren(Collection<Child> children) {
         this.children.clear();
         addChildren(children);
@@ -281,6 +298,11 @@ public class Trip extends BaseModel {
 
     public void addStaff(Collection<Staff> staff) {
         this.staff.addAll(staff);
+    }
+
+
+    public void removeStaff(Staff staff) {
+        this.staff.remove(staff);
     }
 
 

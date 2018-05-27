@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
@@ -322,7 +323,7 @@ public class AddTripController extends AbstractController implements Initializab
      */
     private void addPullman() {
         // Create pullman
-        String pullmanId = tfPullmanId.getText().trim();
+        String pullmanId = tfPullmanId.getText();
         Integer pullmanSeats = tfPullmanSeats.getText().isEmpty() ? null : Integer.valueOf(tfPullmanSeats.getText().trim());
         Pullman pullman = new Pullman(trip, pullmanId, pullmanSeats);
 
@@ -446,29 +447,49 @@ public class AddTripController extends AbstractController implements Initializab
         return true;
     }
 
+
     /**
      * Save trip in the database
      */
     private void saveTrip() {
+        // Basic Data
+        String title = tfTripName.getText();
+        Date date = dpTripDate.getValue() == null ? null : Date.from(dpTripDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        if(!preSaveTrip()) { return; }
+        trip.setTitle(title);                                               // Title
+        trip.setDate(date);                                                 // Date
+        trip.setSeatsAssignmentType(cbSeatsAssignment.getValue());          // Seats assignment method
 
-        switch (cbSeatsAssignment.getValue()) {
+        trip.setChildren(TableUtils.getSelectedItems(tableChildren));       // Children
+        trip.setStaff(TableUtils.getSelectedItems(tableStaff));             // Staff
+        trip.setStops(TableUtils.getModelsList(lvStops.getItems()));        // Stops
+        trip.setPullmans(TableUtils.getModelsList(lvPullman.getItems()));   // Pullmans
+
+        // Check data
+        try {
+            trip.checkDataValidity();
+        } catch (InvalidFieldException e) {
+            showErrorDialog(e.getMessage());
+            return;
+        }
+
+        // Seats assignment method
+        switch (trip.getSeatsAssignmentType()) {
             case AUTOMATIC:
-                Integer totalNumberOfSeats = trip.getAvailableSeats();
-                int i=0;
-                int occupiedSeats = 0;
-                double totalNumberOfChildren = TableUtils.getSelectedItems(tableChildren).size();
-                List<Pullman> pullmans = TableUtils.getModelsList(lvPullman.getItems());
-                for (Pullman current : pullmans){
-                    List<Child> children = new ArrayList<>();
-                    occupiedSeats += current.getSeats();
-                    double occupiedSeatsPercentage = occupiedSeats/(double)totalNumberOfSeats;
-                    children.addAll(TableUtils.getSelectedItems(tableChildren).subList
-                            (i, (int)(occupiedSeatsPercentage*totalNumberOfChildren)));
-                    current.addChildren(children);
-                    i = (int)(occupiedSeatsPercentage*totalNumberOfChildren);
+                ArrayList<Child> children = new ArrayList<>(trip.getChildren());
+
+                for (Pullman pullman : trip.getPullmans()){
+                    if (children.isEmpty()) break;      // All children have been assigned
+
+                    if (pullman.getSeats() <= children.size()) {
+                        pullman.setChildren(children.subList(0, pullman.getSeats()));
+                        children.removeAll(pullman.getChildren());
+                    } else {
+                        pullman.setChildren(children);
+                        break;
+                    }
                 }
+
                 break;
 
             case MANUAL:
@@ -501,21 +522,11 @@ public class AddTripController extends AbstractController implements Initializab
                 break;
         }
 
-        List<GuiStop> guiStops = new ArrayList<>(lvStops.getItems());
-        List<Stop> stops = new ArrayList<>();
-
-        for (GuiStop guiStop : guiStops)
-            stops.add(guiStop.getModel());
-
-        trip.setStops(stops);
-
-        trip.addPullmans(TableUtils.getModelsList(lvPullman.getItems()));
-
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         // Save trip
-        if(!connectionManager.getClient().create(trip)) {
+        if (!connectionManager.getClient().create(trip)) {
             showErrorDialog("Non è stato possibile inserire la gita");
             return;
         }

@@ -110,7 +110,7 @@ public class HibernateUtils {
      */
     public static synchronized <M extends BaseModel> M getSingleResult(TypedQuery<M> query) {
         try {
-            return query.getSingleResult();
+            return getResultsList(query).get(0);
         } catch (Exception e) {
             return null;
         }
