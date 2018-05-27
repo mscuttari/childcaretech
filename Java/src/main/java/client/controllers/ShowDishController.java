@@ -1,6 +1,5 @@
 package main.java.client.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +42,7 @@ public class ShowDishController extends AbstractController implements Initializa
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // go back button
+        // Go back button
         goBackImage.setOnMouseEntered(event -> showDishPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showDishPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
@@ -138,6 +137,7 @@ public class ShowDishController extends AbstractController implements Initializa
         tableDish.setItems(dishesData);
     }
 
+    
     /**
      * Delete data and update table data
      */
@@ -148,6 +148,7 @@ public class ShowDishController extends AbstractController implements Initializa
 
         tableDish.setItems(newDishesData);
     }
+
 
     /**
      * Go back to the dish page
