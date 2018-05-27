@@ -7,16 +7,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane
-        fx:id="pane"
-        fx:controller="main.java.client.controllers.AnagraphicController"
-        stylesheets="@../bootstrap3.css"
-        xmlns="http://javafx.com/javafx/8"
-        xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="pane"
+            fx:controller="main.java.client.controllers.AnagraphicController"
+            stylesheets="@../bootstrap3.css">
 
     <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-        <Label prefHeight="44.0" prefWidth="195.0" text="Anagrafica" textFill="#337ab7">
+        <Label text="Anagrafica" textFill="#337ab7">
             <font>
                 <Font name="Comic Sans MS" size="36.0"/>
             </font>
@@ -26,7 +25,6 @@
         </Label>
 
         <HBox alignment="CENTER"
-              layoutX="550.0" layoutY="150.0"
               spacing="80.0"
               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
