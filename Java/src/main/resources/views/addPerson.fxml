@@ -18,6 +18,7 @@
             tabClosingPolicy="UNAVAILABLE"
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
+        <!-- Basic data -->
         <Tab text="Tipo">
             <AnchorPane>
                 <HBox alignment="CENTER" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -39,6 +40,7 @@
             </AnchorPane>
         </Tab>
 
+        <!-- Parents -->
         <Tab fx:id="tabParents" text="Genitori">
             <TableView fx:id="tableParents">
                 <columns>
@@ -50,6 +52,7 @@
             </TableView>
         </Tab>
 
+        <!-- Pediatrist -->
         <Tab fx:id="tabPediatrist" text="Pediatra">
             <TableView fx:id="tablePediatrist">
                 <columns>
@@ -61,6 +64,7 @@
             </TableView>
         </Tab>
 
+        <!-- Allergies -->
         <Tab fx:id="tabAllergies" text="Allergie">
             <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
                 <ListView fx:id="lvAllergies" HBox.hgrow="ALWAYS"/>
@@ -86,6 +90,7 @@
             </VBox>
         </Tab>
 
+        <!-- Intolerances -->
         <Tab fx:id="tabIntolerances" text="Intolleranze">
             <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
                 <ListView fx:id="lvIntolerances" prefWidth="600.0"/>
@@ -112,6 +117,7 @@
             </VBox>
         </Tab>
 
+        <!-- Contacts -->
         <Tab fx:id="tabContacts" text="Contatti">
             <TableView fx:id="tableContacts">
                 <columns>
@@ -123,6 +129,7 @@
             </TableView>
         </Tab>
 
+        <!-- Login data -->
         <Tab fx:id="tabLoginData" text="Dati di accesso">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
