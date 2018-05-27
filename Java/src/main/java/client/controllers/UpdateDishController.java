@@ -156,6 +156,12 @@ public class UpdateDishController extends AbstractController implements Initiali
 
         // Save dish
         connectionManager.getClient().update(dish);
+
+        // Confirmation dialog
+        showInformationDialog("I dati sono stati aggiornati");
+
+        // Go back to the dishes list page
+        goBack();
     }
 
 

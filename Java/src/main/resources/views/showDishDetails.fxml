@@ -23,7 +23,7 @@
 
                     <VBox alignment="TOP_CENTER"
                           spacing="20"
-                          style="-fx-padding: 0 200 0; -fx-font-size: 18">
+                          style="-fx-padding: 0 250 0; -fx-font-size: 18">
 
                         <!-- Dish icon -->
                         <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
