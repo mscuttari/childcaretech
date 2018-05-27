@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
+import main.java.client.gui.GuiIngredient;
 import main.java.client.gui.GuiParent;
 import main.java.client.gui.GuiPediatrist;
 import main.java.client.utils.TableUtils;
@@ -68,13 +69,13 @@ public class UpdatePersonController extends AbstractController implements Initia
 
     @FXML private Tab tabAllergies;
     @FXML private TextField txAddAllergy;
-    @FXML private ListView<Ingredient> lvAllergies;
+    @FXML private ListView<GuiIngredient> lvAllergies;
     @FXML private Button buttonAddAllergy;
     @FXML private Button buttonRemoveSelectedAllergies;
 
     @FXML private Tab tabIntolerances;
     @FXML private TextField txAddIntolerances;
-    @FXML private ListView<Ingredient> lvIntolerances;
+    @FXML private ListView<GuiIngredient> lvIntolerances;
     @FXML private Button buttonAddIntolerances;
     @FXML private Button buttonRemoveSelectedIntolerances;
 
@@ -204,15 +205,14 @@ public class UpdatePersonController extends AbstractController implements Initia
      */
     private void addAllergies() {
         if (!txAddAllergy.getText().isEmpty()){
-            // Add the ingredient to the listview
             String ingredientName = txAddAllergy.getText().toLowerCase().trim();
-            Ingredient ingredient = new Ingredient(ingredientName);
-            lvAllergies.getItems().add(ingredient);
 
-            // Reset the input field
+            Ingredient ingredient = new Ingredient(ingredientName);
+            GuiIngredient guiIngredient = new GuiIngredient(ingredient);
+
+            lvAllergies.getItems().add(guiIngredient);
             txAddAllergy.setText("");
         }
-
     }
 
 
@@ -220,14 +220,13 @@ public class UpdatePersonController extends AbstractController implements Initia
      * Remove the selected allergies from the list
      */
     private void removeSelectedAllergies() {
-        if(!lvAllergies.getSelectionModel().isEmpty()) {
-            lvAllergies.getItems().removeAll(lvAllergies.getSelectionModel().getSelectedItems());
-            lvAllergies.getSelectionModel().clearSelection();
+        List<GuiIngredient> selectedAllergies = lvAllergies.getSelectionModel().getSelectedItems();
 
-        } else if(lvAllergies.getItems().isEmpty()){
-            showErrorDialog("Non ci sono allergie nella lista");
-        } else{
-            showErrorDialog("Non ci sono allergie selezionate");
+        if (selectedAllergies.isEmpty()) {
+            showErrorDialog("Nessuna allergia selezionata");
+        } else {
+            lvAllergies.getItems().removeAll(selectedAllergies);
+            lvAllergies.getSelectionModel().clearSelection();
         }
     }
 
@@ -236,10 +235,13 @@ public class UpdatePersonController extends AbstractController implements Initia
      * Add the specified ingredient to the intolerances list
      */
     private void addIntolerances() {
-        if (!txAddIntolerances.getText().isEmpty()){
-            String ingredientName = txAddIntolerances.getText().toLowerCase().trim();
-            Ingredient ingredient = new Ingredient(ingredientName);
-            lvIntolerances.getItems().add(ingredient);
+        if (!txAddIntolerances.getText().isEmpty()) {
+            String intoleranceName = txAddIntolerances.getText().toLowerCase().trim();
+
+            Ingredient ingredient = new Ingredient(intoleranceName);
+            GuiIngredient guiIngredient = new GuiIngredient(ingredient);
+
+            lvIntolerances.getItems().add(guiIngredient);
             txAddIntolerances.setText("");
         }
     }
@@ -249,14 +251,13 @@ public class UpdatePersonController extends AbstractController implements Initia
      * Remove the selected intolerances from the list
      */
     private void removeSelectedIntolerances() {
-        if(!lvIntolerances.getSelectionModel().isEmpty()) {
-            lvIntolerances.getItems().removeAll(lvIntolerances.getSelectionModel().getSelectedItems());
-            lvIntolerances.getSelectionModel().clearSelection();
+        List<GuiIngredient> selectedIntolerances = lvIntolerances.getSelectionModel().getSelectedItems();
 
-        } else if(lvIntolerances.getItems().isEmpty()){
-            showErrorDialog("Non ci sono intolleranze nella lista");
-        } else{
-            showErrorDialog("Non ci sono intolleranze selezionate");
+        if (selectedIntolerances.isEmpty()) {
+            showErrorDialog("Nessuna intolleranza selezionata");
+        } else {
+            lvIntolerances.getItems().removeAll(selectedIntolerances);
+            lvIntolerances.getSelectionModel().clearSelection();
         }
     }
 
@@ -309,10 +310,10 @@ public class UpdatePersonController extends AbstractController implements Initia
         dpBirthDate.setValue(new java.sql.Date(person.getBirthdate().getTime()).toLocalDate());
 
         // Allergies
-        lvAllergies.getItems().setAll(person.getAllergies());
+        lvAllergies.getItems().setAll(TableUtils.getGuiModelsList(person.getAllergies()));
 
         // Intolerances
-        lvIntolerances.getItems().setAll(person.getIntolerances());
+        lvIntolerances.getItems().setAll(TableUtils.getGuiModelsList(person.getIntolerances()));
 
         // Differentiation based on person type
         switch (PersonType.getPersonType(person)) {
@@ -389,8 +390,12 @@ public class UpdatePersonController extends AbstractController implements Initia
             case CHILD:
                 ((Child)person).setParents(TableUtils.getSelectedItems(tableParents));      // Parents
                 ((Child)person).setContacts(TableUtils.getSelectedItems(tableContacts));    // Contacts
-                person.addAllergies(lvAllergies.getItems());                                // Allergies
-                person.addIntolerances(lvIntolerances.getItems());                          // Intolerances
+
+                // Allergies
+                person.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
+
+                // Intolerances
+                person.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
 
                 // Pediatrist
                 List<Pediatrist> selectedPediatrists = TableUtils.getSelectedItems(tablePediatrist);
@@ -409,8 +414,8 @@ public class UpdatePersonController extends AbstractController implements Initia
             case STAFF:
                 ((Staff) person).setUsername(tfUsername.getText());
                 ((Staff) person).setPassword(tfPassword.getText());
-                person.addAllergies(lvAllergies.getItems());
-                person.addIntolerances(lvIntolerances.getItems());
+                person.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
+                person.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
                 break;
         }
 

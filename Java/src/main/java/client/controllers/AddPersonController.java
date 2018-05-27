@@ -223,7 +223,7 @@ public class AddPersonController extends AbstractController implements Initializ
 
 
     /**
-     * Add allergy to the allergies list
+     * Add the specified ingredient to the allergies list
      */
     private void addAllergy() {
         if (!txAddAllergy.getText().isEmpty()) {
@@ -239,7 +239,7 @@ public class AddPersonController extends AbstractController implements Initializ
 
 
     /**
-     * Remove the selected allergies
+     * Remove the selected allergies from the list
      */
     private void removeSelectedAllergies() {
         List<GuiIngredient> selectedAllergies = lvAllergies.getSelectionModel().getSelectedItems();
@@ -254,7 +254,7 @@ public class AddPersonController extends AbstractController implements Initializ
 
 
     /**
-     * Add intolerance to the intolerances list
+     * Add the specified ingredient to the intolerances list
      */
     private void addIntolerance() {
         if (!txAddIntolerances.getText().isEmpty()) {
@@ -270,7 +270,7 @@ public class AddPersonController extends AbstractController implements Initializ
 
 
     /**
-     * Remove selected intolerances from the intolerances list
+     * Remove the selected intolerances from the list
      */
     private void removeSelectedIntolerances() {
         List<GuiIngredient> selectedIntolerances = lvIntolerances.getSelectionModel().getSelectedItems();
