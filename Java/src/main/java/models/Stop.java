@@ -127,7 +127,7 @@ public class Stop extends BaseModel {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTrip(), getPlace(), getNumber());
+        return Objects.hash(getNumber());
     }
 
 

@@ -44,7 +44,7 @@ public class InsertPresencesController implements Initializable {
     @FXML
     private TableView<Pullman> tablePullman;
     @FXML
-    private TableColumn<Pullman, String> columnPullmanNumberplate;
+    private TableColumn<Pullman, String> columnPullmanId;
 
     @FXML
     private TableView<GuiChild> tableChildren;
@@ -86,7 +86,7 @@ public class InsertPresencesController implements Initializable {
         tableTrips.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableTrips.setItems(tripsData);
 
-        columnPullmanNumberplate.setCellValueFactory(new PropertyValueFactory<>("numberplate"));
+        columnPullmanId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tablePullman.setEditable(true);
         tablePullman.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 

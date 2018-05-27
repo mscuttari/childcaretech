@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 
 import static javax.persistence.CascadeType.*;
 
@@ -97,7 +98,7 @@ public class Parent extends Person {
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(getFiscalCode());
     }
 
 

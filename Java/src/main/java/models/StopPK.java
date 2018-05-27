@@ -60,7 +60,7 @@ public class StopPK implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTrip(), getPlace(), getNumber());
+        return Objects.hash(getNumber());
     }
 
 

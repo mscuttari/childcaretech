@@ -34,7 +34,7 @@ public class ShowSeatsController implements Initializable{
     @FXML private TableColumn<Trip, Date> columnTripsDate;
 
     @FXML private TableView<Pullman> tablePullman;
-    @FXML private TableColumn<Pullman, String> columnPullmanNumberplate;
+    @FXML private TableColumn<Pullman, String> columnPullmanId;
 
     @FXML private TableView<Child> tableChildren;
     @FXML private TableColumn<Child, String> columnChildrenFiscalCode;
@@ -65,7 +65,7 @@ public class ShowSeatsController implements Initializable{
         tableTrips.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableTrips.setItems(tripsData);
 
-        columnPullmanNumberplate.setCellValueFactory(new PropertyValueFactory<>("numberplate"));
+        columnPullmanId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tablePullman.setEditable(true);
         tablePullman.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
