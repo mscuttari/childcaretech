@@ -7,8 +7,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
@@ -26,17 +26,17 @@ public class Ingredient extends BaseModel {
 
     @ManyToMany(mappedBy = "ingredients")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Dish> dishes = new ArrayList<>();
+    private Collection<Dish> dishes = new HashSet<>();
 
 
     @ManyToMany(mappedBy = "allergies")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Person> allergicPeople = new ArrayList<>();
+    private Collection<Person> allergicPeople = new HashSet<>();
 
 
     @ManyToMany(mappedBy = "intolerances")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Person> intolerantPeople = new ArrayList<>();
+    private Collection<Person> intolerantPeople = new HashSet<>();
 
 
     /**

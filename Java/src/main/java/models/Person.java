@@ -5,10 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 
 import static javax.persistence.CascadeType.*;
 
@@ -54,7 +51,7 @@ public abstract class Person extends BaseModel {
             inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
     )
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Ingredient> allergies = new ArrayList<>();
+    private Collection<Ingredient> allergies = new HashSet<>();
 
 
     @ManyToMany(cascade = {PERSIST, MERGE})
@@ -64,7 +61,7 @@ public abstract class Person extends BaseModel {
             inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
     )
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Ingredient> intolerances = new ArrayList<>();
+    private Collection<Ingredient> intolerances = new HashSet<>();
 
 
     /**

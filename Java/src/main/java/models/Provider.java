@@ -8,8 +8,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
@@ -31,7 +31,7 @@ public class Provider extends BaseModel {
 
     @OneToMany(mappedBy = "provider")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Dish> dishes = new ArrayList<>();
+    private Collection<Dish> dishes = new HashSet<>();
 
 
     /**

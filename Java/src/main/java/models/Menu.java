@@ -7,8 +7,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 import static javax.persistence.CascadeType.*;
@@ -42,7 +42,7 @@ public class Menu extends BaseModel {
             inverseJoinColumns = { @JoinColumn(name = "dish_name", referencedColumnName = "name") }
     )
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Dish> dishes = new ArrayList<>();
+    private Collection<Dish> dishes = new HashSet<>();
 
 
     /**

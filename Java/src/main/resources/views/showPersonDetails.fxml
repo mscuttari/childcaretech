@@ -161,9 +161,9 @@
         </Tab>
     </TabPane>
 
-   <ImageView fx:id="goBackImage"
-              fitHeight="60.0" fitWidth="60.0"
-              AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
-       <Image url="@../images/goBack(blue).png"/>
-   </ImageView>
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(blue).png"/>
+    </ImageView>
 </AnchorPane>

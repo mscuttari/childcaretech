@@ -11,10 +11,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Entity(name = "Staff")
 @Table(name = "staff")
@@ -35,12 +32,12 @@ public class Staff extends Person {
 
     @OneToMany(mappedBy = "responsible")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Menu> menus = new ArrayList<>();
+    private Collection<Menu> menus = new HashSet<>();
 
 
     @ManyToMany(mappedBy = "staff")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Trip> trips = new ArrayList<>();
+    private Collection<Trip> trips = new HashSet<>();
 
 
     /**
