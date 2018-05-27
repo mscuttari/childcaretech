@@ -341,10 +341,17 @@ public class AddPersonController extends AbstractController implements Initializ
         switch (cbPersonType.getValue()) {
             case CHILD:
                 Child child = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
-                child.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
-                child.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
-
                 person = child;
+
+                // Id
+                String childId = ConnectionManager.getInstance().getClient().createChildId();
+
+                if (childId == null) {
+                    showErrorDialog("Impossibile creare un codice identificativo per il bambino");
+                    return;
+                }
+
+                child.setId(childId);
 
                 // Pediatrist
                 List<Pediatrist> selectedPediatrists = TableUtils.getSelectedItems(tablePediatrist);
@@ -363,6 +370,10 @@ public class AddPersonController extends AbstractController implements Initializ
 
                 // Contacts
                 child.addContacts(TableUtils.getSelectedItems(tableContacts));
+
+                // Allergies and intolerances
+                child.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
+                child.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
 
                 break;
 

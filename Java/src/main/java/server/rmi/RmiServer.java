@@ -3,12 +3,9 @@ package main.java.server.rmi;
 import main.java.LogUtils;
 import main.java.client.connection.rmi.RmiClientInterface;
 import main.java.models.BaseModel;
-import main.java.models.Child;
-import main.java.models.Person;
 import main.java.server.Actions;
 import main.java.server.utils.HibernateUtils;
 
-import javax.persistence.EntityManager;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,6 +13,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 public class RmiServer extends UnicastRemoteObject implements RmiServerInterface {
+
+    // Serialization
+    private static final long serialVersionUID = -5584914910604367418L;
 
     // Debug
     private static final String TAG = "RmiServer";
@@ -55,6 +55,14 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     @Override
     public boolean login(RmiClientInterface client) throws RemoteException {
         return Actions.login(client.getUsername(), client.getPassword());
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String createChildId(RmiClientInterface client) throws RemoteException {
+        if (!login(client)) return null;
+        return Actions.createChildId();
     }
 
 

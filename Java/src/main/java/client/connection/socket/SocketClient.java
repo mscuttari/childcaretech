@@ -84,6 +84,14 @@ public class SocketClient extends BaseClient implements ClientInterface {
 
     /** {@inheritDoc} */
     @Override
+    public String createChildId() {
+        Object result = sendData("create_child_id", this);
+        return result instanceof String ? (String)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     public boolean create(BaseModel obj) {
         Object result = sendData("create", this, obj);
         return result instanceof Boolean && (boolean)result;

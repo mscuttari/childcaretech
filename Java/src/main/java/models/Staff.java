@@ -25,7 +25,7 @@ public class Staff extends Person {
     private static final long serialVersionUID = -3026738919615064997L;
 
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
 
