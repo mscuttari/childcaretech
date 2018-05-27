@@ -4,6 +4,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import main.java.models.Pullman;
 
 public class GuiPullman extends GuiBaseModel<Pullman> {
@@ -23,6 +25,7 @@ public class GuiPullman extends GuiBaseModel<Pullman> {
         this.id = new SimpleStringProperty(model.getId());
         this.id.addListener((observable, oldValue, newValue) -> getModel().setId(newValue));
         this.seats = new SimpleIntegerProperty(model.getSeats());
+        this.seats.addListener((observable, oldValue, newValue) -> getModel().setSeats(newValue.intValue()));
     }
 
 
