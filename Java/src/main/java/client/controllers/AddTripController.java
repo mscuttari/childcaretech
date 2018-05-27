@@ -227,7 +227,6 @@ public class AddTripController extends AbstractController implements Initializab
 
         // Create stop
         Place place = new Place(placeName, placeProvince, placeNation);
-        //connectionManager.getClient().create(place);
         Stop stop = new Stop(trip, place, stopNumber);
 
         // Check data validity
