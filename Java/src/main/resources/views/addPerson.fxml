@@ -143,16 +143,18 @@
         </Tab>
     </TabPane>
 
-    <ImageView fx:id="addPersonImage"
-               fitHeight="60.0" fitWidth="60.0"
-               AnchorPane.bottomAnchor="15" AnchorPane.rightAnchor="15">
-        <Image url="@../images/save-data.png"/>
-    </ImageView>
-
+    <!-- Go back button -->
     <ImageView fx:id="goBackImage"
                fitHeight="60.0" fitWidth="60.0"
                AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
         <Image url="@../images/goBack(blue).png"/>
+    </ImageView>
+
+    <!-- Save button -->
+    <ImageView fx:id="addPersonImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.rightAnchor="15">
+        <Image url="@../images/save-data.png"/>
     </ImageView>
 
 </AnchorPane>
