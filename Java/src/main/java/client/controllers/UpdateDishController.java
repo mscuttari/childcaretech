@@ -161,7 +161,7 @@ public class UpdateDishController extends AbstractController implements Initiali
 
 
     /**
-     * Go back to the dish page
+     * Go back to the dishes list page
      */
     public void goBack() {
         setCenterFXML((BorderPane)updateDishPane.getParent(), "/views/showDish.fxml");
