@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.image.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<AnchorPane fx:id="showMenuPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowMenuController">
-    <children>
-        <TableView fx:id="tableMenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <columns>
-                <TableColumn fx:id="columnMenuName" style="-fx-alignment: center" text="Nome" />
-            <TableColumn fx:id="columnMenuDayOfTheWeek" style="-fx-alignment: center" text="Giorno" />
-                <TableColumn fx:id="columnMenuEdit" style="-fx-alignment: center" />
-            <TableColumn fx:id="columnMenuShowDetails" style="-fx-alignment: center" />
-                <TableColumn fx:id="columnMenuDelete" style="-fx-alignment: center" />
-            </columns>
-        </TableView>
-        <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
-            <image>
-                <Image url="@../images/goBack(red).png" />
-            </image>
-        </ImageView>
-    </children>
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="showMenuPane"
+            fx:controller="main.java.client.controllers.ShowMenuController">
+
+    <!-- Menus list -->
+    <TableView fx:id="tableMenu"
+               maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+            <TableColumn fx:id="columnMenuName" style="-fx-alignment: center" text="Nome"/>
+            <TableColumn fx:id="columnMenuDayOfTheWeek" style="-fx-alignment: center" text="Giorno"/>
+            <TableColumn fx:id="columnMenuEdit" style="-fx-alignment: center"/>
+            <TableColumn fx:id="columnMenuShowDetails" style="-fx-alignment: center"/>
+            <TableColumn fx:id="columnMenuDelete" style="-fx-alignment: center"/>
+        </columns>
+    </TableView>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(red).png"/>
+    </ImageView>
+
 </AnchorPane>

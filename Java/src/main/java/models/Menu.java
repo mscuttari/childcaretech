@@ -70,11 +70,11 @@ public class Menu extends BaseModel {
     /** {@inheritDoc} */
     @Override
     public void checkDataValidity() throws InvalidFieldException {
-        // Name: [a-z] [A-Z] à è é ì ò ù ' " space
+        // Name: [a-z] [A-Z] à è é ì ò ù [0-9] ' " space
         if (getName() == null)
             throwFieldError("Nome mancante");
 
-        if (!getName().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
+        if (!getName().matches("^[a-zA-Zàèéìòù'\"\\d\\040]+$"))
             throwFieldError("Nome non valido");
 
         // Day of the week

@@ -45,18 +45,14 @@ public class AddMenuController extends AbstractController implements Initializab
         // Day of the week
         cbDayOfTheWeek.getItems().addAll(DayOfTheWeek.values());
 
-        // Save button cursor
+        // Save button
         addMenuImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
         addMenuImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
-
-        // Save button click
         addMenuImage.setOnMouseClicked(event -> saveMenu());
 
-        // go back button cursor
+        // Go back button
         goBackImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
