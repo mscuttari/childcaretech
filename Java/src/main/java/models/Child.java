@@ -97,6 +97,10 @@ public class Child extends Person {
     public void checkDataValidity() throws InvalidFieldException {
         super.checkDataValidity();
 
+        // Id
+        if (getId() == null)
+            throwFieldError("Codice identificativo mancante");
+
         // Parents
         if (getParents().size() > 2)
             throwFieldError("Non è possibile specificare più di due genitori");
