@@ -79,11 +79,17 @@ class TripTest extends BaseModelTest<Trip> {
 
         // Add children
         Pediatrist pediatrist = new Pediatrist("AAAAAAAAAAAAAAAA", "AAA", "AAA", new Date(), "Test, A/1", "1111111111");
-        obj.addChild(new Child("BBBBBBBBBBBBBBBB", "BBB", "BBB", new Date(), "Test, B/2", "2222222222", pediatrist));
-        obj.addChild(new Child("CCCCCCCCCCCCCCCC", "CCC", "CCC", new Date(), "Test, C/3", "3333333333", pediatrist));
-        obj.addChild(new Child("DDDDDDDDDDDDDDDD", "DDD", "DDD", new Date(), "Test, D/4", "4444444444", pediatrist));
-        obj.addChild(new Child("EEEEEEEEEEEEEEEE", "EEE", "EEE", new Date(), "Test, E/5", "5555555555", pediatrist));
-        obj.addChild(new Child("FFFFFFFFFFFFFFFF", "FFF", "FFF", new Date(), "Test, F/6", "6666666666", pediatrist));
+        Child child1 = new Child("BBBBBBBBBBBBBBBB", "BBB", "BBB", new Date(), "Test, B/2", "2222222222", pediatrist);
+        Child child2 = new Child("CCCCCCCCCCCCCCCC", "CCC", "CCC", new Date(), "Test, C/3", "3333333333", pediatrist);
+        Child child3 = new Child("DDDDDDDDDDDDDDDD", "DDD", "DDD", new Date(), "Test, D/4", "4444444444", pediatrist);
+        Child child4 = new Child("EEEEEEEEEEEEEEEE", "EEE", "EEE", new Date(), "Test, E/5", "5555555555", pediatrist);
+        Child child5 = new Child("FFFFFFFFFFFFFFFF", "FFF", "FFF", new Date(), "Test, F/6", "6666666666", pediatrist);
+
+        obj.addChild(child1);
+        obj.addChild(child2);
+        obj.addChild(child3);
+        obj.addChild(child4);
+        obj.addChild(child5);
 
         // Add staff
         obj.addStaff(new Staff("GGGGGGGGGGGGGGGG", "GGG", "GGG", new Date(), "Test, G/7", "7777777777", "user", "user"));
@@ -96,9 +102,20 @@ class TripTest extends BaseModelTest<Trip> {
         obj.addStop(new Stop(obj, new Place("Bari", "BA", "Italia"), 5));
 
         // Add pullmans
-        obj.addPullman(new Pullman(obj, "AAA", 10));
-        obj.addPullman(new Pullman(obj, "BBB", 10));
-        obj.addPullman(new Pullman(obj, "CCC", 10));
+        Pullman pullman1 = new Pullman(obj, "AAA", 10);
+        Pullman pullman2 = new Pullman(obj, "BBB", 10);
+        Pullman pullman3 = new Pullman(obj, "CCC", 10);
+
+        obj.addPullman(pullman1);
+        obj.addPullman(pullman2);
+        obj.addPullman(pullman3);
+
+        // Seats assignment
+        pullman1.addChild(child1);
+        pullman1.addChild(child2);
+        pullman2.addChild(child3);
+        pullman2.addChild(child4);
+        pullman3.addChild(child5);
     }
 
 
@@ -111,7 +128,7 @@ class TripTest extends BaseModelTest<Trip> {
 
         // Create
         HibernateUtils.getInstance().create(trip);
-        Trip createdTrip = getTrip(trip.getDate(), trip.getTitle());
+        Trip createdTrip = getTrip(trip.getTitle());
 
         // Check creation
         assertNotNull(createdTrip);
@@ -121,7 +138,7 @@ class TripTest extends BaseModelTest<Trip> {
         HibernateUtils.getInstance().delete(trip);
 
         // Check delete
-        Trip deletedTrip = getTrip(trip.getDate(), trip.getTitle());
+        Trip deletedTrip = getTrip(trip.getTitle());
         assertNull(deletedTrip);
 
         // Check pullmans delete
@@ -146,11 +163,10 @@ class TripTest extends BaseModelTest<Trip> {
         }
 
         // Delete pediatrist
-        /*
         Pediatrist pediatrist = trip.getChildren().iterator().next().getPediatrist();
         HibernateUtils.getInstance().delete(pediatrist);
         assertNull(PediatristTest.getPediatrist(pediatrist.getFiscalCode()));
-*/
+
         // Delete staff
         for (Staff staff : trip.getStaff()) {
             HibernateUtils.getInstance().delete(staff);
@@ -194,14 +210,12 @@ class TripTest extends BaseModelTest<Trip> {
 
 
     /**
-     * Get trip by date and title
+     * Get trip by title
      *
-     * @param   date        date
      * @param   title       title
-     *
      * @return  trip (null if not found)
      */
-    public static Trip getTrip(Date date, String title) {
+    public static Trip getTrip(String title) {
         HibernateUtils hibernateUtils = HibernateUtils.getInstance();
         EntityManager em = hibernateUtils.getEntityManager();
 
