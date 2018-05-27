@@ -16,24 +16,24 @@
             fx:id="tabPane"
             maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0"
             tabClosingPolicy="UNAVAILABLE"
-            AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <Tab text="Tipo">
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane>
                 <HBox alignment="CENTER" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <VBox alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <ImageView fx:id="imagePersonType" fitHeight="200.0" fitWidth="200.0" />
                         <ComboBox fx:id="cbPersonType"/>
                     </VBox>
 
                     <VBox alignment="CENTER" spacing="15.0" style="-fx-font-size: 18">
                         <TextField fx:id="tfFiscalCode" promptText="Codice Fiscale" />
-                        <TextField fx:id="tfFirstName" layoutX="10.0" layoutY="276.0" promptText="Nome" />
-                        <TextField fx:id="tfLastName" layoutX="10.0" layoutY="299.0" promptText="Cognome" />
-                        <DatePicker fx:id="dpBirthDate" prefHeight="37.0" prefWidth="234.0" promptText="Data di nascita" />
-                        <TextField fx:id="tfAddress" layoutX="10.0" layoutY="352.0" promptText="Indirizzo" />
-                        <TextField fx:id="tfTelephone" layoutX="10.0" layoutY="395.0" promptText="Telefono" />
+                        <TextField fx:id="tfFirstName" promptText="Nome" />
+                        <TextField fx:id="tfLastName" promptText="Cognome" />
+                        <DatePicker fx:id="dpBirthDate" promptText="Data di nascita" />
+                        <TextField fx:id="tfAddress" promptText="Indirizzo" />
+                        <TextField fx:id="tfTelephone" promptText="Telefono" />
                     </VBox>
                 </HBox>
             </AnchorPane>
@@ -42,10 +42,10 @@
         <Tab fx:id="tabParents" text="Genitori">
             <TableView fx:id="tableParents">
                 <columns>
-                    <TableColumn fx:id="columnParentsSelected" style="-fx-alignment: center"/>
-                    <TableColumn fx:id="columnParentsFirstName" style="-fx-alignment: center" text="Nome"/>
-                    <TableColumn fx:id="columnParentsLastName" style="-fx-alignment: center" text="Cognome"/>
-                    <TableColumn fx:id="columnParentsFiscalCode" style="-fx-alignment: center" text="Codice fiscale"/>
+                    <TableColumn fx:id="columnParentsSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnParentsFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnParentsLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnParentsFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
                 </columns>
             </TableView>
         </Tab>
@@ -53,10 +53,10 @@
         <Tab fx:id="tabPediatrist" text="Pediatra">
             <TableView fx:id="tablePediatrist">
                 <columns>
-                    <TableColumn fx:id="columnPediatristSelected" style="-fx-alignment: center"/>
-                    <TableColumn fx:id="columnPediatristFirstName" style="-fx-alignment: center" text="Nome"/>
-                    <TableColumn fx:id="columnPediatristLastName" style="-fx-alignment: center" text="Cognome"/>
-                    <TableColumn fx:id="columnPediatristFiscalCode" style="-fx-alignment: center" text="Codice fiscale"/>
+                    <TableColumn fx:id="columnPediatristSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnPediatristFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnPediatristLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnPediatristFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
                 </columns>
             </TableView>
         </Tab>
@@ -76,8 +76,10 @@
                     </HBox>
 
                     <Pane HBox.hgrow="ALWAYS"/>
+
                     <HBox alignment="CENTER_RIGHT" spacing="10.0">
-                        <Button fx:id="buttonRemoveSelectedAllergies" mnemonicParsing="false"
+                        <Button fx:id="buttonRemoveSelectedAllergies"
+                                mnemonicParsing="false"
                                 style="-fx-border-color: red;" text="Elimina selezionati"/>
                     </HBox>
                 </HBox>
@@ -100,8 +102,10 @@
                     </HBox>
 
                     <Pane HBox.hgrow="ALWAYS"/>
+
                     <HBox alignment="CENTER_RIGHT" spacing="10.0">
-                        <Button fx:id="buttonRemoveSelectedIntolerances" mnemonicParsing="false"
+                        <Button fx:id="buttonRemoveSelectedIntolerances"
+                                mnemonicParsing="false"
                                 style="-fx-border-color: red;" text="Elimina selezionati"/>
                     </HBox>
                 </HBox>
@@ -111,10 +115,10 @@
         <Tab fx:id="tabContacts" text="Contatti">
             <TableView fx:id="tableContacts">
                 <columns>
-                    <TableColumn fx:id="columnContactsSelected" style="-fx-alignment: center"/>
-                    <TableColumn fx:id="columnContactsFirstName" style="-fx-alignment: center" text="Nome"/>
-                    <TableColumn fx:id="columnContactsLastName" style="-fx-alignment: center" text="Cognome"/>
-                    <TableColumn fx:id="columnContactsFiscalCode" style="-fx-alignment: center" text="Codice fiscale"/>
+                    <TableColumn fx:id="columnContactsSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnContactsFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnContactsLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnContactsFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
                 </columns>
             </TableView>
         </Tab>

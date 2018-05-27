@@ -12,13 +12,13 @@
                maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-            <TableColumn fx:id="columnPeopleFirstName" style="-fx-alignment: center" text="Nome"/>
-            <TableColumn fx:id="columnPeopleLastName" style="-fx-alignment: center" text="Cognome"/>
-            <TableColumn fx:id="columnPeopleFiscalCode" style="-fx-alignment: center" text="Codice fiscale"/>
-            <TableColumn fx:id="columnPeopleType" style="-fx-alignment: center" text="Tipo"/>
-            <TableColumn fx:id="columnPeopleShowDetails" style="-fx-alignment: center"/>
-            <TableColumn fx:id="columnPeopleEdit" style="-fx-alignment: center"/>
-            <TableColumn fx:id="columnPeopleDelete" style="-fx-alignment: center"/>
+            <TableColumn fx:id="columnPeopleFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+            <TableColumn fx:id="columnPeopleLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+            <TableColumn fx:id="columnPeopleFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
+            <TableColumn fx:id="columnPeopleType" maxWidth="300" style="-fx-alignment: center" text="Tipo"/>
+            <TableColumn fx:id="columnPeopleShowDetails" maxWidth="300" style="-fx-alignment: center"/>
+            <TableColumn fx:id="columnPeopleEdit" maxWidth="300" style="-fx-alignment: center"/>
+            <TableColumn fx:id="columnPeopleDelete" maxWidth="300" style="-fx-alignment: center"/>
         </columns>
     </TableView>
 
@@ -27,4 +27,5 @@
                AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
         <Image url="@../images/goBack(blue).png"/>
     </ImageView>
+
 </AnchorPane>
