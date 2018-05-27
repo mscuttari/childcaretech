@@ -14,6 +14,22 @@ public abstract class GuiBaseModel<M extends BaseModel> {
         this.selected = new SimpleBooleanProperty(false);
     }
 
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof GuiBaseModel))
+            return false;
+
+        return getModel().equals(((GuiBaseModel) obj).getModel());
+    }
+
+
+    @Override
+    public int hashCode() {
+        return getModel().hashCode();
+    }
+
+
     public M getModel() {
         return model;
     }
