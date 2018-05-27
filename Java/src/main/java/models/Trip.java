@@ -91,11 +91,11 @@ public class Trip extends BaseModel {
         if (getDate() == null)
             throwFieldError("Data mancante");
 
-        // Title: [a-z] [A-Z] space
+        // Title: [a-z] [A-Z] à è é ì ò ù ' " space
         if (getTitle() == null)
             throwFieldError("Titolo mancante");
 
-        if (!getTitle().matches("^[a-zA-Z\\040]+$"))
+        if (!getTitle().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
             throwFieldError("Titolo non valido");
 
         // Seats assignment type

@@ -1,7 +1,6 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.cell.CheckBoxTableCell;
@@ -11,7 +10,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
@@ -19,14 +17,10 @@ import main.java.client.utils.TableUtils;
 import main.java.models.*;
 import main.java.models.Menu;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
 public class AddMenuController extends AbstractController implements Initializable {
-
-    // Debug
-    private static final String TAG = "AddMenuController";
 
     @FXML private Pane addMenuPane;
     @FXML private TextField tfMenuName;
@@ -48,7 +42,6 @@ public class AddMenuController extends AbstractController implements Initializab
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Day of the week
         cbDayOfTheWeek.getItems().addAll(DayOfTheWeek.values());
 
@@ -93,7 +86,6 @@ public class AddMenuController extends AbstractController implements Initializab
 
         tableStaff.setEditable(true);
         tableStaff.setItems(staffData);
-
     }
 
 
@@ -101,45 +93,41 @@ public class AddMenuController extends AbstractController implements Initializab
      * Save menu in the database
      */
     private void saveMenu() {
-
-
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        //Data
+        // Data
         String menuName = tfMenuName.getText().toLowerCase().trim();
         Staff menuStaff = TableUtils.getFirstSelectedItem(tableStaff);
         DayOfTheWeek dayOfTheWeek = cbDayOfTheWeek.getValue();
 
-        //Create menù
+        // Create menu
         Menu menu = new Menu(menuName, menuStaff, dayOfTheWeek);
 
+        // Dishes
         menu.addDishes(TableUtils.getSelectedItems(tableDish));
 
         // Check data
         try {
             menu.checkDataValidity();
         } catch (InvalidFieldException e) {
-            showErrorDialog(e.getMessage());
+            showErrorDialog(e.getModelName(), e.getMessage());
             return;
         }
 
         // Save menu
-        if(!connectionManager.getClient().create(menu)) {
-            showErrorDialog("Non è stato possibile inserire il menù");
+        if (!connectionManager.getClient().create(menu)) {
+            showErrorDialog("Impossibile salvare il menù");
             return;
         }
 
         // Insert information
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, menu.toString() +
-                " è stato correttamente inserito", ButtonType.OK);
-        alert.setTitle("Conferma inserimento");
-        alert.setHeaderText(null);
-        alert.showAndWait();
+        showInformationDialog("Il menù \"" + menu.getName() + "\" è stato salvato");
 
         // Go back to the menu
         goBack();
     }
+
 
     /**
      * Go back to the menu page

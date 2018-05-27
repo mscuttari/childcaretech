@@ -1,9 +1,7 @@
 package test.java.server;
 
-import main.java.models.Child;
-import main.java.models.Contact;
-import main.java.models.Parent;
-import main.java.models.Pediatrist;
+import main.java.client.InvalidFieldException;
+import main.java.models.*;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +26,9 @@ class ChildTest extends PersonTest<Child> {
     @Override
     void assertModelsEquals(Child x, Child y) {
         super.assertModelsEquals(x, y);
+
+        // Check basic data
+        assertEquals(x.getId(), y.getId());
 
         // Check parents
         Collection<Parent> xParents = x.getParents();
@@ -58,6 +59,9 @@ class ChildTest extends PersonTest<Child> {
     @Override
     void assignValidData(Child obj) {
         super.assignValidData(obj);
+
+        // Basic data
+        obj.setId("CHILD1111111111");
 
         // Add parents
         obj.addParent(new Parent("BBBBBBBBBBBBBBBB", "BBB", "BBB", new Date(), "Test, B/1", "1111111111"));
@@ -172,6 +176,24 @@ class ChildTest extends PersonTest<Child> {
     @Override
     void telephoneValidity() {
         super.telephoneValidity(new Child());
+    }
+
+
+
+    /**
+     * Test the identification number validity check
+     */
+    @Test
+    void titleValidity() {
+        Child child = new Child();
+
+        // Valid data
+        assignValidData(child);
+        assertDoesNotThrow(child::checkDataValidity);
+
+        // Invalid data
+        child.setId(null);
+        assertThrows(InvalidFieldException.class, child::checkDataValidity);
     }
 
 

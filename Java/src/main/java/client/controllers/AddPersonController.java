@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
+import main.java.client.gui.GuiIngredient;
 import main.java.client.gui.GuiParent;
 import main.java.client.gui.GuiPediatrist;
 import main.java.client.utils.TableUtils;
@@ -68,13 +69,13 @@ public class AddPersonController extends AbstractController implements Initializ
 
     @FXML private Tab tabAllergies;
     @FXML private TextField txAddAllergy;
-    @FXML private ListView<Ingredient> lvAllergies;
+    @FXML private ListView<GuiIngredient> lvAllergies;
     @FXML private Button buttonAddAllergy;
     @FXML private Button buttonRemoveSelectedAllergies;
 
     @FXML private Tab tabIntolerances;
     @FXML private TextField txAddIntolerances;
-    @FXML private ListView<Ingredient> lvIntolerances;
+    @FXML private ListView<GuiIngredient> lvIntolerances;
     @FXML private Button buttonAddIntolerances;
     @FXML private Button buttonRemoveSelectedIntolerances;
 
@@ -227,8 +228,11 @@ public class AddPersonController extends AbstractController implements Initializ
     private void addAllergy() {
         if (!txAddAllergy.getText().isEmpty()) {
             String allergyName = txAddAllergy.getText().toLowerCase().trim();
+
             Ingredient ingredient = new Ingredient(allergyName);
-            lvAllergies.getItems().add(ingredient);
+            GuiIngredient guiIngredient = new GuiIngredient(ingredient);
+
+            lvAllergies.getItems().add(guiIngredient);
             txAddAllergy.setText("");
         }
     }
@@ -238,7 +242,7 @@ public class AddPersonController extends AbstractController implements Initializ
      * Remove the selected allergies
      */
     private void removeSelectedAllergies() {
-        List<Ingredient> selectedAllergies = lvAllergies.getSelectionModel().getSelectedItems();
+        List<GuiIngredient> selectedAllergies = lvAllergies.getSelectionModel().getSelectedItems();
 
         if (selectedAllergies.isEmpty()) {
             showErrorDialog("Nessuna allergia selezionata");
@@ -255,11 +259,13 @@ public class AddPersonController extends AbstractController implements Initializ
     private void addIntolerance() {
         if (!txAddIntolerances.getText().isEmpty()) {
             String intoleranceName = txAddIntolerances.getText().toLowerCase().trim();
+
             Ingredient ingredient = new Ingredient(intoleranceName);
-            lvIntolerances.getItems().add(ingredient);
+            GuiIngredient guiIngredient = new GuiIngredient(ingredient);
+
+            lvIntolerances.getItems().add(guiIngredient);
             txAddIntolerances.setText("");
         }
-
     }
 
 
@@ -267,7 +273,7 @@ public class AddPersonController extends AbstractController implements Initializ
      * Remove selected intolerances from the intolerances list
      */
     private void removeSelectedIntolerances() {
-        List<Ingredient> selectedIntolerances = lvIntolerances.getSelectionModel().getSelectedItems();
+        List<GuiIngredient> selectedIntolerances = lvIntolerances.getSelectionModel().getSelectedItems();
 
         if (selectedIntolerances.isEmpty()) {
             showErrorDialog("Nessuna intolleranza selezionata");
@@ -278,6 +284,9 @@ public class AddPersonController extends AbstractController implements Initializ
     }
 
 
+    /**
+     * Username confirmation check
+     */
     private void usernameConfirmation() {
         if (tfUsername.getText().isEmpty()) {
             labelUsername.setText(("Il campo USERNAME è vuoto"));
@@ -291,6 +300,10 @@ public class AddPersonController extends AbstractController implements Initializ
         }
     }
 
+
+    /**
+     * Password confirmation check
+     */
     private void passwordConfirmation() {
         if (tfPassword.getText().isEmpty()) {
             labelPassword.setText(("Il campo PASSWORD è vuoto"));
@@ -328,10 +341,17 @@ public class AddPersonController extends AbstractController implements Initializ
         switch (cbPersonType.getValue()) {
             case CHILD:
                 Child child = new Child(fiscalCode, firstName, lastName, birthDate, address, telephone, null);
-                child.addIntolerances(lvIntolerances.getItems());
-                child.addAllergies(lvAllergies.getItems());
-
                 person = child;
+
+                // Id
+                String childId = ConnectionManager.getInstance().getClient().createChildId();
+
+                if (childId == null) {
+                    showErrorDialog("Impossibile creare un codice identificativo per il bambino");
+                    return;
+                }
+
+                child.setId(childId);
 
                 // Pediatrist
                 List<Pediatrist> selectedPediatrists = TableUtils.getSelectedItems(tablePediatrist);
@@ -351,6 +371,10 @@ public class AddPersonController extends AbstractController implements Initializ
                 // Contacts
                 child.addContacts(TableUtils.getSelectedItems(tableContacts));
 
+                // Allergies and intolerances
+                child.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
+                child.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
+
                 break;
 
             case CONTACT:
@@ -367,8 +391,8 @@ public class AddPersonController extends AbstractController implements Initializ
 
             case STAFF:
                 person = new Staff(fiscalCode, firstName, lastName, birthDate, address, telephone, username, password);
-                person.addIntolerances(lvIntolerances.getItems());
-                person.addAllergies(lvAllergies.getItems());
+                person.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
+                person.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
 
                 break;
         }
@@ -377,10 +401,9 @@ public class AddPersonController extends AbstractController implements Initializ
         try {
             person.checkDataValidity();
         } catch (InvalidFieldException e) {
-            showErrorDialog(e.getMessage());
+            showErrorDialog(e.getModelName(), e.getMessage());
             return;
         }
-
 
         // Save person
         if(!connectionManager.getClient().create(person)) {
@@ -388,12 +411,8 @@ public class AddPersonController extends AbstractController implements Initializ
             return;
         }
 
-        // Insert information
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, person.toString() +
-                " è stato correttamente inserito", ButtonType.OK);
-        alert.setTitle("Conferma inserimento");
-        alert.setHeaderText(null);
-        alert.showAndWait();
+        // Confirmation dialog
+        showInformationDialog("La persona \"" + person.getFirstName() + " " + person.getLastName() + "\" è stata salvata");
 
         // Go back to the menu
         goBack();

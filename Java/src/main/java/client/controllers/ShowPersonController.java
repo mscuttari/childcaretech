@@ -43,6 +43,7 @@ public class ShowPersonController extends AbstractController implements Initiali
     @FXML private TableColumn<GuiPerson, Void> columnPeopleShowDetails;
     @FXML private TableColumn<GuiPerson, Void> columnPeopleDelete;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -111,17 +112,27 @@ public class ShowPersonController extends AbstractController implements Initiali
         }));
 
         columnPeopleDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
-            if (param1.getModel().isDeletable()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi davvero eliminare la persona?\n" +
-                        "(la procedura è irreversibile)", ButtonType.NO, ButtonType.YES);
+            if (param1.getModel() instanceof Staff) {
+
+                if (((Staff) param1.getModel()).getUsername().equals(ConnectionManager.getInstance().getClient().getUsername())) {
+                    showErrorDialog("Non è possibile eliminare sè stessi");
+                }
+
+            } else if (param1.getModel().isDeletable()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Vuoi davvero eliminare la persona?\n" +
+                        "(la procedura è irreversibile)",
+                        ButtonType.NO, ButtonType.YES);
+
                 alert.setTitle("Conferma operazione");
                 alert.setHeaderText(null);
 
-
                 Optional<ButtonType> result = alert.showAndWait();
+
                 if (result.get() == ButtonType.YES) {
                     deleteData(connectionManager, param1);
                 }
+
             } else {
                 showErrorDialog("Questa persona non può essere eliminata");
             }
@@ -149,6 +160,7 @@ public class ShowPersonController extends AbstractController implements Initiali
 
         tablePeople.setItems(newPeopleData);
     }
+
 
     /**
      * Go back to the main anagraphic page

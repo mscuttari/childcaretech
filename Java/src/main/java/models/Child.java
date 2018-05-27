@@ -27,8 +27,8 @@ public class Child extends Person {
 
     @GenericGenerator(name = "native_generator", strategy = "native")
     @GeneratedValue(generator = "native_generator")
-    @Column(name = "child_id")
-    private Long id;
+    @Column(name = "child_id", unique = true)
+    private String id;
 
 
     @ManyToOne(cascade = {PERSIST, MERGE})
@@ -96,6 +96,10 @@ public class Child extends Person {
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         super.checkDataValidity();
+
+        // Id
+        if (getId() == null)
+            throwFieldError("Codice identificativo mancante");
 
         // Parents
         if (getParents().size() > 2)
@@ -165,8 +169,13 @@ public class Child extends Person {
     }
 
 
-    public Long getId() {
+    public String getId() {
         return this.id;
+    }
+
+
+    public void setId(String id) {
+        this.id = trimString(id);
     }
 
 

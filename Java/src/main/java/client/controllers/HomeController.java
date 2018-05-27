@@ -89,6 +89,12 @@ public class HomeController extends AbstractController implements Initializable 
         }
     }
 
+
+    /**
+     * Set the currently logged in staff username
+     *
+     * @param   username    username
+     */
     public void setStaffUsername(String username){
         staffUsername.setText(username);
     }

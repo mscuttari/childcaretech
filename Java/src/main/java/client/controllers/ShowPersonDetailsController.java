@@ -16,9 +16,6 @@ import java.util.*;
 
 public class ShowPersonDetailsController extends AbstractController implements Initializable {
 
-    // Debug
-    private static final String TAG = "ShowPersonDetailsController";
-
     private Person person;
 
     @FXML private TabPane tabPane;
@@ -44,17 +41,15 @@ public class ShowPersonDetailsController extends AbstractController implements I
     @FXML private TextArea textAreaAllergies;
     @FXML private TextArea textAreaIntolerances;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        // go back button cursor
+        // Go back button
         goBackImage.setOnMouseEntered(event -> showPersonDetailsPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showPersonDetailsPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
-
     }
+
 
     /**
      * Load the person data into the corresponding fields
@@ -126,6 +121,7 @@ public class ShowPersonDetailsController extends AbstractController implements I
 
     }
 
+
     /**
      * Set the person that is going to be shown
      *
@@ -135,6 +131,7 @@ public class ShowPersonDetailsController extends AbstractController implements I
         this.person = person;
         loadData();
     }
+
 
     /**
      * Go back to the main anagraphic page

@@ -1,5 +1,6 @@
 package main.java.client.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,7 +63,7 @@ public class AddTripController extends AbstractController implements Initializab
     @FXML private TextField tfPullmanNumberplate;
     @FXML private TextField tfPullmanSeats;
     @FXML private ComboBox<SeatsAssignmentType> cbSeatsAssignment;
-    @FXML private ListView<Pullman> lvPullman;
+    @FXML private ListView<GuiPullman> lvPullman;
     @FXML private Button buttonAddPullman;
     @FXML private Button buttonRemoveSelectedPullman;
 
@@ -190,7 +191,7 @@ public class AddTripController extends AbstractController implements Initializab
                 case MANUAL:
                     tabPane.getTabs().add(tabSeatsAssignment);
                     tripImageView.setImage(new Image("/images/seat.png"));
-                    tripImageView.setOnMouseClicked(event -> assignSeats());
+                    tripImageView.setOnMouseClicked(event -> showSeatsAssignmentTab());
                     break;
 
                 case UNNECESSARY:
@@ -214,7 +215,6 @@ public class AddTripController extends AbstractController implements Initializab
      * Add stop to the stops list
      */
     private void addStop() {
-        ConnectionManager connectionManager = ConnectionManager.getInstance();
         // Get data
         String placeName = tfStopName.getText().trim();
         String placeProvince = tfStopProvince.getText().trim();
@@ -321,6 +321,7 @@ public class AddTripController extends AbstractController implements Initializab
      * Add pullman to the pullman list
      */
     private void addPullman() {
+        // Create pullman
         String pullmanNumberplate = tfPullmanNumberplate.getText().trim();
         Integer pullmanSeats = tfPullmanSeats.getText().isEmpty() ? null : Integer.valueOf(tfPullmanSeats.getText().trim());
         Pullman pullman = new Pullman(trip, pullmanNumberplate, pullmanSeats);
@@ -333,7 +334,11 @@ public class AddTripController extends AbstractController implements Initializab
             return;
         }
 
-        lvPullman.getItems().add(pullman);
+        // Add pullman
+        GuiPullman guiPullman = new GuiPullman(pullman);
+        lvPullman.getItems().add(guiPullman);
+
+        // Reset fields
         tfPullmanNumberplate.setText("");
         tfPullmanSeats.setText("");
     }
@@ -343,7 +348,7 @@ public class AddTripController extends AbstractController implements Initializab
      * Remove selected pullman from the pullman list
      */
     private void removeSelectedPullman() {
-        Pullman selectedPullman = lvPullman.getSelectionModel().getSelectedItem();
+        GuiPullman selectedPullman = lvPullman.getSelectionModel().getSelectedItem();
 
         if (selectedPullman == null) {
             showErrorDialog("Nessun pullman selezionato");
@@ -353,30 +358,38 @@ public class AddTripController extends AbstractController implements Initializab
         }
     }
 
+
     /**
      * Switch to seats assignments tab
      */
-    private void assignSeats() {
+    private void showSeatsAssignmentTab() {
 
-        if(!preSaveTrip()) { return; }
+        //if (!preSaveTrip()) { return; }
 
+        // Disable all tabs except the seats assignment one
         for(Tab current : tabPane.getTabs()){
             current.setDisable(true);
         }
+
         tabSeatsAssignment.setDisable(false);
         tabPane.getSelectionModel().select(tabSeatsAssignment);
+
+
+        // Show the save icon
         tripImageView.setImage(new Image("/images/save-data.png"));
         tripImageView.setOnMouseClicked(event -> saveTrip());
 
-        List<Pullman> pullman = new ArrayList<>(lvPullman.getItems());
-        @SuppressWarnings("unchecked") ObservableList<GuiPullman> pullmanData = TableUtils.getGuiModelsList(pullman);
+
+        // Pullmans list
+        ObservableList<GuiPullman> pullmans = FXCollections.observableArrayList(lvPullman.getItems());
 
         columnSAPullmanCode.setCellValueFactory(new PropertyValueFactory<>("numberplate"));
         columnSAPullmanSeats.setCellValueFactory(new PropertyValueFactory<>("seats"));
         tableSAPullman.setEditable(true);
         tableSAPullman.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        tableSAPullman.setItems(pullmanData);
+        tableSAPullman.setItems(pullmans);
         tableSAPullman.getSelectionModel().selectFirst();
+
 
         // Children tab
         List<Child> children = new ArrayList<>(trip.getChildren());
@@ -394,8 +407,8 @@ public class AddTripController extends AbstractController implements Initializab
         tableSAPullman.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             oldSelection.getModel().setChildren(TableUtils.getSelectedItems(tableSAChildren));
             tableSAChildren.setItems(TableUtils.getGuiModelsList(new ArrayList<>(trip.getChildren())));
-            for(GuiChild current : tableSAChildren.getItems()){
-                if(newSelection.getModel().getChildren().contains(current.getModel())){
+            for (GuiChild current : tableSAChildren.getItems()){
+                if (newSelection.getModel().getChildren().contains(current.getModel())){
                     current.setSelected(true);
                 }
             }
@@ -418,7 +431,7 @@ public class AddTripController extends AbstractController implements Initializab
         trip.setTitle(title);
         trip.setDate(date);
         trip.setSeatsAssignmentType(cbSeatsAssignment.getValue());
-        trip.setPullmans(lvPullman.getItems());
+        trip.setPullmans(TableUtils.getModelsList(lvPullman.getItems()));
         trip.setChildren(TableUtils.getSelectedItems(tableChildren));
         trip.setStaff(TableUtils.getSelectedItems(tableStaff));
 
@@ -446,7 +459,8 @@ public class AddTripController extends AbstractController implements Initializab
                 int i=0;
                 int occupiedSeats = 0;
                 double totalNumberOfChildren = TableUtils.getSelectedItems(tableChildren).size();
-                for (Pullman current : lvPullman.getItems()){
+                List<Pullman> pullmans = TableUtils.getModelsList(lvPullman.getItems());
+                for (Pullman current : pullmans){
                     List<Child> children = new ArrayList<>();
                     occupiedSeats += current.getSeats();
                     double occupiedSeatsPercentage = occupiedSeats/(double)totalNumberOfSeats;
@@ -495,7 +509,7 @@ public class AddTripController extends AbstractController implements Initializab
 
         trip.setStops(stops);
 
-        trip.addPullmans(lvPullman.getItems());
+        trip.addPullmans(TableUtils.getModelsList(lvPullman.getItems()));
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();

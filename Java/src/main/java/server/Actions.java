@@ -1,8 +1,6 @@
 package main.java.server;
 
-import main.java.LogUtils;
-import main.java.models.BaseModel;
-import main.java.models.Person;
+import main.java.models.Child;
 import main.java.models.Staff;
 import main.java.server.utils.HibernateUtils;
 
@@ -48,6 +46,32 @@ public class Actions {
         }
 
         return false;
+    }
+
+
+    /**
+     * Create unique child ID
+     *
+     * @return  child ID
+     */
+    public static String createChildId() {
+        EntityManager em = HibernateUtils.getInstance().getEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Child> cq = cb.createQuery(Child.class);
+
+        Root<Child> root = cq.from(Child.class);
+        cq.orderBy(cb.desc(root.get("id")));
+
+        Child child = HibernateUtils.getSingleResult(em.createQuery(cq));
+
+        if (child == null) {
+            return "CHILD1";
+        } else {
+            int lastNumber = Integer.valueOf(child.getId().substring(5));
+            int nextNumber = lastNumber + 1;
+            return "CHILD" + nextNumber;
+        }
     }
 
 }

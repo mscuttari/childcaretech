@@ -72,6 +72,10 @@ public class SocketClientHandler implements Runnable {
                 login(in, out);
                 break;
 
+            case "create_child_id":
+                createChildId(in, out);
+                break;
+
             case "create":
                 create(in, out);
                 break;
@@ -150,6 +154,31 @@ public class SocketClientHandler implements Runnable {
             boolean result = checkCredentials(in);
             out.writeObject(result);
             out.flush();
+
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Craete child ID
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void createChildId(ObjectInputStream in, ObjectOutputStream out) {
+        boolean logged = checkCredentials(in);
+
+        try {
+            if (!logged) {
+                out.writeObject(null);
+                out.flush();
+            } else {
+                out.writeObject(Actions.createChildId());
+                out.flush();
+            }
 
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
