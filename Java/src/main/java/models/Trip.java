@@ -27,12 +27,12 @@ public class Trip extends BaseModel {
     private SeatsAssignmentType seatsAssignmentType;
 
 
-    @OneToMany(mappedBy = "id.trip", cascade = {ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.trip", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Stop> stops = new HashSet<>();
 
 
-    @OneToMany(mappedBy = "id.trip", cascade = {ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.trip", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Pullman> pullmans = new HashSet<>();
 
@@ -152,6 +152,11 @@ public class Trip extends BaseModel {
                     child.removePullmanAssignment(currentPullman);
                 }
             }
+        }
+        for(Stop stop : stops){
+            // Place
+            if (stop.getPlace() != null)
+                stop.getPlace().removeStop(stop);
         }
     }
 

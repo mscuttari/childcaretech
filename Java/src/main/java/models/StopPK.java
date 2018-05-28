@@ -54,7 +54,7 @@ public class StopPK implements Serializable {
         StopPK that = (StopPK) o;
         return Objects.equals(getTrip(), that.getTrip()) &&
                 Objects.equals(getPlace(), that.getPlace()) &
-                Objects.equals(getNumber(), that.getNumber());
+                        Objects.equals(getNumber(), that.getNumber());
     }
 
 

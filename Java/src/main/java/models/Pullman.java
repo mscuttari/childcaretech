@@ -28,6 +28,7 @@ public class Pullman extends BaseModel {
     @MapsId(value = "trip")
     @ManyToOne(cascade = {ALL}, optional = false)
     @JoinColumns(value = {
+            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
             @JoinColumn(name = "trip_title", referencedColumnName = "title")
     })
     private Trip trip;
@@ -41,6 +42,7 @@ public class Pullman extends BaseModel {
     @JoinTable(
             name = "children_pullmans_assignments",
             joinColumns = {
+                    @JoinColumn(name = "trip_date", referencedColumnName = "trip_date"),
                     @JoinColumn(name = "trip_title", referencedColumnName = "trip_title"),
                     @JoinColumn(name = "pullman_id", referencedColumnName = "id")
             },
@@ -186,11 +188,6 @@ public class Pullman extends BaseModel {
 
     public void addChildren(Collection<Child> children) {
         this.children.addAll(children);
-    }
-
-
-    public void removeChild(Child child) {
-        this.children.remove(child);
     }
 
 

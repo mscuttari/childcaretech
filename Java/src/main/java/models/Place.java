@@ -26,7 +26,7 @@ public class Place extends BaseModel implements Serializable {
     private PlacePK id = new PlacePK();
 
 
-    @OneToMany(mappedBy = "id.place", cascade = {ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.place", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Stop> stops = new HashSet<>();
 
@@ -175,5 +175,6 @@ public class Place extends BaseModel implements Serializable {
         this.stops.clear();
         addStops(stops);
     }
+    public void removeStop(Stop stop) {stops.remove(stop); }
 
 }
