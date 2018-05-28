@@ -9,7 +9,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="tripPane"
+            fx:id="pane"
             fx:controller="main.java.client.controllers.TripController"
             stylesheets="@../bootstrap3.css">
 

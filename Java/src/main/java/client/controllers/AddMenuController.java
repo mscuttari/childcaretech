@@ -49,10 +49,13 @@ public class AddMenuController extends AbstractController implements Initializab
         addMenuImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
         addMenuImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
         addMenuImage.setOnMouseClicked(event -> saveMenu());
+        Tooltip.install(addMenuImage, new Tooltip("Salva"));
 
         // Go back button
         goBackImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
+
         goBackImage.setOnMouseClicked(event -> {
             if (showConfirmationDialog("Sei sicuro di voler tornare indietro? I dati inseriti andranno persi"))
                 goBack();

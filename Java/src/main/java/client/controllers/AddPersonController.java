@@ -2,7 +2,6 @@ package main.java.client.controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -19,7 +18,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
@@ -103,10 +101,13 @@ public class AddPersonController extends AbstractController implements Initializ
         addPersonImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         addPersonImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
         addPersonImage.setOnMouseClicked(event -> savePerson());
+        Tooltip.install(addPersonImage, new Tooltip("Salva"));
 
         // Go back button
         goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
+
         goBackImage.setOnMouseClicked(event -> {
             if (showConfirmationDialog("Sei sicuro di voler tornare indietro? I dati inseriti andranno persi"))
                 goBack();

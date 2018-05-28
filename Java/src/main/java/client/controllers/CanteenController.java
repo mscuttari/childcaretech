@@ -2,6 +2,7 @@ package main.java.client.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -18,8 +19,15 @@ public class CanteenController extends AbstractController implements Initializab
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Menu page button
         buttonMenu.setOnAction(event -> showMenusPage());
+        buttonMenu.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonMenu.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
+
+        // Dishes page button
         buttonDish.setOnAction(event -> showDishesPage());
+        buttonDish.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonDish.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
     }
 
 

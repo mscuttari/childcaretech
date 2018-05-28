@@ -45,6 +45,7 @@ public class ShowDishDetailsController extends AbstractController implements Ini
         goBackImage.setOnMouseEntered(event -> showDishDetailsPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showDishDetailsPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
 
         // Allergic / intolerant people
         tablePeople.setEditable(false);

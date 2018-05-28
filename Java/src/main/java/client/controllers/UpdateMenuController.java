@@ -52,10 +52,13 @@ public class UpdateMenuController extends AbstractController implements Initiali
         updateMenuImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
         updateMenuImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
         updateMenuImage.setOnMouseClicked(event -> updateMenu());
+        Tooltip.install(updateMenuImage, new Tooltip("Aggiorna"));
 
         // Go back button
         goBackImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
+
         goBackImage.setOnMouseClicked(event -> {
             if (showConfirmationDialog("Sei sicuro di voler tornare indietro? Eventuali modifiche andranno perse"))
                 goBack();

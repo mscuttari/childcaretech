@@ -50,6 +50,7 @@ public class ShowMenuController extends AbstractController implements Initializa
         goBackImage.setOnMouseEntered(event -> showMenuPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showMenuPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();

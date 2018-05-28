@@ -9,7 +9,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="seatsAssignmentPane"
+            fx:id="pane"
             fx:controller="main.java.client.controllers.SeatsAssignmentController"
             stylesheets="@../bootstrap3.css">
 

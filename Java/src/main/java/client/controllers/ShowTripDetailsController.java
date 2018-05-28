@@ -14,9 +14,6 @@ import java.util.*;
 
 public class ShowTripDetailsController extends AbstractController implements Initializable {
 
-    // Debug
-    private static final String TAG = "ShowTripDetailsController";
-
     private Trip trip;
 
     @FXML private Pane showTripDetailsPane;
@@ -36,6 +33,7 @@ public class ShowTripDetailsController extends AbstractController implements Ini
         goBackImage.setOnMouseEntered(event -> showTripDetailsPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showTripDetailsPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
     }
 
 

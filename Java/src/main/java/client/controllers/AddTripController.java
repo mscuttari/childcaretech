@@ -83,7 +83,6 @@ public class AddTripController extends AbstractController implements Initializab
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Save button
         tripImageView.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         tripImageView.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
@@ -92,6 +91,8 @@ public class AddTripController extends AbstractController implements Initializab
         // Go back button
         goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
+
         goBackImage.setOnMouseClicked(event -> {
             if (showConfirmationDialog("Sei sicuro di voler tornare indietro? I dati inseriti andranno persi"))
                 goBack();
@@ -189,17 +190,21 @@ public class AddTripController extends AbstractController implements Initializab
                 case AUTOMATIC:
                     tripImageView.setImage(new Image("/images/save-data.png"));
                     tripImageView.setOnMouseClicked(event -> saveTrip());
+                    Tooltip.install(tripImageView, new Tooltip("Salva"));
                     break;
 
                 case MANUAL:
                     tabPane.getTabs().add(tabSeatsAssignment);
                     tripImageView.setImage(new Image("/images/seat.png"));
                     tripImageView.setOnMouseClicked(event -> showSeatsAssignmentTab());
+                    Tooltip.install(tripImageView, new Tooltip("Assegna i posti"));
                     break;
 
                 case UNNECESSARY:
                     tripImageView.setImage(new Image("/images/save-data.png"));
                     tripImageView.setOnMouseClicked(event -> saveTrip());
+                    Tooltip.install(tripImageView, new Tooltip("Salva"));
+
                     tfPullmanId.setDisable(true);
                     tfPullmanSeats.setDisable(true);
                     lvPullman.setDisable(true);

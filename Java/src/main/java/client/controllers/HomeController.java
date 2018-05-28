@@ -3,10 +3,12 @@ package main.java.client.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -25,21 +27,34 @@ public class HomeController extends AbstractController implements Initializable 
     @FXML private Button buttonAnagraphic;
     @FXML private Button buttonCanteen;
     @FXML private Button buttonTrip;
-    @FXML private ImageView goToLoginImage;
+    @FXML private ImageView imageLogout;
     @FXML private Label staffUsername;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Left menu
-        buttonAnagraphic.setOnAction(event -> showAnagraphic());    // Anagraphic
-        buttonCanteen.setOnAction(event -> showCanteen());          // Canteen
-        buttonTrip.setOnAction(event -> showTrip());                // Trip
+        // Anagraphic
+        buttonAnagraphic.setOnAction(event -> showAnagraphic());
+        buttonAnagraphic.setOnMouseEntered(event -> borderPane.getScene().setCursor(Cursor.HAND));
+        buttonAnagraphic.setOnMouseExited(event -> borderPane.getScene().setCursor(Cursor.DEFAULT));
+
+        // Canteen
+        buttonCanteen.setOnAction(event -> showCanteen());
+        buttonCanteen.setOnMouseEntered(event -> borderPane.getScene().setCursor(Cursor.HAND));
+        buttonCanteen.setOnMouseExited(event -> borderPane.getScene().setCursor(Cursor.DEFAULT));
+
+        // Trip
+        buttonTrip.setOnAction(event -> showTrip());
+        buttonTrip.setOnMouseEntered(event -> borderPane.getScene().setCursor(Cursor.HAND));
+        buttonTrip.setOnMouseExited(event -> borderPane.getScene().setCursor(Cursor.DEFAULT));
 
         // Set initial panel
         setCenterFXML(borderPane, "/views/anagraphic.fxml");
 
         // Logout
-        goToLoginImage.setOnMouseClicked(event -> logout());
+        imageLogout.setOnMouseClicked(event -> logout());
+        imageLogout.setOnMouseEntered(event -> borderPane.getScene().setCursor(Cursor.HAND));
+        imageLogout.setOnMouseExited(event -> borderPane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(imageLogout, new Tooltip("Logout"));
     }
 
 

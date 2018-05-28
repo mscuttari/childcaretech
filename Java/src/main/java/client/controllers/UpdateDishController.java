@@ -42,7 +42,6 @@ public class UpdateDishController extends AbstractController implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Dish type
         cbDishType.getItems().addAll(DishType.values());
 
@@ -50,10 +49,13 @@ public class UpdateDishController extends AbstractController implements Initiali
         updateDishImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
         updateDishImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
         updateDishImage.setOnMouseClicked(event -> saveDish());
+        Tooltip.install(updateDishImage, new Tooltip("Aggiorna"));
 
         // Go back button
         goBackImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
+
         goBackImage.setOnMouseClicked(event -> {
             if (showConfirmationDialog("Sei sicuro di voler tornare indietro? Eventuali modifiche andranno perse"))
                 goBack();

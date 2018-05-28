@@ -45,6 +45,7 @@ public class ShowMenuDetailsController extends AbstractController implements Ini
         goBackImage.setOnMouseEntered(event -> showMenuDetailsPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showMenuDetailsPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
 
         // Dishes table
         columnDishName.setCellValueFactory(new PropertyValueFactory<>("name"));

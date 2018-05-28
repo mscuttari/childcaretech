@@ -50,6 +50,7 @@ public class ShowDishController extends AbstractController implements Initializa
         goBackImage.setOnMouseEntered(event -> showDishPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showDishPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();

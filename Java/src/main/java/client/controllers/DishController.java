@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -23,13 +24,19 @@ public class DishController extends AbstractController implements Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         // Add dish button
         buttonAddDish.setOnAction(event -> addDish());
-        goBackImage.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
+        buttonAddDish.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonAddDish.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
 
         // Update dish button
         buttonShowDish.setOnAction(event -> showDish());
-        goBackImage.setOnMouseClicked(event -> goBack());
+        buttonShowDish.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonShowDish.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
 
+        // Go back button
+        goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
     }
 
 

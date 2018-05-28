@@ -1,25 +1,20 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.LogUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SeatsAssignmentController implements Initializable{
+public class SeatsAssignmentController extends AbstractController implements Initializable{
 
-    // Debug
-    private static final String TAG = "SeatsAssignmentController";
-
-    @FXML private Pane seatsAssignmentPane;
+    @FXML private Pane pane;
     @FXML private ImageView goBackImage;
     @FXML private Button buttonShowSeats;
     @FXML private Button buttonInsertPresences;
@@ -27,49 +22,45 @@ public class SeatsAssignmentController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Add trip button
         buttonShowSeats.setOnAction(event -> showSeats());
+        buttonShowSeats.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonShowSeats.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
 
-        //Show trip button
+        // Show trip button
         buttonInsertPresences.setOnAction(event -> insertPresences());
+        buttonInsertPresences.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonInsertPresences.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
 
-        // go back button cursor
-        goBackImage.setOnMouseEntered(event -> seatsAssignmentPane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> seatsAssignmentPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
+        // Go back button
         goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
     }
 
-    public void showSeats() {
-        try {
-            Pane showSeatsPane = FXMLLoader.load(getClass().getResource("/views/showSeats.fxml"));
-            BorderPane homePane = (BorderPane) seatsAssignmentPane.getParent();
-            homePane.setCenter(showSeatsPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Show the seats page
+     */
+    private void showSeats() {
+        setCenterFXML((BorderPane)pane.getParent(), "/views/showSeats.fxml");
     }
 
-    public void insertPresences() {
-        try {
-            Pane insertPresencesPane = FXMLLoader.load(getClass().getResource("/views/insertPresences.fxml"));
-            BorderPane homePane = (BorderPane) seatsAssignmentPane.getParent();
-            homePane.setCenter(insertPresencesPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Show the insert presences page
+     */
+    private void insertPresences() {
+        setCenterFXML((BorderPane)pane.getParent(), "/views/insertPresences.fxml");
     }
 
+
+    /**
+     * Go back to the main trips page
+     */
     public void goBack() {
-        try {
-            Pane tripPane = FXMLLoader.load(getClass().getResource("/views/trip.fxml"));
-            BorderPane homePane = (BorderPane) seatsAssignmentPane.getParent();
-            homePane.setCenter(tripPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+        setCenterFXML((BorderPane)pane.getParent(), "/views/trip.fxml");
     }
 
 }

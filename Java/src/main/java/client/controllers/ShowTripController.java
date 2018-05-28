@@ -46,11 +46,11 @@ public class ShowTripController extends AbstractController implements Initializa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Back button
         goBackImage.setOnMouseEntered(event -> showTripPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showTripPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();

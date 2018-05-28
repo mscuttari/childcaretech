@@ -87,18 +87,20 @@ public class UpdatePersonController extends AbstractController implements Initia
     @FXML private PasswordField tfPasswordConfirmation;
     @FXML private Label labelPassword;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Update button
         updatePersonImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         updatePersonImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
         updatePersonImage.setOnMouseClicked(event -> updatePerson());
+        Tooltip.install(goBackImage, new Tooltip("Aggiorna"));
 
 
         // Go back button
         goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
         goBackImage.setOnMouseClicked(event -> {
             if (showConfirmationDialog("Sei sicuro di voler tornare indietro? Eventuali modifiche andranno perse"))
                 goBack();

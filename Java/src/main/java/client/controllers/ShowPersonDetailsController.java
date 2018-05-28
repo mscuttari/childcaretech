@@ -54,6 +54,7 @@ public class ShowPersonDetailsController extends AbstractController implements I
         goBackImage.setOnMouseEntered(event -> showPersonDetailsPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showPersonDetailsPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
     }
 
 

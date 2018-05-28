@@ -1,7 +1,6 @@
 package main.java.client.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +25,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ShowPersonController extends AbstractController implements Initializable {
@@ -43,6 +41,7 @@ public class ShowPersonController extends AbstractController implements Initiali
     @FXML private TableColumn<GuiPerson, String> columnPeopleFiscalCode;
     @FXML private TableColumn<GuiPerson, String> columnPeopleType;
     @FXML private TableColumn<GuiPerson, String> columnPeopleBirthdate;
+    @FXML private TableColumn<GuiPerson, String> columnPeoplePediatrist;
     @FXML private TableColumn<GuiPerson, Void> columnPeopleEdit;
     @FXML private TableColumn<GuiPerson, Void> columnPeopleShowDetails;
     @FXML private TableColumn<GuiPerson, Void> columnPeopleDelete;
@@ -50,11 +49,11 @@ public class ShowPersonController extends AbstractController implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Go back button
         goBackImage.setOnMouseEntered(event -> showPersonPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showPersonPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -78,7 +77,15 @@ public class ShowPersonController extends AbstractController implements Initiali
             return new SimpleStringProperty(formatter.format(param.getValue().getModel().getBirthdate()));
         });
 
+        columnPeoplePediatrist.setCellValueFactory(param -> {
+            Person person = param.getValue().getModel();
 
+            if (!(person instanceof Child))
+                return new SimpleStringProperty("-");
+
+            Pediatrist pediatrist = ((Child) person).getPediatrist();
+            return new SimpleStringProperty(pediatrist.getFirstName() + " " + pediatrist.getLastName());
+        });
 
         Callback<GuiPerson, Object> showDetailsCallback = new Callback<GuiPerson, Object>() {
             @Override

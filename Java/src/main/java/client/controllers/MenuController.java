@@ -1,25 +1,20 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.LogUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MenuController implements Initializable{
+public class MenuController extends AbstractController implements Initializable{
 
-    // Debug
-    private static final String TAG = "MenuController";
-
-    @FXML private Pane menuPane;
+    @FXML private Pane pane;
     @FXML private Button buttonAddMenu;
     @FXML private Button buttonShowMenu;
     @FXML private ImageView goBackImage;
@@ -27,49 +22,45 @@ public class MenuController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Add menu button
         buttonAddMenu.setOnAction(event -> addMenu());
+        buttonAddMenu.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonAddMenu.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
 
-        //Show menu button
+        // Show menu button
         buttonShowMenu.setOnAction(event -> showMenu());
+        buttonShowMenu.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonShowMenu.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
 
-        // go back button cursor
-        goBackImage.setOnMouseEntered(event -> menuPane.getScene().setCursor(Cursor.HAND));
-        goBackImage.setOnMouseExited(event -> menuPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
+        // Go back button
         goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        goBackImage.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
     }
 
-    public void addMenu() {
-        try {
-            Pane addMenuPane = FXMLLoader.load(getClass().getResource("/views/addMenu.fxml"));
-            BorderPane homePane = (BorderPane) menuPane.getParent();
-            homePane.setCenter(addMenuPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Show the add menu page
+     */
+    private void addMenu() {
+        setCenterFXML((BorderPane)pane.getParent(), "/views/addMenu.fxml");
     }
 
-    public void showMenu() {
-        try {
-            Pane showMenuPane = FXMLLoader.load(getClass().getResource("/views/showMenu.fxml"));
-            BorderPane homePane = (BorderPane) menuPane.getParent();
-            homePane.setCenter(showMenuPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Show the menus list page
+     */
+    private void showMenu() {
+        setCenterFXML((BorderPane)pane.getParent(), "/views/showMenu.fxml");
     }
 
+
+    /**
+     * Go back to the main canteen page
+     */
     public void goBack() {
-        try {
-            Pane canteenPane = FXMLLoader.load(getClass().getResource("/views/canteen.fxml"));
-            BorderPane homePane = (BorderPane) menuPane.getParent();
-            homePane.setCenter(canteenPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+        setCenterFXML((BorderPane)pane.getParent(), "/views/canteen.fxml");
     }
 
 }

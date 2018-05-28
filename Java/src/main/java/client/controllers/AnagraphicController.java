@@ -2,6 +2,7 @@ package main.java.client.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -18,8 +19,15 @@ public class AnagraphicController extends AbstractController implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Add person button
         buttonAddPerson.setOnAction(event -> addPerson());
+        buttonAddPerson.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonAddPerson.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
+
+        // Show people list button
         buttonShowPerson.setOnAction(event -> showPerson());
+        buttonShowPerson.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonShowPerson.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
     }
 
 

@@ -49,10 +49,13 @@ public class AddDishController extends AbstractController implements Initializab
         addDishImage.setOnMouseEntered(event -> addDishPane.getScene().setCursor(Cursor.HAND));
         addDishImage.setOnMouseExited(event -> addDishPane.getScene().setCursor(Cursor.DEFAULT));
         addDishImage.setOnMouseClicked(event -> saveDish());
+        Tooltip.install(addDishImage, new Tooltip("Salva"));
 
         // Go back button
         goBackImage.setOnMouseEntered(event -> addDishPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> addDishPane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
+
         goBackImage.setOnMouseClicked(event -> {
             if (showConfirmationDialog("Sei sicuro di voler tornare indietro? I dati inseriti andranno persi"))
                 goBack();
