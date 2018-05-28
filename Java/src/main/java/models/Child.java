@@ -169,6 +169,12 @@ public class Child extends Person {
     }
 
 
+    @Override
+    public String toString() {
+        return getFirstName() + " " + getLastName();
+    }
+
+
     public String getId() {
         return this.id;
     }
@@ -284,11 +290,6 @@ public class Child extends Person {
     public void setPullmansAssignments(Collection<Pullman> pullmans) {
         this.pullmansAssignments.clear();
         addPullmansAssignments(pullmans);
-    }
-
-    @Override
-    public String toString(){
-        return super.toString();
     }
 
 }

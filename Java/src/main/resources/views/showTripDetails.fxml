@@ -2,170 +2,144 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="showTripDetailsPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.ShowTripDetailsController">
-   <children>
-      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
-         <image>
-            <Image url="@../images/goBack(green).png" />
-         </image>
-      </ImageView>
-      <TabPane AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <tabs>
-            <Tab text="Dati">
-               <content>
-                  <AnchorPane prefHeight="600.0" prefWidth="800.0">
-                     <children>
-                        <HBox alignment="CENTER" spacing="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <VBox alignment="CENTER_LEFT" layoutX="138.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <image>
-                                          <Image url="@../images/hiker.png" />
-                                       </image>
-                                    </ImageView>
-                                    <VBox alignment="CENTER" spacing="20.0">
-                                       <children>
-                                          <HBox layoutX="10.0" layoutY="182.0" spacing="15.0">
-                                             <children>
-                                                <Label text="Nome:">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="labelTitle" layoutX="10.0" layoutY="10.0">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </HBox>
-                                          <HBox spacing="15.0">
-                                             <children>
-                                                <Label text="Data:">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="labelDate" layoutX="10.0" layoutY="10.0">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </VBox>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="TOP_CENTER" spacing="10.0">
-                                 <children>
-                                    <Label text="Bambini partecipanti:">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets top="50.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <TextArea fx:id="textAreaChildren" editable="false" prefHeight="300.0" prefWidth="300.0">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font></TextArea>
-                                    <Label text="Accompagnatori:">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                       <VBox.margin>
-                                          <Insets top="20.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <Label fx:id="labelStaff" layoutX="10.0" layoutY="10.0">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Pullman/tappe">
-               <content>
-                  <AnchorPane>
-                     <children>
-                        <VBox alignment="CENTER" layoutX="115.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <HBox spacing="15.0">
-                                 <children>
-                                    <ImageView fitHeight="60.0" fitWidth="60.0">
-                                       <image>
-                                          <Image url="@../images/bus.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label text="Pullman:">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="labelPullman" layoutX="10.0" layoutY="10.0">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="200.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox spacing="15.0">
-                                 <children>
-                                    <ImageView fitHeight="60.0" fitWidth="60.0">
-                                       <image>
-                                          <Image url="@../images/cabin.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label text="Tappe:">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="labelStops" layoutX="10.0" layoutY="10.0">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="200.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-         </tabs>
-      </TabPane>
-   </children>
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="showTripDetailsPane"
+            fx:controller="main.java.client.controllers.ShowTripDetailsController"
+            stylesheets="@../ChildCareTech.css">
+
+   <TabPane AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+       <!-- Basic data -->
+       <Tab text="Dati">
+           <AnchorPane>
+               <!--suppress JavaFxUnresolvedStyleClassReference -->
+               <ScrollPane fitToWidth="true"
+                           styleClass="edge-to-edge"
+                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                   <VBox alignment="TOP_CENTER"
+                         spacing="20"
+                         style="-fx-padding: 0 200 0; -fx-font-size: 18">
+
+                       <!-- Trip icon -->
+                       <ImageView fitHeight="150.0" fitWidth="150.0"
+                                  pickOnBounds="true" preserveRatio="true" >
+                           <VBox.margin>
+                               <Insets top="20.0"/>
+                           </VBox.margin>
+                           <Image url="@../images/hiker.png"/>
+                       </ImageView>
+
+                       <!-- Title -->
+                       <HBox>
+                           <Label text="Titolo:" style="-fx-font-weight: bold" />
+                           <Region HBox.hgrow="ALWAYS" />
+                           <Label fx:id="labelTitle" />
+                       </HBox>
+
+                       <!-- Date -->
+                       <HBox>
+                           <Label text="Data:" style="-fx-font-weight: bold" />
+                           <Region HBox.hgrow="ALWAYS" />
+                           <Label fx:id="labelDate" />
+                       </HBox>
+                   </VBox>
+               </ScrollPane>
+           </AnchorPane>
+       </Tab>
+
+       <!-- Staff and children -->
+       <Tab text="Accompagnatori / bambini">
+           <AnchorPane>
+               <!--suppress JavaFxUnresolvedStyleClassReference -->
+               <ScrollPane fitToWidth="true"
+                           fitToHeight="true"
+                           styleClass="edge-to-edge"
+                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                   <VBox alignment="CENTER_LEFT"
+                         spacing="20"
+                         style="-fx-padding: 0 0 0 50; -fx-font-size: 18">
+
+                       <!-- Staff -->
+                       <HBox spacing="15">
+                           <ImageView fitHeight="60.0" fitWidth="60.0">
+                               <Image url="@../images/secretary.png"/>
+                           </ImageView>
+
+                           <VBox>
+                               <Label text="Accompagnatori:" style="-fx-font-weight: bold" />
+                               <Label fx:id="labelStaff" />
+                           </VBox>
+                       </HBox>
+
+                       <!-- Children -->
+                       <HBox spacing="15">
+                           <ImageView fitHeight="60.0" fitWidth="60.0">
+                               <Image url="@../images/baby.png"/>
+                           </ImageView>
+
+                           <VBox>
+                               <Label text="Bambini:" style="-fx-font-weight: bold" />
+                               <Label fx:id="labelChildren" />
+                           </VBox>
+                       </HBox>
+                   </VBox>
+               </ScrollPane>
+           </AnchorPane>
+       </Tab>
+
+       <!-- Pullmans and stops -->
+       <Tab text="Pullman / tappe">
+           <AnchorPane>
+               <!--suppress JavaFxUnresolvedStyleClassReference -->
+               <ScrollPane fitToWidth="true"
+                           fitToHeight="true"
+                           styleClass="edge-to-edge"
+                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                   <VBox alignment="CENTER_LEFT"
+                         spacing="20"
+                         style="-fx-padding: 0 0 0 50; -fx-font-size: 18">
+
+                       <!-- Pullmans -->
+                       <HBox spacing="15">
+                           <ImageView fitHeight="60.0" fitWidth="60.0">
+                               <Image url="@../images/bus.png"/>
+                           </ImageView>
+
+                           <VBox>
+                               <Label text="Trasporti:" style="-fx-font-weight: bold" />
+                               <Label fx:id="labelPullmans" />
+                           </VBox>
+                       </HBox>
+
+                       <!-- Stops -->
+                       <HBox spacing="15">
+                           <ImageView fitHeight="60.0" fitWidth="60.0">
+                               <Image url="@../images/cabin.png"/>
+                           </ImageView>
+
+                           <VBox>
+                               <Label text="Fermate:" style="-fx-font-weight: bold" />
+                               <Label fx:id="labelStops" />
+                           </VBox>
+                       </HBox>
+                   </VBox>
+               </ScrollPane>
+           </AnchorPane>
+       </Tab>
+   </TabPane>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(green).png"/>
+    </ImageView>
+
 </AnchorPane>

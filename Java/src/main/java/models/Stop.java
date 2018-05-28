@@ -132,6 +132,12 @@ public class Stop extends BaseModel {
     }
 
 
+    @Override
+    public String toString() {
+        return "#" + getNumber() + " - " + getPlace().toString();
+    }
+
+
     public StopPK getId() {
         return this.id;
     }
