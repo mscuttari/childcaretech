@@ -358,7 +358,7 @@ public class UpdatePersonController extends AbstractController implements Initia
             case STAFF:
                 imagePersonType.setImage(new Image("/images/secretary.png"));
 
-                if (ConnectionManager.getInstance().getClient().getPassword().equals(((Staff) person).getUsername())) {
+                if (ConnectionManager.getInstance().getClient().getUsername().equals(((Staff) person).getUsername())) {
                     tabPane.getTabs().addAll(tabAllergies, tabIntolerances);
                 } else {
                     tabPane.getTabs().addAll(tabAllergies, tabIntolerances, tabLoginData);

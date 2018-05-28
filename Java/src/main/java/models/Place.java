@@ -26,7 +26,7 @@ public class Place extends BaseModel implements Serializable {
     private PlacePK id = new PlacePK();
 
 
-    @OneToMany(mappedBy = "id.place", cascade = {ALL})
+    @OneToMany(mappedBy = "id.place", cascade = {ALL}, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Stop> stops = new HashSet<>();
 

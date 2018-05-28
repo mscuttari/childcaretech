@@ -56,12 +56,12 @@ public class Child extends Person {
     private Collection<Contact> contacts = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "children", cascade = {ALL})
+    @ManyToMany(mappedBy = "children", cascade = {PERSIST, MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Trip> tripsEnrollments = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "children", cascade = {ALL})
+    @ManyToMany(mappedBy = "children", cascade = {PERSIST, MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Pullman> pullmansAssignments = new HashSet<>();
 
@@ -149,6 +149,16 @@ public class Child extends Person {
         // Contacts
         for (Contact contact : getContacts()) {
             contact.removeChild(this);
+        }
+
+        // Trips
+        for (Trip trip : getTripsEnrollments()) {
+            trip.removeChild(this);
+        }
+
+        // Pullman
+        for (Pullman pullman : getPullmansAssignments()) {
+            pullman.removeChild(this);
         }
     }
 

@@ -148,7 +148,19 @@ public class UpdateMenuController extends AbstractController implements Initiali
         }
 
         // Update menu
-        connectionManager.getClient().update(menu);
+        boolean updateResult = connectionManager.getClient().update(menu);
+
+
+        // Go back to the menù list
+        if (updateResult) {
+            // Information dialog
+            showInformationDialog("I dati sono stati aggiornati");
+
+            // Go back to the menù list page
+            goBack();
+        } else {
+            showErrorDialog("Salvataggio non riuscito");
+        }
     }
 
     /**
