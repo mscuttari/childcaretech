@@ -435,8 +435,18 @@ public class AddTripController extends AbstractController implements Initializab
         trip.setDate(date);
         trip.setSeatsAssignmentType(cbSeatsAssignment.getValue());
         trip.setPullmans(TableUtils.getModelsList(lvPullman.getItems()));
-        trip.setChildren(TableUtils.getSelectedItems(tableChildren));
-        trip.setStaff(TableUtils.getSelectedItems(tableStaff));
+        if(TableUtils.getSelectedItems(tableChildren).isEmpty()){
+            showErrorDialog("Nessun bambino è iscritto alla gita\n");
+            return false;
+        } else {
+            trip.setChildren(TableUtils.getSelectedItems(tableChildren));
+        }
+        if(TableUtils.getSelectedItems(tableChildren).isEmpty()){
+            showErrorDialog("Nessun responsabile è assegnato alla gita alla gita\n");
+            return false;
+        } else {
+            trip.setStaff(TableUtils.getSelectedItems(tableStaff));
+        }
 
         // Check data
         try {
@@ -462,8 +472,19 @@ public class AddTripController extends AbstractController implements Initializab
         trip.setDate(date);                                                 // Date
         trip.setSeatsAssignmentType(cbSeatsAssignment.getValue());          // Seats assignment method
 
-        trip.setChildren(TableUtils.getSelectedItems(tableChildren));       // Children
-        trip.setStaff(TableUtils.getSelectedItems(tableStaff));             // Staff
+        if(TableUtils.getSelectedItems(tableChildren).isEmpty()){
+            showErrorDialog("Nessun bambino è iscritto alla gita\n");
+            return;
+        } else {
+            trip.setChildren(TableUtils.getSelectedItems(tableChildren));   // Children
+        }
+        if(TableUtils.getSelectedItems(tableChildren).isEmpty()){
+            showErrorDialog("Nessun responsabile è assegnato alla gita alla gita\n");
+            return;
+        } else {
+            trip.setStaff(TableUtils.getSelectedItems(tableStaff));         // Staff
+        }
+
         trip.setStops(TableUtils.getModelsList(lvStops.getItems()));        // Stops
         trip.setPullmans(TableUtils.getModelsList(lvPullman.getItems()));   // Pullmans
 
