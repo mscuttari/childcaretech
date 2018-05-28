@@ -156,6 +156,7 @@ public class Trip extends BaseModel {
         for (Staff staff : getStaff()) {
             staff.removeTrip(this);
         }
+
         if(seatsAssignmentType != SeatsAssignmentType.UNNECESSARY){
             for(Pullman currentPullman : pullmans){
                 for (Child child : currentPullman.getChildren()) {
