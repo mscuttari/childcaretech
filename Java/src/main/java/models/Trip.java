@@ -313,4 +313,8 @@ public class Trip extends BaseModel {
         addStaff(staff);
     }
 
+    public void removeChild(Child child) {
+        this.children.remove(child);
+    }
+
 }

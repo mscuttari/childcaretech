@@ -202,4 +202,8 @@ public class Pullman extends BaseModel {
         addChildren(children);
     }
 
+    public void removeChild(Child child) {
+        this.children.remove(child);
+    }
+
 }
