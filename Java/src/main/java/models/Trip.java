@@ -27,7 +27,7 @@ public class Trip extends BaseModel {
     private SeatsAssignmentType seatsAssignmentType;
 
 
-    @OneToMany(mappedBy = "id.trip", cascade = {ALL})
+    @OneToMany(mappedBy = "id.trip", cascade = {ALL} , orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Stop> stops = new HashSet<>();
 

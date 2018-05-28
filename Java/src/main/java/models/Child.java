@@ -61,7 +61,7 @@ public class Child extends Person {
     private Collection<Trip> tripsEnrollments = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "children", cascade = {ALL})
+    @ManyToMany(mappedBy = "children", cascade = {PERSIST, MERGE})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Pullman> pullmansAssignments = new HashSet<>();
 

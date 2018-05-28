@@ -26,7 +26,7 @@ public class Pullman extends BaseModel {
 
 
     @MapsId(value = "trip")
-    @ManyToOne(cascade = {ALL}, optional = false)
+    @ManyToOne(cascade = {ALL}, optional = false )
     @JoinColumns(value = {
             @JoinColumn(name = "trip_date", referencedColumnName = "date"),
             @JoinColumn(name = "trip_title", referencedColumnName = "title")

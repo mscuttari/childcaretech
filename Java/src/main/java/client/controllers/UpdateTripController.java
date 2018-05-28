@@ -1,14 +1,12 @@
 package main.java.client.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.collections.ObservableList;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,19 +16,29 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
-import main.java.client.gui.*;
+import main.java.client.gui.GuiChild;
+import main.java.client.gui.GuiPullman;
+import main.java.client.gui.GuiStaff;
+import main.java.client.gui.GuiStop;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
+
+import java.net.URL;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 import java.net.URL;
 import java.util.*;
 
 public class UpdateTripController extends AbstractController implements Initializable {
 
-    private Trip trip;
+    private Trip oldTrip;
+    private Trip newTrip;
+
     private int stopCounter = 1;
 
-    @FXML private Pane updateTripPane;
+    @FXML
+    private Pane updateTripPane;
     @FXML private ImageView tripImageView;
     @FXML private ImageView goBackImage;
 
@@ -213,7 +221,7 @@ public class UpdateTripController extends AbstractController implements Initiali
      * @param   trip    trip
      */
     public void setTrip(Trip trip) {
-        this.trip = trip;
+        this.oldTrip = trip;
         loadData();
     }
 
@@ -235,8 +243,7 @@ public class UpdateTripController extends AbstractController implements Initiali
 
         // Create stop
         Place place = new Place(placeName, placeProvince, placeNation);
-        //connectionManager.getClient().create(place);
-        Stop stop = new Stop(trip, place, stopNumber);
+        Stop stop = new Stop(newTrip, place, stopNumber);
 
         // Check data validity
         try {
@@ -330,7 +337,7 @@ public class UpdateTripController extends AbstractController implements Initiali
     private void addPullman() {
         String pullmanId = tfPullmanId.getText().trim();
         Integer pullmanSeats = tfPullmanSeats.getText().isEmpty() ? null : Integer.valueOf(tfPullmanSeats.getText().trim());
-        Pullman pullman = new Pullman(trip, pullmanId, pullmanSeats);
+        Pullman pullman = new Pullman(newTrip, pullmanId, pullmanSeats);
 
         // Check data
         try {
@@ -364,42 +371,51 @@ public class UpdateTripController extends AbstractController implements Initiali
      * Load the trip data into the corresponding fields
      */
     private void loadData() {
+
+        newTrip = new Trip(oldTrip.getDate(), oldTrip.getTitle(), oldTrip.getSeatsAssignmentType());
+
         // Title
-        tfTripName.setText(trip.getTitle());
+        tfTripName.setText(oldTrip.getTitle());
 
         // Date
-        dpTripDate.setValue(new java.sql.Date(trip.getDate().getTime()).toLocalDate());
+        dpTripDate.setValue(new java.sql.Date(oldTrip.getDate().getTime()).toLocalDate());
 
         // Children
         for (GuiChild item : tableChildren.getItems()) {
-            if (trip.getChildren().contains(item.getModel()))
+            if (oldTrip.getChildren().contains(item.getModel()))
                 item.setSelected(true);
         }
 
         // Staff
         for (GuiStaff item : tableStaff.getItems()) {
-            if (trip.getStaff().contains(item.getModel()))
+            if (oldTrip.getStaff().contains(item.getModel()))
                 item.setSelected(true);
         }
 
         // Stops
-        lvStops.getItems().setAll(TableUtils.getGuiModelsList(new ArrayList<>(trip.getStops())));
-        for(Stop currentStop : trip.getStops()){
+        List<Stop> newStops = new ArrayList<>();
+        for(Stop currentStop : oldTrip.getStops()){
+            newStops.add(new Stop(newTrip, currentStop.getPlace(), currentStop.getNumber()));
+            stopCounter++;
+        }
+        lvStops.getItems().setAll(TableUtils.getGuiModelsList(new ArrayList<>(newStops)));
+
+        // Transports
+        List<Pullman> newPullman = new ArrayList<>();
+        for(Pullman currentPullman : oldTrip.getPullmans()){
+            newPullman.add(new Pullman(newTrip, currentPullman.getId(), currentPullman.getSeats()));
             stopCounter++;
         }
 
-        // Transports
-        lvPullman.getItems().setAll(trip.getPullmans());
-
         // Seats assignment type
-        cbSeatsAssignment.setValue(trip.getSeatsAssignmentType());
+        cbSeatsAssignment.setValue(oldTrip.getSeatsAssignmentType());
     }
 
     /**
      * Switch to seats assignments tab
      */
     private void assignSeats() {
-
+/*
         if(!preUpdateTrip()) { return; }
 
         for(Tab current : tabPane.getTabs()){
@@ -421,7 +437,7 @@ public class UpdateTripController extends AbstractController implements Initiali
         tableSAPullman.getSelectionModel().selectFirst();
 
         // Children tab
-        List<Child> children = new ArrayList<>(trip.getChildren());
+        List<Child> children = new ArrayList<>(hhhhhh.getChildren());
         ObservableList<GuiChild> childrenData = TableUtils.getGuiModelsList(children);
 
         columnSAChildrenSelected.setCellFactory(CheckBoxTableCell.forTableColumn(columnSAChildrenSelected));
@@ -447,7 +463,7 @@ public class UpdateTripController extends AbstractController implements Initiali
                     current.setSelected(true);
                 }
             }
-        });
+        }); */
     }
 
     /**
@@ -459,18 +475,18 @@ public class UpdateTripController extends AbstractController implements Initiali
     private boolean preUpdateTrip() {
 
         //Set new data
-        trip.setSeatsAssignmentType(cbSeatsAssignment.getValue());
-        trip.getStaff().clear();
-        trip.addStaff(TableUtils.getSelectedItems(tableStaff));
-        trip.getChildren().clear();
-        trip.addChildren(TableUtils.getSelectedItems(tableChildren));
-        trip.getStops().clear();
-        trip.getPullmans().clear();
-        trip.addPullmans(lvPullman.getItems());
+        newTrip.setSeatsAssignmentType(cbSeatsAssignment.getValue());
+        newTrip.getStaff().clear();
+        newTrip.addStaff(TableUtils.getSelectedItems(tableStaff));
+        newTrip.getChildren().clear();
+        newTrip.addChildren(TableUtils.getSelectedItems(tableChildren));
+        newTrip.getStops().clear();
+        newTrip.getPullmans().clear();
+        newTrip.addPullmans(lvPullman.getItems());
 
         // Check data
         try {
-            trip.checkDataValidity();
+            newTrip.checkDataValidity();
         } catch (InvalidFieldException e) {
             showErrorDialog(e.getMessage());
             return false;
@@ -486,7 +502,7 @@ public class UpdateTripController extends AbstractController implements Initiali
 
         switch (cbSeatsAssignment.getValue()) {
             case AUTOMATIC:
-                Integer totalNumberOfSeats = trip.getAvailableSeats();
+                Integer totalNumberOfSeats = newTrip.getAvailableSeats();
                 int i=0;
                 int occupiedSeats = 0;
                 double totalNumberOfChildren = TableUtils.getSelectedItems(tableChildren).size();
@@ -505,7 +521,7 @@ public class UpdateTripController extends AbstractController implements Initiali
             case MANUAL:
                 tableSAPullman.getSelectionModel().getSelectedItem().getModel().setChildren(TableUtils.getSelectedItems(tableSAChildren));
                 Set<Child> childrenInPullman = new HashSet<>();
-                for(Pullman currentPullman : trip.getPullmans()){
+                for(Pullman currentPullman : newTrip.getPullmans()){
                     for(Child currentChild : currentPullman.getChildren()){
                         if(!childrenInPullman.add(currentChild)){
                             showErrorDialog("Il bambino "+currentChild+" è stato aggiunto a più pullman, "+
@@ -514,15 +530,9 @@ public class UpdateTripController extends AbstractController implements Initiali
                         }
                     }
                 }
-                if(!childrenInPullman.containsAll(trip.getChildren())){
+                if(!childrenInPullman.containsAll(newTrip.getChildren())){
                     showErrorDialog("Non tutti i bambini sono stati assegnati ad un pullman");
                     return;
-                }
-                for(Pullman currentPullman : trip.getPullmans()){
-                    if(currentPullman.getChildren().size() > currentPullman.getSeats()){
-                        showErrorDialog("Il pullman" + currentPullman + "non ha abbastanza posti per il numero di bambini selezionato");
-                        return;
-                    }
                 }
                 break;
 
@@ -537,15 +547,16 @@ public class UpdateTripController extends AbstractController implements Initiali
         for (GuiStop guiStop : guiStops)
             stops.add(guiStop.getModel());
 
-        trip.setStops(stops);
+        newTrip.setStops(stops);
 
-        trip.addPullmans(lvPullman.getItems());
+        newTrip.addPullmans(lvPullman.getItems());
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
         // Update trip
-        connectionManager.getClient().update(trip);
+        connectionManager.getClient().delete(oldTrip);
+        connectionManager.getClient().create(newTrip);
 
         // Go back to the menu
         goBack();
