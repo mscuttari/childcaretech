@@ -16,6 +16,8 @@
         <columns>
             <TableColumn fx:id="columnDishName" maxWidth="300" style="-fx-alignment: center" text="Piatto"/>
             <TableColumn fx:id="columnDishType" maxWidth="300" style="-fx-alignment: center" text="Tipo"/>
+            <TableColumn fx:id="columnDishAllergicPeople" maxWidth="300" style="-fx-alignment: center" text="Persone allergiche"/>
+            <TableColumn fx:id="columnDishIntolerantPeople" maxWidth="300" style="-fx-alignment: center" text="Persone intolleranti"/>
             <TableColumn fx:id="columnDishShowDetails" maxWidth="300" style="-fx-alignment: center"/>
             <TableColumn fx:id="columnDishEdit" maxWidth="300" style="-fx-alignment: center"/>
             <TableColumn fx:id="columnDishDelete" maxWidth="300" style="-fx-alignment: center"/>

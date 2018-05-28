@@ -1,5 +1,6 @@
 package main.java.client.controllers;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +21,9 @@ import main.java.models.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ShowDishController extends AbstractController implements Initializable {
@@ -35,18 +37,19 @@ public class ShowDishController extends AbstractController implements Initializa
     @FXML private TableView<GuiDish> tableDish;
     @FXML private TableColumn<GuiDish, String> columnDishName;
     @FXML private TableColumn<GuiDish, String> columnDishType;
+    @FXML private TableColumn<GuiDish, Integer> columnDishAllergicPeople;
+    @FXML private TableColumn<GuiDish, Integer> columnDishIntolerantPeople;
     @FXML private TableColumn<GuiDish, Void> columnDishEdit;
     @FXML private TableColumn<GuiDish, Void> columnDishShowDetails;
     @FXML private TableColumn<GuiDish, Void> columnDishDelete;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Go back button
         goBackImage.setOnMouseEntered(event -> showDishPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showDishPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
-
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -57,6 +60,28 @@ public class ShowDishController extends AbstractController implements Initializa
 
         columnDishName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnDishType.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        columnDishAllergicPeople.setCellValueFactory(param -> {
+            Dish dish = param.getValue().getModel();
+            Collection<Person> allergicPeople = new HashSet<>();
+
+            for (Ingredient ingredient : dish.getIngredients()) {
+                allergicPeople.addAll(ingredient.getAllergicPeople());
+            }
+
+            return new SimpleIntegerProperty(allergicPeople.size()).asObject();
+        });
+
+        columnDishIntolerantPeople.setCellValueFactory(param -> {
+            Dish dish = param.getValue().getModel();
+            Collection<Person> intolerantPeople = new HashSet<>();
+
+            for (Ingredient ingredient : dish.getIngredients()) {
+                intolerantPeople.addAll(ingredient.getIntolerantPeople());
+            }
+
+            return new SimpleIntegerProperty(intolerantPeople.size()).asObject();
+        });
 
         Callback<GuiDish, Object> showDetailsCallback = new Callback<GuiDish, Object>() {
             @Override
@@ -116,22 +141,15 @@ public class ShowDishController extends AbstractController implements Initializa
 
         columnDishDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
             if (param1.getModel().isDeletable()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi davvero eliminare il piatto?\n" +
-                    "(la procedura è irreversibile)", ButtonType.NO, ButtonType.YES);
-            alert.setTitle("Conferma operazione");
-            alert.setHeaderText(null);
-
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.YES) {
-                deleteData(connectionManager, param1);
+                if (showConfirmationDialog("Vuoi davvero eliminare il piatto?\n(la procedura è irreversibile)")) {
+                    deleteData(connectionManager, param1);
+                }
+            } else {
+                showErrorDialog("Questo piatto non può essere eliminato");
             }
-        } else {
-            showErrorDialog("Questo piatto non può essere eliminato");
-        }
 
-        return null;
-    }));
+            return null;
+        }));
 
         tableDish.setEditable(true);
         tableDish.setItems(dishesData);

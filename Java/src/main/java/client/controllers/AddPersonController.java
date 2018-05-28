@@ -1,5 +1,8 @@
 package main.java.client.controllers;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -16,6 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
@@ -59,6 +63,8 @@ public class AddPersonController extends AbstractController implements Initializ
     @FXML private TableColumn<GuiPediatrist, String> columnPediatristFirstName;
     @FXML private TableColumn<GuiPediatrist, String> columnPediatristLastName;
     @FXML private TableColumn<GuiPediatrist, String> columnPediatristFiscalCode;
+    @FXML private TableColumn<GuiPediatrist, String> columnPediatristTelephone;
+    @FXML private TableColumn<GuiPediatrist, Integer> columnPediatristChildren;
 
     @FXML private Tab tabContacts;
     @FXML private TableView<GuiContact> tableContacts;
@@ -87,24 +93,24 @@ public class AddPersonController extends AbstractController implements Initializ
     @FXML private PasswordField tfPasswordConfirmation;
     @FXML private Label labelPassword;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Person type
         cbPersonType.getItems().addAll(PersonType.values());
 
-        // Save button cursor
+        // Save button
         addPersonImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         addPersonImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
-
-        // Save button click
         addPersonImage.setOnMouseClicked(event -> savePerson());
 
-        // go back button cursor
+        // Go back button
         goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
-        goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseClicked(event -> {
+            if (showConfirmationDialog("Sei sicuro di voler tornare indietro? I dati inseriti andranno persi"))
+                goBack();
+        });
 
         cbPersonType.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue == newValue) return;
@@ -167,6 +173,13 @@ public class AddPersonController extends AbstractController implements Initializ
         columnPediatristFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnPediatristLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPediatristFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
+
+        columnPediatristTelephone.setCellValueFactory(param -> {
+            String telephone = param.getValue().getModel().getTelephone();
+            return new SimpleStringProperty(telephone == null ? "-" : telephone);
+        });
+
+        columnPediatristChildren.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getModel().getChildren().size()).asObject());
 
         tablePediatrist.setEditable(true);
         tablePediatrist.setItems(pediatristData);

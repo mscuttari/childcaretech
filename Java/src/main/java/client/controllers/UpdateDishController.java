@@ -39,8 +39,10 @@ public class UpdateDishController extends AbstractController implements Initiali
     @FXML private ImageView updateDishImage;
     @FXML private ImageView goBackImage;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         // Dish type
         cbDishType.getItems().addAll(DishType.values());
 
@@ -52,7 +54,10 @@ public class UpdateDishController extends AbstractController implements Initiali
         // Go back button
         goBackImage.setOnMouseEntered(event -> updateDishPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> updateDishPane.getScene().setCursor(Cursor.DEFAULT));
-        goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseClicked(event -> {
+            if (showConfirmationDialog("Sei sicuro di voler tornare indietro? Eventuali modifiche andranno perse"))
+                goBack();
+        });
 
         // Add ingredient on enter key press
         EventHandler<KeyEvent> keyPressEvent = event -> {

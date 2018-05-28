@@ -60,6 +60,8 @@
                     <TableColumn fx:id="columnPediatristFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
                     <TableColumn fx:id="columnPediatristLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
                     <TableColumn fx:id="columnPediatristFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
+                    <TableColumn fx:id="columnPediatristTelephone" maxWidth="300" style="-fx-alignment: center" text="Telefono"/>
+                    <TableColumn fx:id="columnPediatristChildren" maxWidth="300" style="-fx-alignment: center" text="Bambini a carico"/>
                 </columns>
             </TableView>
         </Tab>

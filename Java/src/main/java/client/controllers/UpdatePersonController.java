@@ -99,7 +99,10 @@ public class UpdatePersonController extends AbstractController implements Initia
         // Go back button
         goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
-        goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseClicked(event -> {
+            if (showConfirmationDialog("Sei sicuro di voler tornare indietro? Eventuali modifiche andranno perse"))
+                goBack();
+        });
 
 
         // Connection
@@ -174,14 +177,11 @@ public class UpdatePersonController extends AbstractController implements Initia
                 addIntolerances();
         });
 
-
-        // LoginData tab
-
-        //Username confirmation
+        // Username
         tfUsername.textProperty().addListener((obs, oldText, newText) -> usernameConfirmation());
         tfUsernameConfirmation.textProperty().addListener((obs, oldText, newText) -> usernameConfirmation());
 
-        //Password confirmation
+        // Password
         tfPassword.textProperty().addListener((obs, oldText, newText) -> passwordConfirmation());
         tfPasswordConfirmation.textProperty().addListener((obs, oldText, newText) -> passwordConfirmation());
 

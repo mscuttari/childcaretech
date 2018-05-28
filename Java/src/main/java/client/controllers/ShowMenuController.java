@@ -1,5 +1,7 @@
 package main.java.client.controllers;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,10 @@ import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiMenu;
 import main.java.client.layout.MyButtonTableCell;
 import main.java.client.utils.TableUtils;
+import main.java.models.Dish;
+import main.java.models.Ingredient;
 import main.java.models.Menu;
+import main.java.models.Person;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,6 +38,8 @@ public class ShowMenuController extends AbstractController implements Initializa
     @FXML private TableView<GuiMenu> tableMenu;
     @FXML private TableColumn<GuiMenu, String> columnMenuName;
     @FXML private TableColumn<GuiMenu, String> columnMenuDayOfTheWeek;
+    @FXML private TableColumn<GuiMenu, Integer> columnMenuAllergicPeople;
+    @FXML private TableColumn<GuiMenu, Integer> columnMenuIntolerantPeople;
     @FXML private TableColumn<GuiMenu, Void> columnMenuEdit;
     @FXML private TableColumn<GuiMenu, Void> columnMenuShowDetails;
     @FXML private TableColumn<GuiMenu, Void> columnMenuDelete;
@@ -40,12 +47,10 @@ public class ShowMenuController extends AbstractController implements Initializa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        // go back button
+        // Go back button
         goBackImage.setOnMouseEntered(event -> showMenuPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showMenuPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
-
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -56,6 +61,32 @@ public class ShowMenuController extends AbstractController implements Initializa
 
         columnMenuName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnMenuDayOfTheWeek.setCellValueFactory(new PropertyValueFactory<>("dayOfTheWeek"));
+
+        columnMenuAllergicPeople.setCellValueFactory(param -> {
+            Menu menu = param.getValue().getModel();
+            Collection<Person> allergicPeople = new HashSet<>();
+
+            for (Dish dish : menu.getDishes()) {
+                for (Ingredient ingredient : dish.getIngredients()) {
+                    allergicPeople.addAll(ingredient.getAllergicPeople());
+                }
+            }
+
+            return new SimpleIntegerProperty(allergicPeople.size()).asObject();
+        });
+
+        columnMenuIntolerantPeople.setCellValueFactory(param -> {
+            Menu menu = param.getValue().getModel();
+            Collection<Person> intolerantPeople = new HashSet<>();
+
+            for (Dish dish : menu.getDishes()) {
+                for (Ingredient ingredient : dish.getIngredients()) {
+                    intolerantPeople.addAll(ingredient.getIntolerantPeople());
+                }
+            }
+
+            return new SimpleIntegerProperty(intolerantPeople.size()).asObject();
+        });
 
         Callback<GuiMenu, Object> showDetailsCallback = new Callback<GuiMenu, Object>() {
             @Override
@@ -115,14 +146,7 @@ public class ShowMenuController extends AbstractController implements Initializa
 
         columnMenuDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
             if (param1.getModel().isDeletable()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi davvero eliminare il menù?\n" +
-                        "(la procedura è irreversibile)", ButtonType.NO, ButtonType.YES);
-                alert.setTitle("Conferma operazione");
-                alert.setHeaderText(null);
-
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.YES) {
+                if (showConfirmationDialog("Vuoi davvero eliminare il menù?\n(la procedura è irreversibile)")) {
                     deleteData(connectionManager, param1);
                 }
             } else {

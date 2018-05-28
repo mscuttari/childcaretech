@@ -21,10 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ShowSeatsController implements Initializable{
-
-    // Debug
-    private static final String TAG = "ShowSeatsController";
+public class ShowSeatsController extends AbstractController implements Initializable{
 
     @FXML Pane showSeatsPane;
     @FXML ImageView goBackImage;
@@ -41,14 +38,13 @@ public class ShowSeatsController implements Initializable{
     @FXML private TableColumn<Child, String> columnChildrenFirstName;
     @FXML private TableColumn<Child, String> columnChildrenLastName;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // go back button cursor
+        // Go back button
         goBackImage.setOnMouseEntered(event -> showSeatsPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showSeatsPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
 
         // Connection
@@ -90,13 +86,9 @@ public class ShowSeatsController implements Initializable{
         });
     }
 
-    public void goBack() {
-        try {
-            Pane seatsAssignmentPane = FXMLLoader.load(getClass().getResource("/views/seatsAssignment.fxml"));
-            BorderPane homePane = (BorderPane) showSeatsPane.getParent();
-            homePane.setCenter(seatsAssignmentPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    private void goBack() {
+        setCenterFXML((BorderPane) showSeatsPane.getParent(), "/views/seatsAssignment.fxml");
     }
+
 }

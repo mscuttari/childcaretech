@@ -14,6 +14,8 @@ import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ShowPersonDetailsController extends AbstractController implements Initializable {
@@ -64,7 +66,10 @@ public class ShowPersonDetailsController extends AbstractController implements I
         labelFiscalCode.setText(person.getFiscalCode());                                            // Fiscal code
         labelFirstName.setText(person.getFirstName());                                              // First name
         labelLastName.setText(person.getLastName());                                                // Last name
-        labelBirthDate.setText(new java.sql.Date(person.getBirthdate().getTime()).toString());      // Birth date
+
+        // Birth date
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        labelBirthDate.setText(formatter.format(person.getBirthdate()));
 
         // Address
         boxAddress.setVisible(person.getAddress() != null);

@@ -1,6 +1,7 @@
 package main.java.client.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,8 @@ import main.java.models.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +42,7 @@ public class ShowPersonController extends AbstractController implements Initiali
     @FXML private TableColumn<GuiPerson, String> columnPeopleLastName;
     @FXML private TableColumn<GuiPerson, String> columnPeopleFiscalCode;
     @FXML private TableColumn<GuiPerson, String> columnPeopleType;
+    @FXML private TableColumn<GuiPerson, String> columnPeopleBirthdate;
     @FXML private TableColumn<GuiPerson, Void> columnPeopleEdit;
     @FXML private TableColumn<GuiPerson, Void> columnPeopleShowDetails;
     @FXML private TableColumn<GuiPerson, Void> columnPeopleDelete;
@@ -68,6 +72,13 @@ public class ShowPersonController extends AbstractController implements Initiali
         columnPeopleLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         columnPeopleFiscalCode.setCellValueFactory(new PropertyValueFactory<>("fiscalCode"));
         columnPeopleType.setCellValueFactory(param -> new SimpleStringProperty(PersonType.getPersonType(param.getValue().getModel()).toString()));
+
+        columnPeopleBirthdate.setCellValueFactory(param -> {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            return new SimpleStringProperty(formatter.format(param.getValue().getModel().getBirthdate()));
+        });
+
+
 
         Callback<GuiPerson, Object> showDetailsCallback = new Callback<GuiPerson, Object>() {
             @Override
@@ -132,17 +143,7 @@ public class ShowPersonController extends AbstractController implements Initiali
                 }
 
             } else if (param1.getModel().isDeletable()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                        "Vuoi davvero eliminare la persona?\n" +
-                        "(la procedura è irreversibile)",
-                        ButtonType.NO, ButtonType.YES);
-
-                alert.setTitle("Conferma operazione");
-                alert.setHeaderText(null);
-
-                Optional<ButtonType> result = alert.showAndWait();
-
-                if (result.get() == ButtonType.YES) {
+                if (showConfirmationDialog("Vuoi davvero eliminare la persona?\n(la procedura è irreversibile)")) {
                     deleteData(connectionManager, param1);
                 }
 

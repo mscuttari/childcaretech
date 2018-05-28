@@ -14,11 +14,13 @@
                maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-            <TableColumn fx:id="columnMenuName" style="-fx-alignment: center" text="Nome"/>
-            <TableColumn fx:id="columnMenuDayOfTheWeek" style="-fx-alignment: center" text="Giorno"/>
-            <TableColumn fx:id="columnMenuShowDetails" style="-fx-alignment: center"/>
-            <TableColumn fx:id="columnMenuEdit" style="-fx-alignment: center"/>
-            <TableColumn fx:id="columnMenuDelete" style="-fx-alignment: center"/>
+            <TableColumn fx:id="columnMenuName" style="-fx-alignment: center" text="Nome" />
+            <TableColumn fx:id="columnMenuDayOfTheWeek" style="-fx-alignment: center" text="Giorno" />
+            <TableColumn fx:id="columnMenuAllergicPeople" style="-fx-alignment: center" text="Persone allergiche" />
+            <TableColumn fx:id="columnMenuIntolerantPeople" style="-fx-alignment: center" text="Persone intolleranti" />
+            <TableColumn fx:id="columnMenuShowDetails" style="-fx-alignment: center" />
+            <TableColumn fx:id="columnMenuEdit" style="-fx-alignment: center" />
+            <TableColumn fx:id="columnMenuDelete" style="-fx-alignment: center" />
         </columns>
     </TableView>
 

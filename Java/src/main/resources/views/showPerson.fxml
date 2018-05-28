@@ -17,6 +17,7 @@
             <TableColumn fx:id="columnPeopleLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
             <TableColumn fx:id="columnPeopleFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
             <TableColumn fx:id="columnPeopleType" maxWidth="300" style="-fx-alignment: center" text="Tipo"/>
+            <TableColumn fx:id="columnPeopleBirthdate" maxWidth="300" style="-fx-alignment: center" text="Data di nascita"/>
             <TableColumn fx:id="columnPeopleShowDetails" maxWidth="300" style="-fx-alignment: center"/>
             <TableColumn fx:id="columnPeopleEdit" maxWidth="300" style="-fx-alignment: center"/>
             <TableColumn fx:id="columnPeopleDelete" maxWidth="300" style="-fx-alignment: center"/>

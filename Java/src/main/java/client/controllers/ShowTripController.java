@@ -1,5 +1,7 @@
 package main.java.client.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,8 @@ import main.java.models.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,7 +38,7 @@ public class ShowTripController extends AbstractController implements Initializa
 
     @FXML private TableView<GuiTrip> tableTrip;
     @FXML private TableColumn<GuiTrip, String> columnTripTitle;
-    @FXML private TableColumn<GuiTrip, Date> columnTripDate;
+    @FXML private TableColumn<GuiTrip, String> columnTripDate;
     @FXML private TableColumn<GuiTrip, Void> columnTripShowDetails;
     @FXML private TableColumn<GuiTrip, Void> columnTripDelete;
 
@@ -56,6 +60,10 @@ public class ShowTripController extends AbstractController implements Initializa
 
         columnTripTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         columnTripDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        columnTripDate.setCellValueFactory(param -> {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            return new SimpleStringProperty(formatter.format(param.getValue().getModel().getDate()));
+        });
 
         Callback<GuiTrip, Object> showDetailsCallback = new Callback<GuiTrip, Object>() {
             @Override

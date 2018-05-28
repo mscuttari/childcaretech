@@ -8,8 +8,26 @@ import main.java.LogUtils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 public abstract class AbstractController {
+
+    /**
+     * Show warning dialog with question
+     *
+     * @param   message     message
+     * @return  true for "Yes" answer; false for "No" answer
+     */
+    protected static boolean showConfirmationDialog(String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO);
+        alert.setTitle("Attenzione");
+        alert.setHeaderText(null);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        return result.get() == ButtonType.YES;
+    }
+
 
     /**
      * Show information dialog

@@ -16,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
@@ -93,7 +92,10 @@ public class AddTripController extends AbstractController implements Initializab
         // Go back button
         goBackImage.setOnMouseEntered(event -> tabPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> tabPane.getScene().setCursor(Cursor.DEFAULT));
-        goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseClicked(event -> {
+            if (showConfirmationDialog("Sei sicuro di voler tornare indietro? I dati inseriti andranno persi"))
+                goBack();
+        });
 
 
         // Connection

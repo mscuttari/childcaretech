@@ -53,7 +53,10 @@ public class AddMenuController extends AbstractController implements Initializab
         // Go back button
         goBackImage.setOnMouseEntered(event -> addMenuPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> addMenuPane.getScene().setCursor(Cursor.DEFAULT));
-        goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseClicked(event -> {
+            if (showConfirmationDialog("Sei sicuro di voler tornare indietro? I dati inseriti andranno persi"))
+                goBack();
+        });
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();

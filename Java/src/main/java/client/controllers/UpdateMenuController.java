@@ -1,7 +1,6 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.cell.CheckBoxTableCell;
@@ -11,7 +10,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.LogUtils;
 import main.java.client.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
@@ -19,14 +17,10 @@ import main.java.client.utils.TableUtils;
 import main.java.models.*;
 import main.java.models.Menu;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
 public class UpdateMenuController extends AbstractController implements Initializable {
-
-    // Debug
-    private static final String TAG = "UpdateMenuController";
 
     private Menu menu;
 
@@ -47,30 +41,30 @@ public class UpdateMenuController extends AbstractController implements Initiali
     @FXML private TableColumn<GuiStaff, String> columnStaffLastName;
     @FXML private TableColumn<GuiStaff, String> columnStaffFiscalCode;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         // Day of the week
         cbDayOfTheWeek.getItems().addAll(DayOfTheWeek.values());
 
-        // update menu button cursor
+        // Update button
         updateMenuImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
         updateMenuImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
-
-        // update menu image
         updateMenuImage.setOnMouseClicked(event -> updateMenu());
 
-        // go back button cursor
+        // Go back button
         goBackImage.setOnMouseEntered(event -> updateMenuPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> updateMenuPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
-        goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseClicked(event -> {
+            if (showConfirmationDialog("Sei sicuro di voler tornare indietro? Eventuali modifiche andranno perse"))
+                goBack();
+        });
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
 
-        //Dish table
+        // Dishes table
         List<Dish> dishes = connectionManager.getClient().getDishes();
         ObservableList<GuiDish> dishData = TableUtils.getGuiModelsList(dishes);
 
@@ -96,8 +90,9 @@ public class UpdateMenuController extends AbstractController implements Initiali
         tableStaff.setItems(staffData);
     }
 
+
     /**
-     * Set the menù that is going to be modified
+     * Set the menu that is going to be modified
      *
      * @param   menu    menu
      */
@@ -105,6 +100,7 @@ public class UpdateMenuController extends AbstractController implements Initiali
         this.menu = menu;
         loadData();
     }
+
 
     /**
      * Load the menu data into the corresponding fields
@@ -129,7 +125,8 @@ public class UpdateMenuController extends AbstractController implements Initiali
         }
     }
 
-    public void updateMenu() {
+
+    private void updateMenu() {
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -151,20 +148,21 @@ public class UpdateMenuController extends AbstractController implements Initiali
         boolean updateResult = connectionManager.getClient().update(menu);
 
 
-        // Go back to the menù list
+        // Go back to the menu list
         if (updateResult) {
             // Information dialog
             showInformationDialog("I dati sono stati aggiornati");
 
-            // Go back to the menù list page
+            // Go back to the menu list page
             goBack();
         } else {
             showErrorDialog("Salvataggio non riuscito");
         }
     }
 
+
     /**
-     * Go back to the main anagraphic page
+     * Go back to the menus list page
      */
     public void goBack() {
         setCenterFXML((BorderPane)updateMenuPane.getParent(), "/views/showMenu.fxml");

@@ -53,7 +53,10 @@ public class AddDishController extends AbstractController implements Initializab
         // Go back button
         goBackImage.setOnMouseEntered(event -> addDishPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> addDishPane.getScene().setCursor(Cursor.DEFAULT));
-        goBackImage.setOnMouseClicked(event -> goBack());
+        goBackImage.setOnMouseClicked(event -> {
+            if (showConfirmationDialog("Sei sicuro di voler tornare indietro? I dati inseriti andranno persi"))
+                goBack();
+        });
 
         // Add ingredient on enter key press
         EventHandler<KeyEvent> keyPressEvent = event -> {
