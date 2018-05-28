@@ -516,25 +516,29 @@ public class AddTripController extends AbstractController implements Initializab
             case MANUAL:
                 tableSAPullman.getSelectionModel().getSelectedItem().getModel().setChildren(TableUtils.getSelectedItems(tableSAChildren));
                 Set<Child> childrenInPullman = new HashSet<>();
-                for(Pullman currentPullman : trip.getPullmans()){
-                    for(Child currentChild : currentPullman.getChildren()){
-                        if(!childrenInPullman.add(currentChild)){
+
+                for (Pullman currentPullman : trip.getPullmans()){
+                    for (Child currentChild : currentPullman.getChildren()) {
+                        if (!childrenInPullman.add(currentChild)) {
                             showErrorDialog("Il bambino "+currentChild+" è stato aggiunto a più pullman, "+
                             currentPullman.toString()+" è uno di essi");
                             return;
                         }
                     }
                 }
-                if(!childrenInPullman.containsAll(trip.getChildren())){
+
+                if (!childrenInPullman.containsAll(trip.getChildren())){
                     showErrorDialog("Non tutti i bambini sono stati assegnati ad un pullman");
                     return;
                 }
-                for(Pullman currentPullman : trip.getPullmans()){
-                    if(currentPullman.getChildren().size() > currentPullman.getSeats()){
+
+                for (Pullman currentPullman : trip.getPullmans()) {
+                    if (currentPullman.getChildren().size() > currentPullman.getSeats()) {
                         showErrorDialog("Il pullman" + currentPullman + "non ha abbastanza posti per il numero di bambini selezionato");
                         return;
                     }
                 }
+
                 break;
 
             case UNNECESSARY:
