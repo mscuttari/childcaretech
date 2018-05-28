@@ -60,7 +60,20 @@
 
         <!-- Ingredients -->
         <Tab text="Ingredienti">
-            <ListView fx:id="lvIngredients" style="-fx-font-size: 18" />
+            <ListView fx:id="lvIngredients" />
+        </Tab>
+
+        <!-- Allergic / intolerant people -->
+        <Tab text="Persone allergiche / intolleranti">
+            <TableView fx:id="tablePeople">
+                <columns>
+                    <TableColumn fx:id="columnPeopleFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnPeopleLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnPeopleType" maxWidth="300" style="-fx-alignment: center" text="Tipologia"/>
+                    <TableColumn fx:id="columnPeopleAllergies" style="-fx-alignment: center" text="Allergie"/>
+                    <TableColumn fx:id="columnPeopleIntolerances" style="-fx-alignment: center" text="Intolleranze"/>
+                </columns>
+            </TableView>
         </Tab>
     </TabPane>
 

@@ -1,14 +1,17 @@
 package main.java.client.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import main.java.client.gui.GuiIngredient;
+import main.java.client.gui.GuiPerson;
 import main.java.client.utils.TableUtils;
 import main.java.models.*;
 
@@ -28,6 +31,13 @@ public class ShowDishDetailsController extends AbstractController implements Ini
 
     @FXML private ListView<GuiIngredient> lvIngredients;
 
+    @FXML private TableView<GuiPerson<Person>> tablePeople;
+    @FXML private TableColumn<GuiPerson<Person>, String> columnPeopleFirstName;
+    @FXML private TableColumn<GuiPerson<Person>, String> columnPeopleLastName;
+    @FXML private TableColumn<GuiPerson<Person>, String> columnPeopleType;
+    @FXML private TableColumn<GuiPerson<Person>, String> columnPeopleAllergies;
+    @FXML private TableColumn<GuiPerson<Person>, String> columnPeopleIntolerances;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,6 +45,51 @@ public class ShowDishDetailsController extends AbstractController implements Ini
         goBackImage.setOnMouseEntered(event -> showDishDetailsPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showDishDetailsPane.getScene().setCursor(Cursor.DEFAULT));
         goBackImage.setOnMouseClicked(event -> goBack());
+
+        // Allergic / intolerant people
+        tablePeople.setEditable(false);
+
+        columnPeopleFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        columnPeopleLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        columnPeopleType.setCellValueFactory(param -> new SimpleStringProperty(PersonType.getPersonType(param.getValue().getModel()).toString()));
+
+        columnPeopleAllergies.setCellValueFactory(param -> {
+            Person person = param.getValue().getModel();
+            List<Ingredient> ingredients = intersection(person.getAllergies(), dish.getIngredients());
+            ingredients.sort(Comparator.comparing(Ingredient::getName));
+
+            if (ingredients.isEmpty())
+                return new SimpleStringProperty("-");
+
+            StringBuilder result = new StringBuilder();
+            String separator = "";
+
+            for (Ingredient ingredient : ingredients) {
+                result.append(separator).append(ingredient.getName());
+                separator = ", ";
+            }
+
+            return new SimpleStringProperty(result.toString());
+        });
+
+        columnPeopleIntolerances.setCellValueFactory(param -> {
+            Person person = param.getValue().getModel();
+            List<Ingredient> ingredients = intersection(person.getIntolerances(), dish.getIngredients());
+            ingredients.sort(Comparator.comparing(Ingredient::getName));
+
+            if (ingredients.isEmpty())
+                return new SimpleStringProperty("-");
+
+            StringBuilder result = new StringBuilder();
+            String separator = "";
+
+            for (Ingredient ingredient : ingredients) {
+                result.append(separator).append(ingredient.getName());
+                separator = ", ";
+            }
+
+            return new SimpleStringProperty(result.toString());
+        });
     }
 
 
@@ -49,6 +104,17 @@ public class ShowDishDetailsController extends AbstractController implements Ini
         // Ingredients
         ObservableList<GuiIngredient> guiIngredients = TableUtils.getGuiModelsList(dish.getIngredients());
         lvIngredients.setItems(guiIngredients.sorted(Comparator.comparing(o -> o.getModel().getName())));
+
+        // Allergic / intolerant people
+        Collection<Person> people = new HashSet<>();
+
+        for (Ingredient ingredient : dish.getIngredients()) {
+            people.addAll(ingredient.getAllergicPeople());
+            people.addAll(ingredient.getIntolerantPeople());
+        }
+
+        ObservableList<GuiPerson<Person>> guiPeople = TableUtils.getGuiModelsList(people);
+        tablePeople.setItems(guiPeople);
     }
 
 
@@ -68,6 +134,26 @@ public class ShowDishDetailsController extends AbstractController implements Ini
      */
     public void goBack() {
         setCenterFXML((BorderPane)showDishDetailsPane.getParent(), "/views/showDish.fxml");
+    }
+
+
+    /**
+     * Intersect two collections
+     *
+     * @param   x       first collection
+     * @param   y       second collection
+     * @return  list of common elements
+     */
+    private static <T> List<T> intersection(Collection<T> x, Collection<T> y) {
+        List<T> list = new ArrayList<>();
+
+        for (T element : x) {
+            if (y.contains(element)) {
+                list.add(element);
+            }
+        }
+
+        return list;
     }
 
 }
