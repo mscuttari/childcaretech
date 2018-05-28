@@ -39,7 +39,7 @@ public class ShowTripController extends AbstractController implements Initializa
     @FXML private TableColumn<GuiTrip, Void> columnTripShowDetails;
     @FXML private TableColumn<GuiTrip, Void> columnTripDelete;
 
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
