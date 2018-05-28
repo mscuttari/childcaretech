@@ -518,6 +518,12 @@ public class UpdateTripController extends AbstractController implements Initiali
                     showErrorDialog("Non tutti i bambini sono stati assegnati ad un pullman");
                     return;
                 }
+                for(Pullman currentPullman : trip.getPullmans()){
+                    if(currentPullman.getChildren().size() > currentPullman.getSeats()){
+                        showErrorDialog("Il pullman" + currentPullman + "non ha abbastanza posti per il numero di bambini selezionato");
+                        return;
+                    }
+                }
                 break;
 
             case UNNECESSARY:
