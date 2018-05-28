@@ -84,7 +84,9 @@ public class Trip extends BaseModel {
     }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void checkDataValidity() throws InvalidFieldException {
         // Date
@@ -103,7 +105,7 @@ public class Trip extends BaseModel {
             throwFieldError("Metodo di assegnamento posti mancante");
 
         // Check if the total number of seats is enough
-        if (getSeatsAssignmentType() != SeatsAssignmentType.UNNECESSARY){
+        if (getSeatsAssignmentType() != SeatsAssignmentType.UNNECESSARY) {
             Integer totalNumberOfSeats = getAvailableSeats();
 
             if (totalNumberOfSeats < getChildren().size() + getStaff().size())
@@ -112,28 +114,36 @@ public class Trip extends BaseModel {
     }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getModelName() {
         return "Gita";
     }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Class<? extends GuiBaseModel> getGuiClass() {
         return GuiTrip.class;
     }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isDeletable() {
         return true;
     }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void preDelete() {
 
