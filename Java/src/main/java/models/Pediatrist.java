@@ -1,6 +1,6 @@
 package main.java.models;
 
-import main.java.client.InvalidFieldException;
+import main.java.exceptions.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 import main.java.client.gui.GuiPediatrist;
 import org.hibernate.annotations.LazyCollection;

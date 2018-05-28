@@ -18,7 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import main.java.client.InvalidFieldException;
+import main.java.exceptions.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.GuiContact;
 import main.java.client.gui.GuiIngredient;

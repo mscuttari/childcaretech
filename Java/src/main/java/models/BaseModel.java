@@ -1,6 +1,6 @@
 package main.java.models;
 
-import main.java.client.InvalidFieldException;
+import main.java.exceptions.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 
 import java.io.Serializable;

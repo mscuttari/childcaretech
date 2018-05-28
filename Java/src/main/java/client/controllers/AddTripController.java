@@ -16,7 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.client.InvalidFieldException;
+import main.java.exceptions.InvalidFieldException;
 import main.java.client.connection.ConnectionManager;
 import main.java.client.gui.*;
 import main.java.client.utils.TableUtils;
@@ -224,9 +224,9 @@ public class AddTripController extends AbstractController implements Initializab
      */
     private void addStop() {
         // Get data
-        String placeName = tfStopName.getText().trim();
-        String placeProvince = tfStopProvince.getText().trim();
-        String placeNation = tfStopNation.getText().trim();
+        String placeName = capitalize(tfStopName.getText().trim());
+        String placeProvince = tfStopProvince.getText().trim().toUpperCase();
+        String placeNation = capitalize(tfStopNation.getText().trim());
         Integer stopNumber = tfStopNumber.getText().isEmpty() ? stopCounter : Integer.valueOf(tfStopNumber.getText().trim());
 
         // Limit the max stop number to the next available slot
@@ -572,6 +572,17 @@ public class AddTripController extends AbstractController implements Initializab
      */
     public void goBack() {
         setCenterFXML((BorderPane)addTripPane.getParent(), "/views/tripAdministration.fxml");
+    }
+
+
+    /**
+     * Capitalize the fist character of a string
+     *
+     * @param   str     string
+     * @return  string with first capitalized letter
+     */
+    private static String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
 }

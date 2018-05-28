@@ -1,6 +1,6 @@
 package test.java.server;
 
-import main.java.client.InvalidFieldException;
+import main.java.exceptions.InvalidFieldException;
 import main.java.models.Staff;
 import main.java.server.utils.HibernateUtils;
 import org.junit.jupiter.api.Test;

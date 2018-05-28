@@ -1,6 +1,6 @@
 package test.java.server;
 
-import main.java.client.InvalidFieldException;
+import main.java.exceptions.InvalidFieldException;
 import main.java.models.Place;
 import main.java.models.SeatsAssignmentType;
 import main.java.models.Stop;

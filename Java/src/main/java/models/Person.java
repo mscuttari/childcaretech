@@ -1,6 +1,6 @@
 package main.java.models;
 
-import main.java.client.InvalidFieldException;
+import main.java.exceptions.InvalidFieldException;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 

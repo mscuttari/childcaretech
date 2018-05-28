@@ -1,4 +1,4 @@
-package main.java.client;
+package main.java.exceptions;
 
 public class InvalidFieldException extends Exception {
 
