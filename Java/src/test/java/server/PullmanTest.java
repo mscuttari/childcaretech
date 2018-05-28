@@ -73,7 +73,7 @@ class PullmanTest extends BaseModelTest<Pullman> {
         // Delete trip
         Trip trip = pullman.getTrip();
         HibernateUtils.getInstance().delete(trip);
-        assertNull(TripTest.getTrip(trip.getDate(), trip.getTitle()));
+        assertNull(TripTest.getTrip(trip.getTitle()));
     }
 
 

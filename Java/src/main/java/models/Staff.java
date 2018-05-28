@@ -13,6 +13,8 @@ import javax.persistence.Transient;
 import javax.persistence.*;
 import java.util.*;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity(name = "Staff")
 @Table(name = "staff")
 @DiscriminatorValue("staff")
@@ -30,12 +32,12 @@ public class Staff extends Person {
     private String password;
 
 
-    @OneToMany(mappedBy = "responsible")
+    @OneToMany(mappedBy = "responsible", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Menu> menus = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "staff")
+    @ManyToMany(mappedBy = "staff", cascade = {ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Trip> trips = new HashSet<>();
 

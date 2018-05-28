@@ -10,7 +10,7 @@ import java.util.Objects;
 import static javax.persistence.CascadeType.*;
 
 @Entity
-@Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_date", "trip_title", "place_name", "place_province", "place_nation", "number"}))
+@Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_title", "place_name", "place_province", "place_nation", "number"}))
 public class Stop extends BaseModel {
 
     @Transient
@@ -24,7 +24,6 @@ public class Stop extends BaseModel {
     @MapsId(value = "trip")
     @ManyToOne(cascade = {ALL}, optional = false)
     @JoinColumns(value = {
-            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
             @JoinColumn(name = "trip_title", referencedColumnName = "title")
     })
     private Trip trip;
