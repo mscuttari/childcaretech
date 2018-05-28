@@ -35,7 +35,6 @@ public class ShowTripController extends AbstractController implements Initializa
     @FXML private TableView<GuiTrip> tableTrip;
     @FXML private TableColumn<GuiTrip, String> columnTripTitle;
     @FXML private TableColumn<GuiTrip, Date> columnTripDate;
-    @FXML private TableColumn<GuiTrip, Void> columnTripEdit;
     @FXML private TableColumn<GuiTrip, Void> columnTripShowDetails;
     @FXML private TableColumn<GuiTrip, Void> columnTripDelete;
 
@@ -91,27 +90,6 @@ public class ShowTripController extends AbstractController implements Initializa
             });
             return row ;
         });
-
-        columnTripEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<GuiTrip, Object>() {
-            @Override
-            public Object call(GuiTrip param) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updateTrip.fxml"));
-
-                    Pane updateTripPane = loader.load();
-                    UpdateTripController controller = loader.getController();
-                    controller.setTrip(param.getModel());
-
-                    BorderPane homePane = (BorderPane)showTripPane.getParent();
-                    homePane.setCenter(updateTripPane);
-
-                } catch (IOException e) {
-                    LogUtils.e(TAG, e.getMessage());
-                }
-
-                return null;
-            }
-        }));
 
         columnTripDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
             connectionManager.getClient().delete(param1.getModel());
