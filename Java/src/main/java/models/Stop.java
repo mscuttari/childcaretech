@@ -7,8 +7,7 @@ import main.java.client.gui.GuiStop;
 import javax.persistence.*;
 import java.util.Objects;
 
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_date", "trip_title", "place_name", "place_province", "place_nation", "number"}))
@@ -23,7 +22,7 @@ public class Stop extends BaseModel {
 
 
     @MapsId(value = "trip")
-    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
+    @ManyToOne(cascade = {ALL}, optional = false)
     @JoinColumns(value = {
             @JoinColumn(name = "trip_date", referencedColumnName = "date"),
             @JoinColumn(name = "trip_title", referencedColumnName = "title")
@@ -32,7 +31,7 @@ public class Stop extends BaseModel {
 
 
     @MapsId(value = "place")
-    @ManyToOne(cascade = {PERSIST, MERGE}, optional = false)
+    @ManyToOne(cascade = {ALL}, optional = false)
     @JoinColumns(value = {
             @JoinColumn(name = "place_name", referencedColumnName = "name"),
             @JoinColumn(name = "place_province", referencedColumnName = "province"),
