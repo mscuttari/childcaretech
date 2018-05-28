@@ -15,6 +15,8 @@
         <columns>
             <TableColumn fx:id="columnTripTitle" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
             <TableColumn fx:id="columnTripDate" maxWidth="300" style="-fx-alignment: center" text="Data"/>
+            <TableColumn fx:id="columnTripChildren" maxWidth="300" style="-fx-alignment: center" text="Bambini iscritti"/>
+            <TableColumn fx:id="columnTripStaff" maxWidth="300" style="-fx-alignment: center" text="Responsabili"/>
             <TableColumn fx:id="columnTripShowDetails" maxWidth="300" style="-fx-alignment: center"/>
           <TableColumn fx:id="columnTripDelete" maxWidth="300" style="-fx-alignment: center"/>
         </columns>

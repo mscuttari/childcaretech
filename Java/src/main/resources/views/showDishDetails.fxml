@@ -11,7 +11,7 @@
             fx:controller="main.java.client.controllers.ShowDishDetailsController"
             stylesheets="@../ChildCareTech.css">
 
-    <TabPane AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <TabPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <!-- Basic data -->
         <Tab text="Dati">
