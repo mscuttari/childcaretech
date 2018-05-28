@@ -125,6 +125,11 @@ public class Place extends BaseModel implements Serializable {
     }
 
 
+    @Override
+    public String toString() {
+        return getName() + " (" + getProvince() + ", " + getNation() + ")";
+    }
+
 
     public String getName() {
         return this.id.getName();

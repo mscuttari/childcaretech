@@ -57,6 +57,40 @@ public class ShowTripController extends AbstractController implements Initializa
         columnTripTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         columnTripDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 
+        Callback<GuiTrip, Object> showDetailsCallback = new Callback<GuiTrip, Object>() {
+            @Override
+            public Object call(GuiTrip param) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showTripDetails.fxml"));
+
+                    Pane showTripDetailsPane = loader.load();
+                    ShowTripDetailsController controller = loader.getController();
+                    controller.setTrip(param.getModel());
+
+                    BorderPane homePane = (BorderPane)showTripPane.getParent();
+                    homePane.setCenter(showTripDetailsPane);
+
+                } catch (IOException e) {
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
+                return null;
+            }
+        };
+
+        columnTripShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", showDetailsCallback));
+
+        // Open details page on row double click
+        tableTrip.setRowFactory( tv -> {
+            TableRow<GuiTrip> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    showDetailsCallback.call(row.getItem());
+                }
+            });
+            return row ;
+        });
+
         columnTripEdit.setCellFactory(param -> new MyButtonTableCell<>("Modifica", new Callback<GuiTrip, Object>() {
             @Override
             public Object call(GuiTrip param) {
@@ -69,27 +103,6 @@ public class ShowTripController extends AbstractController implements Initializa
 
                     BorderPane homePane = (BorderPane)showTripPane.getParent();
                     homePane.setCenter(updateTripPane);
-
-                } catch (IOException e) {
-                    LogUtils.e(TAG, e.getMessage());
-                }
-
-                return null;
-            }
-        }));
-
-        columnTripShowDetails.setCellFactory(param -> new MyButtonTableCell<>("Visualizza dettagli", new Callback<GuiTrip, Object>() {
-            @Override
-            public Object call(GuiTrip param) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/showTripDetails.fxml"));
-
-                    Pane showTripDetailsPane = loader.load();
-                    ShowTripDetailsController controller = loader.getController();
-                    controller.setTrip(param.getModel());
-
-                    BorderPane homePane = (BorderPane)showTripPane.getParent();
-                    homePane.setCenter(showTripDetailsPane);
 
                 } catch (IOException e) {
                     LogUtils.e(TAG, e.getMessage());

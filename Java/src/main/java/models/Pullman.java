@@ -145,6 +145,12 @@ public class Pullman extends BaseModel {
     }
 
 
+    @Override
+    public String toString() {
+        return getId();
+    }
+
+
     public Trip getTrip() {
         return this.trip;
     }

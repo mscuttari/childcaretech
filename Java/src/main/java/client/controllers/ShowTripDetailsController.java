@@ -25,53 +25,77 @@ public class ShowTripDetailsController extends AbstractController implements Ini
     @FXML private Label labelTitle;
     @FXML private Label labelDate;
     @FXML private Label labelStaff;
-
-    @FXML private Label labelPullman;
+    @FXML private Label labelChildren;
+    @FXML private Label labelPullmans;
     @FXML private Label labelStops;
 
-    @FXML private TextArea textAreaChildren;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        // go back button cursor
+        // Go back button
         goBackImage.setOnMouseEntered(event -> showTripDetailsPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> showTripDetailsPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
-
     }
+
 
     /**
      * Load the trip data into the corresponding fields
      */
     private void loadData() {
+        String separator;
+
         labelTitle.setText(trip.getTitle());                                            // Title
         labelDate.setText(new java.sql.Date(trip.getDate().getTime()).toString());      // Date
 
         // Staff
-        for (Staff current : trip.getStaff()) {
-            labelStaff.setText(labelStaff.getText() + current.toString() + "\n");
+        if (trip.getStaff().isEmpty()) {
+            labelStaff.setText("-");
+        } else {
+            separator = "";
+            for (Staff staff : trip.getStaff()) {
+                labelStaff.setText(labelStaff.getText() + separator + staff.toString());
+                separator = "\n";
+            }
         }
 
         // Children
-        for(Child current: trip.getChildren()){
-            textAreaChildren.appendText(current.toString());
-            textAreaChildren.appendText("\n");
+        if (trip.getStaff().isEmpty()) {
+            labelChildren.setText("-");
+        } else {
+            separator = "";
+            for (Child child : trip.getChildren()) {
+                labelChildren.setText(labelChildren.getText() + separator + child);
+                separator = "\n";
+            }
         }
 
         // Pullman
-        for (Pullman current : trip.getPullmans()) {
-            labelPullman.setText(labelPullman.getText() + current.toString() + "\n");
+        if (trip.getPullmans().isEmpty()) {
+            labelPullmans.setText("-");
+        } else {
+            separator = "";
+            for (Pullman pullman : trip.getPullmans()) {
+                labelPullmans.setText(labelPullmans.getText() + separator + pullman.toString());
+                separator = "\n";
+            }
         }
 
         // Stops
-        for (Stop current : trip.getStops()) {
-            labelStops.setText(labelStops.getText() + current.toString() + "\n");
-        }
+        if (trip.getStops().isEmpty()) {
+            labelStops.setText("-");
+        } else {
+            List<Stop> stops = new ArrayList<>(trip.getStops());
+            stops.sort(Comparator.comparing(Stop::getNumber));
 
+            separator = "";
+            for (Stop stop : stops) {
+                labelStops.setText(labelStops.getText() + separator + stop.toString());
+                separator = "\n";
+            }
+        }
     }
+
 
     /**
      * Set the trip that is going to be shown
@@ -82,6 +106,7 @@ public class ShowTripDetailsController extends AbstractController implements Ini
         this.trip = trip;
         loadData();
     }
+
 
     /**
      * Go back to the main anagraphic page
