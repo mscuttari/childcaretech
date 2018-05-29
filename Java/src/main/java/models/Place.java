@@ -180,6 +180,8 @@ public class Place extends BaseModel implements Serializable {
         this.stops.clear();
         addStops(stops);
     }
+
+
     public void removeStop(Stop stop) {stops.remove(stop); }
 
 }

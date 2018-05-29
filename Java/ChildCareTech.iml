@@ -6,7 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="ChildCareTechPU" value="0f0f72c9-8a87-45dc-a516-728013529a8e" />
+          <factory-entry name="ChildCareTechPU" value="ab8f408c-783c-4319-b8c4-4cb2b82fa802" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>

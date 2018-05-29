@@ -130,7 +130,7 @@ public class AddDishController extends AbstractController implements Initializab
         dish.setProvider(provider);
 
         // Ingredients
-        dish.addIngredients(TableUtils.getModelsList(listIngredients.getItems()));
+        dish.setIngredients(TableUtils.getModelsList(listIngredients.getItems()));
 
         // Save dish
         if (!connectionManager.getClient().create(dish)) {

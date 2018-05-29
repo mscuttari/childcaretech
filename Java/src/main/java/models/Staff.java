@@ -98,6 +98,7 @@ public class Staff extends Person {
         return GuiStaff.class;
     }
 
+
     /** {@inheritDoc} */
     @Override
     public boolean isDeletable() {

@@ -124,7 +124,7 @@ public abstract class Person extends BaseModel {
             throwFieldError("Data di nascita mancante");
 
         // Address: [a-z] [A-Z] [0-9] à è é ì ò ù ' " space . , ; \ / °
-        if (getAddress() != null && !getAddress().matches("^$|^[a-zA-Zàèéìòù'\"\\d\\040.,;°\\\\\\/]+$"))
+        if (getAddress() != null && !getAddress().matches("^$|^[a-zA-Zàèéìòù'\"\\d\\040.,;°\\\\\\/()]+$"))
             throwFieldError("Indirizzo non valido");
 
         // Telephone: [0-9] space + - / \
@@ -268,6 +268,7 @@ public abstract class Person extends BaseModel {
         this.intolerances.clear();
         addIntolerances(intolerances);
     }
+
 
     @Override
     public String toString(){

@@ -186,6 +186,7 @@ public class Ingredient extends BaseModel {
         addIntolerantPeople(people);
     }
 
+
     @Override
     public String toString(){
         return getName();
