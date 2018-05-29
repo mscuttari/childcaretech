@@ -11,6 +11,7 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "stops", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_date", "trip_title", "place_name", "place_province", "place_nation", "number"}))
+@NamedQuery(name = "Stop.search", query = "SELECT s FROM Stop s JOIN Trip t JOIN Place p WHERE t.id.date = :tripDate AND t.id.title = :tripTitle AND p.id.name = :placeName AND p.id.province = :placeProvince AND p.id.nation = :placeNation AND s.id.number = :number")
 public class Stop extends BaseModel {
 
     @Transient
@@ -59,6 +60,26 @@ public class Stop extends BaseModel {
         setTrip(trip);
         setPlace(place);
         setNumber(number);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Stop.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("tripDate", getTrip().getDate());
+        query.setParameter("tripTitle", getTrip().getTitle());
+        query.setParameter("placeName", getPlace().getName());
+        query.setParameter("placeProvince", getPlace().getProvince());
+        query.setParameter("placeNation", getPlace().getNation());
+        query.setParameter("number", getNumber());
+        return !query.getResultList().isEmpty();
     }
 
 

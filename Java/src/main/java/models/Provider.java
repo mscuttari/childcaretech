@@ -13,6 +13,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "providers", uniqueConstraints = @UniqueConstraint(columnNames = {"vat"}))
+@NamedQuery(name = "Provider.search", query = "SELECT p FROM Provider p WHERE p.vat = :vat")
 public class Provider extends BaseModel {
 
     @Transient
@@ -50,6 +51,21 @@ public class Provider extends BaseModel {
     public Provider(String vat, String name) {
         setVat(vat);
         setName(name);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Provider.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("vat", getVat());
+        return !query.getResultList().isEmpty();
     }
 
 

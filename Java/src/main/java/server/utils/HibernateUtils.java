@@ -4,10 +4,7 @@ import main.java.LogUtils;
 import main.java.server.exceptions.DatabaseException;
 import main.java.models.BaseModel;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
@@ -165,6 +162,10 @@ public class HibernateUtils {
         EntityManager em = emf.createEntityManager();
 
         try {
+            boolean found = obj.runSearchQuery(em.createNamedQuery(obj.getSearchQueryName()));
+            if (found)
+                return false;
+
             em.getTransaction().begin();
             em.persist(em.contains(obj) ? obj : em.merge(obj));
             em.getTransaction().commit();

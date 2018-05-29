@@ -16,6 +16,7 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "places")
+@NamedQuery(name = "Place.search", query = "SELECT p FROM Place p WHERE p.id.name = :name AND p.id.province = :province AND p.id.nation = :nation")
 public class Place extends BaseModel implements Serializable {
 
     @Transient
@@ -50,6 +51,24 @@ public class Place extends BaseModel implements Serializable {
         setName(name);
         setProvince(province);
         setNation(nation);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Place.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("name", getName());
+        query.setParameter("province", getProvince());
+        query.setParameter("nation", getNation());
+
+        return !query.getResultList().isEmpty();
     }
 
 

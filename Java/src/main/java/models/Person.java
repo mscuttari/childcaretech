@@ -13,6 +13,7 @@ import static javax.persistence.CascadeType.*;
 @Table(name = "people")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type")
+@NamedQuery(name = "Person.search", query = "SELECT p FROM Person p WHERE p.fiscalCode = :fiscalCode")
 public abstract class Person extends BaseModel {
 
     @Transient
@@ -89,6 +90,21 @@ public abstract class Person extends BaseModel {
         setBirthdate(birthDate);
         setAddress(address);
         setTelephone(telephone);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Person.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("fiscalCode", getFiscalCode());
+        return !query.getResultList().isEmpty();
     }
 
 

@@ -15,6 +15,7 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "menus")
+@NamedQuery(name = "Menu.search", query = "SELECT m FROM Menu m WHERE m.name = :name")
 public class Menu extends BaseModel {
 
     @Transient
@@ -64,6 +65,21 @@ public class Menu extends BaseModel {
         setName(name);
         setResponsible(responsible);
         setDayOfTheWeek(dayOfTheWeek);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Menu.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("name", getName());
+        return !query.getResultList().isEmpty();
     }
 
 

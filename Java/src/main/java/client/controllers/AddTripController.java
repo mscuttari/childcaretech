@@ -540,7 +540,7 @@ public class AddTripController extends AbstractController implements Initializab
                 }
 
                 for (Pullman currentPullman : trip.getPullmans()) {
-                    if (currentPullman.getChildren().size() > currentPullman.getSeats()) {
+                    if (currentPullman.getChildren().size() > currentPullman.getSeats() - 1) {
                         showErrorDialog("Il pullman" + currentPullman + "non ha abbastanza posti per il numero di bambini selezionato");
                         return;
                     }

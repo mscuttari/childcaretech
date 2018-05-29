@@ -13,6 +13,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "ingredients")
+@NamedQuery(name = "Ingredientsearch", query = "SELECT i FROM Ingredient i WHERE i.name = :name")
 public class Ingredient extends BaseModel {
 
     @Transient
@@ -54,6 +55,21 @@ public class Ingredient extends BaseModel {
      */
     public Ingredient(String name) {
         this.name = name;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Ingredient.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("name", getName());
+        return !query.getResultList().isEmpty();
     }
 
 

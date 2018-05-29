@@ -28,3 +28,15 @@
 .scroll-pane > .viewport {
     -fx-background-color: white;
 }
+
+.list-view {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
+}
+
+.table-view {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
+}

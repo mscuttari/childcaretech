@@ -3,6 +3,8 @@ package main.java.models;
 import main.java.exceptions.InvalidFieldException;
 import main.java.client.gui.GuiBaseModel;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.*;
@@ -11,6 +13,23 @@ public abstract class BaseModel implements Serializable {
 
     // Serialization
     private static final long serialVersionUID = 5852497063598077389L;
+
+
+    /**
+     * Get the search query name
+     *
+     * @return  query name
+     */
+    public abstract String getSearchQueryName();
+
+
+    /**
+     * Run search query
+     *
+     * @param   query       search query
+     * @return  true if the object has been found
+     */
+    public abstract boolean runSearchQuery(Query query);
 
 
     /**

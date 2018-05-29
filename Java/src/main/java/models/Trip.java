@@ -13,6 +13,7 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "trips", uniqueConstraints = @UniqueConstraint(columnNames = {"date", "title"}))
+@NamedQuery(name = "Trip.search", query = "SELECT t FROM Trip t WHERE t.id.date = :date AND t.id.title = :title")
 public class Trip extends BaseModel {
 
     @Transient
@@ -81,6 +82,23 @@ public class Trip extends BaseModel {
         setDate(date);
         setTitle(title);
         setSeatsAssignmentType(seatsAssignmentType);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Trip.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("date", getDate());
+        query.setParameter("title", getTitle());
+
+        return !query.getResultList().isEmpty();
     }
 
 
