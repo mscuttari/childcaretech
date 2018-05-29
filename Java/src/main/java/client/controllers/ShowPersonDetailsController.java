@@ -141,7 +141,7 @@ public class ShowPersonDetailsController extends AbstractController implements I
                 if (!((Contact) person).getChildren().isEmpty()) {
                     separator = "";
                     for (Child current : ((Contact) person).getChildren()) {
-                        labelChildren.setText(labelChildCode.getText() + separator + current);
+                        labelChildren.setText(labelChildren.getText() + separator + current);
                         separator = "\n";
                     }
                 } else {
@@ -157,7 +157,7 @@ public class ShowPersonDetailsController extends AbstractController implements I
                 if (!((Parent) person).getChildren().isEmpty()) {
                     separator = "";
                     for (Child current : ((Parent) person).getChildren()) {
-                        labelChildren.setText(labelChildCode.getText() + separator + current);
+                        labelChildren.setText(labelChildren.getText() + separator + current);
                         separator = "\n";
                     }
                 } else {

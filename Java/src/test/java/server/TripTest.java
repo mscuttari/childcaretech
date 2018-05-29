@@ -68,6 +68,11 @@ class TripTest extends BaseModelTest<Trip> {
         obj.addPullman(new Pullman(obj, "AAA", 10));
         obj.addPullman(new Pullman(obj, "BBB", 10));
         obj.addPullman(new Pullman(obj, "CCC", 10));
+
+        //Add Staff
+        obj.addStaff(new Staff("AAA", "BBB", "CCC", new Date(), "Via Roma", "333459969", "uss", "uss"));
+        obj.addStaff(new Staff("DDD", "EEE", "FFF", new Date(), "Via Milano", "333453969", "tapp", "tapp"));
+        obj.addStaff(new Staff("GGG", "HHH", "III", new Date(), "Via Napoli", "333229969", "oss", "oss"));
     }
 
 
@@ -96,6 +101,11 @@ class TripTest extends BaseModelTest<Trip> {
         // Check pullmans delete
         for (Pullman pullman : trip.getPullmans()) {
             assertNull(PullmanTest.getPullman(pullman.getTrip(), pullman.getId()));
+        }
+
+        // Delete staff
+        for(Staff staff : trip.getStaff()){
+            HibernateUtils.getInstance().delete(staff);
         }
 
         // Delete places
