@@ -73,7 +73,7 @@ class PullmanTest extends BaseModelTest<Pullman> {
         // Delete trip
         Trip trip = pullman.getTrip();
         HibernateUtils.getInstance().delete(trip);
-        assertNull(TripTest.getTrip(trip.getDate(), trip.getTitle()));
+        assertNull(getTrip(trip.getDate(), trip.getTitle()));
     }
 
 
@@ -152,6 +152,32 @@ class PullmanTest extends BaseModelTest<Pullman> {
                 .where(cb.equal(root.get("id").get("id"), id));
 
         TypedQuery<Pullman> q = em.createQuery(cq);
+
+        return HibernateUtils.getSingleResult(q);
+    }
+
+
+
+    /**
+     * Get trip by date and title
+     *
+     * @param   date        date
+     * @param   title       title
+     *
+     * @return  trip (null if not found)
+     */
+    public static Trip getTrip(Date date, String title) {
+        HibernateUtils hibernateUtils = HibernateUtils.getInstance();
+        EntityManager em = hibernateUtils.getEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Trip> cq = cb.createQuery(Trip.class);
+        Root<Trip> root = cq.from(Trip.class);
+
+        cq.where(cb.equal(root.get("id").get("date"), date))
+                .where(cb.equal(root.get("id").get("title"), title));
+
+        TypedQuery<Trip> q = em.createQuery(cq);
 
         return HibernateUtils.getSingleResult(q);
     }
