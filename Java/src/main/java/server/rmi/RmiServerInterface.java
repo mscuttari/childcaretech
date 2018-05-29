@@ -26,7 +26,7 @@ public interface RmiServerInterface extends Remote {
      * @return  child ID
      * @throws  RemoteException in case of connection error
      */
-    String createChildId(RmiClientInterface client) throws RemoteException;
+    Long createChildId(RmiClientInterface client) throws RemoteException;
 
 
     /**

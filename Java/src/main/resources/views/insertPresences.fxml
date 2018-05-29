@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="insertPresencesPane" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.client.controllers.InsertPresencesController">
     <children>
-      <HBox AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
                 <TableView fx:id="tableTrips" HBox.hgrow="ALWAYS">
                     <columns>
@@ -19,7 +19,7 @@
                 </TableView>
                 <TableView fx:id="tablePullman">
                     <columns>
-                        <TableColumn fx:id="columnPullmanId" prefWidth="112.0" text="Targa Pullman" />
+                        <TableColumn fx:id="columnPullmanId" prefWidth="100.0" text="Id Pullman" />
                     </columns>
                 </TableView>
                 <TableView fx:id="tableChildren">
@@ -31,12 +31,12 @@
                 </TableView>
          </children>
       </HBox>
-      <ImageView fx:id="imageSavePresences" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="30.0">
+      <ImageView fx:id="imageSavePresences" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <image>
             <Image url="@../images/save-data.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
          <image>
             <Image url="@../images/goBack(green).png" />
          </image>

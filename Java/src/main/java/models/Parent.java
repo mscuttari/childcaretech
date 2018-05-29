@@ -72,18 +72,21 @@ public class Parent extends Person {
     }
 
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc */
     @Override
     public boolean isDeletable() {
-        return super.isDeletable() &
-                getChildren().isEmpty();
+        return super.isDeletable();
     }
 
 
     /** {@inheritDoc} */
     @Override
     public void preDelete() {
-        super.preDelete();
+
+        // Children
+        for (Child child : getChildren()) {
+            child.removeParent(this);
+        }
     }
 
 

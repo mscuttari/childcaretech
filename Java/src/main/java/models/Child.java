@@ -28,7 +28,7 @@ public class Child extends Person {
     @GenericGenerator(name = "native_generator", strategy = "native")
     @GeneratedValue(generator = "native_generator")
     @Column(name = "child_id", unique = true)
-    private String id;
+    private Long id;
 
 
     @ManyToOne(cascade = {PERSIST, MERGE})
@@ -185,13 +185,13 @@ public class Child extends Person {
     }
 
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
 
-    public void setId(String id) {
-        this.id = trimString(id);
+    public void setId(Long id) {
+        this.id = id;
     }
 
 
@@ -300,6 +300,14 @@ public class Child extends Person {
     public void setPullmansAssignments(Collection<Pullman> pullmans) {
         this.pullmansAssignments.clear();
         addPullmansAssignments(pullmans);
+    }
+
+    public void removeParent(Parent parent) {
+        this.parents.remove(parent);
+    }
+
+    public void removeContact(Contact contact) {
+        this.contacts.remove(contact);
     }
 
 }

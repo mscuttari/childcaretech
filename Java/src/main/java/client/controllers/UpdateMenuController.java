@@ -136,7 +136,7 @@ public class UpdateMenuController extends AbstractController implements Initiali
 
         menu.setDayOfTheWeek(cbDayOfTheWeek.getValue());
         menu.getDishes().clear();
-        menu.addDishes(TableUtils.getSelectedItems(tableDish));
+        menu.setDishes(TableUtils.getSelectedItems(tableDish));
         menu.setResponsible(TableUtils.getFirstSelectedItem(tableStaff));
 
         // Check data

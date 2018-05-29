@@ -78,7 +78,7 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
 
     /** {@inheritDoc} */
     @Override
-    public String createChildId() {
+    public Long createChildId() {
         try {
             return server.createChildId(this);
         } catch (RemoteException e) {

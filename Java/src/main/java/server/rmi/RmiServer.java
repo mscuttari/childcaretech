@@ -60,7 +60,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
     /** {@inheritDoc} */
     @Override
-    public String createChildId(RmiClientInterface client) throws RemoteException {
+    public Long createChildId(RmiClientInterface client) throws RemoteException {
         if (!login(client)) return null;
         return Actions.createChildId();
     }

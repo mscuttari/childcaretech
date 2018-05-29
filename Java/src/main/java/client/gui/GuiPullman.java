@@ -28,6 +28,12 @@ public class GuiPullman extends GuiBaseModel<Pullman> {
         this.seats.addListener((observable, oldValue, newValue) -> getModel().setSeats(newValue.intValue()));
     }
 
+    @Override
+    public String toString() {
+        return  idProperty().getValue() + " (" +
+                seatsProperty().getValue() + ")";
+    }
+
 
     public StringProperty idProperty() {
         return id;

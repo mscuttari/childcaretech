@@ -55,7 +55,7 @@ public class Actions {
      *
      * @return  child ID
      */
-    public static String createChildId() {
+    public static Long createChildId() {
         EntityManager em = HibernateUtils.getInstance().getEntityManager();
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -67,11 +67,11 @@ public class Actions {
         Child child = HibernateUtils.getSingleResult(em.createQuery(cq));
 
         if (child == null) {
-            return "CHILD1";
+            return Long.valueOf(0);
         } else {
-            int lastNumber = Integer.valueOf(child.getId().substring(5));
+            int lastNumber = child.getId().intValue();
             int nextNumber = lastNumber + 1;
-            return "CHILD" + nextNumber;
+            return Long.valueOf(nextNumber);
         }
     }
 

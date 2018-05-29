@@ -19,7 +19,7 @@
             </TableView>
             <TableView fx:id="tablePullman" prefWidth="150.0" HBox.hgrow="ALWAYS">
                <columns>
-                  <TableColumn fx:id="columnPullmanId" minWidth="-1.0" prefWidth="150.0" text="Targa" />
+                  <TableColumn fx:id="columnPullmanId" minWidth="-1.0" prefWidth="100.0" text="Id" />
                </columns>
             </TableView>
             <TableView fx:id="tableChildren" prefWidth="450.0" HBox.hgrow="ALWAYS">
@@ -31,7 +31,7 @@
             </TableView>
          </children>
       </HBox>
-      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0">
+      <ImageView fx:id="goBackImage" fitHeight="60.0" fitWidth="60.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
          <image>
             <Image url="@../images/goBack(green).png" />
          </image>

@@ -61,7 +61,7 @@ class ChildTest extends PersonTest<Child> {
         super.assignValidData(obj);
 
         // Basic data
-        obj.setId("CHILD1111111111");
+        obj.setId((long) 1111);
 
         // Add parents
         obj.addParent(new Parent("BBBBBBBBBBBBBBBB", "BBB", "BBB", new Date(), "Test, B/1", "1111111111"));

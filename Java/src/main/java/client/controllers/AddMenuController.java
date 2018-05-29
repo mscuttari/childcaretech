@@ -107,7 +107,7 @@ public class AddMenuController extends AbstractController implements Initializab
         Menu menu = new Menu(menuName, menuStaff, dayOfTheWeek);
 
         // Dishes
-        menu.addDishes(TableUtils.getSelectedItems(tableDish));
+        menu.setDishes(TableUtils.getSelectedItems(tableDish));
 
         // Check data
         try {

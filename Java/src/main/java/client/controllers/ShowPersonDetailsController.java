@@ -43,6 +43,9 @@ public class ShowPersonDetailsController extends AbstractController implements I
     @FXML private Label labelContacts;
     @FXML private Label labelPediatrist;
 
+    @FXML Tab tabChildren;
+    @FXML private Label labelChildren;
+
     @FXML Tab tabIngredients;
     @FXML private ListView<GuiIngredient> lvAllergies;
     @FXML private ListView<GuiIngredient> lvIntolerances;
@@ -86,7 +89,7 @@ public class ShowPersonDetailsController extends AbstractController implements I
         // Intolerances
         lvIntolerances.setItems(TableUtils.getGuiModelsList(person.getIntolerances()));
 
-        tabPane.getTabs().removeAll(tabRelations, tabIngredients);
+        tabPane.getTabs().removeAll(tabRelations, tabChildren, tabIngredients);
         boxChildCode.setVisible(false);
 
         // Differentiation based on person type
@@ -128,10 +131,34 @@ public class ShowPersonDetailsController extends AbstractController implements I
 
             case CONTACT:
                 imagePersonType.setImage(new Image("/images/grandparents.png"));
+
+                // Children
+                if (!((Contact) person).getChildren().isEmpty()) {
+                    separator = "";
+                    for (Child current : ((Contact) person).getChildren()) {
+                        labelChildren.setText(labelChildCode.getText() + separator + current);
+                        separator = "\n";
+                    }
+                } else {
+                    labelChildren.setText("-");
+                }
+                tabPane.getTabs().addAll(tabChildren);
                 break;
 
             case PARENT:
                 imagePersonType.setImage(new Image("/images/family.png"));
+
+                // Children
+                if (!((Parent) person).getChildren().isEmpty()) {
+                    separator = "";
+                    for (Child current : ((Parent) person).getChildren()) {
+                        labelChildren.setText(labelChildCode.getText() + separator + current);
+                        separator = "\n";
+                    }
+                } else {
+                    labelChildren.setText("-");
+                }
+                tabPane.getTabs().addAll(tabChildren);
                 break;
 
             case PEDIATRIST:

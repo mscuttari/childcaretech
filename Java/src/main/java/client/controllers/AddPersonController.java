@@ -358,7 +358,7 @@ public class AddPersonController extends AbstractController implements Initializ
                 person = child;
 
                 // Id
-                String childId = ConnectionManager.getInstance().getClient().createChildId();
+                Long childId = ConnectionManager.getInstance().getClient().createChildId();
 
                 if (childId == null) {
                     showErrorDialog("Impossibile creare un codice identificativo per il bambino");
@@ -380,14 +380,14 @@ public class AddPersonController extends AbstractController implements Initializ
                 }
 
                 // Parents
-                child.addParents(TableUtils.getSelectedItems(tableParents));
+                child.setParents(TableUtils.getSelectedItems(tableParents));
 
                 // Contacts
-                child.addContacts(TableUtils.getSelectedItems(tableContacts));
+                child.setContacts(TableUtils.getSelectedItems(tableContacts));
 
                 // Allergies and intolerances
-                child.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
-                child.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
+                child.setAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
+                child.setIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
 
                 break;
 
@@ -405,8 +405,8 @@ public class AddPersonController extends AbstractController implements Initializ
 
             case STAFF:
                 person = new Staff(fiscalCode, firstName, lastName, birthDate, address, telephone, username, password);
-                person.addIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
-                person.addAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
+                person.setIntolerances(TableUtils.getModelsList(lvIntolerances.getItems()));
+                person.setAllergies(TableUtils.getModelsList(lvAllergies.getItems()));
 
                 break;
         }

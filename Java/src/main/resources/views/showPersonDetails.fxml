@@ -140,6 +140,35 @@
             </AnchorPane>
         </Tab>
 
+        <!-- Children -->
+        <Tab fx:id="tabChildren" text="Bambini">
+            <AnchorPane>
+                <!--suppress JavaFxUnresolvedStyleClassReference -->
+                <ScrollPane fitToWidth="true"
+                            fitToHeight="true"
+                            styleClass="edge-to-edge"
+                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <VBox alignment="CENTER_LEFT"
+                          spacing="20"
+                          style="-fx-padding: 0 0 0 50; -fx-font-size: 18">
+
+                        <!-- Children -->
+                        <HBox spacing="15">
+                            <ImageView fitHeight="60.0" fitWidth="60.0">
+                                <Image url="@../images/children.png"/>
+                            </ImageView>
+
+                            <VBox>
+                                <Label text="Bambini:" style="-fx-font-weight: bold" />
+                                <Label fx:id="labelChildren" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </AnchorPane>
+        </Tab>
+
         <!-- Allergies and intolerances -->
         <Tab fx:id="tabIngredients" text="Allergie / intolleranze">
             <AnchorPane>

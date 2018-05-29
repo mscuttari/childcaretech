@@ -70,7 +70,7 @@ public interface ClientInterface {
      *
      * @return  child ID
      */
-    String createChildId();
+    Long createChildId();
 
 
     /**
