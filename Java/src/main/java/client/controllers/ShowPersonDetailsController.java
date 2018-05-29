@@ -1,5 +1,6 @@
 package main.java.client.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -67,9 +68,9 @@ public class ShowPersonDetailsController extends AbstractController implements I
     private void loadData() {
         String separator;
 
-        labelFiscalCode.setText(person.getFiscalCode());                                            // Fiscal code
-        labelFirstName.setText(person.getFirstName());                                              // First name
-        labelLastName.setText(person.getLastName());                                                // Last name
+        labelFiscalCode.setText(person.getFiscalCode());        // Fiscal code
+        labelFirstName.setText(person.getFirstName());          // First name
+        labelLastName.setText(person.getLastName());            // Last name
 
         // Birth date
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -84,10 +85,14 @@ public class ShowPersonDetailsController extends AbstractController implements I
         labelTelephone.setText(person.getTelephone());
 
         // Allergies
-        lvAllergies.setItems(TableUtils.getGuiModelsList(person.getAllergies()));
+        ObservableList<GuiIngredient> allergies = TableUtils.getGuiModelsList(person.getAllergies());
+        allergies.sorted(Comparator.comparing(o -> o.getModel().getName()));
+        lvAllergies.setItems(allergies);
 
         // Intolerances
-        lvIntolerances.setItems(TableUtils.getGuiModelsList(person.getIntolerances()));
+        ObservableList<GuiIngredient> intolerances = TableUtils.getGuiModelsList(person.getIntolerances());
+        intolerances.sorted(Comparator.comparing(o -> o.getModel().getName()));
+        lvIntolerances.setItems(intolerances);
 
         tabPane.getTabs().removeAll(tabRelations, tabChildren, tabIngredients);
         boxChildCode.setVisible(false);
