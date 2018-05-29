@@ -105,11 +105,14 @@ public class ShowTripController extends AbstractController implements Initializa
         });
 
         columnTripDelete.setCellFactory(param -> new MyButtonTableCell<>("Elimina", param1 -> {
-            connectionManager.getClient().delete(param1.getModel());
-            List<Trip> newTrips = connectionManager.getClient().getTrips();
-            ObservableList<GuiTrip> newTripsData = TableUtils.getGuiModelsList(newTrips);
+            if (showConfirmationDialog("Vuoi davvero eliminare la gita?\n(la procedura è irreversibile)")) {
+                connectionManager.getClient().delete(param1.getModel());
+                List<Trip> newTrips = connectionManager.getClient().getTrips();
+                ObservableList<GuiTrip> newTripsData = TableUtils.getGuiModelsList(newTrips);
 
-            tableTrip.setItems(newTripsData);
+                tableTrip.setItems(newTripsData);
+            }
+
             return null;
         }));
 
