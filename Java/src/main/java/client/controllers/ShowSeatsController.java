@@ -1,5 +1,6 @@
 package main.java.client.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +15,8 @@ import main.java.client.connection.ConnectionManager;
 import main.java.models.*;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,7 +28,7 @@ public class ShowSeatsController extends AbstractController implements Initializ
 
     @FXML private TableView<Trip> tableTrips;
     @FXML private TableColumn<Trip, String> columnTripsTitle;
-    @FXML private TableColumn<Trip, Date> columnTripsDate;
+    @FXML private TableColumn<Trip, String> columnTripsDate;
 
     @FXML private TableView<Pullman> tablePullman;
     @FXML private TableColumn<Pullman, String> columnPullmanId;
@@ -52,7 +55,11 @@ public class ShowSeatsController extends AbstractController implements Initializ
         ObservableList<Trip> tripsData = FXCollections.observableArrayList(trips);
 
         columnTripsTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        columnTripsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        columnTripsDate.setCellValueFactory(param -> {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            return new SimpleStringProperty(formatter.format(param.getValue().getDate()));
+        });
 
         tableTrips.setEditable(true);
         tableTrips.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

@@ -60,7 +60,6 @@ public class ShowTripController extends AbstractController implements Initializa
         ObservableList<GuiTrip> tripsData = TableUtils.getGuiModelsList(trips);
 
         columnTripTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        columnTripDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         columnTripDate.setCellValueFactory(param -> {
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");

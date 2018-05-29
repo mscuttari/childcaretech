@@ -1,5 +1,6 @@
 package main.java.client.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,57 +21,41 @@ import main.java.models.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class InsertPresencesController implements Initializable {
+public class InsertPresencesController extends AbstractController implements Initializable {
 
-    // Debug
-    private static final String TAG = "InsertPresencesController";
+    @FXML private Pane insertPresencesPane;
+    @FXML private ImageView imageSavePresences;
+    @FXML private ImageView goBackImage;
 
-    @FXML
-    private Pane insertPresencesPane;
-    @FXML
-    private ImageView imageSavePresences;
-    @FXML
-    private ImageView goBackImage;
+    @FXML private TableView<Trip> tableTrips;
+    @FXML private TableColumn<Trip, String> columnTripsTitle;
+    @FXML private TableColumn<Trip, String> columnTripsDate;
 
-    @FXML
-    private TableView<Trip> tableTrips;
-    @FXML
-    private TableColumn<Trip, String> columnTripsTitle;
-    @FXML
-    private TableColumn<Trip, Date> columnTripsDate;
+    @FXML private TableView<Pullman> tablePullman;
+    @FXML private TableColumn<Pullman, String> columnPullmanId;
 
-    @FXML
-    private TableView<Pullman> tablePullman;
-    @FXML
-    private TableColumn<Pullman, String> columnPullmanId;
-
-    @FXML
-    private TableView<GuiChild> tableChildren;
-    @FXML
-    private TableColumn<GuiChild, Boolean> columnChildrenSelected;
-    @FXML
-    private TableColumn<GuiChild, String> columnChildrenFirstName;
-    @FXML
-    private TableColumn<GuiChild, String> columnChildrenLastName;
+    @FXML private TableView<GuiChild> tableChildren;
+    @FXML private TableColumn<GuiChild, Boolean> columnChildrenSelected;
+    @FXML private TableColumn<GuiChild, String> columnChildrenFirstName;
+    @FXML private TableColumn<GuiChild, String> columnChildrenLastName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        // Save button cursor
+        // Save button
         imageSavePresences.setOnMouseEntered(event -> insertPresencesPane.getScene().setCursor(Cursor.HAND));
         imageSavePresences.setOnMouseExited(event -> insertPresencesPane.getScene().setCursor(Cursor.DEFAULT));
-
-        // Save button click
         imageSavePresences.setOnMouseClicked(event -> savePresences());
+        Tooltip.install(imageSavePresences, new Tooltip("Salva"));
 
-        // go back button cursor
+        // Go back button
         goBackImage.setOnMouseEntered(event -> insertPresencesPane.getScene().setCursor(Cursor.HAND));
         goBackImage.setOnMouseExited(event -> insertPresencesPane.getScene().setCursor(Cursor.DEFAULT));
-
-        //go back image
         goBackImage.setOnMouseClicked(event -> goBack());
+        Tooltip.install(goBackImage, new Tooltip("Indietro"));
 
         // Connection
         ConnectionManager connectionManager = ConnectionManager.getInstance();
@@ -80,7 +65,11 @@ public class InsertPresencesController implements Initializable {
         ObservableList<Trip> tripsData = FXCollections.observableArrayList(trips);
 
         columnTripsTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        columnTripsDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        columnTripsDate.setCellValueFactory(param -> {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            return new SimpleStringProperty(formatter.format(param.getValue().getDate()));
+        });
 
         tableTrips.setEditable(true);
         tableTrips.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -179,19 +168,6 @@ public class InsertPresencesController implements Initializable {
         }
     }
 
-    /**
-     * Show error dialog
-     *
-     * @param message error message
-     */
-    private static void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.showAndWait();
-
-    }
-
 
     private static void showPresencesErrorDialog(List<Child> notPresentChildren, List<Child> wrongPullmanChildren, SeatsAssignmentType seatsAssignmentType) {
 
@@ -214,14 +190,12 @@ public class InsertPresencesController implements Initializable {
 
     }
 
+
+    /**
+     * Go back to the trips page
+     */
     public void goBack() {
-        try {
-            Pane seatsAssignmentPane = FXMLLoader.load(getClass().getResource("/views/seatsAssignment.fxml"));
-            BorderPane homePane = (BorderPane) insertPresencesPane.getParent();
-            homePane.setCenter(seatsAssignmentPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+        setCenterFXML((BorderPane) insertPresencesPane.getParent(), "/views/seatsAssignment.fxml");
     }
 
 }
