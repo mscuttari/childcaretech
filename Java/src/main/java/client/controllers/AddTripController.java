@@ -509,8 +509,8 @@ public class AddTripController extends AbstractController implements Initializab
                 for (Pullman pullman : trip.getPullmans()){
                     if (children.isEmpty()) break;      // All children have been assigned
 
-                    if (pullman.getSeats() <= children.size()) {
-                        pullman.setChildren(children.subList(0, pullman.getSeats()));
+                    if (pullman.getSeats() - 1 <= children.size()) {
+                        pullman.setChildren(children.subList(0, pullman.getSeats() - 1));
                         children.removeAll(pullman.getChildren());
                     } else {
                         pullman.setChildren(children);

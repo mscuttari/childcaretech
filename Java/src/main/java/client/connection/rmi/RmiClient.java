@@ -66,8 +66,6 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
         setUsername(username);
         setPassword(password);
 
-        LogUtils.e(TAG, "RMIClient log 1");
-
         try {
             return server.login(this);
         } catch (RemoteException e) {

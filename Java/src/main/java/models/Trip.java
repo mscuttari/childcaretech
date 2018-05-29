@@ -111,6 +111,10 @@ public class Trip extends BaseModel {
             if (totalNumberOfSeats < getChildren().size() + getStaff().size())
                 throwFieldError("Posti insufficienti");
         }
+
+        // Check if it is possible to place t least one staff member on each pullman
+        if (getPullmans().size() > getStaff().size())
+            throwFieldError("Non sono presenti abbastanza responsabili per il numero di pullman inseriti");
     }
 
 
