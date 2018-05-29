@@ -224,9 +224,9 @@ public class AddTripController extends AbstractController implements Initializab
      */
     private void addStop() {
         // Get data
-        String placeName = capitalize(tfStopName.getText().trim());
+        String placeName = tfStopName.getText().trim();
         String placeProvince = tfStopProvince.getText().trim().toUpperCase();
-        String placeNation = capitalize(tfStopNation.getText().trim());
+        String placeNation = tfStopNation.getText().trim();
         Integer stopNumber = tfStopNumber.getText().isEmpty() ? stopCounter : Integer.valueOf(tfStopNumber.getText().trim());
 
         // Limit the max stop number to the next available slot
