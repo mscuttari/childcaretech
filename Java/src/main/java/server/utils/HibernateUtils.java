@@ -162,9 +162,9 @@ public class HibernateUtils {
         EntityManager em = emf.createEntityManager();
 
         try {
-            boolean found = obj.runSearchQuery(em.createNamedQuery(obj.getSearchQueryName()));
-            if (found)
-                return false;
+            //boolean found = obj.runSearchQuery(em.createNamedQuery(obj.getSearchQueryName()));
+            //if (found)
+            //    return false;
 
             em.getTransaction().begin();
             em.persist(em.contains(obj) ? obj : em.merge(obj));

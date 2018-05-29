@@ -15,7 +15,7 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "pullmans")
-@NamedQuery(name = "Pullman.search", query = "SELECT p FROM Pullman p JOIN Trip t WHERE t.id.date = :tripDate AND t.id.title = :tripTitle AND p.id.id = :id")
+@NamedQuery(name = "Pullman.search", query = "SELECT p FROM Pullman p JOIN Trip t WHERE t.id.date = :tripDate AND t.id.title = :tripTitle AND p.id.id = :pullmanId")
 public class Pullman extends BaseModel {
 
     @Transient
@@ -87,7 +87,8 @@ public class Pullman extends BaseModel {
     public boolean runSearchQuery(Query query) {
         query.setParameter("tripDate", getTrip().getDate());
         query.setParameter("tripTitle", getTrip().getTitle());
-        query.setParameter("id", getId());
+        query.setParameter("pullmanId", getId());
+
         return !query.getResultList().isEmpty();
     }
 
