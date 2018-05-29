@@ -11,6 +11,9 @@ import java.util.List;
 
 public class SocketClient extends BaseClient implements ClientInterface {
 
+    // Serialization
+    private static final long serialVersionUID = 1189998355806574518L;
+
     // Debug
     private transient static final String TAG = "SocketClient";
 
@@ -74,11 +77,16 @@ public class SocketClient extends BaseClient implements ClientInterface {
         setUsername(username);
         setPassword(password);
 
-        List<Child> children = getChildren();
-        LogUtils.e(TAG, "Children: " + children);
-
         Object result = sendData("login", this);
         return result instanceof Boolean && (boolean)result;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public Long createChildId() {
+        Object result = sendData("create_child_id", this);
+        return result instanceof Long ? (Long)result : null;
     }
 
 
@@ -108,6 +116,15 @@ public class SocketClient extends BaseClient implements ClientInterface {
 
     /** {@inheritDoc} */
     @Override
+    public List<Person> getPeople() {
+        Object result = sendData("get_people", this);
+        //noinspection unchecked
+        return result instanceof List ? (List<Person>)result : null;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     public List<Child> getChildren() {
         Object result = sendData("get_children", this);
         //noinspection unchecked
@@ -126,10 +143,10 @@ public class SocketClient extends BaseClient implements ClientInterface {
 
     /** {@inheritDoc} */
     @Override
-    public List<Food> getFood() {
-        Object result = sendData("get_food", this);
+    public List<Dish> getDishes() {
+        Object result = sendData("get_dishes", this);
         //noinspection unchecked
-        return result instanceof List ? (List<Food>)result : null;
+        return result instanceof List ? (List<Dish>)result : null;
     }
 
 

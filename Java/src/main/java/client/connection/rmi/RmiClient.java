@@ -12,6 +12,9 @@ import java.util.List;
 
 public class RmiClient extends BaseClient implements ClientInterface, RmiClientInterface {
 
+    // Serialization
+    private static final long serialVersionUID = 3095705285093912198L;
+
     // Debug
     private static final String TAG = "RmiClient";
 
@@ -67,6 +70,19 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
             return server.login(this);
         } catch (RemoteException e) {
             return false;
+        }
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public Long createChildId() {
+        try {
+            return server.createChildId(this);
+        } catch (RemoteException e) {
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -129,6 +145,13 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
 
     /** {@inheritDoc} */
     @Override
+    public List<Person> getPeople() {
+        return getAll(Person.class);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
     public List<Child> getChildren() {
         return getAll(Child.class);
     }
@@ -143,8 +166,8 @@ public class RmiClient extends BaseClient implements ClientInterface, RmiClientI
 
     /** {@inheritDoc} */
     @Override
-    public List<Food> getFood() {
-        return getAll(Food.class);
+    public List<Dish> getDishes() {
+        return getAll(Dish.class);
     }
 
 

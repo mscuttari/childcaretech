@@ -2,7 +2,6 @@ package main.java.server.rmi;
 
 import main.java.client.connection.rmi.RmiClientInterface;
 import main.java.models.BaseModel;
-import main.java.models.Person;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -18,6 +17,16 @@ public interface RmiServerInterface extends Remote {
      * @throws  RemoteException in case of connection error
      */
     boolean login(RmiClientInterface client) throws RemoteException;
+
+
+    /**
+     * Create child ID
+     *
+     * @param   client      RMI client
+     * @return  child ID
+     * @throws  RemoteException in case of connection error
+     */
+    Long createChildId(RmiClientInterface client) throws RemoteException;
 
 
     /**

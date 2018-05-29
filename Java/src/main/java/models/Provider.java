@@ -1,60 +1,120 @@
 package main.java.models;
 
-import org.hibernate.annotations.GenericGenerator;
+import main.java.exceptions.InvalidFieldException;
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiProvider;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
 @Table(name = "providers", uniqueConstraints = @UniqueConstraint(columnNames = {"vat"}))
+@NamedQuery(name = "Provider.search", query = "SELECT p FROM Provider p WHERE p.vat = :vat")
 public class Provider extends BaseModel {
 
-    private Long id;
-    private String vat;
-    private String name;
-    private Collection<Food> food = new ArrayList<>();
+    @Transient
+    private static final long serialVersionUID = -2813171935508565148L;
+
 
     @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "vat")
+    private String vat;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Column(name = "vat", nullable = false)
-    public String getVat() {
-        return vat;
-    }
-
-    public void setVat(String vat) {
-        this.vat = vat;
-    }
 
     @Column(name = "name", nullable = false)
-    public String getName() {
-        return name;
-    }
+    private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @OneToMany(mappedBy = "provider")
-    public Collection<Food> getFood() {
-        return food;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Dish> dishes = new HashSet<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Provider() {
+        this(null, null);
     }
 
-    public void setFood(Collection<Food> food) {
-        this.food = food;
+
+    /**
+     * Constructor
+     *
+     * @param   vat     VAT
+     * @param   name    name
+     */
+    public Provider(String vat, String name) {
+        setVat(vat);
+        setName(name);
     }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Provider.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("vat", getVat());
+        return !query.getResultList().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // VAT: [a-z] [A-Z] [0-9] space
+        if (getVat() == null)
+            throwFieldError("Partita IVA mancante");
+
+        if (!getVat().matches("^[a-zA-Z\\d\\040]+$"))
+            throwFieldError("Partita IVA non valida");
+
+        // Name: [a-z] [A-Z] à è é ì ò ù ' " space
+        if (getName() == null)
+            throwFieldError("Nome mancante");
+
+        if (!getName().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
+            throwFieldError("Nome non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Fornitore";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiProvider.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return getDishes().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -62,12 +122,66 @@ public class Provider extends BaseModel {
         if (!(o instanceof Provider)) return false;
 
         Provider that = (Provider) o;
-        return Objects.equals(getVat(), that.getVat());
+        return Objects.equals(getVat(), that.getVat()) &&
+                Objects.equals(getName(), that.getName());
     }
+
 
     @Override
     public int hashCode() {
         return Objects.hash(getVat());
+    }
+
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+
+    public String getVat() {
+        return this.vat;
+    }
+
+
+    public void setVat(String vat) {
+        this.vat = trimString(vat);
+    }
+
+
+    public String getName() {
+        return this.name;
+    }
+
+
+    public void setName(String name) {
+        this.name = trimString(name);
+    }
+
+
+    public Collection<Dish> getDishes() {
+        return this.dishes;
+    }
+
+
+    public void addDish(Dish dish) {
+        this.dishes.add(dish);
+    }
+
+
+    public void addDishes(Collection<Dish> dishes) {
+        this.dishes.addAll(dishes);
+    }
+
+
+    public void removeDish(Dish dish) {
+        this.dishes.remove(dish);
+    }
+
+
+    public void setDishes(Collection<Dish> dishes) {
+        this.dishes.clear();
+        addDishes(dishes);
     }
 
 }

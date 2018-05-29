@@ -1,49 +1,49 @@
 package main.java.client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import main.java.LogUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AnagraphicController implements Initializable{
+public class AnagraphicController extends AbstractController implements Initializable {
 
-    // Debug
-    private static final String TAG = "AnagraphicController";
-
-    @FXML private Pane anagraphicPane;
+    @FXML private Pane pane;
     @FXML private Button buttonAddPerson;
-    @FXML private Button buttonUpdatePerson;
+    @FXML private Button buttonShowPerson;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Add person button
         buttonAddPerson.setOnAction(event -> addPerson());
+        buttonAddPerson.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonAddPerson.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
 
-        //Update person button
-        buttonUpdatePerson.setOnAction(event -> updatePerson());
+        // Show people list button
+        buttonShowPerson.setOnAction(event -> showPerson());
+        buttonShowPerson.setOnMouseEntered(event -> pane.getScene().setCursor(Cursor.HAND));
+        buttonShowPerson.setOnMouseExited(event -> pane.getScene().setCursor(Cursor.DEFAULT));
     }
 
-    public void addPerson() {
-        try {
-            Pane addPersonPane = FXMLLoader.load(getClass().getResource("/views/addPerson.fxml"));
-            BorderPane homePane = (BorderPane) anagraphicPane.getParent();
-            homePane.setCenter(addPersonPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Show the add person page
+     */
+    private void addPerson() {
+        setCenterFXML((BorderPane)pane.getParent(), "/views/addPerson.fxml");
     }
 
-    public void updatePerson() {
 
+    /**
+     * Show the list of all people
+     */
+    private void showPerson() {
+        setCenterFXML((BorderPane)pane.getParent(), "/views/showPerson.fxml");
     }
 
 }

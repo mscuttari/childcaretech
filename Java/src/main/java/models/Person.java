@@ -1,258 +1,295 @@
 package main.java.models;
 
-import org.hibernate.annotations.GenericGenerator;
+import main.java.exceptions.InvalidFieldException;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
+
+import static javax.persistence.CascadeType.*;
 
 @Entity
-@Table(name = "people", uniqueConstraints = {@UniqueConstraint(columnNames = "fiscal_code")})
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "people")
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type")
+@NamedQuery(name = "Person.search", query = "SELECT p FROM Person p WHERE p.fiscalCode = :fiscalCode")
 public abstract class Person extends BaseModel {
 
-    protected Long id;
-    protected String fiscalCode;
-    protected String name;
-    protected String surname;
-    protected Date birthdate;
-    protected String address;
-    protected String telephone;
+    @Transient
+    private static final long serialVersionUID = -5315181403037638727L;
 
-    private Collection<Ingredient> allergies = new ArrayList<>();
-    private Collection<Ingredient> intollerances = new ArrayList<>();
-    private Collection<Person> parents = new ArrayList<>();
-    private Collection<Person> children = new ArrayList<>();
-    private Collection<Person> contacts = new ArrayList<>();
-    private Collection<Person> bounds = new ArrayList<>();
-    private Person pediatrist;
-    private Collection<Person> curing = new ArrayList<>();
-    private Collection<Menu> menuResponsibility = new ArrayList<>();
-    private Collection<Trip> childTripsEnrollments = new ArrayList<>();
-    private Collection<Trip> staffTripsEnrollments = new ArrayList<>();
-    private Collection<Stop> childStopsPresences = new ArrayList<>();
-    private Collection<Pullman> childPullmansAssignments = new ArrayList<>();
 
     @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Column(name = "fiscal_code", nullable = false)
-    public String getFiscalCode() {
-        return fiscalCode;
-    }
+    private String fiscalCode;
 
-    public void setFiscalCode(String fiscalCode) {
-        this.fiscalCode = fiscalCode;
-    }
 
-    @Column(name = "name", nullable = false)
-    public String getName() {
-        return name;
-    }
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    @Column(name = "surname", nullable = false)
-    public String getSurname() {
-        return surname;
-    }
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "birthdate")
-    public Date getBirthdate() {
-        return birthdate;
-    }
+    private Date birthDate;
 
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
-    }
 
     @Column(name = "address")
-    public String getAddress() {
-        return address;
-    }
+    private String address;
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     @Column(name = "telephone")
-    public String getTelephone() {
-        return telephone;
-    }
+    private String telephone;
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
 
-    @ManyToMany
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(
             name = "allergies",
-            joinColumns = { @JoinColumn(name = "person_id") },
-            inverseJoinColumns = { @JoinColumn(name = "ingredient_id") }
+            joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
+            inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Ingredient> allergies = new HashSet<>();
+
+
+    @ManyToMany(cascade = {PERSIST, MERGE})
+    @JoinTable(
+            name = "intolerances",
+            joinColumns = { @JoinColumn(name = "person_fiscal_code", referencedColumnName = "fiscal_code") },
+            inverseJoinColumns = { @JoinColumn(name = "ingredient_name", referencedColumnName = "name") }
+    )
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Ingredient> intolerances = new HashSet<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Person() {
+        this(null, null, null, null, null, null);
+    }
+
+
+    /**
+     * Constructor
+     *
+     * @param   fiscalCode      fiscal code
+     * @param   firstName       first name
+     * @param   lastName        last name
+     * @param   birthDate       birth date
+     * @param   address         address
+     * @param   telephone       telephone
+     */
+    public Person(String fiscalCode, String firstName, String lastName, Date birthDate, String address, String telephone) {
+        setFiscalCode(fiscalCode);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setBirthdate(birthDate);
+        setAddress(address);
+        setTelephone(telephone);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Person.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("fiscalCode", getFiscalCode());
+        return !query.getResultList().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // Fiscal code: [A-Z] [0-9] 16 chars length
+        if (getFiscalCode() == null)
+            throwFieldError("Codice fiscale mancante");
+
+        if (getFiscalCode().length() != 16)
+            throwFieldError("Codice fiscale di lunghezza non valida");
+
+        if (!getFiscalCode().matches("^[A-Z\\d]+$"))
+            throwFieldError("Codice fiscale non valido");
+
+        // First name: [a-z] [A-Z] à è é ì ò ù ' " space
+        if (getFirstName() == null)
+            throwFieldError("Nome mancante");
+
+        if (!getFirstName().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
+            throwFieldError("Nome non valido");
+
+        // Last name: [a-z] [A-Z] à è é ì ò ù ' " space
+        if (getLastName() == null)
+            throwFieldError("Cognome mancante");
+
+        if (!getLastName().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
+            throwFieldError("Cognome non valido");
+
+        // Date
+        if (getBirthdate() == null)
+            throwFieldError("Data di nascita mancante");
+
+        // Address: [a-z] [A-Z] [0-9] à è é ì ò ù ' " space . , ; \ / °
+        if (getAddress() != null && !getAddress().matches("^$|^[a-zA-Zàèéìòù'\"\\d\\040.,;°\\\\\\/()]+$"))
+            throwFieldError("Indirizzo non valido");
+
+        // Telephone: [0-9] space + - / \
+        if (getTelephone() != null && !getTelephone().matches("^$|^[\\d\\040+-\\/\\\\]+$"))
+            throwFieldError("Telefono non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return true;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Person)) return false;
+
+        Person that = (Person)obj;
+        return Objects.equals(getFiscalCode(), that.getFiscalCode()) &&
+                Objects.equals(getFirstName(), that.getFirstName()) &&
+                Objects.equals(getLastName(), that.getLastName()) &&
+                dateEquals(getBirthdate(), that.getBirthdate()) &&
+                Objects.equals(getAddress(), that.getAddress()) &&
+                Objects.equals(getTelephone(), that.getTelephone());
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFiscalCode());
+    }
+
+
+    public String getFiscalCode() {
+        return this.fiscalCode;
+    }
+
+
+    public void setFiscalCode(String fiscalCode) {
+        this.fiscalCode = trimString(fiscalCode);
+    }
+
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+
+    public void setFirstName(String firstName) {
+        this.firstName = trimString(firstName);
+    }
+
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+
+    public void setLastName(String lastName) {
+        this.lastName = trimString(lastName);
+    }
+
+
+    public Date getBirthdate() {
+        return this.birthDate;
+    }
+
+
+    public void setBirthdate(Date birthdate) {
+        this.birthDate = birthdate;
+    }
+
+
+    public String getAddress() {
+        return this.address;
+    }
+
+
+    public void setAddress(String address) {
+        this.address = trimString(address);
+    }
+
+
+    public String getTelephone() {
+        return this.telephone;
+    }
+
+
+    public void setTelephone(String telephone) {
+        this.telephone = trimString(telephone);
+    }
+
+
     public Collection<Ingredient> getAllergies() {
-        return allergies;
+        return this.allergies;
     }
 
-    public void setAllergies(Collection<Ingredient> allergies) {
-        this.allergies = allergies;
+
+    public void addAllergy(Ingredient ingredient) {
+        allergies.add(ingredient);
     }
 
-    @ManyToMany
-    @JoinTable(
-            name = "intollerances",
-            joinColumns = { @JoinColumn(name = "person_id") },
-            inverseJoinColumns = { @JoinColumn(name = "ingredient_id") }
-    )
-    public Collection<Ingredient> getIntollerances() {
-        return intollerances;
+
+    public void addAllergies(Collection<Ingredient> ingredients) {
+        allergies.addAll(ingredients);
     }
 
-    public void setIntollerances(Collection<Ingredient> intollerances) {
-        this.intollerances = intollerances;
+
+    public void setAllergies(Collection<Ingredient> ingredients) {
+        this.allergies.clear();
+        addAllergies(ingredients);
     }
 
-    @ManyToMany
-    @JoinTable(
-            name = "parents",
-            joinColumns = { @JoinColumn(name = "child_id") },
-            inverseJoinColumns = { @JoinColumn(name = "parent_id") }
-    )
-    public Collection<Person> getParents() {
-        return parents;
+
+    public Collection<Ingredient> getIntolerances() {
+        System.out.println("Ale qui");
+        return this.intolerances;
     }
 
-    public void setParents(Collection<Person> parents) {
-        this.parents = parents;
+
+    public void addIntolerance(Ingredient ingredient) {
+        intolerances.add(ingredient);
     }
 
-    @ManyToMany(mappedBy = "parents")
-    public Collection<Person> getChildren() {
-        return children;
+
+    public void addIntolerances(Collection<Ingredient> ingredients) {
+        intolerances.addAll(ingredients);
     }
 
-    public void setChildren(Collection<Person> children) {
-        this.children = children;
+
+    public void setIntolerances(Collection<Ingredient> intolerances) {
+        this.intolerances.clear();
+        addIntolerances(intolerances);
     }
 
-    @ManyToMany
-    @JoinTable(
-            name = "contacts",
-            joinColumns = { @JoinColumn(name = "child_id") },
-            inverseJoinColumns = { @JoinColumn(name = "contact_id") }
-    )
-    public Collection<Person> getContacts() {
-        return contacts;
-    }
 
-    public void setContacts(Collection<Person> contacts) {
-        this.contacts = contacts;
-    }
-
-    @ManyToMany(mappedBy = "contacts")
-    public Collection<Person> getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Collection<Person> bounds) {
-        this.bounds = bounds;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "pediatrist_id")
-    public Person getPediatrist() {
-        return pediatrist;
-    }
-
-    public void setPediatrist(Person pediatrist) {
-        this.pediatrist = pediatrist;
-    }
-
-    @OneToMany(mappedBy = "pediatrist")
-    public Collection<Person> getCuring() {
-        return curing;
-    }
-
-    public void setCuring(Collection<Person> curing) {
-        this.curing = curing;
-    }
-
-    @OneToMany(mappedBy = "responsible")
-    public Collection<Menu> getMenuResponsibility() {
-        return menuResponsibility;
-    }
-
-    public void setMenuResponsibility(Collection<Menu> menuResponsibility) {
-        this.menuResponsibility = menuResponsibility;
-    }
-
-    @ManyToMany(mappedBy = "childrenEnrollments")
-    public Collection<Trip> getChildTripsEnrollments() {
-        return childTripsEnrollments;
-    }
-
-    public void setChildTripsEnrollments(Collection<Trip> childTripsEnrollments) {
-        this.childTripsEnrollments = childTripsEnrollments;
-    }
-
-    @ManyToMany(mappedBy = "staffEnrollments")
-    public Collection<Trip> getStaffTripsEnrollments() {
-        return staffTripsEnrollments;
-    }
-
-    public void setStaffTripsEnrollments(Collection<Trip> staffTripsEnrollments) {
-        this.staffTripsEnrollments = staffTripsEnrollments;
-    }
-
-    @Transient
-    public Collection<Trip> getTripEnrollments() {
-        return this instanceof Child ? getChildTripsEnrollments() : getStaffTripsEnrollments();
-    }
-
-    @Transient
-    public void setTripEnrollments(Collection<Trip> trips) {
-        if (this instanceof Child) {
-            setChildTripsEnrollments(trips);
-        } else {
-            setStaffTripsEnrollments(trips);
-        }
-    }
-
-    @ManyToMany(mappedBy = "childrenPresences")
-    public Collection<Stop> getChildStopsPresences() {
-        return childStopsPresences;
-    }
-
-    public void setChildStopsPresences(Collection<Stop> childStopsPresences) {
-        this.childStopsPresences = childStopsPresences;
-    }
-
-    @ManyToMany(mappedBy = "childrenAssignments")
-    public Collection<Pullman> getChildPullmansAssignments() {
-        return childPullmansAssignments;
-    }
-
-    public void setChildPullmansAssignments(Collection<Pullman> childPullmansAssignments) {
-        this.childPullmansAssignments = childPullmansAssignments;
+    @Override
+    public String toString(){
+        return "[" + getFiscalCode() + "] - " + getFirstName() + " " + getLastName() ;
     }
 
 }

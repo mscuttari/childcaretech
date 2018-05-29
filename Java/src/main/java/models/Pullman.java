@@ -1,76 +1,151 @@
 package main.java.models;
 
-import org.hibernate.annotations.GenericGenerator;
+import main.java.exceptions.InvalidFieldException;
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiPullman;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
-@Table(name = "pullmans", uniqueConstraints = @UniqueConstraint(columnNames = {"trip_id", "numberplate"}))
+@Table(name = "pullmans")
+@NamedQuery(name = "Pullman.search", query = "SELECT p FROM Pullman p JOIN Trip t WHERE t.id.date = :tripDate AND t.id.title = :tripTitle AND p.id.id = :pullmanId")
 public class Pullman extends BaseModel {
 
-    private Long id;
+    @Transient
+    private static final long serialVersionUID = 1788156831943646482L;
+
+
+    @EmbeddedId
+    private PullmanPK id = new PullmanPK();
+
+
+    @MapsId(value = "trip")
+    @ManyToOne(cascade = {ALL}, optional = false )
+    @JoinColumns(value = {
+            @JoinColumn(name = "trip_date", referencedColumnName = "date"),
+            @JoinColumn(name = "trip_title", referencedColumnName = "title")
+    })
     private Trip trip;
-    private String numberplate;
-    private int seats;
-    private Collection<Person> childrenAssignments = new ArrayList<>();
 
-    @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "trip_id", nullable = false)
-    public Trip getTrip() {
-        return trip;
-    }
-
-    public void setTrip(Trip trip) {
-        this.trip = trip;
-    }
-
-    @Column(name = "numberplate", nullable = false)
-    public String getNumberplate() {
-        return numberplate;
-    }
-
-    public void setNumberplate(String numberplate) {
-        this.numberplate = numberplate;
-    }
 
     @Column(name = "seats", nullable = false)
-    public int getSeats() {
-        return seats;
-    }
+    private Integer seats;
 
-    public void setSeats(int seats) {
-        this.seats = seats;
-    }
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "children_pullmans_assignments",
-            joinColumns = { @JoinColumn(name = "pullman_id") },
-            inverseJoinColumns = { @JoinColumn(name = "child_id") }
+            joinColumns = {
+                    @JoinColumn(name = "trip_date", referencedColumnName = "trip_date"),
+                    @JoinColumn(name = "trip_title", referencedColumnName = "trip_title"),
+                    @JoinColumn(name = "pullman_id", referencedColumnName = "id")
+            },
+            inverseJoinColumns = { @JoinColumn(name = "child_fiscal_code", referencedColumnName = "fiscal_code") }
     )
-    public Collection<Person> getChildrenAssignments() {
-        return childrenAssignments;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Child> children = new HashSet<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Pullman() {
+        this(null, null, null);
     }
 
-    public void setChildrenAssignments(Collection<Person> childrenAssignments) {
-        this.childrenAssignments = childrenAssignments;
+
+    /**
+     * Constructor
+     *
+     * @param   trip        trip the pullman is used for
+     * @param   id          identification number
+     * @param   seats       max seats available
+     */
+    public Pullman(Trip trip, String id, Integer seats) {
+        setTrip(trip);
+        setId(id);
+        setSeats(seats);
     }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Pullman.search";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("tripDate", getTrip().getDate());
+        query.setParameter("tripTitle", getTrip().getTitle());
+        query.setParameter("pullmanId", getId());
+
+        return !query.getResultList().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // Trip
+        if (getTrip() == null)
+            throwFieldError("Gita mancante");
+
+        // Type: [a-z] [A-Z] à è é ì ò ù ' " [0-9]
+        if (getId() == null)
+            throwFieldError("Numero identificativo mancante");
+
+        if (!getId().matches("^[a-zA-Zàèéìòù'\"\\d\\040]+$"))
+            throwFieldError("Numero identificativo non valido");
+
+        // Seats: > 0
+        if (getSeats() == null)
+            throwFieldError("Numero di posti mancante");
+
+        if (getSeats() <= 0)
+            throwFieldError("Numero di posti non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Pullman";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiPullman.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return true;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+        // Children
+        for (Child child : getChildren()) {
+            child.removePullmanAssignment(this);
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -79,12 +154,76 @@ public class Pullman extends BaseModel {
 
         Pullman that = (Pullman) o;
         return Objects.equals(getTrip(), that.getTrip()) &&
-                Objects.equals(getNumberplate(), that.getNumberplate());
+                Objects.equals(getId(), that.getId());
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTrip(), getNumberplate());
+        return Objects.hash(getId());
+    }
+
+
+    @Override
+    public String toString() {
+        return getId();
+    }
+
+
+    public Trip getTrip() {
+        return this.trip;
+    }
+
+
+    public void setTrip(Trip trip) {
+        this.trip = trip;
+        this.id.setTrip(trip);
+    }
+
+
+    public String getId() {
+        return this.id.getId();
+    }
+
+
+    public void setId(String id) {
+        this.id.setId(trimString(id));
+    }
+
+
+    public Integer getSeats() {
+        return this.seats;
+    }
+
+
+    public void setSeats(Integer seats) {
+        this.seats = seats;
+    }
+
+
+    public Collection<Child> getChildren() {
+        return this.children;
+    }
+
+
+    public void addChild(Child child) {
+        this.children.add(child);
+    }
+
+
+    public void addChildren(Collection<Child> children) {
+        this.children.addAll(children);
+    }
+
+
+    public void setChildren(Collection<Child> children) {
+        this.children.clear();
+        addChildren(children);
+    }
+
+
+    public void removeChild(Child child) {
+        this.children.remove(child);
     }
 
 }

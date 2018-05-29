@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="addMenuPane"
+            fx:controller="main.java.client.controllers.AddMenuController">
+
+    <TabPane
+            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0"
+            tabClosingPolicy="UNAVAILABLE"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Basic data -->
+        <Tab text="Dati">
+            <AnchorPane>
+                <HBox alignment="CENTER" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <ImageView fitHeight="200.0" fitWidth="200.0">
+                        <VBox.margin>
+                            <Insets bottom="20.0"/>
+                        </VBox.margin>
+                        <Image url="@../images/menu(addMenu).png"/>
+                    </ImageView>
+
+                    <VBox alignment="CENTER" spacing="15.0" style="-fx-font-size: 18">
+                        <TextField fx:id="tfMenuName" promptText="Nome" />
+                        <ComboBox fx:id="cbDayOfTheWeek" prefHeight="35.0" prefWidth="232.0"/>
+                    </VBox>
+                </HBox>
+            </AnchorPane>
+        </Tab>
+
+
+        <!-- Dishes -->
+        <Tab text="Piatti">
+            <TableView fx:id="tableDish">
+                <columns>
+                    <TableColumn fx:id="columnDishSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnDishName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnDishType" maxWidth="300" style="-fx-alignment: center" text="Tipo"/>
+                </columns>
+            </TableView>
+        </Tab>
+
+
+        <!-- Responsible -->
+        <Tab text="Responsabile">
+            <TableView fx:id="tableStaff">
+                <columns>
+                    <TableColumn fx:id="columnStaffSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnStaffFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnStaffLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnStaffFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
+                </columns>
+            </TableView>
+        </Tab>
+    </TabPane>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(red).png"/>
+    </ImageView>
+
+    <!-- Save button -->
+    <ImageView fx:id="addMenuImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.rightAnchor="15">
+        <Image url="@../images/save-data.png"/>
+    </ImageView>
+
+</AnchorPane>

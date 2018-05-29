@@ -22,9 +22,35 @@ public interface ClientInterface {
     void close();
 
 
+    /**
+     * Get username used for login
+     *
+     * @return  username
+     */
     String getUsername();
+
+
+    /**
+     * Set the username to be used for login
+     *
+     * @param   username    username
+     */
     void setUsername(String username);
+
+
+    /**
+     * Get password used for login
+     *
+     * @return  password
+     */
     String getPassword();
+
+
+    /**
+     * Set the password to be used for login
+     *
+     * @param   password    password
+     */
     void setPassword(String password);
 
 
@@ -37,6 +63,14 @@ public interface ClientInterface {
      * @return  true if credentials are valid, false otherwise
      */
     boolean login(String username, String password);
+
+
+    /**
+     * Create child ID
+     *
+     * @return  child ID
+     */
+    Long createChildId();
 
 
     /**
@@ -67,6 +101,14 @@ public interface ClientInterface {
 
 
     /**
+     * Get people
+     *
+     * @return  list of people (null in case of error)
+     */
+    List<Person> getPeople();
+
+
+    /**
      * Get children
      *
      * @return  list of children (null in case of error)
@@ -83,11 +125,11 @@ public interface ClientInterface {
 
 
     /**
-     * Get food
+     * Get dish
      *
-     * @return  list of food (null in case of error)
+     * @return  list of dishes (null in case of error)
      */
-    List<Food> getFood();
+    List<Dish> getDishes();
 
 
     /**
@@ -160,6 +202,5 @@ public interface ClientInterface {
      * @return  list of trips (null in case of error)
      */
     List<Trip> getTrips();
-
 
 }

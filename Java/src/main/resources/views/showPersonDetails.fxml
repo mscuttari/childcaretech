@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="showPersonDetailsPane"
+            fx:controller="main.java.client.controllers.ShowPersonDetailsController"
+            stylesheets="@../ChildCareTech.css">
+
+    <TabPane fx:id="tabPane"
+             AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Basic data -->
+        <Tab text="Dati">
+            <AnchorPane>
+                <!--suppress JavaFxUnresolvedStyleClassReference -->
+                <ScrollPane fitToWidth="true"
+                            styleClass="edge-to-edge"
+                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <VBox alignment="TOP_CENTER"
+                          spacing="20"
+                          style="-fx-padding: 0 200 0; -fx-font-size: 18">
+
+                        <!-- Person type icon -->
+                        <ImageView fx:id="imagePersonType"
+                                   fitHeight="150.0" fitWidth="150.0"
+                                   pickOnBounds="true" preserveRatio="true" >
+                            <VBox.margin>
+                                <Insets top="20.0"/>
+                            </VBox.margin>
+                        </ImageView>
+
+                        <!-- Child code -->
+                        <HBox fx:id="boxChildCode">
+                            <Label text="Codice bambino:" style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelChildCode" />
+                        </HBox>
+
+                        <!-- Fiscal code -->
+                        <HBox>
+                            <Label text="Codice fiscale:"  style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelFiscalCode" />
+                        </HBox>
+
+                        <!-- First name -->
+                        <HBox>
+                            <Label text="Nome:" style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelFirstName" />
+                        </HBox>
+
+                        <!-- Last name -->
+                        <HBox>
+                            <Label text="Cognome:" style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelLastName" />
+                        </HBox>
+
+                        <!-- Birth date -->
+                        <HBox>
+                            <Label text="Data di nascita:" style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelBirthDate" />
+                        </HBox>
+
+                        <!-- Address -->
+                        <HBox fx:id="boxAddress">
+                            <Label text="Indirizzo:" style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelAddress" />
+                        </HBox>
+
+                        <!-- Telephone -->
+                        <HBox fx:id="boxTelephone">
+                            <Label text="Telefono:" style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelTelephone" />
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </AnchorPane>
+        </Tab>
+
+        <!-- Parents, contacts and pediatrist -->
+        <Tab fx:id="tabRelations" text="Relazioni">
+            <AnchorPane>
+                <!--suppress JavaFxUnresolvedStyleClassReference -->
+                <ScrollPane fitToWidth="true"
+                            fitToHeight="true"
+                            styleClass="edge-to-edge"
+                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <VBox alignment="CENTER_LEFT"
+                          spacing="20"
+                          style="-fx-padding: 0 0 0 50; -fx-font-size: 18">
+
+                        <!-- Parents -->
+                        <HBox spacing="15">
+                            <ImageView fitHeight="60.0" fitWidth="60.0">
+                                <Image url="@../images/family.png"/>
+                            </ImageView>
+
+                            <VBox>
+                                <Label text="Genitori:" style="-fx-font-weight: bold" />
+                                <Label fx:id="labelParents" />
+                            </VBox>
+                        </HBox>
+
+                        <!-- Contacts -->
+                        <HBox spacing="15">
+                            <ImageView fitHeight="60.0" fitWidth="60.0">
+                                <Image url="@../images/grandparents.png"/>
+                            </ImageView>
+
+                            <VBox>
+                                <Label text="Contatti:" style="-fx-font-weight: bold" />
+                                <Label fx:id="labelContacts" />
+                            </VBox>
+                        </HBox>
+
+                        <!-- Pediatrist -->
+                        <HBox spacing="15">
+                            <ImageView fitHeight="60.0" fitWidth="60.0">
+                                <Image url="@../images/doctor.png"/>
+                            </ImageView>
+
+                            <VBox>
+                                <Label text="Pediatra:" style="-fx-font-weight: bold" />
+                                <Label fx:id="labelPediatrist" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </AnchorPane>
+        </Tab>
+
+        <!-- Children -->
+        <Tab fx:id="tabChildren" text="Bambini">
+            <AnchorPane>
+                <!--suppress JavaFxUnresolvedStyleClassReference -->
+                <ScrollPane fitToWidth="true"
+                            fitToHeight="true"
+                            styleClass="edge-to-edge"
+                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <VBox alignment="CENTER_LEFT"
+                          spacing="20"
+                          style="-fx-padding: 0 0 0 50; -fx-font-size: 18">
+
+                        <!-- Children -->
+                        <HBox spacing="15">
+                            <ImageView fitHeight="60.0" fitWidth="60.0">
+                                <Image url="@../images/children.png"/>
+                            </ImageView>
+
+                            <VBox>
+                                <Label text="Bambini:" style="-fx-font-weight: bold" />
+                                <Label fx:id="labelChildren" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </AnchorPane>
+        </Tab>
+
+        <!-- Allergies and intolerances -->
+        <Tab fx:id="tabIngredients" text="Allergie / intolleranze">
+            <AnchorPane>
+                <HBox alignment="CENTER" spacing="50.0"
+                      style="-fx-padding: 0 50 0"
+                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <!-- Allergies -->
+                    <VBox alignment="CENTER" spacing="20.0" HBox.hgrow="ALWAYS" style="-fx-padding: 20 0 0 0">
+                        <Label text="Allergie" style="-fx-font-size: 24" />
+                        <ListView fx:id="lvAllergies" HBox.hgrow="ALWAYS" style="-fx-font-size: 18" />
+                    </VBox>
+
+                    <!-- Intolerances -->
+                    <VBox alignment="CENTER" spacing="20.0" HBox.hgrow="ALWAYS" style="-fx-padding: 20 0 0 0">
+                        <Label text="Intolleranze" style="-fx-font-size: 24" />
+                        <ListView fx:id="lvIntolerances" HBox.hgrow="ALWAYS" style="-fx-font-size: 18" />
+                    </VBox>
+                </HBox>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(blue).png"/>
+    </ImageView>
+
+</AnchorPane>

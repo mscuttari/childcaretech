@@ -8,7 +8,7 @@
     <persistence-unit name="ChildCareTechPU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>main.java.models.Food</class>
+        <class>main.java.models.Dish</class>
         <class>main.java.models.Ingredient</class>
         <class>main.java.models.Menu</class>
         <class>main.java.models.Person</class>
@@ -22,10 +22,11 @@
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver" />
             <property name="hibernate.connection.username" value="childcaretech" />
             <property name="hibernate.connection.password" value="childcaretech" />
+            <property name="hibernate.event.merge.entity_copy_observer" value="allow"/>
             <property name="hibernate.archive.autodetection" value="class" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
-            <property name="hbm2ddl.auto" value="update" />
+            <property name="hibernate.hbm2ddl.auto" value="update" />
         </properties>
     </persistence-unit>
 </persistence>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane
+        xmlns="http://javafx.com/javafx/8"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:id="paneRoot"
+        fx:controller="main.java.client.controllers.UpdatePersonController"
+        stylesheets="@../bootstrap3.css">
+
+    <TabPane fx:id="tabPane"
+             maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0"
+             tabClosingPolicy="UNAVAILABLE"
+             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <Tab text="Tipo">
+            <AnchorPane>
+                <HBox alignment="CENTER" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <VBox alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ImageView fx:id="imagePersonType" fitHeight="200.0" fitWidth="200.0"/>
+                    </VBox>
+
+                    <VBox alignment="CENTER" spacing="15.0" style="-fx-font-size: 18">
+                        <TextField fx:id="tfFiscalCode" disable="true" promptText="Codice Fiscale" />
+                        <TextField fx:id="tfFirstName" promptText="Nome" />
+                        <TextField fx:id="tfLastName" promptText="Cognome" />
+                        <DatePicker fx:id="dpBirthDate" promptText="Data di nascita" />
+                        <TextField fx:id="tfAddress" promptText="Indirizzo" />
+                        <TextField fx:id="tfTelephone" promptText="Telefono" />
+                    </VBox>
+                </HBox>
+            </AnchorPane>
+        </Tab>
+
+        <Tab fx:id="tabParents" text="Genitori">
+            <TableView fx:id="tableParents">
+                <columns>
+                    <TableColumn fx:id="columnParentsSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnParentsFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnParentsLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnParentsFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
+                </columns>
+            </TableView>
+        </Tab>
+
+        <Tab fx:id="tabPediatrist" text="Pediatra">
+            <TableView fx:id="tablePediatrist">
+                <columns>
+                    <TableColumn fx:id="columnPediatristSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnPediatristFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnPediatristLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnPediatristFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
+                </columns>
+            </TableView>
+        </Tab>
+
+        <Tab fx:id="tabAllergies" text="Allergie">
+            <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
+                <ListView fx:id="lvAllergies" HBox.hgrow="ALWAYS"/>
+
+                <HBox alignment="CENTER">
+                    <VBox.margin>
+                        <Insets bottom="50.0"/>
+                    </VBox.margin>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <TextField fx:id="txAddAllergy" promptText="Nuova allergia"/>
+                        <Button fx:id="buttonAddAllergy" mnemonicParsing="false" style="-fx-border-color: lightgreen;" text="Aggiungi"/>
+                    </HBox>
+
+                    <Pane HBox.hgrow="ALWAYS"/>
+
+                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                        <Button fx:id="buttonRemoveSelectedAllergies"
+                                mnemonicParsing="false"
+                                style="-fx-border-color: red;" text="Elimina selezionati"/>
+                    </HBox>
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <Tab fx:id="tabIntolerances" text="Intolleranze">
+            <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
+                <ListView fx:id="lvIntolerances" prefWidth="600.0"/>
+
+                <HBox alignment="CENTER">
+                    <VBox.margin>
+                        <Insets bottom="50.0"/>
+                    </VBox.margin>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <TextField fx:id="txAddIntolerances" promptText="Nuova intolleranza"/>
+                        <Button fx:id="buttonAddIntolerances" mnemonicParsing="false" style="-fx-border-color: lightgreen;" text="Aggiungi"/>
+                    </HBox>
+
+                    <Pane HBox.hgrow="ALWAYS"/>
+
+                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                        <Button fx:id="buttonRemoveSelectedIntolerances"
+                                mnemonicParsing="false"
+                                style="-fx-border-color: red;" text="Elimina selezionati"/>
+                    </HBox>
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <Tab fx:id="tabContacts" text="Contatti">
+            <TableView fx:id="tableContacts">
+                <columns>
+                    <TableColumn fx:id="columnContactsSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnContactsFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnContactsLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnContactsFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
+                </columns>
+            </TableView>
+        </Tab>
+
+        <Tab fx:id="tabLoginData" text="Dati di accesso">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <ImageView fitHeight="200.0" fitWidth="200.0">
+                        <Image url="@../images/login.png"/>
+                    </ImageView>
+
+                    <VBox alignment="CENTER" prefWidth="400.0" spacing="10.0" style="-fx-font-size: 18">
+                        <TextField fx:id="tfUsername" promptText="Username" />
+                        <TextField fx:id="tfUsernameConfirmation" layoutX="10.0" layoutY="225.0" promptText="Conferma username" />
+                        <Label fx:id="labelUsername" />
+                        <PasswordField fx:id="tfPassword" promptText="Password" />
+                        <PasswordField fx:id="tfPasswordConfirmation" promptText="Conferma password" />
+                        <Label fx:id="labelPassword" />
+                    </VBox>
+                </HBox>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(blue).png"/>
+    </ImageView>
+
+    <!-- Update button -->
+    <ImageView fx:id="updatePersonImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.rightAnchor="15">
+        <Image url="@../images/update-data.png"/>
+    </ImageView>
+
+</AnchorPane>

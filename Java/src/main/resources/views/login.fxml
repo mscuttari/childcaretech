@@ -5,53 +5,45 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane"
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="rootPane"
+            fx:controller="main.java.client.controllers.LoginController"
             maxHeight="-Infinity"
             maxWidth="-Infinity"
             minHeight="-Infinity"
             minWidth="-Infinity"
             style="-fx-background-color: white;"
-            stylesheets="@../bootstrap3.css"
-            xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="main.java.client.controllers.LoginController">
-   <children>
-   
-       <HBox alignment="CENTER" spacing="50" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-      <children>
-              <ImageView preserveRatio="true">
-                 <image>
-                     <Image url="@../images/children.png" />
-                 </image>
-              </ImageView>
-      
-              <VBox alignment="CENTER" spacing="15">
-         <children>
-                     <Label style="-fx-padding: 0 0 15 0" text="Child Care Tech">
-                         <font>
-                             <Font name="Comic Sans MS" size="36.0" />
-                         </font>
-                     </Label>
-         
-                     <TextField fx:id="txtUsername" promptText="Username" />
-         
-                     <PasswordField fx:id="txtPassword" promptText="Password" />
-         
-                     <HBox spacing="5">
-            <children>
-                            <ComboBox fx:id="cbConnectionType" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                            <Button fx:id="buttonLogin" mnemonicParsing="false" style="-fx-padding: 0 10 1 10" text="Login" />
-            </children>
-                     </HBox>
-         
-                     <Label fx:id="labelError" style="-fx-padding: 5 0 0 0" textFill="red">
-                         <font>
-                        <Font size="14" />
-                     </font>
-                     </Label>
-         </children>
-              </VBox>
-      </children>
-       </HBox>
-   </children>
+            stylesheets="@../bootstrap3.css">
+
+    <HBox alignment="CENTER" spacing="50"
+          AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
+        <ImageView preserveRatio="true">
+            <Image url="@../images/children.png"/>
+        </ImageView>
+
+        <VBox alignment="CENTER" spacing="15">
+            <Label style="-fx-padding: 0 0 15 0" text="Child Care Tech">
+                <font>
+                    <Font name="Comic Sans MS" size="36.0"/>
+                </font>
+            </Label>
+
+            <TextField fx:id="txtUsername" promptText="Username"/>
+
+            <PasswordField fx:id="txtPassword" promptText="Password"/>
+
+            <HBox alignment="CENTER" spacing="5">
+                <ComboBox fx:id="cbConnectionType" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                <Button fx:id="buttonLogin" mnemonicParsing="false" style="-fx-padding: 0 10 1 10" text="Login"/>
+            </HBox>
+
+            <Label fx:id="labelError" style="-fx-padding: 5 0 0 0" textFill="red">
+                <font>
+                    <Font size="14"/>
+                </font>
+            </Label>
+        </VBox>
+    </HBox>
 </AnchorPane>

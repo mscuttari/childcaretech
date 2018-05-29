@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="showDishDetailsPane"
+            fx:controller="main.java.client.controllers.ShowDishDetailsController"
+            stylesheets="@../ChildCareTech.css">
+
+    <TabPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Basic data -->
+        <Tab text="Dati">
+            <AnchorPane>
+                <!--suppress JavaFxUnresolvedStyleClassReference -->
+                <ScrollPane fitToWidth="true"
+                            styleClass="edge-to-edge"
+                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <VBox alignment="TOP_CENTER"
+                          spacing="20"
+                          style="-fx-padding: 0 250 0; -fx-font-size: 18">
+
+                        <!-- Dish icon -->
+                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets top="20.0"/>
+                            </VBox.margin>
+                            <Image url="@../images/pizza.png"/>
+                        </ImageView>
+
+                        <!-- Child code -->
+                        <HBox>
+                            <Label text="Nome:" style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelName" />
+                        </HBox>
+
+                        <!-- Fiscal code -->
+                        <HBox>
+                            <Label text="Tipo:"  style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelType" />
+                        </HBox>
+
+                        <!-- First name -->
+                        <HBox>
+                            <Label text="Fornitore:" style="-fx-font-weight: bold" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="labelProvider" />
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </AnchorPane>
+        </Tab>
+
+        <!-- Ingredients -->
+        <Tab text="Ingredienti">
+            <ListView fx:id="lvIngredients" />
+        </Tab>
+
+        <!-- Allergic / intolerant people -->
+        <Tab text="Persone allergiche / intolleranti">
+            <TableView fx:id="tablePeople">
+                <columns>
+                    <TableColumn fx:id="columnPeopleFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnPeopleLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnPeopleType" maxWidth="300" style="-fx-alignment: center" text="Tipologia"/>
+                    <TableColumn fx:id="columnPeopleAllergies" style="-fx-alignment: center" text="Allergie"/>
+                    <TableColumn fx:id="columnPeopleIntolerances" style="-fx-alignment: center" text="Intolleranze"/>
+                </columns>
+            </TableView>
+        </Tab>
+    </TabPane>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(red).png"/>
+    </ImageView>
+
+</AnchorPane>

@@ -1,130 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
-            stylesheets="@../bootstrap3.css"
-            fx:controller="main.java.client.controllers.AddPersonController">
-   <children>
-      <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <tabs>
-            <Tab text="Tipo">
-               <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <HBox alignment="CENTER" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0">
-                                       <children>
-                                          <ImageView fx:id="children" fitHeight="200.0" fitWidth="200.0">
-                                             <image>
-                                                <Image url="@../images/baby.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fx:id="pediatrist" fitHeight="200.0" fitWidth="200.0" visible="false">
-                                             <image>
-                                                <Image url="@../images/doctor.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fx:id="parents" fitHeight="200.0" fitWidth="200.0" visible="false">
-                                             <image>
-                                                <Image url="@../images/family.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fx:id="contacts" fitHeight="200.0" fitWidth="200.0" visible="false">
-                                             <image>
-                                                <Image url="@../images/grandparents.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fx:id="responsible" fitHeight="200.0" fitWidth="200.0" visible="false">
-                                             <image>
-                                                <Image url="@../images/secretary.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </StackPane>
-                                    <MenuButton fx:id="personType" mnemonicParsing="false" text="Bambino">
-                                       <items>
-                                          <MenuItem mnemonicParsing="false" onAction="#childrenChoice" text="Bambino" />
-                                          <MenuItem mnemonicParsing="false" onAction="#parentsChoice" text="Genitore" />
-                                          <MenuItem mnemonicParsing="false" onAction="#responsibleChoice" text="Personale" />
-                                          <MenuItem mnemonicParsing="false" onAction="#pediatristChoice" text="Pediatra" />
-                                          <MenuItem mnemonicParsing="false" onAction="#contactsChoice" text="Contatto" />
-                                       </items>
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </MenuButton>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER" spacing="15.0">
-                                 <children>
-                                    <TextField promptText="Codice Fiscale">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                    <TextField layoutX="10.0" layoutY="276.0" promptText="Nome">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                    <TextField layoutX="10.0" layoutY="299.0" promptText="Cognome">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                    <TextField layoutX="10.0" layoutY="302.0" promptText="Data di nascita">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                    <TextField layoutX="10.0" layoutY="352.0" promptText="Indirizzo">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab fx:id="tabParents" text="Genitori" />
-            <Tab fx:id="tabPediatrist" text="Pediatra">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-            <Tab fx:id="tabAllergies" text="Allergie">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-            <Tab fx:id="tabIntollerances" text="Intolleranze">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-            <Tab fx:id="tabContacts" text="Contatti">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-            <Tab fx:id="tabLoginData" text="Dati di accesso">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-         </tabs>
-      </TabPane>
-   </children>
+<AnchorPane
+        xmlns="http://javafx.com/javafx/8"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:id="addPersonPane"
+        fx:controller="main.java.client.controllers.AddPersonController"
+        stylesheets="@../bootstrap3.css">
+
+    <TabPane
+            fx:id="tabPane"
+            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="800.0"
+            tabClosingPolicy="UNAVAILABLE"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Basic data -->
+        <Tab text="Tipo">
+            <AnchorPane>
+                <HBox alignment="CENTER" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                    <VBox alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ImageView fx:id="imagePersonType" fitHeight="200.0" fitWidth="200.0" />
+                        <ComboBox fx:id="cbPersonType"/>
+                    </VBox>
+
+                    <VBox alignment="CENTER" spacing="15.0" style="-fx-font-size: 18">
+                        <TextField fx:id="tfFiscalCode" promptText="Codice Fiscale" />
+                        <TextField fx:id="tfFirstName" promptText="Nome" />
+                        <TextField fx:id="tfLastName" promptText="Cognome" />
+                        <DatePicker fx:id="dpBirthDate" promptText="Data di nascita" />
+                        <TextField fx:id="tfAddress" promptText="Indirizzo" />
+                        <TextField fx:id="tfTelephone" promptText="Telefono" />
+                    </VBox>
+                </HBox>
+            </AnchorPane>
+        </Tab>
+
+        <!-- Parents -->
+        <Tab fx:id="tabParents" text="Genitori">
+            <TableView fx:id="tableParents">
+                <columns>
+                    <TableColumn fx:id="columnParentsSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnParentsFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnParentsLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnParentsFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
+                </columns>
+            </TableView>
+        </Tab>
+
+        <!-- Pediatrist -->
+        <Tab fx:id="tabPediatrist" text="Pediatra">
+            <TableView fx:id="tablePediatrist">
+                <columns>
+                    <TableColumn fx:id="columnPediatristSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnPediatristFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnPediatristLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnPediatristFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
+                    <TableColumn fx:id="columnPediatristTelephone" maxWidth="300" style="-fx-alignment: center" text="Telefono"/>
+                    <TableColumn fx:id="columnPediatristChildren" maxWidth="300" style="-fx-alignment: center" text="Bambini a carico"/>
+                </columns>
+            </TableView>
+        </Tab>
+
+        <!-- Allergies -->
+        <Tab fx:id="tabAllergies" text="Allergie">
+            <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
+                <ListView fx:id="lvAllergies" HBox.hgrow="ALWAYS"/>
+
+                <HBox alignment="CENTER">
+                    <VBox.margin>
+                        <Insets bottom="50.0"/>
+                    </VBox.margin>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <TextField fx:id="txAddAllergy" promptText="Nuova allergia"/>
+                        <Button fx:id="buttonAddAllergy" mnemonicParsing="false" style="-fx-border-color: lightgreen;" text="Aggiungi"/>
+                    </HBox>
+
+                    <Pane HBox.hgrow="ALWAYS"/>
+
+                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                        <Button fx:id="buttonRemoveSelectedAllergies"
+                                mnemonicParsing="false"
+                                style="-fx-border-color: red;" text="Elimina selezionati"/>
+                    </HBox>
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <!-- Intolerances -->
+        <Tab fx:id="tabIntolerances" text="Intolleranze">
+            <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50 50 50 50">
+                <ListView fx:id="lvIntolerances" prefWidth="600.0"/>
+
+                <HBox alignment="CENTER">
+                    <VBox.margin>
+                        <Insets bottom="50.0"/>
+                    </VBox.margin>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <TextField fx:id="txAddIntolerances" promptText="Nuova intolleranza"/>
+                        <Button fx:id="buttonAddIntolerances" mnemonicParsing="false"
+                                style="-fx-border-color: lightgreen;" text="Aggiungi"/>
+                    </HBox>
+
+                    <Pane HBox.hgrow="ALWAYS"/>
+
+                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                        <Button fx:id="buttonRemoveSelectedIntolerances"
+                                mnemonicParsing="false"
+                                style="-fx-border-color: red;" text="Elimina selezionati"/>
+                    </HBox>
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <!-- Contacts -->
+        <Tab fx:id="tabContacts" text="Contatti">
+            <TableView fx:id="tableContacts">
+                <columns>
+                    <TableColumn fx:id="columnContactsSelected" maxWidth="300" style="-fx-alignment: center"/>
+                    <TableColumn fx:id="columnContactsFirstName" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+                    <TableColumn fx:id="columnContactsLastName" maxWidth="300" style="-fx-alignment: center" text="Cognome"/>
+                    <TableColumn fx:id="columnContactsFiscalCode" maxWidth="300" style="-fx-alignment: center" text="Codice fiscale"/>
+                </columns>
+            </TableView>
+        </Tab>
+
+        <!-- Login data -->
+        <Tab fx:id="tabLoginData" text="Dati di accesso">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <ImageView fitHeight="200.0" fitWidth="200.0">
+                        <Image url="@../images/login.png"/>
+                    </ImageView>
+
+                    <VBox alignment="CENTER" prefWidth="400.0" spacing="10.0" style="-fx-font-size: 18">
+                        <TextField fx:id="tfUsername" promptText="Username" />
+                        <TextField fx:id="tfUsernameConfirmation" layoutX="10.0" layoutY="225.0" promptText="Conferma username" />
+                        <Label fx:id="labelUsername" />
+                        <PasswordField fx:id="tfPassword" promptText="Password" />
+                        <PasswordField fx:id="tfPasswordConfirmation" promptText="Conferma password" />
+                        <Label fx:id="labelPassword" />
+                    </VBox>
+                </HBox>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(blue).png"/>
+    </ImageView>
+
+    <!-- Save button -->
+    <ImageView fx:id="addPersonImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.rightAnchor="15">
+        <Image url="@../images/save-data.png"/>
+    </ImageView>
+
 </AnchorPane>

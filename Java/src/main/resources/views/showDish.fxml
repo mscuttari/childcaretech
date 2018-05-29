@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="showDishPane"
+            fx:controller="main.java.client.controllers.ShowDishController">
+
+    <!-- Dishes list -->
+    <TableView fx:id="tableDish"
+               maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+            <TableColumn fx:id="columnDishName" maxWidth="300" style="-fx-alignment: center" text="Piatto"/>
+            <TableColumn fx:id="columnDishType" maxWidth="300" style="-fx-alignment: center" text="Tipo"/>
+            <TableColumn fx:id="columnDishAllergicPeople" maxWidth="300" style="-fx-alignment: center" text="Persone allergiche"/>
+            <TableColumn fx:id="columnDishIntolerantPeople" maxWidth="300" style="-fx-alignment: center" text="Persone intolleranti"/>
+            <TableColumn fx:id="columnDishShowDetails" maxWidth="300" style="-fx-alignment: center"/>
+            <TableColumn fx:id="columnDishEdit" maxWidth="300" style="-fx-alignment: center"/>
+            <TableColumn fx:id="columnDishDelete" maxWidth="300" style="-fx-alignment: center"/>
+        </columns>
+    </TableView>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(red).png"/>
+    </ImageView>
+
+</AnchorPane>

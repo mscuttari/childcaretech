@@ -1,66 +1,127 @@
 package main.java.models;
 
-import javax.persistence.Column;
+import main.java.exceptions.InvalidFieldException;
+import main.java.client.gui.GuiBaseModel;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.*;
 
 public abstract class BaseModel implements Serializable {
 
+    // Serialization
+    private static final long serialVersionUID = 5852497063598077389L;
+
+
     /**
-     * Get string representation of the object
+     * Get the search query name
      *
-     * @return      String      textual data
+     * @return  query name
      */
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        ArrayList<Method> columns = getMethodsWithAnnotation(Column.class);
+    public abstract String getSearchQueryName();
 
-        for (Method column : columns) {
-            column.setAccessible(true);
 
-            String name = column.getAnnotation(Column.class).name();
-            Object value;
+    /**
+     * Run search query
+     *
+     * @param   query       search query
+     * @return  true if the object has been found
+     */
+    public abstract boolean runSearchQuery(Query query);
 
-            try {
-                value = column.invoke(this);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                continue;
-            }
 
-            if (value != null)
-                result.append(name).append(" = ").append(value).append("; ");
-        }
+    /**
+     * Check if fields contains valid data
+     *
+     * @throws  InvalidFieldException   if any of the fields is invalid
+     */
+    public abstract void checkDataValidity() throws InvalidFieldException;
 
-        if (result.length() == 0) {
-            return "null";
-        } else {
-            result.insert(0, this.getClass().getSimpleName() + ": ");
-            return result.toString();
-        }
+
+    /**
+     * Get model name
+     *
+     * @return  friendly model name
+     */
+    public abstract String getModelName();
+
+
+    /**
+     * Get the class used to represent the object in the GUI
+     *
+     * @return  GUI model class
+     */
+    public abstract Class<? extends GuiBaseModel> getGuiClass();
+
+
+    /**
+     * Check if the entity can be deleted
+     *
+     * @return  true if the entity can be deleted
+     */
+    public abstract boolean isDeletable();
+
+
+    /**
+     * Remove associations from parent entities
+     */
+    public abstract void preDelete();
+
+
+    /**
+     * Trim string
+     *
+     * @param   str     string to be trimmed
+     * @return  trimmed string (or null if the string is empty)
+     */
+    protected String trimString(String str) {
+        return str == null || str.trim().isEmpty() ? null : str.trim();
     }
 
 
     /**
-     * Get the methods with a specified annotation
+     * Throws an exceptions for a field value error
      *
-     * @param   annotationClass     Class       desired annotation class
-     * @return  ArrayList           list of methods
+     * @param   message     error message
+     * @throws  InvalidFieldException   exception containing the error
      */
-    private ArrayList<Method> getMethodsWithAnnotation(Class<? extends Annotation> annotationClass) {
-        ArrayList<Method> methods = new ArrayList<>(Arrays.asList(this.getClass().getDeclaredMethods()));
+    protected void throwFieldError(String message) throws InvalidFieldException {
+        throw new InvalidFieldException(getModelName(), message);
+    }
 
-        for (Iterator<Method> it = methods.iterator(); it.hasNext(); ) {
-            Method method = it.next();
-            method.setAccessible(true);
 
-            if (!method.isAnnotationPresent(annotationClass))
-                it.remove();
+    /**
+     * Check equality between to dates
+     *
+     * This method relies on the Date.compareTo() method because of implementation
+     * failure of Hibernate in retrieving the saved date
+     *
+     * For a more detailed explanation of the problem, see the explanation on
+     * @see <a href="https://stackoverflow.com/questions/23021648/why-is-assertequals-false-if-it-is-the-same-date-hibernate">StackOverflow</a>
+     *
+     * @param   x   first date
+     * @param   y   second date
+     *
+     * @return  true if the date are equal; false otherwise
+     */
+    public static boolean dateEquals(Date x, Date y) {
+        if (x instanceof Timestamp && !(y instanceof Timestamp)) {
+            Timestamp ts = new Timestamp(y.getTime());
+            ((Timestamp)x).setNanos(0);
+            ts.setNanos(0);
+            return x.compareTo(ts) == 0;
+
+        } else if (!(x instanceof Timestamp) && y instanceof Timestamp) {
+            Timestamp ts = new Timestamp(x.getTime());
+            ts.setNanos(0);
+            ((Timestamp)y).setNanos(0);
+            return y.compareTo(ts) == 0;
+
+        } else {
+            return x.compareTo(y) == 0;
         }
-
-        return methods;
     }
 
 }

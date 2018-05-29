@@ -4,14 +4,11 @@ import main.java.LogUtils;
 import main.java.server.exceptions.DatabaseException;
 import main.java.models.BaseModel;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
-import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HibernateUtils {
@@ -103,6 +100,36 @@ public class HibernateUtils {
 
 
     /**
+     * Get single result
+     *
+     * @param   query   query to be run
+     * @return  result object (null if no item or error)
+     */
+    public static synchronized <M extends BaseModel> M getSingleResult(TypedQuery<M> query) {
+        try {
+            return getResultsList(query).get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+    /**
+     * Get results list
+     *
+     * @param   query   query to be run
+     * @return  results list (empty if no items or error)
+     */
+    public static synchronized <M extends BaseModel> List<M> getResultsList(TypedQuery<M> query) {
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+
+    /**
      * Get all the elements
      *
      * @param   modelClass          model class
@@ -117,11 +144,7 @@ public class HibernateUtils {
         TypedQuery<M> q = em.createQuery(cq);
 
         try {
-            return q.getResultList();
-        } catch (Exception e) {
-            LogUtils.e(TAG, e.getMessage());
-            e.printStackTrace();
-            return null;
+            return getResultsList(q);
         } finally {
             em.close();
         }
@@ -139,10 +162,14 @@ public class HibernateUtils {
         EntityManager em = emf.createEntityManager();
 
         try {
+            //boolean found = obj.runSearchQuery(em.createNamedQuery(obj.getSearchQueryName()));
+            //if (found)
+            //    return false;
+
             em.getTransaction().begin();
-            em.persist(obj);
+            em.persist(em.contains(obj) ? obj : em.merge(obj));
             em.getTransaction().commit();
-            flushAndClear(em);
+            //flushAndClear(em);
             return true;
 
         } catch (Exception e) {
@@ -168,8 +195,10 @@ public class HibernateUtils {
         EntityManager em = emf.createEntityManager();
 
         try {
+            em.getTransaction().begin();
             em.merge(obj);
-            flushAndClear(em);
+            em.getTransaction().commit();
+            //flushAndClear(em);
             return true;
         } catch (Exception e) {
             LogUtils.e(TAG, e.getMessage());
@@ -191,11 +220,15 @@ public class HibernateUtils {
     public final synchronized boolean delete(BaseModel obj) {
         EntityManager em = emf.createEntityManager();
 
+        if (!obj.isDeletable())
+            return false;
+
         try {
             em.getTransaction().begin();
-            em.remove(obj);
+            obj.preDelete();
+            em.remove(em.contains(obj) ? obj : em.merge(obj));
             em.getTransaction().commit();
-            flushAndClear(em);
+            //flushAndClear(em);
             return true;
 
         } catch (Exception e) {

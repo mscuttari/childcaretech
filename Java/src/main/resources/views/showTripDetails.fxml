@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="showTripDetailsPane"
+            fx:controller="main.java.client.controllers.ShowTripDetailsController"
+            stylesheets="@../ChildCareTech.css">
+
+   <TabPane AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+       <!-- Basic data -->
+       <Tab text="Dati">
+           <AnchorPane>
+               <!--suppress JavaFxUnresolvedStyleClassReference -->
+               <ScrollPane fitToWidth="true"
+                           styleClass="edge-to-edge"
+                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                   <VBox alignment="TOP_CENTER"
+                         spacing="20"
+                         style="-fx-padding: 0 200 0; -fx-font-size: 18">
+
+                       <!-- Trip icon -->
+                       <ImageView fitHeight="150.0" fitWidth="150.0"
+                                  pickOnBounds="true" preserveRatio="true" >
+                           <VBox.margin>
+                               <Insets top="20.0"/>
+                           </VBox.margin>
+                           <Image url="@../images/hiker.png"/>
+                       </ImageView>
+
+                       <!-- Title -->
+                       <HBox>
+                           <Label text="Titolo:" style="-fx-font-weight: bold" />
+                           <Region HBox.hgrow="ALWAYS" />
+                           <Label fx:id="labelTitle" />
+                       </HBox>
+
+                       <!-- Date -->
+                       <HBox>
+                           <Label text="Data:" style="-fx-font-weight: bold" />
+                           <Region HBox.hgrow="ALWAYS" />
+                           <Label fx:id="labelDate" />
+                       </HBox>
+                   </VBox>
+               </ScrollPane>
+           </AnchorPane>
+       </Tab>
+
+       <!-- Staff and children -->
+       <Tab text="Accompagnatori / bambini">
+           <AnchorPane>
+               <!--suppress JavaFxUnresolvedStyleClassReference -->
+               <ScrollPane fitToWidth="true"
+                           fitToHeight="true"
+                           styleClass="edge-to-edge"
+                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                   <VBox alignment="CENTER_LEFT"
+                         spacing="20"
+                         style="-fx-padding: 0 0 0 50; -fx-font-size: 18">
+
+                       <!-- Staff -->
+                       <HBox spacing="15">
+                           <ImageView fitHeight="60.0" fitWidth="60.0">
+                               <Image url="@../images/secretary.png"/>
+                           </ImageView>
+
+                           <VBox>
+                               <Label text="Accompagnatori:" style="-fx-font-weight: bold" />
+                               <Label fx:id="labelStaff" />
+                           </VBox>
+                       </HBox>
+
+                       <!-- Children -->
+                       <HBox spacing="15">
+                           <ImageView fitHeight="60.0" fitWidth="60.0">
+                               <Image url="@../images/baby.png"/>
+                           </ImageView>
+
+                           <VBox>
+                               <Label text="Bambini:" style="-fx-font-weight: bold" />
+                               <Label fx:id="labelChildren" />
+                           </VBox>
+                       </HBox>
+                   </VBox>
+               </ScrollPane>
+           </AnchorPane>
+       </Tab>
+
+       <!-- Pullmans and stops -->
+       <Tab text="Pullman / tappe">
+           <AnchorPane>
+               <!--suppress JavaFxUnresolvedStyleClassReference -->
+               <ScrollPane fitToWidth="true"
+                           fitToHeight="true"
+                           styleClass="edge-to-edge"
+                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                   <VBox alignment="CENTER_LEFT"
+                         spacing="20"
+                         style="-fx-padding: 0 0 0 50; -fx-font-size: 18">
+
+                       <!-- Pullmans -->
+                       <HBox spacing="15">
+                           <ImageView fitHeight="60.0" fitWidth="60.0">
+                               <Image url="@../images/bus.png"/>
+                           </ImageView>
+
+                           <VBox>
+                               <Label text="Trasporti:" style="-fx-font-weight: bold" />
+                               <Label fx:id="labelPullmans" />
+                           </VBox>
+                       </HBox>
+
+                       <!-- Stops -->
+                       <HBox spacing="15">
+                           <ImageView fitHeight="60.0" fitWidth="60.0">
+                               <Image url="@../images/cabin.png"/>
+                           </ImageView>
+
+                           <VBox>
+                               <Label text="Fermate:" style="-fx-font-weight: bold" />
+                               <Label fx:id="labelStops" />
+                           </VBox>
+                       </HBox>
+                   </VBox>
+               </ScrollPane>
+           </AnchorPane>
+       </Tab>
+   </TabPane>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(green).png"/>
+    </ImageView>
+
+</AnchorPane>

@@ -72,6 +72,10 @@ public class SocketClientHandler implements Runnable {
                 login(in, out);
                 break;
 
+            case "create_child_id":
+                createChildId(in, out);
+                break;
+
             case "create":
                 create(in, out);
                 break;
@@ -84,6 +88,10 @@ public class SocketClientHandler implements Runnable {
                 delete(in, out);
                 break;
 
+            case "get_people":
+                getPeople(in, out);
+                break;
+
             case "get_children":
                 getChildren(in, out);
                 break;
@@ -92,8 +100,8 @@ public class SocketClientHandler implements Runnable {
                 getContacts(in, out);
                 break;
 
-            case "get_food":
-                getFood(in, out);
+           case "get_dishes":
+                getDishes(in, out);
                 break;
 
             case "get_ingredients":
@@ -146,6 +154,31 @@ public class SocketClientHandler implements Runnable {
             boolean result = checkCredentials(in);
             out.writeObject(result);
             out.flush();
+
+        } catch (IOException e) {
+            LogUtils.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Craete child ID
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void createChildId(ObjectInputStream in, ObjectOutputStream out) {
+        boolean logged = checkCredentials(in);
+
+        try {
+            if (!logged) {
+                out.writeObject(null);
+                out.flush();
+            } else {
+                out.writeObject(Actions.createChildId());
+                out.flush();
+            }
 
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
@@ -278,7 +311,6 @@ public class SocketClientHandler implements Runnable {
                 out.flush();
             } else {
                 List<M> result = HibernateUtils.getInstance().getAll(modelClass);
-                LogUtils.e(TAG, "Lista result: " + result);
                 out.writeObject(result);
                 out.flush();
             }
@@ -287,6 +319,18 @@ public class SocketClientHandler implements Runnable {
             LogUtils.e(TAG, e.getMessage());
             e.printStackTrace();
         }
+    }
+
+
+
+    /**
+     * Get poeple
+     *
+     * @param   in      object input stream
+     * @param   out     object output stream
+     */
+    private void getPeople(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Person.class);
     }
 
 
@@ -313,13 +357,13 @@ public class SocketClientHandler implements Runnable {
 
 
     /**
-     * Get food
+     * Get dishes
      *
      * @param   in      object input stream
      * @param   out     object output stream
      */
-    private void getFood(ObjectInputStream in, ObjectOutputStream out) {
-        getAll(in, out, Food.class);
+    private void getDishes(ObjectInputStream in, ObjectOutputStream out) {
+        getAll(in, out, Dish.class);
     }
 
 

@@ -4,17 +4,39 @@
  *                                                                             *
  ******************************************************************************/
 
-
-.border-pane {
-    -fx-background-color : white;
-}
-
 .button {
     -fx-background-color: aliceblue;
+    -fx-background-radius: 0%;
     -fx-text-fill: white;
     -fx-border: none;
+    -fx-border-color: transparent;
 }
 
 .button:hover {
     -fx-background-color: lightblue;
+    -fx-border: none;
+    -fx-border-color: transparent;
+    -fx-effect: none;
+}
+
+.button:focused, .button:pressed, .button:selected{
+    -fx-border: none;
+    -fx-border-color: transparent;
+    -fx-effect: none;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: white;
+}
+
+.list-view {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
+}
+
+.table-view {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
 }

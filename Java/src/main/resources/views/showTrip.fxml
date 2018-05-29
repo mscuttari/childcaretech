@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="showTripPane"
+            fx:controller="main.java.client.controllers.ShowTripController">
+
+    <!-- Trips -->
+    <TableView fx:id="tableTrip"
+               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+            <TableColumn fx:id="columnTripTitle" maxWidth="300" style="-fx-alignment: center" text="Nome"/>
+            <TableColumn fx:id="columnTripDate" maxWidth="300" style="-fx-alignment: center" text="Data"/>
+            <TableColumn fx:id="columnTripChildren" maxWidth="300" style="-fx-alignment: center" text="Bambini iscritti"/>
+            <TableColumn fx:id="columnTripStaff" maxWidth="300" style="-fx-alignment: center" text="Responsabili"/>
+            <TableColumn fx:id="columnTripShowDetails" maxWidth="300" style="-fx-alignment: center"/>
+          <TableColumn fx:id="columnTripDelete" maxWidth="300" style="-fx-alignment: center"/>
+        </columns>
+    </TableView>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15">
+        <Image url="@../images/goBack(green).png"/>
+    </ImageView>
+
+</AnchorPane>

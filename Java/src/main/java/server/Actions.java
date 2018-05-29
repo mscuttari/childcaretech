@@ -1,7 +1,6 @@
 package main.java.server;
 
-import main.java.models.BaseModel;
-import main.java.models.Person;
+import main.java.models.Child;
 import main.java.models.Staff;
 import main.java.server.utils.HibernateUtils;
 
@@ -10,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Collection;
 import java.util.List;
 
 public class Actions {
@@ -47,6 +47,32 @@ public class Actions {
         }
 
         return false;
+    }
+
+
+    /**
+     * Create unique child ID
+     *
+     * @return  child ID
+     */
+    public static Long createChildId() {
+        EntityManager em = HibernateUtils.getInstance().getEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Child> cq = cb.createQuery(Child.class);
+
+        Root<Child> root = cq.from(Child.class);
+        cq.orderBy(cb.desc(root.get("id")));
+
+        Child child = HibernateUtils.getSingleResult(em.createQuery(cq));
+
+        if (child == null) {
+            return Long.valueOf(0);
+        } else {
+            int lastNumber = child.getId().intValue();
+            int nextNumber = lastNumber + 1;
+            return Long.valueOf(nextNumber);
+        }
     }
 
 }

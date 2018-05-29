@@ -1,68 +1,211 @@
 package main.java.models;
 
-import org.hibernate.annotations.GenericGenerator;
+import main.java.exceptions.InvalidFieldException;
+import main.java.client.gui.GuiBaseModel;
+import main.java.client.gui.GuiIngredient;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ingredients")
+@NamedQuery(name = "Ingredient.search", query = "SELECT i FROM Ingredient i WHERE i.name = :name")
 public class Ingredient extends BaseModel {
 
-    private Long id;
-    private String name;
-    private Collection<Food> food = new ArrayList<>();
-    private Collection<Person> allergicPeople = new ArrayList<>();
-    private Collection<Person> intollerantPeople = new ArrayList<>();
+    @Transient
+    private static final long serialVersionUID = 2539848520616597694L;
+
 
     @Id
-    @GenericGenerator(name = "native_generator", strategy = "native")
-    @GeneratedValue(generator = "native_generator")
-    @Column(name = "id")
-    public Long getId() {
-        return id;
+    @Column(name = "name")
+    private String name;
+
+
+    @ManyToMany(mappedBy = "ingredients")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Dish> dishes = new HashSet<>();
+
+
+    @ManyToMany(mappedBy = "allergies")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Person> allergicPeople = new HashSet<>();
+
+
+    @ManyToMany(mappedBy = "intolerances")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Person> intolerantPeople = new HashSet<>();
+
+
+    /**
+     * Default constructor
+     */
+    public Ingredient() {
+        this(null);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    @Column(name = "name", nullable = false)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    /**
+     * Constructor
+     *
+     * @param   name    name
+     */
+    public Ingredient(String name) {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "composition")
-    public Collection<Food> getFood() {
-        return food;
+
+    /** {@inheritDoc} */
+    @Override
+    public String getSearchQueryName() {
+        return "Ingredient.search";
     }
 
-    public void setFood(Collection<Food> food) {
-        this.food = food;
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean runSearchQuery(Query query) {
+        query.setParameter("name", getName());
+        return !query.getResultList().isEmpty();
     }
 
-    @ManyToMany(mappedBy = "allergies")
+
+    /** {@inheritDoc} */
+    @Override
+    public void checkDataValidity() throws InvalidFieldException {
+        // Name: [a-z] [A-Z] à è é ì ò ù ' " space
+        if (getName() == null)
+            throwFieldError("Nome mancante");
+
+        if (!getName().matches("^[a-zA-Zàèéìòù'\"\\040]+$"))
+            throwFieldError("Nome non valido");
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public String getModelName() {
+        return "Ingrediente";
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public Class<? extends GuiBaseModel> getGuiClass() {
+        return GuiIngredient.class;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDeletable() {
+        return getDishes().isEmpty() &&
+                getAllergicPeople().isEmpty() &&
+                getIntolerantPeople().isEmpty();
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void preDelete() {
+
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ingredient)) return false;
+
+        Ingredient that = (Ingredient) o;
+        return Objects.equals(getName(), that.getName());
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
+    }
+
+
+    public String getName() {
+        return this.name;
+    }
+
+
+    public void setName(String name) {
+        this.name = trimString(name);
+    }
+
+
+    public Collection<Dish> getDishes() {
+        return this.dishes;
+    }
+
+
+    public void addToDish(Dish dish) {
+        this.dishes.add(dish);
+    }
+
+
+    public void addToDishes(Collection<Dish> dishes) {
+        this.dishes.addAll(dishes);
+    }
+
+
+    public void removeFromDish(Dish dish) {
+        this.dishes.remove(dish);
+    }
+
+
     public Collection<Person> getAllergicPeople() {
-        return allergicPeople;
+        return this.allergicPeople;
     }
 
-    public void setAllergicPeople(Collection<Person> allergicPeople) {
-        this.allergicPeople = allergicPeople;
+
+    public void addAllergicPerson(Person person) {
+        this.allergicPeople.add(person);
     }
 
-    @ManyToMany(mappedBy = "intollerances")
-    public Collection<Person> getIntollerantPeople() {
-        return intollerantPeople;
+
+    public void addAllergicPeople(Collection<Person> people) {
+        this.allergicPeople.addAll(people);
     }
 
-    public void setIntollerantPeople(Collection<Person> intollerantPeople) {
-        this.intollerantPeople = intollerantPeople;
+
+    public void setAllergicPeople(Collection<Person> people) {
+        this.allergicPeople.clear();
+        addAllergicPeople(people);
+    }
+
+
+    public Collection<Person> getIntolerantPeople() {
+        return this.intolerantPeople;
+    }
+
+
+    public void addIntolerantPerson(Person person) {
+        this.intolerantPeople.add(person);
+    }
+
+
+    public void addIntolerantPeople(Collection<Person> people) {
+        this.intolerantPeople.addAll(people);
+    }
+
+
+    public void setIntolerantPeople(Collection<Person> people) {
+        this.intolerantPeople.clear();
+        addIntolerantPeople(people);
+    }
+
+
+    @Override
+    public String toString(){
+        return getName();
     }
 
 }

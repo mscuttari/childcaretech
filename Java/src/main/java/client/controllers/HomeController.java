@@ -3,9 +3,12 @@ package main.java.client.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -15,37 +18,75 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable{
+public class HomeController extends AbstractController implements Initializable {
 
     // Debug
     private static final String TAG = "HomeController";
 
     @FXML private BorderPane borderPane;
     @FXML private Button buttonAnagraphic;
-    @FXML private ImageView goToLoginImage;
+    @FXML private Button buttonCanteen;
+    @FXML private Button buttonTrip;
+    @FXML private ImageView imageLogout;
+    @FXML private Label staffUsername;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Anagraphic
+        buttonAnagraphic.setOnAction(event -> showAnagraphic());
+        buttonAnagraphic.setOnMouseEntered(event -> borderPane.getScene().setCursor(Cursor.HAND));
+        buttonAnagraphic.setOnMouseExited(event -> borderPane.getScene().setCursor(Cursor.DEFAULT));
 
-        // Anagraphic button
-        buttonAnagraphic.setOnAction(event -> goToAnagraphic());
+        // Canteen
+        buttonCanteen.setOnAction(event -> showCanteen());
+        buttonCanteen.setOnMouseEntered(event -> borderPane.getScene().setCursor(Cursor.HAND));
+        buttonCanteen.setOnMouseExited(event -> borderPane.getScene().setCursor(Cursor.DEFAULT));
 
-        //goToLogin Image
-        goToLoginImage.setOnMouseClicked(event -> goToLogin());
+        // Trip
+        buttonTrip.setOnAction(event -> showTrip());
+        buttonTrip.setOnMouseEntered(event -> borderPane.getScene().setCursor(Cursor.HAND));
+        buttonTrip.setOnMouseExited(event -> borderPane.getScene().setCursor(Cursor.DEFAULT));
+
+        // Set initial panel
+        setCenterFXML(borderPane, "/views/anagraphic.fxml");
+
+        // Logout
+        imageLogout.setOnMouseClicked(event -> logout());
+        imageLogout.setOnMouseEntered(event -> borderPane.getScene().setCursor(Cursor.HAND));
+        imageLogout.setOnMouseExited(event -> borderPane.getScene().setCursor(Cursor.DEFAULT));
+        Tooltip.install(imageLogout, new Tooltip("Logout"));
     }
 
-    public void goToAnagraphic(){
-        try {
-            Pane anagraphicPane = FXMLLoader.load(getClass().getResource("/views/anagraphic.fxml"));
-            borderPane.setCenter(anagraphicPane);
-        } catch (IOException e) {
-            LogUtils.e(TAG, e.getMessage());
-        }
+
+    /**
+     * Show anagraphic page
+     */
+    private void showAnagraphic(){
+        setCenterFXML(borderPane, "/views/anagraphic.fxml");
+    }
+
+
+    /**
+     * Show canteen page
+     */
+    private void showCanteen(){
+        setCenterFXML(borderPane, "/views/canteen.fxml");
+    }
+
+
+    /**
+     * Show trips page
+     */
+    private void showTrip(){
+        setCenterFXML(borderPane, "/views/trip.fxml");
 
     }
 
-    public void goToLogin(){
 
+    /**
+     * Logout
+     */
+    private void logout(){
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
 
@@ -61,6 +102,16 @@ public class HomeController implements Initializable{
         } catch (IOException e) {
             LogUtils.e(TAG, e.getMessage());
         }
+    }
+
+
+    /**
+     * Set the currently logged in staff username
+     *
+     * @param   username    username
+     */
+    public void setStaffUsername(String username){
+        staffUsername.setText(username);
     }
 
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="insertPresencesPane"
+            fx:controller="main.java.client.controllers.InsertPresencesController">
+
+    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <TableView fx:id="tableTrips" HBox.hgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="columnTripsTitle" prefWidth="89.0" text=" Nome Gita"/>
+                <TableColumn fx:id="columnTripsDate" prefWidth="94.0" text="Data Gita"/>
+            </columns>
+        </TableView>
+
+        <TableView fx:id="tablePullman">
+            <columns>
+                <TableColumn fx:id="columnPullmanId" prefWidth="100.0" text="Id Pullman"/>
+            </columns>
+        </TableView>
+
+        <TableView fx:id="tableChildren">
+            <columns>
+                <TableColumn fx:id="columnChildrenSelected" prefWidth="48.912841796875"/>
+                <TableColumn fx:id="columnChildrenFirstName" prefWidth="100.36029052734375" text="Nome"/>
+                <TableColumn fx:id="columnChildrenLastName" prefWidth="138.0" text="Cognome"/>
+            </columns>
+        </TableView>
+    </HBox>
+
+    <!-- Go back button -->
+    <ImageView fx:id="goBackImage"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
+        <Image url="@../images/goBack(green).png"/>
+    </ImageView>
+
+    <!-- Save button -->
+    <ImageView fx:id="imageSavePresences"
+               fitHeight="60.0" fitWidth="60.0"
+               AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <Image url="@../images/save-data.png"/>
+    </ImageView>
+
+</AnchorPane>
