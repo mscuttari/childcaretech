@@ -33,7 +33,7 @@ class PullmanTest extends BaseModelTest<Pullman> {
         obj.setTrip(new Trip(new Date(), "AAA", SeatsAssignmentType.AUTOMATIC));
 
         // Basic data
-        obj.setId("AAA");
+        obj.setId("BBB");
         obj.setSeats(10);
     }
 

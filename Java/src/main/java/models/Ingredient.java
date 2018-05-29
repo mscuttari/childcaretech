@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "ingredients")
-@NamedQuery(name = "Ingredientsearch", query = "SELECT i FROM Ingredient i WHERE i.name = :name")
+@NamedQuery(name = "Ingredient.search", query = "SELECT i FROM Ingredient i WHERE i.name = :name")
 public class Ingredient extends BaseModel {
 
     @Transient
