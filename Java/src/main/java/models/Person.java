@@ -266,6 +266,7 @@ public abstract class Person extends BaseModel {
 
 
     public Collection<Ingredient> getIntolerances() {
+        System.out.println("Ale qui");
         return this.intolerances;
     }
 
